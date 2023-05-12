@@ -20,11 +20,14 @@ import java.util.List;
 public class HeaderController {
     @Setter(onMethod_=@Autowired)
     private CartMapper cartMapper;
+
     @Setter(onMethod_=@Autowired)
     private ProductService productService;
+
+
     @GetMapping("/mypage")
     public String myPage(HttpSession session, Model model) {
-        System.out.println("작동돼나요? 마이페이지 컨트롤러");
+        System.out.println("작동되나요? 마이페이지 컨트롤러");
         // 세션에서 로그인한 사용자 정보를 가져옵니다.
         BusinessUserVO BusinessloginUser = (BusinessUserVO) session.getAttribute("BusinessUserVO");
         CustomerUserVO customerloginUser = (CustomerUserVO) session.getAttribute("customerUserVO");

@@ -46,7 +46,13 @@
     <div><a href="/myinformation" role="button">개인정보 수정</a></div>
     <div><a href="#">문의 내역</a></div>
 </div>
+<%--<a href="#" onclick="toggleDiv(1)">Link 1</a>--%>
+<%--<a href="#" onclick="toggleDiv(2)">Link 2</a>--%>
+<%--<a href="#" onclick="toggleDiv(3)">Link 3</a>--%>
 
+<div id="content1" style="display: none;">Content for Link 1</div>
+<div id="content2" style="display: none;">Content for Link 2</div>
+<div id="content3" style="display: none;">Content for Link 3</div>
 <div class="mypage-form">
     <form>
       <h2>고객 마이페이지에요~</h2>
@@ -56,3 +62,17 @@
 </body>
 <%@ include file="../footer/footer.jsp"%>
 </html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    // function toggleDiv(divId) {
+    //     var div = document.getElementById("content" + divId);
+    //     if (div.style.display === "none") {
+    //         div.style.display = "block";
+    //     } else {
+    //         div.style.display = "none";
+    //     }
+    // }
+
+
+
+</script>
