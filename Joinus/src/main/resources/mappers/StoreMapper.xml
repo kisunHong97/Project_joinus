@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezen.joinus.mappers.StoreMapper">
+    <!-- 회원가입 시 ebd_users테이블에 가입정보를 insert -->
+    <insert id="insert" parameterType="com.ezen.joinus.vo.BusinessStore">
+        INSERT INTO store_table(sno,bno,storename,storeaddresscode,storeaddressStreet,storeaddressDetail,storeinst,storeURL,storeImages,storeNumber)
+        VALUES(store_seq.nextval,#{bno},#{storename},#{storeaddresscode},#{storeaddressStreet},#{storeaddressDetail},#{storeinst},#{storeurl},#{storeimages},#{storenumber})
+
+    </insert>
+    <select id="s_nameCheck" parameterType="String" resultType="int">
+        select count(*) from store_table where storename=#{storename}
+    </select>
+</mapper>
