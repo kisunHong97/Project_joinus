@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- WishlistMapper.xml -->
+<mapper namespace="com.ezen.joinus.mappers.WishlistMapper">
+
+    <!-- 로그인한 아이디로 사용자 정보 조회 -->
+    <select id="getCustomerById" resultType="com.ezen.joinus.vo.CustomerUserVO">
+        SELECT * FROM customers_table WHERE u_id = #{u_id}
+    </select>
+
+    <!-- 로그인한 사용자의 찜 목록에 추가 -->
+    <insert id="addWishlist" parameterType="com.ezen.joinus.vo.WishlistVO">
+        INSERT INTO wishlist(wno, pno, u_id, w_date)
+        VALUES (wishlist_seq.nextval, #{pno}, #{u_id}, SYSDATE)
+    </insert>
+
+    <!-- 로그인한 사용자의 찜 목록에 삭제 -->
+    <delete id="deleteWishlist" parameterType="java.util.Map">
+        DELETE FROM wishlist
+        WHERE pno = #{pno} AND u_id = #{u_id}
+    </delete>
+
+    <select id="selectWishlistByPnoAndUid" parameterType="java.util.Map" resultType="com.ezen.joinus.vo.WishlistVO">
+        SELECT * FROM wishlist WHERE pno = #{pno} AND u_id = #{u_id}
+    </select>
+
+</mapper>
