@@ -5,20 +5,27 @@
     <insert id="insert" parameterType="com.ezen.joinus.vo.BusinessUserVO">
         INSERT INTO business_table
 
-        VALUES(business_seq.nextval, #{b_name}, #{b_id}, #{b_pwd1}, #{b_pwd2}, #{b_email}, #{b_phone}, #{b_address}, 'B')
+        VALUES(business_seq.nextval, #{b_name}, #{b_id}, #{b_pwd}, #{b_email}, #{b_phone}, #{b_addresscode},#{b_addressStreet},#{b_addressDetail}, 'B')
 
     </insert>
     <select id="b_idCheck" parameterType="String" resultType="int">
         select count(*) from business_table where b_id=#{b_id}
     </select>
     <select id="MemberLogin" resultType="com.ezen.joinus.vo.BusinessUserVO">
-        select bno, b_id, b_pwd1, b_pwd2, b_email, b_phone, b_address, auth from business_table where b_id=#{b_id,jdbcType=VARCHAR}
+        select bno,b_name, b_id, b_pwd, b_email, b_phone, b_addresscode,b_addressStreet,b_addressDetail, auth from business_table where b_id=#{b_id,jdbcType=VARCHAR}
     </select>
 
     <select id="getMaxBno" resultType="long">
         select max(bno) from business_table
     </select>
-
-
+    <select id="getBusinessById" resultType="com.ezen.joinus.vo.BusinessUserVO">
+        SELECT * FROM business_table WHERE b_id =  #{b_id,jdbcType=VARCHAR}
+    </select>
+    <update id="modify" parameterType="com.ezen.joinus.vo.BusinessUserVO">
+        update business_table set b_name=#{b_name, jdbcType=VARCHAR},b_pwd=#{b_pwd, jdbcType=VARCHAR},b_email=#{b_email, jdbcType=VARCHAR},b_phone=#{b_phone, jdbcType=VARCHAR},b_addresscode=#{b_addresscode, jdbcType=VARCHAR},b_addressStreet=#{b_addressStreet, jdbcType=VARCHAR},b_addressDetail=#{b_addressDetail, jdbcType=VARCHAR} where b_id=#{b_id,jdbcType=VARCHAR}
+    </update>
+    <delete id="delete">
+        delete from business_table where b_id=#{b_id,jdbcType=VARCHAR}
+    </delete>
 
 </mapper>

@@ -166,7 +166,7 @@
                 <label>
                     <!-- <span>PW</span> -->
                     <p style="text-align: left; font-size:12px; color:#666"> </p>
-                    <input type="password" placeholder="비밀번호 확인 *" class="size" name="u_pwd2" id="u_pwd2" >
+                    <input type="password" placeholder="비밀번호 확인 *" class="size" name="u_pwd1" id="u_pwd1" >
                     <br>
                     <span id="result" style="font-size: 12px;"></span>
                 </label><!--비밀번호 확인-->
@@ -178,14 +178,14 @@
                 <label>
                     <p style="text-align: left; font-size:12px; color:#666">address </p>
                     <div class="form-group">
-                        <input class="size1"  placeholder="우편번호" name="u_address" id="addr1" type="text" readonly="readonly" >
+                        <input class="size1"  placeholder="우편번호" name="u_addresscode" id="addr1" type="text" readonly="readonly" >
                         <button type="button" class="btn1"  onclick="execPostCode();"><i class="fa fa-search"></i> 우편번호 찾기</button>
                     </div>
                     <div class="form-group">
-                        <input class="size"  placeholder="도로명 주소" name="u_address" id="addr2" type="text" readonly="readonly" />
+                        <input class="size"  placeholder="도로명 주소" name="u_addressStreet" id="addr2" type="text" readonly="readonly" />
                     </div>
                     <div class="form-group">
-                        <input class="size" placeholder="상세주소" name="u_address" id="addr3" type="text"  />
+                        <input class="size" placeholder="상세주소" name="u_addressDetail" id="addr3" type="text"  />
                     </div>
                 </label>
                 <label>
@@ -237,12 +237,12 @@
         })
     })
     /* 자바 스크립트 함수 선언(비밀번호 확인) */
-    $('#u_pwd2').keyup(function (){
+    $('#u_pwd1').keyup(function (){
 
-        var u_pwd2 = $('#u_pwd2').val();
+        var u_pwd1 = $('#u_pwd1').val();
         var u_pwd = $('#u_pwd').val();
 
-        if (u_pwd==u_pwd2){
+        if (u_pwd1==u_pwd){
             $("#result").html('비밀번호가 같습니다.');
             $("#result").css('color','#dc3545');
         }else {
@@ -251,9 +251,9 @@
         }
     })
     $('.btn').click(function () {
-        var u_pwd2 = $('#u_pwd2').val();
+        var u_pwd1 = $('#u_pwd1').val();
         var u_pwd = $('#u_pwd').val();
-        if (u_pwd2==u_pwd){
+        if (u_pwd1==u_pwd){
             pass;
         }else {
             alert('비밀번호가 같지 않습니다.');

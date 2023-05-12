@@ -5,8 +5,15 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface CustomerUserMapper {
-    void insert(CustomerUserVO vo);
-    int u_idCheck(String u_id);
-    CustomerUserVO CustomerLogin(String u_id) throws Exception;
+    void insert(CustomerUserVO vo);//고객정보 저장
+
+    int u_idCheck(String u_id); //중복 아이디 체크
+
+    CustomerUserVO CustomerLogin(String u_id) throws Exception;//고객 로그인
     CustomerUserVO getCustomerById(String b_id);
+
+    void modify(CustomerUserVO vo); //고객정보 수정
+
+    void delete(String u_id); //회원탈퇴
+
 }
