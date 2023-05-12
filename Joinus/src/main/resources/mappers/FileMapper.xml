@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezen.joinus.mappers.FileMapper">
+    <!--  이미지 파일 정보 저장  -->
+    <insert id="insertThumbnail" parameterType="com.ezen.joinus.dto.AttachFileDTO">
+        insert into file_product_table(fno, pno, fileName, uploadPath, uuid, image)
+            values(file_seq.nextval, #{pno}, #{fileName}, #{uploadPath}, #{uuid}, #{image})
+    </insert>
+    <!--  맨 앞 이미지 파일 불러오기(썸네일)  -->
+    <select id="selectMainThumbnail" parameterType="int" resultType="com.ezen.joinus.dto.AttachFileDTO">
+        select * from file_product_table where pno = #{pno} and image = 'T' and rownum = 1
+    </select>
+    <!--  이미지 파일 전부 가져오기(썸네일)  -->
+    <select id="selectThumbnailList" parameterType="int" resultType="com.ezen.joinus.dto.AttachFileDTO">
+        select * from file_product_table where pno = #{pno} and image = 'T'
+    </select>
+</mapper>
