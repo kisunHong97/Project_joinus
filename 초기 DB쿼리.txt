@@ -1,0 +1,100 @@
+--------------0503-------------
+drop table customers_table;
+drop table business_table;
+drop table store_table;
+drop table products_table;
+
+drop sequence products_seq;
+drop sequence business_seq;
+drop sequence customers_seq;
+
+CREATE SEQUENCE products_seq INCREMENT BY 1 START WITH 1;
+CREATE SEQUENCE business_seq INCREMENT BY 1 START WITH 1;
+CREATE SEQUENCE customers_seq INCREMENT BY 1 START WITH 1;
+create table customers_table(
+                                uno number not null primary key,
+                                u_id varchar2(100) unique not null,
+                                u_pwd varchar2(100) not null,
+                                u_name varchar2(100),
+                                u_email varchar2(100) not null,
+                                u_phone varchar2(100) not null,
+                                u_address varchar2(100),
+                                buyPoint number,
+                                auth char default 'A',
+                                payPoint number
+);
+insert into customers_table values (customers_seq.nextval, 'uid1', '1234', 'name1', 'u@naver.com',
+                                    '010-9834-1033', '용인시 처인구', 100, 'A', 100);
+
+create table business_table(
+                               bno number not null primary key,
+                               b_name varchar2(100) not null,
+                               b_id varchar2(100) unique not null,
+                               b_pwd1 varchar2(100) not null,
+                               b_pwd2 varchar2(100) not null,
+                               b_email varchar2(100) not null,
+                               b_phone varchar2(100) not null,
+                               b_address varchar2(100),
+                               auth char default 'A'
+);
+insert into business_table values (business_seq.nextval, 'bname1', 'bid1', '1234', '1234', 'b1@naver.com', '010-9834-1033',
+                                   '수원시 영통구', 'A');
+
+create table store_table(
+                            bno number,
+                            storeID number not null primary key,
+                            storeName varchar2(100) not null,
+                            storeAddress varchar2(100) not null,
+                            storeURL varchar2(100),
+                            storeImages varchar2(100),
+                            foreign key (bno) references business_table(bno)
+);
+insert into store_table values (1, 1, 'astore', '수원시 영통구', 'www.naver.com',
+                                '스토어이미지');
+create table products_table(
+                               storeID number,
+                               pno number not null primary key,
+                               p_name varchar2(100) not null,
+                               p_subtitle varchar2(100) not null,
+                               p_content varchar2(200) not null,
+                               p_images varchar2(100),
+                               p_period varchar2(100),
+                               p_category varchar2(100),
+                               foreign key (storeID) references store_table(storeID)
+);
+insert into products_table values (1, products_seq.nextval, 'test1', '🚘수원-안양 카풀 선착순 모집🚘', '수원-안양 카풀 선착순 모집 !!!!',
+                                   'imagesurl1', '1개월', '미용');
+
+create table tbl_file_product(
+ fno number not null primary key ,
+   fileName varchar2(30), 
+    uploadPath varchar2(30),
+    uuid varchar2(30),		
+     image varchar2(1),
+    pno number 
+    );
+
+select * from customers_table;
+select * from business_table;
+select * from store_table;
+select * from products_table;
+commit;
+
+-----------------0504 수정내역---------------
+1) p_price 추가됨 (제품가격) // ProductVO에 추가해야됨
+drop table business_table;
+create table products_table(
+                               storeID number,
+                               pno number not null primary key,
+                               p_name varchar2(100) not null,
+                               p_subtitle varchar2(100) not null,
+                               p_content varchar2(200) not null,
+                               p_price number not null,
+                               p_images varchar2(100),
+                               p_period varchar2(100),
+                               p_category varchar2(100),
+                               foreign key (storeID) references store_table(storeID)
+);
+insert into products_table values (1, products_seq.nextval, 'test1', '🚘수원-안양 카풀 선착순 모집🚘', '수원-안양 카풀 선착순 모집 !!!!',
+                                   30000,'imagesurl1', '1개월', '미용');
+select * from business_table; <-- p_price 추가된 내용 확인 후 커밋
