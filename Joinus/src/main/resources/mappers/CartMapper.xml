@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezen.joinus.mappers.CartMapper">
+
+    <!-- 로그인한 아이디로 사용자 정보 조회 -->
+    <select id="getCustomerById" resultType="com.ezen.joinus.vo.CustomerUserVO">
+        SELECT * FROM customers_table WHERE u_id = #{u_id}
+    </select>
+
+    <!-- 로그인한 사용자의 장바구니 목록에 추가 -->
+    <insert id="addCart" parameterType="com.ezen.joinus.vo.CartVO">
+        INSERT INTO cart(cno, pno, u_id, w_date, quantity)
+        VALUES (cart_seq.nextval, #{pno}, #{u_id}, SYSDATE, #{quantity})
+    </insert>
+
+    <!-- 로그인한 사용자의 장바구니 목록에서 삭제 -->
+    <delete id="deleteCart" parameterType="java.util.Map">
+        DELETE FROM cart
+        WHERE pno = #{pno} AND u_id = #{u_id}
+    </delete>
+
+    <select id="selectCartByPnoAndUid" parameterType="java.util.Map" resultType="com.ezen.joinus.vo.CartVO">
+        SELECT * FROM cart WHERE pno = #{pno} AND u_id = #{u_id}
+    </select>
+
+    <!-- 장바구니 탭 (현재 장바구니 담은 목록) -->
+    <select id="getCartItems" resultType="com.ezen.joinus.vo.CartVO">
+        SELECT customers_table.u_id, cart.cno, products_table.pno, products_table.p_name, products_table.p_price, products_table.p_content, cart.w_date, cart.quantity
+        FROM customers_table
+                 JOIN cart ON customers_table.u_id = cart.u_id
+                 JOIN products_table ON cart.pno = products_table.pno
+        WHERE customers_table.u_id = #{u_id}
+    </select>
+
+</mapper>
