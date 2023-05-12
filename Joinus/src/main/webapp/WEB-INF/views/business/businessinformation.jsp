@@ -45,6 +45,17 @@
     border-radius: 5px;
 
   }
+  .btn1{
+    width:140px;
+    height: 40px;
+    font-size:15px;
+    background-color: #c230c7;
+    color:#fff;
+    border:none;
+    cursor: pointer;
+    border-radius: 5px;
+
+  }
   .button{
     display: flex;
     justify-content: center;
@@ -68,47 +79,47 @@
           This is an <strong>.alert</strong>. 수정할꺼양?
         </div>
         <h3>Personal info</h3>
-<%--        <div class="col-md-3">--%>
-<%--          <div class="text-center">--%>
-<%--            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="avatar img-circle img-thumbnail" alt="avatar">--%>
-<%--          </div>--%>
-<%--        </div>--%>
+        <%--        <div class="col-md-3">--%>
+        <%--          <div class="text-center">--%>
+        <%--            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="avatar img-circle img-thumbnail" alt="avatar">--%>
+        <%--          </div>--%>
+        <%--        </div>--%>
         <form class="form-horizontal" role="form">
 
           <div class="form-group">
             <label class="col-lg-3 control-label">이름</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" value="${customervo.u_name}" readonly>
+              <input class="form-control" type="text" value="${businessvo.b_name}" readonly>
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-3 control-label">아이디</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" value="${customervo.u_id}" readonly>
+              <input class="form-control" type="text" value="${businessvo.b_id}" readonly>
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-3 control-label">비밀번호</label>
             <div class="col-lg-8">
-              <input class="form-control" type="password" value="${customervo.u_pwd}" readonly>
+              <input class="form-control" type="password" value="${businessvo.b_pwd}" readonly>
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-3 control-label">이메일</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" value="${customervo.u_email}" readonly>
+              <input class="form-control" type="text" value="${businessvo.b_email}" readonly>
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-3 control-label">휴대폰 번호</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" value="${customervo.u_phone}" readonly>
+              <input class="form-control" type="text" value="${businessvo.b_phone}" readonly>
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-3 control-label">주소</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" value="${customervo.u_addresscode} ${customervo.u_addressStreet} ${customervo.u_addressDetail}" readonly>
+              <input class="form-control" type="text" value="${businessvo.b_addresscode} ${businessvo.b_addressStreet} ${businessvo.b_addressDetail}" readonly>
             </div>
           </div>
         </form>
@@ -119,11 +130,19 @@
 <hr>
 <div class="button">
   <p>
-    <form action="/customermodify">
+  <form action="/businessmodify">
     <input type="submit" value="개인정보 수정" class="btn">
-</form>
+  </form>
   </p>
 </div>
+<div class="button">
+  <p>
+  <form action="/customermodify">
+    <input type="submit" value="스토어정보 수정" class="btn1">
+  </form>
+  </p>
+</div>
+
 </body>
 <%@ include file="../footer/footer.jsp"%>
 </html>
