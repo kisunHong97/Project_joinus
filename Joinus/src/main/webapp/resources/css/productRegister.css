@@ -1,0 +1,65 @@
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    margin: 50px;
+    padding-top: 50px;
+    padding-top: 50px;
+}
+.row{
+    border: 1px solid black;
+    border-radius: 5px;
+}
+.card-title{
+    border: 1px solid black;
+    border-radius: 5px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.card-body{
+}
+
+input{
+    width: 100%;
+}
+
+.thumbnail-image{
+    width: 175px;
+    height: 175px;
+}
+
+.thumbnail-span{
+    margin: 10px;
+    width:100%;
+}
+
+.input{
+    display: none;
+}
+
+
+.inputActive{
+    display: block;
+}
+
+
+
+
+
+
+.upload{
+    display: none;
+}
+.uploadActive{
+    display: block;
+}
+
+
+
