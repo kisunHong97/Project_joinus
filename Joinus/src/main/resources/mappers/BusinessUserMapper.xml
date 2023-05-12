@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezen.joinus.mappers.BusinessUserMapper">
+    <!-- 회원가입 시 ebd_users테이블에 가입정보를 insert -->
+    <insert id="insert" parameterType="com.ezen.joinus.vo.BusinessUserVO">
+        INSERT INTO business_table
+
+        VALUES(business_seq.nextval, #{b_name}, #{b_id}, #{b_pwd1}, #{b_pwd2}, #{b_email}, #{b_phone}, #{b_address}, 'B')
+
+    </insert>
+    <select id="b_idCheck" parameterType="String" resultType="int">
+        select count(*) from business_table where b_id=#{b_id}
+    </select>
+    <select id="MemberLogin" resultType="com.ezen.joinus.vo.BusinessUserVO">
+        select bno, b_id, b_pwd1, b_pwd2, b_email, b_phone, b_address, auth from business_table where b_id=#{b_id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="getMaxBno" resultType="long">
+        select max(bno) from business_table
+    </select>
+
+
+
+</mapper>
