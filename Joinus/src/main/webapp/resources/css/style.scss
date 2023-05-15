@@ -1,7 +1,7 @@
 $white: #ffffff;
 $black: #000000;
 $btnBlack: #151615;
-$btnWhite: #f4f3f3;
+$btnWhite: #ffffff;
 $primary: #f8bc1a;
 
 @mixin main-font {
@@ -124,6 +124,7 @@ body {
 
 .header_section {
     background-color: $btnWhite;
+    width: 500px;
 
     .nav_container {
         margin: 0 auto;
@@ -828,23 +829,10 @@ a:focus {
     }
 }
 
-/* end info section */
-
-/* footer section*/
-
 .footer_section {
     background-color: #161616;
     padding: 20px 0;
 }
 
-.footer_section p {
-    margin: 0;
-    text-align: center;
-    color: $white;
-}
-
-.footer_section a {
-    color: $white;
-}
 
 /* end footer section*/

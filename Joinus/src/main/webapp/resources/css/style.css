@@ -85,7 +85,8 @@ body {
 }
 
 .header_section {
-  background-color: #f4f3f3;
+  width: 500px;
+  background-color: #ffffff;
 }
 
 .header_section .nav_container {
@@ -885,10 +886,6 @@ a:focus {
   color: #cbc9c9;
 }
 
-.info_section .info_link-box a:hover span {
-  color: #ffffff;
-}
-
 .info_section .info_social {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -908,15 +905,6 @@ a:focus {
   padding: 20px 0;
 }
 
-.footer_section p {
-  margin: 0;
-  text-align: center;
-  color: #ffffff;
-}
-
-.footer_section a {
-  color: #ffffff;
-}
 
 /* end footer section*/
 /*# sourceMappingURL=style.css.map */
