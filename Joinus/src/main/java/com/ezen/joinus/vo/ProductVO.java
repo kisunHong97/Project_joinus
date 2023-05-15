@@ -15,7 +15,7 @@ public class ProductVO {
     private String p_content;
     private int p_price;
     private String p_image;
-    private String p_period;
+    private int p_period;
     private String p_category;
 
 //    private List<AttachFileDTO> listAttach;

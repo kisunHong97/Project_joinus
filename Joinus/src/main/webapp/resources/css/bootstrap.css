@@ -10028,7 +10028,7 @@ a.text-dark:hover, a.text-dark:focus {
   .table-dark td,
   .table-dark thead th,
   .table-dark tbody + tbody {
-    border-color: #dee2e6;
+    border-color: #ff590f;
   }
   .table .thead-dark th {
     color: inherit;
