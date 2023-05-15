@@ -144,16 +144,16 @@
           <div class="board">
             <div class="board-body">
               <ul>
-                 <c:forEach items="${viewAll}" var="list">
-                  <li>
-                    <div class="post-thumbnail">
-                      <img src="../../../resources/images/JOINUSLOGO3.png" alt="게시물 썸네일">
-                    </div>
-                    <div class="post-content">
-                      <a href='/board/read?pno=${list.pno}'>${list.p_subtitle }</a>
-                    </div>
-                  </li>
-                 </c:forEach>
+                  <c:forEach var="product" items="${productList}" varStatus="status">
+                      <li>
+                          <div class="post-thumbnail">
+                              <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일">
+                          </div>
+                          <div class="post-content">
+                              <a href='/board/read?pno=${productList[status.index].pno}'>${productList[status.index].p_subtitle }</a>
+                          </div>
+                      </li>
+                  </c:forEach>
               </ul>
             </div>
           </div>
