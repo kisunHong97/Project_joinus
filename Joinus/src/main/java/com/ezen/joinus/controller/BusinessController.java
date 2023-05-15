@@ -22,7 +22,7 @@ public class BusinessController {
         BusinessUserVO businessUser = (BusinessUserVO) session.getAttribute("BusinessUserVO");
         System.out.println("현재 사업자로그인~고객"+ businessUser);
         System.out.println("사업자 정보 컨트롤러 들어오니?");
-        model.addAttribute("businessvo" ,businessUser);
+        model.addAttribute("businessvo" ,businessUserMapper.getBusinessById(businessUser.getB_id()));
         return "business/businessinformation";
     }
     @GetMapping("/businessmodify")//사업자 개인정보 수정화면 들어가기 2
@@ -30,7 +30,7 @@ public class BusinessController {
         BusinessUserVO businessUser = (BusinessUserVO) session.getAttribute("BusinessUserVO");
         System.out.println("현재 사업자로그인~고객 수정하러 들어왔니?"+ businessUser);
         System.out.println("사업자 정보 수정 컨트롤러 들어오니?");
-        model.addAttribute("businessvo" ,businessUser);
+        model.addAttribute("businessvo" ,businessUserMapper.getBusinessById(businessUser.getB_id()));
         return "business/binfomodify";
     }
     @PostMapping("/binfomodify")//사업자 정보 수정
