@@ -115,10 +115,8 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="sizeSelect">선택</label>
-            <select class="form-control" id="sizeSelect">
-              <option>${productVO.p_period}</option>
-            </select>
+            <label for="sizeSelect">개월</label>
+            <input type="text" class="form-control" id="sizeSelect" value="${productVO.p_period}">
           </div>
           <div class="form-group">
             <label for="quantityInput">수량</label>
@@ -145,7 +143,7 @@
               <button type="button" class="btn btn-primary" id="cartBtn" data-c='${productVO.pno}' data-d='${customerUserVO.u_id}'>장바구니담기</button>
             </c:otherwise>
           </c:choose>
-          <button type="submit" class="btn btn-success">구매</button>
+          <button type="button" id="buyBtn" class="btn btn-success">구매</button>
         </form>
       </div>
 
@@ -251,7 +249,7 @@
       }
     });
   });
-  function addWishlist(pno, b_id) {
+  function addWishlist(pno, u_id) {
     // 로그인 여부 확인
     if (!isLoggedIn()) {
       alert("로그인 후 이용해주세요.");
@@ -263,7 +261,7 @@
       url: "/wishlist/add",
       data: {
         pno,
-        b_id,
+        u_id,
 
       },
       success: function(data) {
@@ -321,7 +319,7 @@
       }
     });
   });
-  function addCart(pno, b_id) {
+  function addCart(pno, u_id) {
     // 로그인 여부 확인
     if (!isLoggedIn()) {
       alert("로그인 후 이용해주세요.");
@@ -336,7 +334,7 @@
       url: "/cart/add",
       data: {
         pno,
-        b_id,
+        u_id,
         quantity // 수량 추가
       },
       success: function(data) {
@@ -369,6 +367,18 @@
       },
     });
   }
+</script>
+<script>
+  $(document).ready(function() {
+    $("#buyBtn").click(function() {
+      if (!isLoggedIn()) {
+        alert("로그인 후 이용해주세요.");
+        return;
+      }
+      var pno = ${productVO.pno}; // 구매 페이지 URL에 필요한 상품 번호(pno)를 설정합니다.
+      window.location.href = "/board/buy?pno=" + pno; // 구매 페이지로 이동합니다.
+    });
+  });
 </script>
 </body>
 <%@ include file="../footer/footer.jsp"%>
