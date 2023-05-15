@@ -44,7 +44,7 @@
     <div><a href="#">리뷰 확인</a></div>
     <div><a href="#">등록글 조회</a></div>
     <div><a href="#">상품 등록</a></div>
-    <div><a href="/businessinformation">개인정보 수정</a></div>
+    <div><a href="/businessinformation?id=${business.b_id}">개인정보 수정</a></div>
     <div><a href="#">공지사항 확인</a></div>
 </div>
 

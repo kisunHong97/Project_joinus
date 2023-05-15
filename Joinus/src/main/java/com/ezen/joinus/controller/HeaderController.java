@@ -1,6 +1,8 @@
 package com.ezen.joinus.controller;
 
 import com.ezen.joinus.mappers.CartMapper;
+import com.ezen.joinus.service.BusinessService;
+import com.ezen.joinus.service.CustomerService;
 import com.ezen.joinus.service.ProductService;
 import com.ezen.joinus.vo.BusinessUserVO;
 import com.ezen.joinus.vo.CartVO;
@@ -24,6 +26,12 @@ public class HeaderController {
     @Setter(onMethod_=@Autowired)
     private ProductService productService;
 
+    @Setter(onMethod_=@Autowired)
+    private CustomerService customerService;
+
+    @Setter(onMethod_=@Autowired)
+    private BusinessService businessService;
+
 
     @GetMapping("/mypage")
     public String myPage(HttpSession session, Model model) {
@@ -31,6 +39,10 @@ public class HeaderController {
         // 세션에서 로그인한 사용자 정보를 가져옵니다.
         BusinessUserVO BusinessloginUser = (BusinessUserVO) session.getAttribute("BusinessUserVO");
         CustomerUserVO customerloginUser = (CustomerUserVO) session.getAttribute("customerUserVO");
+//        CustomerUserVO customer = customerService.getCustomerById(customerloginUser.getU_id());
+//        BusinessUserVO business = businessService.getBusinessById(BusinessloginUser.getB_id());
+//        System.out.println("포인트" + customer.getBuypoint());
+//        System.out.println("사업자정보"+business);
 
         if (BusinessloginUser == null && customerloginUser == null) {
             // 로그인한 사용자가 없는 경우 로그인 페이지로 리다이렉트합니다.
@@ -39,13 +51,12 @@ public class HeaderController {
             // 사용자 역할에 따라 각각 다른 마이페이지를 보여줍니다.
             if (BusinessloginUser != null) {
                 // 사업자용 마이페이지를 보여줍니다.
-
-                model.addAttribute("business", BusinessloginUser);
+                model.addAttribute("business",businessService.getBusinessById(BusinessloginUser.getB_id()));
                 System.out.println("작동되나요? 사업자가 로그인되어있어요");
                 return  "business/businessmypage";
             } else if (customerloginUser != null) {
                 // 고객용 마이페이지를 보여줍니다.
-                model.addAttribute("customer", customerloginUser);
+                model.addAttribute("a" , customerService.getCustomerById(customerloginUser.getU_id()));
                 System.out.println("작동되나요? 고객이 로그인되어있어요");
                 return "customer/customermypage";
             } else {
