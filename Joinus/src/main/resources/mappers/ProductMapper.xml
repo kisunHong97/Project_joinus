@@ -11,7 +11,7 @@
     </select>
     <insert id="insertProduct" parameterType="com.ezen.joinus.vo.ProductVO">
         insert into products_table (sno, pno, p_name, p_subtitle, p_content, p_period, p_category)
-        values(#{sno}, products_seq.nextval, #{p_name}, #{p_subtitle}, #{p_content}, #{p_period}, #{p_category})
+        values(#{sno}, #{pno}, #{p_name}, #{p_subtitle}, #{p_content}, #{p_period}, #{p_category})
     </insert>
     <update id="updateProduct" parameterType="com.ezen.joinus.vo.ProductVO">
         update products_table set p_name=#{p_name}, p_subtitle=#{p_subtitle}, p_content=#{p_content}, p_price=#{p_price},
@@ -22,7 +22,7 @@
         delete from products_table
         where pno = #{pno}
     </delete>
-    <select id="getPnoByNameAndSubTitle" parameterType="com.ezen.joinus.vo.ProductVO" resultType="int">
-        select pno from products_table where p_name = #{p_name} and p_subtitle = #{p_subtitle}
+    <select id="getNextPno" resultType="int">
+        select products_seq.nextval from dual
     </select>
 </mapper>

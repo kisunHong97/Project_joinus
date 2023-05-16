@@ -16,7 +16,7 @@ public class FileServiceImpl implements FileService{
     @Override
     public void insertThumbnail(AttachFileDTO attach) {
         System.out.println("File Service!!");
-        fmapper.insertThumbnail(attach);
+        fmapper.insertProductImage(attach);
     }
 
     @Override

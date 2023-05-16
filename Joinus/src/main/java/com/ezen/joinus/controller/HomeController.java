@@ -1,6 +1,7 @@
 package com.ezen.joinus.controller;
 
 
+import com.ezen.joinus.dto.AttachFileDTO;
 import com.ezen.joinus.mappers.BusinessUserMapper;
 import com.ezen.joinus.service.*;
 import com.ezen.joinus.vo.*;
@@ -13,9 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class HomeController {
@@ -23,6 +22,8 @@ public class HomeController {
     private BoardService boardService;
     @Setter(onMethod_=@Autowired)
     private ProductService productService;
+    @Setter(onMethod_=@Autowired)
+    private FileService fileService;
     @Setter(onMethod_=@Autowired)
     private CustomerService customerService;
     @Setter(onMethod_=@Autowired)
@@ -48,7 +49,20 @@ public class HomeController {
         }
         vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
         model.addAttribute("paging", vo);
-        model.addAttribute("viewAll", boardService.selectBoard(vo));
+        List<ProductVO> productList = boardService.selectBoard(vo);
+
+        List<AttachFileDTO> thumbnailList = new ArrayList<>();
+
+        for(ProductVO product : productList){
+            thumbnailList.add(fileService.selectMainThumbnail(product.getPno()));
+            System.out.println(fileService.selectMainThumbnail(product.getPno()));
+        }
+
+        System.out.println(">> " + thumbnailList);
+
+        model.addAttribute("productList", productList);
+        model.addAttribute("thumbnailList", thumbnailList);
+
         return "main/about";
     }
     // 게시물 이동
@@ -66,6 +80,10 @@ public class HomeController {
         CustomerUserVO customerUserVO = customerService.getCustomerById(u_id);
         System.out.println(customerUserVO);
         model.addAttribute("customerUserVO", customerUserVO);
+
+        // 상품의 썸네일 데이터 모두 가져오기
+        List<AttachFileDTO> thumbnails = fileService.selectThumbnailList(productVO.getPno());
+        model.addAttribute("thumbnails", thumbnails);
 
         try{
             WishlistVO wishlist = wishlistService.getWishlistByPnoAndUid(pno, u_id);
