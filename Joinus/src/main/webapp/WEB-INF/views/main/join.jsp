@@ -21,7 +21,7 @@
     /*    margin:0 auto;*/
     /*}*/
     /* body, table, div, p ,span{font-family:'Nanum Gothic';} */
-    body, table, div, p ,span{font-family:'Noto Sans KR';}
+    /*body, table, div, p ,span{font-family:'Noto Sans KR';}*/
 
     a{
         text-decoration: none;
@@ -51,14 +51,14 @@
         width:140px;
         height: 40px;
         font-size:15px;
-        background-color: #df3278;
+        background-color: #ff731b;
         color:#fff;
         border:none;
         cursor: pointer;
         border-radius: 5px;
     }
     .btn:hover{
-        background:#ca296a;
+        background: #ff432c;
     }
     #a{
         margin: 0 50px 0 30px;
@@ -92,6 +92,8 @@
         </div>
     </div><!--con-->
 </div>
+<br>
 
 </body>
 </html>
+
