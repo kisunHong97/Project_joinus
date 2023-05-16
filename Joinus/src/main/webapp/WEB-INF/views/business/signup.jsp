@@ -85,7 +85,7 @@
         width:310px;
         height: 40px;
         font-size:15px;
-        background-color: #df3278;
+        background-color: #ff731b;
         color:#fff;
         border:none;
         cursor: pointer;
@@ -95,14 +95,14 @@
         width:97px;
         height: 25px;
         font-size:13px;
-        background-color: #df3278;
+        background-color: #ff731b;
         color:#fff;
         border:none;
         cursor: pointer;
         border-radius: 5px;
     }
     .btn:hover{
-        background:#ca296a;
+        background:#ff432c;
     }
     hr{
         margin-top:20px;

@@ -17,7 +17,7 @@ $primary: #f8bc1a;
 
     &:hover {
         background-color: transparent;
-        color: $col1;
+        color: #ff731b;
     }
 }
 
@@ -175,7 +175,7 @@ body {
         &.active,
         &:hover {
             .nav-link {
-                color: $white;
+                color: #ff731b;
             }
         }
     }
@@ -189,6 +189,7 @@ body {
 a,
 a:hover,
 a:focus {
+    color:#ff731b;
     text-decoration: none;
 }
 
@@ -782,10 +783,10 @@ a:focus {
             margin: 3px 0;
 
             a {
-                color: #cbc9c9;
+                color: #ff731b;
 
                 &:hover {
-                    color: $white;
+                    color: #ff731b;
                 }
             }
         }
@@ -799,7 +800,7 @@ a:focus {
 
 
             &:hover {
-                color: $white;
+                color: #ff731b;
             }
 
             img {
@@ -807,12 +808,12 @@ a:focus {
             }
 
             span {
-                color: #cbc9c9;
+                color: #ff731b;
             }
 
             &:hover {
                 span {
-                    color: $white;
+                    color: #ff731b;
                 }
             }
         }

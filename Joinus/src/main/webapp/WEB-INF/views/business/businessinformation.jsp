@@ -32,13 +32,13 @@
     margin-left: 300px;
   }
   .text{
-    color: #ff3b85;
+    color: #ff731b;
   }
   .btn{
     width:140px;
     height: 40px;
     font-size:15px;
-    background-color: #ff4567;
+    background-color: #ff731b;
     color:#fff;
     border:none;
     cursor: pointer;
@@ -76,7 +76,7 @@
         <div class="alert alert-info alert-dismissable">
           <a class="panel-close close" data-dismiss="alert">×</a>
           <i class="fa fa-coffee"></i>
-          This is an <strong>.alert</strong>. 수정할꺼양?
+          아이디 수정은 <strong>불가능</strong>합니다.
         </div>
         <h3>Personal info</h3>
         <%--        <div class="col-md-3">--%>

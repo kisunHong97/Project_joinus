@@ -134,7 +134,7 @@ body {
 }
 
 .custom_nav2 .navbar-expand-lg .navbar-nav .nav-item.active .nav-link, .custom_nav2 .navbar-expand-lg .navbar-nav .nav-item:hover .nav-link {
-  color: #ffffff;
+  color: #ff731b;
 }
 
 .custom_nav2 #navbarSupportedContent {
@@ -146,6 +146,7 @@ body {
 a,
 a:hover,
 a:focus {
+  color:#ff731b;
   text-decoration: none;
 }
 
@@ -292,7 +293,7 @@ a:focus {
 
 .slider_section .detail-box .btn-box .btn-2:hover {
   background-color: transparent;
-  color: #f4f3f3;
+  color: #ff731b;
 }
 
 .slider_section .carousel-indicators {
@@ -861,7 +862,7 @@ a:focus {
 }
 
 .info_section ul li a:hover {
-  color: #ffffff;
+  color: #ff731b;
 }
 
 .info_section .info_link-box a {
@@ -875,7 +876,7 @@ a:focus {
 }
 
 .info_section .info_link-box a:hover {
-  color: #ffffff;
+  color: #ff731b;
 }
 
 .info_section .info_link-box a img {
