@@ -10,4 +10,6 @@ public interface PurchaseMapper {
     void insertProduct(PurchaseVO purchaseVO);
 
     void updateUserPoint(CustomerUserVO customerUserVO);
+
+    List<PurchaseVO> selectUPurchaseUserId(String u_id);
 }
