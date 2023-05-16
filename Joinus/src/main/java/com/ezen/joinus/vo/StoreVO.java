@@ -7,9 +7,9 @@ import lombok.*;
 @ToString
 @Getter
 @Setter
-public class BusinessStore {//store_table
+public class StoreVO {//store_table
 
-    private Long sno;
+    private int sno;
     private  String  storename ;
     private  String  storeaddresscode ;
     private  String  storeaddressStreet ;
@@ -18,7 +18,7 @@ public class BusinessStore {//store_table
     private  String  storeurl ;
     private  String  storeimages ;
     private  String  storenumber;
-    private Long bno;
+    private int bno;
 
 
 }
