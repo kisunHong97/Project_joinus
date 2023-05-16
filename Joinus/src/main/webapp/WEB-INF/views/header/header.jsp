@@ -31,21 +31,55 @@
         rel="stylesheet"
 />
 <!-- Custom styles for this template -->
-<link href="../../../resources/css/style.css" rel="stylesheet" />
 <!-- responsive style -->
+<link href="../../../resources/css/style.css" rel="stylesheet" />
 <link href="../../../resources/css/responsive.css" rel="stylesheet" />
 <style>
     <%--    폰트 추가    --%>
     @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 100;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf) format('opentype');}
     @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 300;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 400;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 500;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 700;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 900;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format('opentype');}
-    body, table, div, p ,span{font-family:'Noto Sans KR';}
+    body, table, div, p ,span{font-family:'Noto Sans KR';
+    }
+    /*body{*/
+    /*    width: 1100px;*/
+    /*    position: absolute;*/
+    /*    top: 50%;*/
+    /*    left: 50%;*/
+    /*    transform: translate(-50%, -50%);*/
+    /*}*/
     /*==================================================*/
+    .nav-item:hover a {
+        color: red; /* 마우스를 올렸을 때의 텍스트 색상 */
+    }
+    .nav-link {
+        margin-top: 0px;
+        margin-bottom: 0px;
+        font-size:17px;
+        font-weight: 900;
+        color:#333;
+        letter-spacing:-1px;
+    }
     .navbar-nav1 {
         list-style: none;
         margin: 0;
         padding: 0;
         position: relative;
     }
+    .navbar-nav {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        position: relative;
+    }
+    .navbar-nav li {
+        display: inline-block;
+        margin-right: 10px;
+        font-size: 15px;
+        border-right: 1px solid #ccc;
+        padding-right: 10px;
+        font-weight: bold;
+    }
+
 
     .navbar-nav1 li {
         display: inline-block;
@@ -59,16 +93,32 @@
         position: absolute;
         top: 0;
         right: 0;
-        left: calc(70% - 170px);
+        left: calc(69% - 205px);
     }
     .nav-link1{
         color: #3b3b3b;
     }
+    .header_section{
+        height: 100px;
+    }
+    .navbar-brand img {
+        width: 200px;
+        height: 70px;
+        position: relative;
+        left: 345px;
 
+
+    }
+    .navbar navbar-expand-lg custom_nav-container{
+
+    }
+    /*.container{*/
+    /*    border-top: 1px solid #dcdcdc;*/
+
+    /*}*/
 </style>
 
 
-<div>
     <!-- header section strats -->
     <header class="header_section" style="background-color:white;" id="header">
         <div class="container" >
@@ -116,7 +166,7 @@
             <div class="logodiv">
                 <h1 class="logo">
                     <a class="navbar-brand" href="/product_board">
-                        <img src="../../../resources/images/JOINUSLOGO3.png" alt="" />
+                        <img src="../../../resources/images/JOINUSLOGOFINAL.png" alt="" />
                     </a>
                 </h1>
             </div>
@@ -124,9 +174,9 @@
     </header>
     <!-- end header section -->
     <!-- slider section -->
-    <div class="container">
+    <div class="container" style="border-top: 1px solid #dcdcdc; border-bottom: 2px solid black;">
         <div class="custom_nav2">
-            <nav class="navbar navbar-expand-lg custom_nav-container">
+            <nav class="navbar navbar-expand-lg custom_nav-container" style="background-color: white">
                 <button
                         class="navbar-toggler"
                         type="button"
@@ -157,7 +207,7 @@
                                 <a class="nav-link" href="contact.jsp">Physical Fitness</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Login</a>
+                                <a class="nav-link" href="#">Traffic</a>
                             </li>
                         </ul>
                         <form
@@ -174,5 +224,9 @@
         </div>
     </div>
     <!-- end slider section -->
-</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+</script>
+
 

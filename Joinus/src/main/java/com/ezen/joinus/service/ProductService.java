@@ -10,5 +10,5 @@ public interface ProductService {
     public void registerProduct(ProductVO vo);
     public void modifyProduct(ProductVO vo);
     public void removeProduct(int pno);
-    public int getPnoByNameAndSubTitle(ProductVO vo);
+    public int getNextPno();
 }

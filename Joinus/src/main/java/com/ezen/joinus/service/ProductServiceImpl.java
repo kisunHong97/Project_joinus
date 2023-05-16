@@ -31,17 +31,17 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public void modifyProduct(ProductVO vo) {
-			pmapper.updateProduct(vo);
+		pmapper.updateProduct(vo);
 	}
 
 	@Override
 	public void removeProduct(int pno) {
-			pmapper.deleteProduct(pno);
+		pmapper.deleteProduct(pno);
 	}
 
 	@Override
-	public int getPnoByNameAndSubTitle(ProductVO vo){
-		return pmapper.getPnoByNameAndSubTitle(vo);
+	public int getNextPno() {
+		return pmapper.getNextPno();
 	}
 
 

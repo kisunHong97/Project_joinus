@@ -39,7 +39,7 @@
       font-size: 14px;
       padding: 10px 20px;
       border: none;
-      background-color: #ed969e;
+      background-color: #ff731b;
       color: white;
       cursor: pointer;
       margin-right: 10px;
