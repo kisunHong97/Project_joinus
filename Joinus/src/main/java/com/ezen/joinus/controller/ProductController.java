@@ -90,10 +90,10 @@ public class ProductController {
     }
 
     // ---------------------- 레지스터 종료 ------------------------
-    @GetMapping("/update/{productID}")
+    @GetMapping("/modify/{pno}")
     public String productUpdate(Model model, @PathVariable int pno){
-        ProductVO vo = productService.getProductContents(pno);
-        return "product_update";
+        model.addAttribute("product", productService.getProductContents(pno));
+        return "product/modify";
     }
 
     // 상품 수정 데이터가 들어오면 DB내용 수정

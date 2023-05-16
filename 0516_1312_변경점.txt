@@ -8,10 +8,9 @@
 2. BoardMapper와 ProductMapper 통합
 
 3. Mapper.xml
-	CartMapper에서 getCustomerByID 삭제
+	CartMapper 등에서 getCustomerByID 삭제
+	(CustomerMapper에서만 유일)
 
 4. 접근 제어자 mapper함수는 default, service함수는 public으로 통일
-
-5. DB에서 products_table의 period가 number여서 varchar2(100)으로 변경
 
 *. WishListMapper, PurchaseMapper는 건들지 않았다.

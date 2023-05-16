@@ -254,7 +254,7 @@
                 data: JSON.stringify(storeData),
                 contentType: "application/json; charset=utf8",
                 success: function (result) {
-                    alert("저장 성공")
+                    location.href = "/login";
                 }
             });
         })
@@ -325,7 +325,7 @@
                 </label>
                 <br>
                 <p>
-                    <input type="submit" value="Create Account" class="btn">
+                    <input type="submit" value="Create Account" class="btn insertStore">
                 </p>
             </form>
 

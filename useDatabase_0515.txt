@@ -70,6 +70,16 @@ create table store_table(
                             storeNumber VARCHAR2(100),
                             foreign key (bno) references business_table(bno)
 );
+-- 가게 썸네일 테이블
+create table file_store_table(
+                                   fno number not null primary key,
+                                   sno number,
+                                   fileName varchar2(50),
+                                   uploadPath varchar2(50),
+                                   uuid varchar2(50),
+                                   image varchar2(1),
+                                   foreign key(sno) references store_table(sno)
+);
 -- 상품 정보 테이블
 -- p_name, p_intr, p_detail은 입력 필수
 create table products_table(

@@ -30,16 +30,9 @@ public class StoreController {
     @Setter(onMethod_=@Autowired)
     private FileService fileService;
 
-    @RequestMapping("/storesignup")
+    @GetMapping("/storesignup")
     public String storesignup(){
         return "business/storesignup";
-    }
-
-    @PostMapping(value = "/uploadStoreImage", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseBody
-    public ResponseEntity<AttachFileDTO> uploadImage(MultipartFile[] uploadFile) {
-        System.out.println("/uploadStoreImage 들어왔다");
-        return new ResponseEntity<>(FileController.uploadImage("store", uploadFile), HttpStatus.OK);
     }
 
     // '/storesignup' 실행 전
@@ -64,6 +57,13 @@ public class StoreController {
         fileService.registerStoreImage(FileController.file_table_form(storeService.getMaxSno(), image, 'S'));
 
         return "main/login";
+    }
+
+    @PostMapping(value = "/uploadStoreImage", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public ResponseEntity<AttachFileDTO> uploadImage(MultipartFile[] uploadFile) {
+        System.out.println("/uploadStoreImage 들어왔다");
+        return new ResponseEntity<>(FileController.uploadImage("store", uploadFile), HttpStatus.OK);
     }
 
     @GetMapping("/s_nameCheck")

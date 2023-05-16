@@ -19,6 +19,6 @@
 
     <insert id="insertStoreImage" parameterType="com.ezen.joinus.dto.AttachFileDTO">
         insert into file_store_table(fno, sno, fileName, uploadPath, uuid, image)
-        values(file_seq.nextval, #{sno}, #{fileName}, #{uploadPath}, #{uuid}, #{image})
+        values(file_store_seq.nextval, #{sno}, #{fileName}, #{uploadPath}, #{uuid}, #{image})
     </insert>
 </mapper>
