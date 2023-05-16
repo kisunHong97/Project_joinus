@@ -1,11 +1,12 @@
 ----- 테이블 삭제 -----
-drop table customers_table;
-drop table business_table;
-drop table store_table;
-drop table products_table;
-drop table file_product_table;
 drop TABLE wishlist;
 drop TABLE cart;
+drop table products_purchase_table;
+drop table products_table cascade constraints;
+drop table store_table cascade constraints;
+drop table business_table cascade constraints;
+drop table file_product_table;
+drop table customers_table;
 ----- 시퀀스 삭제 -----
 drop sequence customers_seq;
 drop sequence business_seq;
@@ -41,6 +42,7 @@ create table customers_table(
                                 wish_cnt number default 0,
                                 cart_cnt number default 0
 );
+update customers_table set buyPoint = 740000 where u_id = 'user1';
 -- 사업자 정보 테이블
 -- b_name, b_id(중복 방지), b_pwd1, b_pwd2, b_email, b_phone은 입력 필수
 create table business_table(
@@ -175,5 +177,4 @@ select * from file_product_table;
 select * from wishlist;
 select * from cart;
 select * from products_purchase_table;
--- delete from products_purchase_table where pno > 0;
 commit;

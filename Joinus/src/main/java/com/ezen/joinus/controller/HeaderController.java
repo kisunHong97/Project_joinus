@@ -4,10 +4,8 @@ import com.ezen.joinus.mappers.CartMapper;
 import com.ezen.joinus.service.BusinessService;
 import com.ezen.joinus.service.CustomerService;
 import com.ezen.joinus.service.ProductService;
-import com.ezen.joinus.vo.BusinessUserVO;
-import com.ezen.joinus.vo.CartVO;
-import com.ezen.joinus.vo.CustomerUserVO;
-import com.ezen.joinus.vo.ProductVO;
+import com.ezen.joinus.service.PurchaseService;
+import com.ezen.joinus.vo.*;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,6 +30,8 @@ public class HeaderController {
     @Setter(onMethod_=@Autowired)
     private BusinessService businessService;
 
+    @Setter(onMethod_=@Autowired)
+    private PurchaseService purchaseService;
 
     @GetMapping("/mypage")
     public String myPage(HttpSession session, Model model) {
@@ -58,6 +58,17 @@ public class HeaderController {
                 // 고객용 마이페이지를 보여줍니다.
                 model.addAttribute("a" , customerService.getCustomerById(customerloginUser.getU_id()));
                 System.out.println("작동되나요? 고객이 로그인되어있어요");
+                try {
+                    String u_id = (String) session.getAttribute("id");
+                    if (u_id != null) {
+                        System.out.println("구매상품확인 컨트롤러 진입");
+                        List<PurchaseVO> resultList = purchaseService.getPurchaseInfo(u_id);
+                        System.out.println(resultList);
+                        model.addAttribute("buyInfo", resultList);
+                    }
+                } catch (Exception e) {
+                    // 예외 처리
+                }
                 return "customer/customermypage";
             } else {
                 // 알 수 없는 역할인 경우 에러 페이지를 보여줍니다.

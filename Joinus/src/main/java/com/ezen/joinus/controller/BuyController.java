@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.rmi.server.ExportException;
 import java.util.Date;
 
 @Controller
@@ -73,10 +74,34 @@ public class BuyController {
         purchaseVO.setP_period(vo.getP_period());
         purchaseVO.setMemo(vo.getMemo());
         purchaseVO.setP_price(vo.getP_price());
+        purchaseVO.setCurrentDate(vo.getCurrentDate());
+        purchaseVO.setFutureDate(vo.getFutureDate());
         System.out.println("purchaseVO:" + purchaseVO);
         purchaseService.productPurchase(purchaseVO);
         purchaseService.updateUserPoint(id, vo.getP_price());
 
         return new ResponseEntity(" 구매 목록에 추가되었습니다.", HttpStatus.OK);
     }
+
+//    @GetMapping("/buyInfo")
+//    public String buyInfo(Model model, HttpSession session) {
+//        try {
+//            String u_id = (String) session.getAttribute("id");
+//            if (u_id != null) {
+//                System.out.println("구매상품확인 컨트롤러 진입");
+//                PurchaseVO purchaseVO = new PurchaseVO();
+//                purchaseVO.setU_id(u_id);
+//                purchaseService.getPurchaseInfo(purchaseVO);
+//                System.out.println(purchaseVO);
+//                model.addAttribute("buyInfo", purchaseVO);
+//            }
+//        } catch (Exception e) {
+//            // 예외 처리
+//        }
+//        return "customer/customermypage";
+//    }
+
+
+
+
 }
