@@ -8,6 +8,8 @@ import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Log4j
 @Service
 public class PurchaseServiceImpl implements PurchaseService{
@@ -28,4 +30,12 @@ public class PurchaseServiceImpl implements PurchaseService{
         customerUserVO.setPaypoint(p_price);
         purchaseMapper.updateUserPoint(customerUserVO);
     }
+
+    @Override
+    public List<PurchaseVO> getPurchaseInfo(String u_id) {
+        System.out.println("구매목록 아이디 찾기 서비스 : " + u_id);
+        return purchaseMapper.selectUPurchaseUserId(u_id);
+    }
+
+
 }

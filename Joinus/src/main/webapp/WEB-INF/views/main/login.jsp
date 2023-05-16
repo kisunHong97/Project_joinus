@@ -9,42 +9,24 @@
 %>
     <html>
     <head>
-        <!-- Basic -->
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <!-- Mobile Metas -->
-        <meta
-                name="viewport"
-                content="width=device-width, initial-scale=1, shrink-to-fit=no"
-        />
-        <!-- Site Metas -->
-        <meta name="keywords" content="" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
 
         <title>Energym</title>
-        <link
-                rel="stylesheet"
-                type="text/css"
-                href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css"
-        />
-
-        <!-- bootstrap core css -->
-        <link rel="stylesheet" type="text/css" href="../../../resources/css/bootstrap.css" />
-
-        <!-- fonts style -->
-        <link
-                href="https://fonts.googleapis.com/css?family=Baloo+Chettan|Dosis:400,600,700|Poppins:400,600,700&display=swap"
-                rel="stylesheet"
-        />
-        <!-- Custom styles for this template -->
-        <link href="../../../resources/css/style.css" rel="stylesheet" />
-        <!-- responsive style -->
-        <link href="../../../resources/css/responsive.css" rel="stylesheet" />
         <link href="../../../resources/css/logincss.css" rel="stylesheet" />
     </head>
     <%@ include file="../header/header.jsp"%>
     <style>
+        @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 100;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf) format('opentype');}
+        @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 300;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 400;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 500;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 700;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 900;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format('opentype');}
+
+        .logo1 {
+            margin-top: 0px;
+            margin-bottom: 40px;
+            font-size:30px;
+            font-weight: 900;
+            color:#333;
+            letter-spacing:-1px;
+        }
+
         .container1 {
             display: flex;
             justify-content: center;
@@ -63,44 +45,53 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            border: 1px solid lightgrey;
+            border: none;
             border-radius: 5px;
             margin: 50px;
         }
         button {
             width: 100%;
-            background-color: #ff6f84;
+            background-color: #ff731b;
             border-color: transparent;
             color: white;
         }
+        .account2 {
+            display: block;
+            margin-bottom: 3px;
+            padding: 3px;
+            border: none;
+            border-radius: 3px;
+        }
     </style>
     <body>
+    <br>
     <div class="container1">
         <div class="main1" style="margin: 0 auto">
-            <h1 class="logo">고객 로그인</h1>
+            <h1 class="logo1">고객 로그인</h1>
             <form action="customerlogin" method="post">
                 <input type="text" placeholder="ID" name="u_id" id="u_id" class="account">
                 <input type="password" placeholder="Password" name="u_pwd" id="u_pwd" class="account">
                 <div id="cerrormessage" style="color:red;" >
                     <%=cerrormessage%>
-                    <button type="submit" class="account">login</button>
+                    <button type="submit" class="account2">login</button>
                     <p id="alert2" class="account"> </p>
                 </div>
             </form>
         </div>
         <div class="main1" style="margin: 0 auto">
-            <h1 class="logo">사업자 로그인</h1>
+            <h1 class="logo1">사업자 로그인</h1>
             <form action="login" method="post">
                 <input type="text" placeholder="ID" name="b_id" id="b_id" class="account">
                 <input type="password" placeholder="Password" name="b_pwd" id="b_pwd" class="account">
                 <div id="errormessage" style="color:red;" >
                     <%=errormessage%>
                 </div>
-                <button type="submit" class="account">login</button>
+                <button type="submit" class="account2">login</button>
                 <p id="alert" class="account"> </p>
             </form>
         </div>
     </div>
+    <br>
     <%@ include file="../footer/footer.jsp"%>
     </body>
     </html>

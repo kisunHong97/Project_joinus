@@ -11,19 +11,23 @@
 }
 
 .logo {
-    margin-top: 0px;
-    margin-bottom: 40px;
+    /*margin-top: 0px;*/
+    /*margin-bottom: 40px;*/
+    font-size:25px;
+    font-weight: 900;
+    color:#333;
+    letter-spacing:-1px;
 }
 
 #login {
     width: 100%;
-    background-color: #ff6f84;
+    background-color: #ff731b;
     border-color: transparent;
     color: white;
 }
 #login1 {
     width: 100%;
-    background-color: #ff6f84;
+    background-color: #ff731b;
     border-color: transparent;
     color: white;
 }
@@ -33,6 +37,13 @@
     margin-bottom: 3px;
     padding: 3px;
     border: 1px solid lightgray;
+    border-radius: 3px;
+}
+.account1 {
+    display: block;
+    margin-bottom: 3px;
+    padding: 3px;
+    border: none;
     border-radius: 3px;
 }
 

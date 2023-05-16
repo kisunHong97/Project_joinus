@@ -2,6 +2,8 @@ package com.ezen.joinus.vo;
 
 import lombok.*;
 
+import java.util.Date;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
@@ -15,4 +17,6 @@ public class PurchaseVO {
     private int p_period;
     private int p_price;
     private String memo;
+    private String currentDate;
+    private String futureDate;
 }
