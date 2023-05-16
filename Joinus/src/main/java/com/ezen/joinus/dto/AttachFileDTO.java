@@ -11,6 +11,7 @@ import lombok.*;
 @ToString
 public class AttachFileDTO {
     private int fno;
+    private int sno;
     private int pno;
     private String fileName;	// 파일 이름
     private String uploadPath;	// 폴더 위치

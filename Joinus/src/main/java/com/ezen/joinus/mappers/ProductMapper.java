@@ -10,5 +10,5 @@ public interface ProductMapper {
     public void insertProduct(ProductVO vo);
     public void updateProduct(ProductVO vo);
     public void deleteProduct(int pno);
-    public int getPnoByNameAndSubTitle(ProductVO vo);
+    public int getNextPno();
 }

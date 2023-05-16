@@ -1,0 +1,1 @@
+web.xml에서 multipart데이터를 실제 저장소에 저장하기 전 임시 저장소를 temp로 지정했다.
