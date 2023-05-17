@@ -108,7 +108,6 @@ public class HomeController {
         return "/board/read";
     }
 
-
     // 해당 상품을 찜 목록에 추가하는 기능
     @PostMapping("/wishlist/add")
     public ResponseEntity<String> addWishlist(WishlistVO vo, HttpSession session) {
@@ -186,7 +185,6 @@ public class HomeController {
         return new ResponseEntity("찜 목록에 추가되었습니다.", HttpStatus.OK);
     }
 
-
     // 해당 상품을 장바구니에서 삭제하는 기능
     @GetMapping("/cart/delete")
     public ResponseEntity<String> deleteCart(int pno, HttpSession session) {
@@ -207,6 +205,16 @@ public class HomeController {
         return new ResponseEntity("장바구니에서 삭제되었습니다.", HttpStatus.OK);
     }
 
-
-
+    //상단바 장바구니 진입 시 삭제 컨트롤러
+    @PostMapping("/cart/delete")
+    @ResponseBody
+    public void deleteCart(@RequestBody List<Integer> pnoList, HttpSession session) {
+        String id = (String) session.getAttribute("id");
+        System.out.println("상단바 장바구니 삭제 컨트롤러: " + pnoList);
+        for (int pno : pnoList) {
+            System.out.println("pno: " + pno);
+            cartService.getCartByPnoAndUid(pno, id);
+            cartService.deleteCart(pno, id);
+        }
+    }
 }

@@ -77,22 +77,20 @@
     <div class="product-info">
         <p>상품 설명 : ${productVO.p_subtitle}</p>
         <p>이용 기간 : ${productVO.p_period}개월</p>
-    <p>이용 기간:
-        <%
-            ProductVO productVO = (ProductVO) request.getAttribute("productVO"); // 컨트롤러에서 전달된 productVO 객체 가져오기
-            java.util.Calendar cal = java.util.Calendar.getInstance();
-            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy년 MM월 dd일");
-            String currentDate = sdf.format(cal.getTime());
-            cal.add(java.util.Calendar.MONTH, productVO.getP_period()); // productVO에서 p_period 가져오기
-            cal.add(java.util.Calendar.DAY_OF_MONTH, -1); // 딱 한 달째 되는 날의 하루 전으로 설정
-            String futureDate = sdf.format(cal.getTime());
-            out.println(currentDate + " ~ " + futureDate);
-        %>
-
-    </p>
+        <p>이용 기간:
+            <%
+                ProductVO productVO = (ProductVO) request.getAttribute("productVO"); // 컨트롤러에서 전달된 productVO 객체 가져오기
+                java.util.Calendar cal = java.util.Calendar.getInstance();
+                java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy년 MM월 dd일");
+                String currentDate = sdf.format(cal.getTime());
+                cal.add(java.util.Calendar.MONTH, productVO.getP_period()); // productVO에서 p_period 가져오기
+                cal.add(java.util.Calendar.DAY_OF_MONTH, -1); // 딱 한 달째 되는 날의 하루 전으로 설정
+                String futureDate = sdf.format(cal.getTime());
+                out.println(currentDate + " ~ " + futureDate);
+            %>
+        </p>
         <p>가격: ${productVO.p_price}메소</p>
         <p>보유 포인트 : ${customerUserVO.buypoint}메소</p>
-
     </div>
     <div class="customer-info">
         <label for="name">요청사항 : </label>
@@ -121,9 +119,6 @@
                 alert("\n보유 메소가 부족합니다.\n충전 후 이용해 주세요.")
             }else if (confirm("\n결제 후 3시간 이내 취소 요청 시 환불 처리되며, 3시간 이후에는 환불되지 않습니다.\n\n정말로 구매하시겠습니까?")) {
                 let memo = $("#name").val();
-                <%--let currentDate = new Date('<%=currentDate%>');--%>
-                <%--let futureDate = new Date('<%=futureDate%>');--%>
-
                 // AJAX 요청 생성
                 $.ajax({
                     url: "/purchase", // 데이터를 전송할 서버의 URL

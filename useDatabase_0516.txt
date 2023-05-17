@@ -129,6 +129,19 @@ create table cart(
 );
 -- 구매 상품 테이블
 create table products_purchase_table (
+                                         sno number,
+                                         u_id varchar2(200),
+                                         pno number,
+                                         p_name varchar2(200),
+                                         p_period number,
+                                         p_price number,
+                                         memo varchar2(200),
+                                         currentDate varchar2(200),
+                                         futureDate varchar2(200),
+                                         foreign key (pno) references products_table(pno) ON DELETE CASCADE,
+                                         foreign key (u_id) references customers_table(u_id) ON DELETE CASCADE,
+                                         foreign key (sno) references store_table(sno) ON DELETE CASCADE
+);
     sno number,
     u_id varchar2(200),
     pno number,
@@ -169,6 +182,11 @@ insert into products_table values (2, products_seq.nextval, 'product2', 'is Prod
                                    2, 'physical fitness',20000);
 insert into products_table values (3, products_seq.nextval, 'product3', 'is Product3', 'Porduct1 Detai3',
                                    3, 'academy',30000);
+insert into file_product_table values (file_seq.nextval, 1, 'thumbnail1.png', 'thumbnail/1/1', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 2, 'thumbnail2.png', 'thumbnail/2/2', 'bbb', 'T');
+insert into file_product_table values (file_seq.nextval, 3, 'thumbnail3.png', 'thumbnail/3/3', 'ccc', 'T');
+insert into file_product_table values (file_seq.nextval, 3, 'thumbnail4.png', 'thumbnail/3/3', 'ccc', 'T');
+insert into file_product_table values (file_seq.nextval, 3, 'thumbnail5.png', 'thumbnail/3/3', 'ccc', 'T');
 insert into file_product_table values (file_seq.nextval, 1, 'thumbnail1.png', 'thumbnail', 'aaa', 'T');
 insert into file_product_table values (file_seq.nextval, 2, 'thumbnail2.png', 'thumbnail', 'bbb', 'T');
 insert into file_product_table values (file_seq.nextval, 3, 'thumbnail3.png', 'thumbnail', 'ccc', 'T');
@@ -190,5 +208,7 @@ select * from file_product_table;
 select * from wishlist;
 select * from cart;
 select * from products_purchase_table;
+
 select * from file_store_table;
+
 commit;
