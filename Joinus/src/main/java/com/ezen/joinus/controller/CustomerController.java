@@ -1,6 +1,5 @@
 package com.ezen.joinus.controller;
 
-import com.ezen.joinus.mappers.CustomerUserMapper;
 import com.ezen.joinus.service.CustomerService;
 import com.ezen.joinus.vo.CustomerUserVO;
 import lombok.Setter;
@@ -9,17 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 
-import static org.apache.ibatis.javassist.CtMethod.ConstParameter.integer;
-
 @Controller
 public class CustomerController {
-
-    @Setter(onMethod_=@Autowired)
-    private CustomerUserMapper userMapper;
 
     @Setter(onMethod_=@Autowired)
     private CustomerService customerService;
@@ -49,7 +42,7 @@ public class CustomerController {
         int uno = customerloginUser.getUno();
         System.out.println("현재 로그인사람의 uno"+uno);
         System.out.println(customerUserVO);
-        userMapper.modify(customerUserVO);
+        customerService.modifyCustomer(customerUserVO);
         return "redirect:/product_board";
 
     }
@@ -70,7 +63,7 @@ public class CustomerController {
         System.out.println("비밀번호"+u_pwd);
         u_id = customerloginUser.getU_id() ;
         System.out.println("현재로그인 아이디"+u_id);
-        userMapper.delete(u_id);
+        customerService.removeCustomer(u_id);
         session.invalidate();
         return "redirect:/product_board";
     }

@@ -2,7 +2,6 @@ package com.ezen.joinus.controller;
 
 
 import com.ezen.joinus.dto.AttachFileDTO;
-import com.ezen.joinus.mappers.BusinessUserMapper;
 import com.ezen.joinus.service.*;
 import com.ezen.joinus.vo.*;
 import lombok.Setter;
@@ -18,8 +17,7 @@ import java.util.*;
 
 @Controller
 public class HomeController {
-    @Setter(onMethod_=@Autowired)
-    private BoardService boardService;
+;
     @Setter(onMethod_=@Autowired)
     private ProductService productService;
     @Setter(onMethod_=@Autowired)
@@ -37,7 +35,7 @@ public class HomeController {
             , @RequestParam(value="nowPage", required=false)String nowPage
             , @RequestParam(value="cntPerPage", required=false)String cntPerPage) {
 
-        int total = boardService.countBoard();
+        int total = productService.countBoard();
 //        System.out.println("@@@@@@@@@@@@@@@@"+total);
         if (nowPage == null && cntPerPage == null) {
             nowPage = "1";
@@ -49,7 +47,7 @@ public class HomeController {
         }
         vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
         model.addAttribute("paging", vo);
-        List<ProductVO> productList = boardService.selectBoard(vo);
+        List<ProductVO> productList = productService.selectBoard(vo);
 
         List<AttachFileDTO> thumbnailList = new ArrayList<>();
 
@@ -200,7 +198,7 @@ public class HomeController {
         }
 
         cartService.getCartByPnoAndUid(pno, id);
-        cartService.deleteCart(pno, id);
+        cartService.removeCart(pno, id);
         System.out.println("삭제 성공");
 
         // 찜 목록에서 해당 상품 삭제

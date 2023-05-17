@@ -2,7 +2,7 @@ package com.ezen.joinus.service;
 
 import com.ezen.joinus.mappers.BusinessUserMapper;
 import com.ezen.joinus.mappers.StoreMapper;
-import com.ezen.joinus.vo.BusinessStore;
+import com.ezen.joinus.vo.StoreVO;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,20 +14,24 @@ public class StoreServiceImpl implements StoreService{
     StoreMapper storeMapper;
 
     @Setter(onMethod_=@Autowired)
-    BusinessUserMapper businessUserMapper;
+    BusinessUserMapper businessMapper;
 
 
     @Override
-    public void storeInsert(BusinessStore vo) {
+    public void registerStore(StoreVO vo) {
         System.out.println("서비스 "+vo);
-        vo.setBno(businessUserMapper.getMaxBno());
+        vo.setBno(businessMapper.getMaxBno());
         System.out.println("서비스22 "+vo);
-        storeMapper.insert(vo);
+        storeMapper.insertStore(vo);
     }
 
     @Override
-    public Long getMaxBno() {
-        Long bno = businessUserMapper.getMaxBno();
-        return bno;
+    public int s_nameCheck(String storename) {
+        return storeMapper.s_nameCheck(storename);
+    }
+
+    @Override
+    public int getMaxSno() {
+        return storeMapper.getMaxSno();
     }
 }
