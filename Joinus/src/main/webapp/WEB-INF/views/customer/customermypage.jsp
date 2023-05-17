@@ -18,8 +18,8 @@
     }
 
     #mypage-menu > div {
-        width: 130px;
-        height: 90px;
+        width: 160px;
+        height: 110px;
         margin-right: 20px;
         border: 1px solid #e5e5e5;
         display: flex;
@@ -66,7 +66,6 @@
 <br>
 
 <div id="mypage-menu">
-    <div><a href="#" onclick="showContent(1)">구매상품확인</a></div>
     <div><a href="#" onclick="showContent(2)">이용권 관리</a></div>
     <div><a href="#" onclick="showContent(3)">찜목록</a></div>
     <div><a href="/myinformation?u_id=${a.u_id}" role="button">개인정보 수정</a></div>

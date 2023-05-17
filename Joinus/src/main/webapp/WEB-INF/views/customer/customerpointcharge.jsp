@@ -31,13 +31,13 @@
         margin-left: 300px;
     }
     .text{
-        color: #ff3b85;
+        color: #ff731b;
     }
     .btn1{
         width:140px;
         height: 40px;
         font-size:15px;
-        background-color: #ff4567;
+        background-color: #ff731b;
         color:#fff;
         border:none;
         cursor: pointer;
