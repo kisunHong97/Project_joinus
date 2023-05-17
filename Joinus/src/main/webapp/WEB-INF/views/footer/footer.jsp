@@ -9,16 +9,12 @@
 
 </style>
 <section class="info_section layout_padding2-top" style="background-color: #eeeeee; border-top: 1px solid #dcdcdc;">
-    <div class="container">
-        <div class="info_form">
-        </div>
-    </div>
     <div class="container" >
         <div class="row">
             <div class="col-md-3">
                 <h6>About JoinUs</h6>
                 <p>
-                    당신을 위한 <br>온라인 정기권, 구독권 판매 사이트, <br>다양한 이벤트와 원하는 업체에 대한 <br>티켓을 효율적이고, 편리하게 <br>구매할 수 있는 플랫폼입니다.
+                    당신을 위한 <br>온라인 정기권, 구독권 판매 사이트. <br>다양한 이벤트와 원하는 업체에 대한 <br>티켓을 효율적이고, 편리하게 <br>구매할 수 있는 플랫폼입니다.
                 </p>
             </div>
             <div class="col-md-2 offset-md-1">

@@ -67,6 +67,7 @@
 
 </head>
 <body>
+
 <div class="container">
   <table border="1">
     <thead>
@@ -79,6 +80,7 @@
     </tr>
     </thead>
     <tbody>
+
 
     <c:forEach items="${cart}" var="cart">
       <tr>
@@ -112,8 +114,10 @@
   </c:if>
 <div class="container">
   <div>
+
     <button onclick="deleteItems()">삭제</button>
-    <button onclick="calculateTotal()">구매</button>
+    <button onclick="purchaseItems()">구매</button>
+
   </div>
 </div>
 
@@ -121,6 +125,7 @@
 
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
   $(document).ready(function (){
     $(".selectedItems").on("change", function (){
@@ -139,7 +144,9 @@
 
     // 총 구매 금액 업데이트
     $("#totalPrice").text(totalPrice);
+
   }
+
 </script>
 <%@ include file="../footer/footer.jsp"%>
 </html>

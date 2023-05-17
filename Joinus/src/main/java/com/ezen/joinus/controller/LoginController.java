@@ -51,7 +51,6 @@ public class LoginController {
         BusinessUserVO BusinessUserVO=mapper.MemberLogin(b_id);
         System.out.println(b_id);
         System.out.println(b_pwd);
-
         if(BusinessUserVO==null) return "main/login";
         else { //id는 맞음
             if(!BusinessUserVO.getB_pwd().equals(b_pwd)) { //비밀번호는 틀림
@@ -88,7 +87,6 @@ public class LoginController {
 
         System.out.println(u_id);
         System.out.println(u_pwd);
-
         if(customerUserVO==null) return "main/login";
         else { //id는 맞음
             if(!customerUserVO.getU_pwd().equals(u_pwd)) { //비밀번호는 틀림

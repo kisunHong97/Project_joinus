@@ -113,5 +113,4 @@ public class CustomerController {
         return "redirect:/mypage";
     }
 
-//담주에.. 성공하면 포인트 알맞게나오게하기
 }
