@@ -1,0 +1,16 @@
+주내용 : mapper의 내용을 전부 service로 옮기면서 정리
+
+1. mapper와 service에 들어가는 함수 이름 통일
+	mapper은 insert, update, delete로 구성
+	service는 register, modify, remove로 구성
+	그 외의 함수는 서로 동일하다
+
+2. BoardMapper와 ProductMapper 통합
+
+3. Mapper.xml
+	CartMapper 등에서 getCustomerByID 삭제
+	(CustomerMapper에서만 유일)
+
+4. 접근 제어자 mapper함수는 default, service함수는 public으로 통일
+
+*. WishListMapper, PurchaseMapper는 건들지 않았다.

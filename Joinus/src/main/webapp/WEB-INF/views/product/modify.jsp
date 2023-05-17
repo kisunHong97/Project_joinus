@@ -208,7 +208,7 @@ pageEncoding="UTF-8"%>
   
           $.ajax({
             type: "post",
-            url: "register",
+            url: "modify",
             data: JSON.stringify(productData),
             contentType: "application/json; charset=utf8",
             success: function (result) {
@@ -224,7 +224,9 @@ pageEncoding="UTF-8"%>
   <body>
     <div class="main" style="margin: 0 auto">
       <h1 class="logo">상품 등록</h1>
-      <form action="register" method="post">
+      <form action="modify" method="post">
+        <input type="hidden" name="sno" id="sno" value="${product.sno}">
+        <input type="hidden" name="pno" id="pno" value="${product.pno}">
         <div class="container">
           <div class="card mb-3" style="max-width: 540px">
             <div class="row no-gutters">
@@ -238,6 +240,7 @@ pageEncoding="UTF-8"%>
                     placeholder="상품명"
                     id="p_name"
                     name="p_name"
+                    value="${product.p_name}"
                   />
                 </div>
               </div>
@@ -256,6 +259,7 @@ pageEncoding="UTF-8"%>
                     placeholder="소개글"
                     id="p_subtitle"
                     name="p_subtitle"
+                    value="${product.p_subtitle}"
                   />
                 </div>
               </div>
@@ -289,10 +293,10 @@ pageEncoding="UTF-8"%>
                 <div class="card-body">
                   <select name="p_category" id="p_category">
                     <option value="">-- 카테고리 선택 --</option>
-                    <option value="food">FOOD</option>
-                    <option value="academy">ACADEMY</option>
-                    <option value="physical fitness">PHYSICAL FITNESS</option>
-                    <option value="traffic">TRAFFIC</option>
+                    <option value="food"  c:if="${a == 'food'}">FOOD</option>
+                    <option value="academy"  c:if="${a == 'academy'}">ACADEMY</option>
+                    <option value="physical fitness"  c:if="${a == 'physical fitness'}">PHYSICAL FITNESS</option>
+                    <option value="traffic"  c:if="${a == 'traffic'}">TRAFFIC</option>
                   </select>
                 </div>
               </div>

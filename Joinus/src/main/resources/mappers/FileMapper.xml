@@ -6,16 +6,19 @@
         insert into file_product_table(fno, pno, fileName, uploadPath, uuid, image)
         values(file_seq.nextval, #{pno}, #{fileName}, #{uploadPath}, #{uuid}, #{image})
     </insert>
+
     <!--  맨 앞 이미지 파일 불러오기(썸네일)  -->
     <select id="selectMainThumbnail" parameterType="int" resultType="com.ezen.joinus.dto.AttachFileDTO">
         select * from file_product_table where pno = #{pno} and image = 'T' and rownum = 1
     </select>
+
     <!--  이미지 파일 전부 가져오기(썸네일)  -->
     <select id="selectThumbnailList" parameterType="int" resultType="com.ezen.joinus.dto.AttachFileDTO">
         select * from file_product_table where pno = #{pno} and image = 'T'
     </select>
+
     <insert id="insertStoreImage" parameterType="com.ezen.joinus.dto.AttachFileDTO">
         insert into file_store_table(fno, sno, fileName, uploadPath, uuid, image)
-        values(file_seq.nextval, #{sno}, #{fileName}, #{uploadPath}, #{uuid}, #{image})
+        values(file_store_seq.nextval, #{sno}, #{fileName}, #{uploadPath}, #{uuid}, #{image})
     </insert>
 </mapper>
