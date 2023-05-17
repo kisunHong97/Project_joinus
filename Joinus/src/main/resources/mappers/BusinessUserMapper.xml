@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ezen.joinus.mappers.BusinessUserMapper">
-    <!-- 회원가입 시 ebd_users테이블에 가입정보를 insert -->
-    <insert id="insert" parameterType="com.ezen.joinus.vo.BusinessUserVO">
-        INSERT INTO business_table
 
-        VALUES(business_seq.nextval, #{b_name}, #{b_id}, #{b_pwd}, #{b_email}, #{b_phone}, #{b_addresscode},#{b_addressStreet},#{b_addressDetail}, 'B')
-
-    </insert>
     <select id="b_idCheck" parameterType="String" resultType="int">
         select count(*) from business_table where b_id=#{b_id}
     </select>
     <select id="MemberLogin" resultType="com.ezen.joinus.vo.BusinessUserVO">
         select bno,b_name, b_id, b_pwd, b_email, b_phone, b_addresscode,b_addressStreet,b_addressDetail, auth from business_table where b_id=#{b_id,jdbcType=VARCHAR}
     </select>
-
-    <select id="getMaxBno" resultType="long">
+    <select id="getMaxBno" resultType="int">
         select max(bno) from business_table
     </select>
     <select id="getBusinessById" resultType="com.ezen.joinus.vo.BusinessUserVO">
         SELECT * FROM business_table WHERE b_id =  #{b_id,jdbcType=VARCHAR}
     </select>
-    <update id="modify" parameterType="com.ezen.joinus.vo.BusinessUserVO">
+    <!-- 회원가입 시 ebd_users테이블에 가입정보를 insert -->
+    <insert id="insertBusiness" parameterType="com.ezen.joinus.vo.BusinessUserVO">
+        INSERT INTO business_table
+        VALUES(business_seq.nextval, #{b_name}, #{b_id}, #{b_pwd}, #{b_email}, #{b_phone}, #{b_addresscode},#{b_addressStreet},#{b_addressDetail}, 'B')
+    </insert>
+    <!--  개인정보 수정 시 사업자_테이블 정보를 수정  -->
+    <update id="upadteBusiness" parameterType="com.ezen.joinus.vo.BusinessUserVO">
         update business_table set b_name=#{b_name, jdbcType=VARCHAR},b_pwd=#{b_pwd, jdbcType=VARCHAR},b_email=#{b_email, jdbcType=VARCHAR},b_phone=#{b_phone, jdbcType=VARCHAR},b_addresscode=#{b_addresscode, jdbcType=VARCHAR},b_addressStreet=#{b_addressStreet, jdbcType=VARCHAR},b_addressDetail=#{b_addressDetail, jdbcType=VARCHAR} where b_id=#{b_id,jdbcType=VARCHAR}
     </update>
-    <delete id="delete">
+    <!--  개인정보 삭제 시 사업자_테이블 정보를 삭제 -->
+    <delete id="deleteBusiness">
         delete from business_table where b_id=#{b_id,jdbcType=VARCHAR}
     </delete>
 

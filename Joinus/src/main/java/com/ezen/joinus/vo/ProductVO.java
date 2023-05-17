@@ -18,6 +18,7 @@ public class ProductVO {
     private int p_period;
     private String p_category;
 
+
 //    private List<AttachFileDTO> listAttach;
 
 //    찜 목록 테이블 생성 후 주석 해제

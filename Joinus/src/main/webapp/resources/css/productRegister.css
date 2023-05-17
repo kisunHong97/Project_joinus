@@ -10,12 +10,7 @@
     padding-top: 50px;
     padding-top: 50px;
 }
-.row{
-    border: 1px solid black;
-    border-radius: 5px;
-}
 .card-title{
-    border: 1px solid black;
     border-radius: 5px;
     height: 100%;
     display: flex;
@@ -31,8 +26,8 @@ input{
 }
 
 .thumbnail-image{
-    width: 175px;
-    height: 175px;
+    width: 100px;
+    height: 100px;
 }
 
 .thumbnail-span{

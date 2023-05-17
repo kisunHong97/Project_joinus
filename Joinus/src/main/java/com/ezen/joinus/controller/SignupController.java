@@ -2,8 +2,8 @@ package com.ezen.joinus.controller;
 
 
 
-import com.ezen.joinus.mappers.BusinessUserMapper;
-import com.ezen.joinus.mappers.CustomerUserMapper;
+import com.ezen.joinus.service.BusinessService;
+import com.ezen.joinus.service.CustomerService;
 import com.ezen.joinus.vo.BusinessUserVO;
 import com.ezen.joinus.vo.CustomerUserVO;
 import lombok.Setter;
@@ -18,10 +18,11 @@ import org.springframework.web.bind.annotation.*;
 public class SignupController {
 
     @Setter(onMethod_=@Autowired)
-    private BusinessUserMapper mapper;
+    private BusinessService businessService;
 
     @Setter(onMethod_=@Autowired)
-    private CustomerUserMapper userMapper;
+    private CustomerService customerService;
+
 
     @RequestMapping("/signup")
     public String signup(){
@@ -30,7 +31,7 @@ public class SignupController {
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public String signupinfo(BusinessUserVO BusinessUserVO){
         try {
-            mapper.insert(BusinessUserVO);
+            businessService.registerBusiness(BusinessUserVO);
         }catch (DuplicateKeyException e){
             return "redirect:/singup?error_code=-1";
         }catch (Exception e){
@@ -65,7 +66,7 @@ public class SignupController {
     @RequestMapping(value = "/customersignup" ,method = RequestMethod.POST)
     public String customersignup(CustomerUserVO customerUserVO){
         try {
-            userMapper.insert(customerUserVO);
+            customerService.registerCustomer(customerUserVO);
         }catch (DuplicateKeyException e){
             return "redirect:/customersignup?error_code=-1";
         }catch (Exception e){

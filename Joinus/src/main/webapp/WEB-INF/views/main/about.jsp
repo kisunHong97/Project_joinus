@@ -2,49 +2,21 @@
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!DOCTYPE html>
 <html>
 <head>
-    <!-- Basic -->
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <!-- Mobile Metas -->
-    <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <!-- Site Metas -->
-    <meta name="keywords" content="" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-
-    <title>Energym</title>
-    <link
-            rel="stylesheet"
-            type="text/css"
-            href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css"
-    />
-
-    <!-- bootstrap core css -->
-    <link rel="stylesheet" type="text/css" href="../../../resources/css/bootstrap.css" />
-
-    <!-- fonts style -->
-    <link
-            href="https://fonts.googleapis.com/css?family=Baloo+Chettan|Dosis:400,600,700|Poppins:400,600,700&display=swap"
-            rel="stylesheet"
-    />
-    <!-- Custom styles for this template -->
-    <link href="../../../resources/css/style.css" rel="stylesheet" />
-    <!-- responsive style -->
-    <link href="../../../resources/css/responsive.css" rel="stylesheet" />
+    <title>Title</title>
 </head>
-  <style>
+<%@ include file="../header/header.jsp"%>
+<style>
+    @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 100;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf) format('opentype');}
+    @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 300;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 400;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 500;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 700;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 900;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format('opentype');}
+
     h2 {
       text-align: center;
     }
-    table {
-      width: 100%;
-    }
+    /*table {*/
+    /*  width: 100%;*/
+    /*}*/
     #outter {
       display: block;
       width: 60%;
@@ -53,9 +25,9 @@
     a {
       text-decoration: none;
     }
-    .board {
-      width: 100%;
-    }
+    /*.board {*/
+    /*  width: 100%;*/
+    /*}*/
 
     .board-header {
       text-align: center;
@@ -121,8 +93,6 @@
     }
   </script>
 
-  <%@ include file="../header/header.jsp"%>
-
   <body class="sub_page about_page">
     <!-- about section -->
     <section class="about_section layout_padding">
@@ -147,7 +117,7 @@
                   <c:forEach var="product" items="${productList}" varStatus="status">
                       <li>
                           <div class="post-thumbnail">
-                              <img src="../../../resources/images/JOINUSLOGOFINAL.png" alt="게시물 썸네일">
+                            <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일">
                           </div>
                           <div class="post-content">
                               <a href='/board/read?pno=${productList[status.index].pno}'>${productList[status.index].p_subtitle }</a>
@@ -181,16 +151,15 @@
         </div>
       </div>
     </section>
-    <script>
-      function openNav() {
-        document.getElementById("myNav").classList.toggle("menu_width");
-        document
-          .querySelector(".custom_menu-btn")
-          .classList.toggle("menu_btn-style");
-      }
-    </script>
-  </body>
 
     <%@ include file="../footer/footer.jsp"%>
-
+  </body>
 </html>
+<script>
+    function openNav() {
+        document.getElementById("myNav").classList.toggle("menu_width");
+        document
+            .querySelector(".custom_menu-btn")
+            .classList.toggle("menu_btn-style");
+    }
+</script>

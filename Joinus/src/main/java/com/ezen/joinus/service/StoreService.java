@@ -1,11 +1,15 @@
 package com.ezen.joinus.service;
 
-import com.ezen.joinus.vo.BusinessStore;
-import com.ezen.joinus.vo.BusinessUserVO;
+import com.ezen.joinus.vo.StoreVO;
 
 public interface StoreService {
 
-    public void storeInsert(BusinessStore vo);
+    // 가게 테이블에 가게 정보를 삽입
+    public void registerStore(StoreVO vo);
 
-    public Long getMaxBno();
+    // 중복 가게이름 체크
+    public int s_nameCheck(String storename);
+
+    // 최대(방금 생성된) sno 가져오기
+    public int getMaxSno();
 }

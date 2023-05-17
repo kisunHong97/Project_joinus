@@ -1,27 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ezen.joinus.mappers.ProductMapper">
+    <!-- 총 게시글 갯수 출력 -->
+    <select id="countBoard" resultType="int">
+        SELECT COUNT(*) FROM products_table
+    </select>
+
+    <!-- 페이징 처리 후 게시글 조회 -->
+    <select id="selectBoard" resultType="com.ezen.joinus.vo.ProductVO">
+        SELECT *
+        FROM (
+                 SELECT ROWNUM RN, A.*
+                 FROM (
+                          SELECT *
+                          FROM products_table
+                          ORDER BY pno DESC
+                      ) A
+             )
+        WHERE RN BETWEEN #{start} AND #{end}
+    </select>
+
     <!-- 등록 상품 조회 -->
     <select id="getListAll" resultType="com.ezen.joinus.vo.ProductVO">
         select * from products_table
     </select>
+
     <select id="getProduct" parameterType="java.lang.Integer" resultType="com.ezen.joinus.vo.ProductVO">
         select * from products_table
         where pno =#{pno}
     </select>
+
     <insert id="insertProduct" parameterType="com.ezen.joinus.vo.ProductVO">
         insert into products_table (sno, pno, p_name, p_subtitle, p_content, p_period, p_category)
         values(#{sno}, #{pno}, #{p_name}, #{p_subtitle}, #{p_content}, #{p_period}, #{p_category})
     </insert>
+
     <update id="updateProduct" parameterType="com.ezen.joinus.vo.ProductVO">
         update products_table set p_name=#{p_name}, p_subtitle=#{p_subtitle}, p_content=#{p_content}, p_price=#{p_price},
                                   p_image=#{p_image}, p_peroid=#{p_peroid}, p_category=#{p_category}
         where pno = #{pno}
     </update>
+
     <delete id="deleteProduct" parameterType="java.lang.Integer">
         delete from products_table
         where pno = #{pno}
     </delete>
+
     <select id="getNextPno" resultType="int">
         select products_seq.nextval from dual
     </select>

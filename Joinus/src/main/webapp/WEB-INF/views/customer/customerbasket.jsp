@@ -67,6 +67,7 @@
 
 </head>
 <body>
+
 <div class="container">
   <table border="1">
     <thead>
@@ -79,6 +80,7 @@
     </tr>
     </thead>
     <tbody>
+
 
     <c:forEach items="${cart}" var="cart">
       <tr>
@@ -112,6 +114,7 @@
   </c:if>
 <div class="container">
   <div>
+
     <button onclick="deleteItems()">삭제</button>
     <button id="buy">구매</button>
   </div>
@@ -121,6 +124,7 @@
 </form>
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
   // 로그인 여부 확인 함수
   function isLoggedIn() {
@@ -149,8 +153,9 @@
 
     // 총 구매 금액 업데이트
     $("#totalPrice").text(totalPrice);
-  }
 
+  }
+  
   // 상단바 장바구니 진입 시 삭제 기능
   const deleteItems = () => {
     if (!isLoggedIn()) {
@@ -229,7 +234,6 @@
   //     });
   //   });
   // }
-
 </script>
 <%@ include file="../footer/footer.jsp"%>
 </html>
