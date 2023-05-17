@@ -33,14 +33,6 @@ import java.util.Map;
 @Controller
 public class ProductController {
 
-
-    @Setter(onMethod_ = @Autowired)
-    private ProductService pservice;
-
-    @Setter(onMethod_ = @Autowired)
-    private FileService fservice;
-
-
     @Setter(onMethod_=@Autowired)
     private ProductService productService;
 
@@ -75,9 +67,6 @@ public class ProductController {
         product.setPno(imagePno);
 
         product.setP_period(1);
-        pservice.registerProduct(product);
-
-
         productService.registerProduct(product);
 
 
@@ -90,8 +79,6 @@ public class ProductController {
 
         System.out.println("33333");
 
-        for (AttachFileDTO attach : attachList) {
-            fservice.insertThumbnail(attach);
 
         for(AttachFileDTO attach: attachList){
             fileService.registerProductImage(attach);
@@ -117,12 +104,6 @@ public class ProductController {
     }
 
     // ---------------------- 레지스터 종료 ------------------------
-
-    @GetMapping("/update/{productID}")
-    public String productUpdate(Model model, @PathVariable int pno) {
-        ProductVO vo = pservice.getProductContents(pno);
-        return "product_update";
-
     @GetMapping("/modify/{pno}")
     public String productUpdate(Model model, @PathVariable int pno){
         model.addAttribute("product", productService.getProductContents(pno));
@@ -132,11 +113,6 @@ public class ProductController {
 
     // 상품 수정 데이터가 들어오면 DB내용 수정
     // method=전송방식(method)형태, value=주소, consumes=받을데이터타입, produces=데이터반환타입
-
-    @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH}, value = "/update", consumes = "application/json", produces = {MediaType.TEXT_PLAIN_VALUE})
-    public String productUpdatePost(@RequestBody ProductVO vo) {
-        pservice.modifyProduct(vo);
-
     @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH }, value = "/update", consumes = "application/json", produces = {MediaType.TEXT_PLAIN_VALUE})
     public String productUpdatePost(@RequestBody ProductVO vo){
         productService.modifyProduct(vo);
@@ -145,10 +121,6 @@ public class ProductController {
     }
 
     @DeleteMapping("/delete/{productID}")
-
-    public String productDelete(Model model, @PathVariable int pno) {
-        pservice.removeProduct(pno);
-
     public String productDelete(Model model, @PathVariable int pno){
         productService.removeProduct(pno);
 
