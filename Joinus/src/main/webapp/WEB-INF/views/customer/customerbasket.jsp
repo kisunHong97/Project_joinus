@@ -113,21 +113,31 @@
 <div class="container">
   <div>
     <button onclick="deleteItems()">삭제</button>
-    <button onclick="calculateTotal()">구매</button>
+    <button id="buy">구매</button>
   </div>
 </div>
+<form id="transferPno" method="post" action="/board/cartbuy">
 
-
-
+</form>
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+  // 로그인 여부 확인 함수
+  function isLoggedIn() {
+    if (${customerUserVO == null || customerUserVO.u_id == null}) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   $(document).ready(function (){
     $(".selectedItems").on("change", function (){
       calculateTotalPrice();
     })
   })
-  function calculateTotalPrice() {
+
+  const calculateTotalPrice = () => {
     let totalPrice = 0;
 
     // 체크된 체크박스들의 가격 합산
@@ -140,6 +150,86 @@
     // 총 구매 금액 업데이트
     $("#totalPrice").text(totalPrice);
   }
+
+  // 상단바 장바구니 진입 시 삭제 기능
+  const deleteItems = () => {
+    if (!isLoggedIn()) {
+      alert("로그인 후 이용해주세요.");
+      return;
+    }
+
+    const selectedItems = []; // 선택된 항목의 ID를 담을 배열
+
+    // 선택된 항목의 ID를 배열에 추가
+    $('.selectedItems:checked').each(function () {
+      selectedItems.push($(this).val());
+    });
+    console.log(selectedItems)
+    if (selectedItems.length === 0) {
+      alert("삭제할 항목을 선택해주세요.");
+      return;
+    }
+
+    // 선택된 항목의 ID를 URL에 추가하여 AJAX 요청
+    $.ajax({
+      type: "POST",
+      url: "/cart/delete",
+      data: JSON.stringify(selectedItems), // 선택된 항목의 ID 배열을 JSON 형식으로 변환하여 서버로 전달
+      contentType: "application/json", // 전달하는 데이터의 형식을 명시 (JSON 형식)
+      success: function (response) {
+        alert("선택된 항목이 장바구니에서 삭제되었습니다.");
+        location.reload(); // 페이지 새로고침
+      },
+      error: function (xhr, status, error) {
+        alert("에러 발생");
+      },
+    });
+  };
+  $("#buy").click(function (e){
+    console.log("여기 버튼이 눌렸다 ")
+    let str=""
+    $('.selectedItems:checked').each(function () {
+      str+="<input type='hidden' name='pno' value='"+$(this).val()+"'/>"
+    });
+    console.log(str)
+    $("#transferPno").append(str).submit();
+  })
+  // const calculateTotal = () => {
+  //   $(document).ready(function() {
+  //     if (!isLoggedIn()) {
+  //       alert("로그인 후 이용해주세요.");
+  //       return;
+  //     }
+  //     const selectedItems = []; // 선택된 항목의 ID를 담을 배열
+  //
+  //     // 선택된 항목의 ID를 배열에 추가
+  //     $('.selectedItems:checked').each(function () {
+  //       selectedItems.push($(this).val());
+  //     });
+  //
+  //     console.log(selectedItems)
+  //
+  //     if (selectedItems.length === 0) {
+  //       alert("구매할 항목을 선택해주세요.");
+  //       return;
+  //     }
+  //     $.ajax({
+  //       type: "POST",
+  //       data: { pno: selectedItems },
+  //       url: "/board/cartbuy",
+  //       traditional: true, // 선택된 항목의 ID 배열을 JSON 형식으로 변환하여 서버로 전달
+  //       // contentType: "application/json", // 전달하는 데이터의 형식을 명시 (JSON 형식)
+  //       success: function (response) {
+  //         alert("구매 페이지로 이동합니다.")
+  //         // window.location.href = response.redirectUrl; // 페이지 이동
+  //       },
+  //       error: function (xhr, status, error) {
+  //         alert("에러 발생");
+  //       },
+  //     });
+  //   });
+  // }
+
 </script>
 <%@ include file="../footer/footer.jsp"%>
 </html>

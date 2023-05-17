@@ -147,7 +147,7 @@
                   <c:forEach var="product" items="${productList}" varStatus="status">
                       <li>
                           <div class="post-thumbnail">
-                              <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일">
+                              <img src="../../../resources/images/JOINUSLOGOFINAL.png" alt="게시물 썸네일">
                           </div>
                           <div class="post-content">
                               <a href='/board/read?pno=${productList[status.index].pno}'>${productList[status.index].p_subtitle }</a>

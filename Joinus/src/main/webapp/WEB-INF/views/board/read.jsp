@@ -80,31 +80,50 @@
   <tbody>
   <div class="container mt-5">
     <div class="row">
-      <div class="col-md-6">
-        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-          <div class="carousel-inner">
-            <c:forEach items="${thumbnails}" var="thumbnail" varStatus="status">
-              <c:if test="${status.index < 1}">
-                <div class="carousel-item active">
-                  <img src="/display?fileName=${thumbnail.uploadPath}/${thumbnail.uuid}_${thumbnail.fileName}" class="d-block w-100" width="50%" alt="...">
-                </div>
-              </c:if>
-              <c:if test="${status.index >= 1}">
-                <div class="carousel-item">
-                  <img src="/display?fileName=${thumbnail.uploadPath}/${thumbnail.uuid}_${thumbnail.fileName}"  class="d-block w-100" width="50%" alt="...">
-                </div>
-              </c:if>
-            </c:forEach>
-          <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-          </a>
-          <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-          </a>
+<%--      <div class="col-md-6">--%>
+<%--        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">--%>
+<%--          <div class="carousel-inner">--%>
+<%--            <c:forEach items="${thumbnails}" var="thumbnail" varStatus="status">--%>
+<%--              <c:if test="${status.index < 1}">--%>
+<%--                <div class="carousel-item active">--%>
+<%--                  <img src="../../../resources/images/JOINUSLOGOFINAL.png" class="d-block w-100" width="50%" alt="...">--%>
+<%--                </div>--%>
+<%--              </c:if>--%>
+<%--              <c:if test="${status.index >= 1}">--%>
+<%--                <div class="carousel-item">--%>
+<%--                  <img src="/display?fileName=${thumbnail.uploadPath}/${thumbnail.uuid}_${thumbnail.fileName}"  class="d-block w-100" width="50%" alt="...">--%>
+<%--                </div>--%>
+<%--              </c:if>--%>
+<%--            </c:forEach>--%>
+<%--          <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">--%>
+<%--            <span class="carousel-control-prev-icon" aria-hidden="true"></span>--%>
+<%--            <span class="sr-only">Previous</span>--%>
+<%--          </a>--%>
+<%--          <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">--%>
+<%--            <span class="carousel-control-next-icon" aria-hidden="true"></span>--%>
+<%--            <span class="sr-only">Next</span>--%>
+<%--          </a>--%>
+<%--        </div>--%>
+<%--      </div>--%>
+  <div class="col-md-6">
+    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="../../../resources/images/JOINUSLOGOFINAL.png" class="d-block w-100" width="50%" alt="...">
+        </div>
+        <div class="carousel-item">
+          <img src="../../../resources/images/JOINUSLOGOFINAL.png" class="d-block w-100" width="50%" alt="...">
+        </div>
+        <div class="carousel-item">
+          <img src="../../../resources/images/JOINUSLOGOFINAL.png" class="d-block w-100" width="50%" alt="...">
         </div>
       </div>
+            <span class="carousel-control-prev-icon" aria-hidden="true"/>
+            <span class="sr-only"/>Previous
+            <span class="carousel-control-next-icon" aria-hidden="true"/>
+            <span class="sr-only"/>Next
+    </div>
+  </div>
 
       <div class="col-md-6">
         <h4>${productVO.p_subtitle }</h4>
