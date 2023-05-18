@@ -159,7 +159,7 @@
       <button class="tablinks" onclick="openTab(event, 'product_info')">상품 상세 정보</button>
       <button class="tablinks" onclick="openTab(event, 'reviews')">구매후기</button>
       <button class="tablinks" onclick="openTab(event, 'qna')">상품문의</button>
-      <button class="tablinks" onclick="openTab(event, 'refuand')">환불</button>
+      <button class="tablinks" onclick="openTab(event, 'refund')">환불</button>
     </div>
     <!-- 탭 내용 -->
     <div id="product_info" class="tabcontent">

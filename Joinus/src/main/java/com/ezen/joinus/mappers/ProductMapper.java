@@ -17,4 +17,6 @@ public interface ProductMapper {
 
     List<ProductVO> selectCategory(String  p_category);
 
+    List<ProductVO> getProductName(String p_name);
+
 }

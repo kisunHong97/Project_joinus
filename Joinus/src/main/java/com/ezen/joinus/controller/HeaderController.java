@@ -1,18 +1,19 @@
 package com.ezen.joinus.controller;
 
+import com.ezen.joinus.dto.AttachFileDTO;
 import com.ezen.joinus.mappers.CartMapper;
-import com.ezen.joinus.service.BusinessService;
-import com.ezen.joinus.service.CustomerService;
-import com.ezen.joinus.service.ProductService;
-import com.ezen.joinus.service.PurchaseService;
+import com.ezen.joinus.service.*;
 import com.ezen.joinus.vo.*;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.naming.directory.SearchResult;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -32,6 +33,9 @@ public class HeaderController {
 
     @Setter(onMethod_=@Autowired)
     private PurchaseService purchaseService;
+
+    @Setter(onMethod_=@Autowired)
+    private FileService fileService;
 
     @GetMapping("/mypage")
     public String myPage(HttpSession session, Model model) {
@@ -115,4 +119,40 @@ public class HeaderController {
             }
         }
     }
+
+    @GetMapping("/search")
+    public String search(@RequestParam("query") String query, Model model,
+                         PagingVO vo, ChatMessage chat1,
+                         @RequestParam(value="nowPage", required=false)String nowPage,
+                         @RequestParam(value="cntPerPage", required=false)String cntPerPage) {
+        System.out.println("검색어 : " + query);
+        List<ProductVO> searchResultList = productService.getProductName(query);
+        System.out.println("검색어를 포함한 상품명 조회 : " + searchResultList);
+
+        int total = productService.countBoard();
+        if (nowPage == null && cntPerPage == null) {
+            nowPage = "1";
+            cntPerPage = "5";
+        } else if (nowPage == null) {
+            nowPage = "1";
+        } else if (cntPerPage == null) {
+            cntPerPage = "5";
+        }
+        vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+        model.addAttribute("paging", vo);
+
+        List<AttachFileDTO> thumbnailList = new ArrayList<>();
+
+        for(ProductVO product : searchResultList){
+            thumbnailList.add(fileService.selectMainThumbnail(product.getPno()));
+            System.out.println(fileService.selectMainThumbnail(product.getPno()));
+        }
+        System.out.println(">> " + thumbnailList);
+
+        model.addAttribute("searchResultList", searchResultList);
+        model.addAttribute("thumbnailList", thumbnailList);
+
+        return "/board/searchResult";
+    }
+
 }
