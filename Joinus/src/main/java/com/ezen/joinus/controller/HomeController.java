@@ -17,7 +17,7 @@ import java.util.*;
 
 @Controller
 public class HomeController {
-;
+
     @Setter(onMethod_=@Autowired)
     private ProductService productService;
     @Setter(onMethod_=@Autowired)
@@ -31,21 +31,14 @@ public class HomeController {
 
     //페이징 처리
     @GetMapping("/product_board")
-    public String boardList(PagingVO vo, ChatMessage chat1 ,Model model
+
+    public String boardList(PagingVO vo,Model model,HttpSession session
             , @RequestParam(value="nowPage", required=false)String nowPage
             , @RequestParam(value="cntPerPage", required=false)String cntPerPage) {
         System.out.println(vo);
-//        System.out.println(chat1);
-//        RestTemplate restTemplate = new RestTemplate();
-//        String url = "http://localhost:5000/"; //flask 로 간다
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        HttpEntity<ChatMessage> request = new HttpEntity<>(chat1, headers);
-//        //HttpEntity<ChatMessage> request = new HttpEntity<ChatMessage>(chat1, headers);
-//        String response = restTemplate.postForObject(url, request, String.class);
-//        System.out.println(response);
+        CustomerUserVO customerloginUser = (CustomerUserVO) session.getAttribute("customerUserVO");
+
         int total = productService.countBoard();
-//        System.out.println("@@@@@@@@@@@@@@@@"+total);
         if (nowPage == null && cntPerPage == null) {
             nowPage = "1";
             cntPerPage = "5";
@@ -69,6 +62,7 @@ public class HomeController {
 
         model.addAttribute("productList", productList);
         model.addAttribute("thumbnailList", thumbnailList);
+        model.addAttribute("customerloginUser",customerloginUser);
 
         return "main/about";
     }

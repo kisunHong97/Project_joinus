@@ -192,16 +192,16 @@
                                 >Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="../main/about.jsp">Food </a>
+                                <a class="nav-link" href="/Food">Food </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="service.jsp">Academy </a>
+                                <a class="nav-link" href="/Academy">Academy </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="contact.jsp">Physical Fitness</a>
+                                <a class="nav-link" href="/Physical_Fitness">Physical Fitness</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Traffic</a>
+                                <a class="nav-link" href="/Traffic">Traffic</a>
                             </li>
                         </ul>
                         <form class="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0" action="/search" method="GET">
