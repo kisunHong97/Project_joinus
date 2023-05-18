@@ -29,4 +29,6 @@ public interface ProductService {
 
     // 최대(최근에 만든) pno 가져오기
     public int getNextPno();
+
+    public List<ProductVO> selectCategory(String  p_category);
 }

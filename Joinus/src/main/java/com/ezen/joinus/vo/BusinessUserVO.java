@@ -14,9 +14,9 @@ public class BusinessUserVO {//business_table
     private String b_pwd;
     private String b_email;
     private String b_phone;
-    private String b_addresscode;
-    private String b_addressStreet;
-    private String b_addressDetail;
+    private String b_addrcode;
+    private String b_addrStreet;
+    private String b_addrDetail;
     private char auth;
 }
 

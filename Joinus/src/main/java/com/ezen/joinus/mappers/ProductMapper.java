@@ -14,4 +14,7 @@ public interface ProductMapper {
     void updateProduct(ProductVO vo);
     void deleteProduct(int pno);
     int getNextPno();
+
+    List<ProductVO> selectCategory(String  p_category);
+
 }

@@ -10,15 +10,14 @@ import lombok.*;
 public class StoreVO {//store_table
 
     private int sno;
-    private  String  storename ;
-    private  String  storeaddresscode ;
-    private  String  storeaddressStreet ;
-    private  String  storeaddressDetail ;
-    private  String  storeinst ;
-    private  String  storeurl ;
-    private  String  storeimages ;
-    private  String  storenumber;
+    private  String  s_name ;
+    private  String  s_addrCode ;
+    private  String  s_addrStreet ;
+    private  String  s_addrDetail ;
+    private  String  s_inst ;
+    private  String  s_email;
+    private  String  s_URL ;
+    private  String  s_phone;
     private int bno;
-
 
 }

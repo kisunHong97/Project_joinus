@@ -282,10 +282,10 @@ pageEncoding="UTF-8"%>
                 <div class="card-body">
                   <select name="p_category" id="p_category">
                     <option value="">-- 카테고리 선택 --</option>
-                    <option value="food">FOOD</option>
-                    <option value="academy">ACADEMY</option>
-                    <option value="physical fitness">PHYSICAL FITNESS</option>
-                    <option value="traffic">TRAFFIC</option>
+                    <option value="food">food</option>
+                    <option value="academy">academy</option>
+                    <option value="physical fitness">physical fitness</option>
+                    <option value="traffic">traffic</option>
                   </select>
                 </div>
               </div>

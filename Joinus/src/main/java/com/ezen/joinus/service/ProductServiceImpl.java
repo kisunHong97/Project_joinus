@@ -55,6 +55,10 @@ public class ProductServiceImpl implements ProductService{
 		return productMapper.getNextPno();
 	}
 
+	@Override
+	public List<ProductVO> selectCategory(String p_category) {
+		return productMapper.selectCategory(p_category);
+	}
 
 
 }

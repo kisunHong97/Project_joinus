@@ -7,7 +7,7 @@
     </select>
 
     <select id="CustomerLogin" resultType="com.ezen.joinus.vo.CustomerUserVO">
-        select uno, u_id, u_name, u_pwd, u_email, u_phone, u_addresscode,u_addressStreet,u_addressDetail, buyPoint,auth,buyPoint, wish_cnt, cart_cnt from customers_table where u_id=#{u_id,jdbcType=VARCHAR}
+        select uno, u_id, u_name, u_pwd, u_email, u_phone, u_addrcode,u_addrStreet,u_addrDetail, buyPoint,auth,buyPoint, wish_cnt, cart_cnt from customers_table where u_id=#{u_id,jdbcType=VARCHAR}
     </select>
 
     <select id="getCustomerById" resultType="com.ezen.joinus.vo.CustomerUserVO">
@@ -16,11 +16,11 @@
 
     <insert id="insertCustomer" parameterType="com.ezen.joinus.vo.CustomerUserVO">
         INSERT INTO customers_table
-        VALUES(customers_seq.nextval, #{u_id}, #{u_pwd}, #{u_name},#{u_email}, #{u_phone}, #{u_addresscode}, #{u_addressStreet}, #{u_addressDetail}, 100,'A', 100, 0, 0)
+        VALUES(customers_seq.nextval, #{u_id}, #{u_pwd}, #{u_name},#{u_email}, #{u_phone}, #{u_addrcode}, #{u_addrStreet}, #{u_addrDetail}, 100,'A', 100, 0, 0)
     </insert>
 
     <update id="updateCustomer" parameterType="com.ezen.joinus.vo.CustomerUserVO">
-        update customers_table set u_pwd=#{u_pwd, jdbcType=VARCHAR},u_name=#{u_name, jdbcType=VARCHAR},u_email=#{u_email, jdbcType=VARCHAR},u_phone=#{u_phone, jdbcType=VARCHAR},u_addresscode=#{u_addresscode, jdbcType=VARCHAR},u_addressStreet=#{u_addressStreet, jdbcType=VARCHAR},u_addressDetail=#{u_addressDetail, jdbcType=VARCHAR} where u_id=#{u_id,jdbcType=VARCHAR}
+        update customers_table set u_pwd=#{u_pwd, jdbcType=VARCHAR},u_name=#{u_name, jdbcType=VARCHAR},u_email=#{u_email, jdbcType=VARCHAR},u_phone=#{u_phone, jdbcType=VARCHAR},u_addrcode=#{u_addrcode, jdbcType=VARCHAR},u_addrStreet=#{u_addrStreet, jdbcType=VARCHAR},u_addrDetail=#{u_addrDetail, jdbcType=VARCHAR} where u_id=#{u_id,jdbcType=VARCHAR}
     </update>
 
     <delete id="deleteCustomer">

@@ -32,13 +32,13 @@
         margin-left: 300px;
     }
     .text{
-        color: #ff3b85;
+        color: #ff731b;
     }
     .btn1{
         width:120px;
         height: 30px;
         font-size:15px;
-        background-color: #ff4567;
+        background-color: #ff731b;
         color:#fff;
         border:none;
         cursor: pointer;
@@ -50,7 +50,7 @@
         width:140px;
         height: 40px;
         font-size:15px;
-        background-color: #ff4567;
+        background-color: #ff731b;
         color:#fff;
         border:none;
         cursor: pointer;
@@ -145,10 +145,10 @@
                     <div class="form-group">
                         <label class="col-lg-3 control-label">주소</label>
                         <div class="col-lg-8">
-                            <input type="text" class="size1" value="${businessvo.b_addresscode}" id="addr1" name="b_addresscode">
+                            <input type="text" class="size1" value="${businessvo.b_addrcode}" id="addr1" name="b_addrcode">
                             <button type="button" class="btn1"  onclick="execPostCode();"><i class="fa fa-search"></i> 우편번호 찾기</button>
-                            <input class="form-control" type="text" value="${businessvo.b_addressStreet}" id="addr2" name="b_addressStreet">
-                            <input class="form-control" type="text" value="${businessvo.b_addressDetail}" id="addr3" name="b_addressDetail">
+                            <input class="form-control" type="text" value="${businessvo.b_addrStreet}" id="addr2" name="b_addrStreet">
+                            <input class="form-control" type="text" value="${businessvo.b_addrDetail}" id="addr3" name="b_addrDetail">
                         </div>
                     </div>
                     <div class="button">

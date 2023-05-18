@@ -6,11 +6,11 @@ import com.ezen.joinus.service.*;
 import com.ezen.joinus.vo.*;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpSession;
 import java.util.*;
@@ -31,10 +31,11 @@ public class HomeController {
 
     //페이징 처리
     @GetMapping("/product_board")
-    public String boardList(PagingVO vo, Model model
+    public String boardList(PagingVO vo,Model model,HttpSession session
             , @RequestParam(value="nowPage", required=false)String nowPage
             , @RequestParam(value="cntPerPage", required=false)String cntPerPage) {
-
+        System.out.println(vo);
+        CustomerUserVO customerloginUser = (CustomerUserVO) session.getAttribute("customerUserVO");
         int total = productService.countBoard();
 //        System.out.println("@@@@@@@@@@@@@@@@"+total);
         if (nowPage == null && cntPerPage == null) {
@@ -60,6 +61,7 @@ public class HomeController {
 
         model.addAttribute("productList", productList);
         model.addAttribute("thumbnailList", thumbnailList);
+        model.addAttribute("customerloginUser",customerloginUser);
 
         return "main/about";
     }
@@ -196,7 +198,7 @@ public class HomeController {
         }
 
         cartService.getCartByPnoAndUid(pno, id);
-        cartService.removeCart(pno, id);
+        cartService.deleteCart(pno, id);
         System.out.println("삭제 성공");
 
         // 찜 목록에서 해당 상품 삭제

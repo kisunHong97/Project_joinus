@@ -6,6 +6,9 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface StoreMapper {
     public void insertStore(StoreVO vo);
-    public int s_nameCheck(String storename);
+    public int s_nameCheck(String s_name);
     public int getMaxSno();
+    StoreVO getStoreBno(int bno);
+
+    void updateStore(StoreVO vo);
 }

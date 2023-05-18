@@ -67,16 +67,16 @@
     }
     .navbar-nav {
         list-style: none;
-        margin: 0;
+        margin:0;
         padding: 0;
         position: relative;
     }
     .navbar-nav li {
         display: inline-block;
-        margin-right: 10px;
+        margin-right: 5px;
         font-size: 15px;
         border-right: 1px solid #ccc;
-        padding-right: 10px;
+        padding-right: 5px;
         font-weight: bold;
     }
 
@@ -151,7 +151,7 @@
                         <a href="/mypage"  role="button" class="nav-link1"  style="top: 5px; height: 10px;" >마이페이지</a>
                     </li>
                     <li class="nav-item1">
-                        <a class="nav-link1" href="/service.jsp" style="top: 5px; height: 10px;">
+                        <a class="nav-link1" role="button" href="/community" style="top: 5px; height: 10px;">
                             커뮤니티
                         </a>
                     </li>
@@ -194,20 +194,19 @@
                         <ul class="navbar-nav">
                             <li class="nav-item">
                                 <a class="nav-link active" href="/product_board"
-                                >Home <span class="sr-only">(current)</span></a
-                                >
+                                >Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="../main/about.jsp">Food </a>
+                                <a class="nav-link" href="/Food">Food </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="service.jsp">Academy </a>
+                                <a class="nav-link" href="/Academy">Academy </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="contact.jsp">Physical Fitness</a>
+                                <a class="nav-link" href="/Physical_Fitness">Physical Fitness</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Traffic</a>
+                                <a class="nav-link" href="/Traffic">Traffic</a>
                             </li>
                         </ul>
                         <form

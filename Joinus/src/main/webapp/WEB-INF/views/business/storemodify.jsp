@@ -58,18 +58,6 @@
     margin-left: 240px;
 
   }
-  .btndelete{
-    width:130px;
-    height: 27px;
-    font-size:14px;
-    background-color: #8d8d8d;
-    color:#fff;
-    border:none;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-left: 1110px;
-    /*position: fixed;*/
-  }
   .size1{
     width:245px;
     height:35px;
@@ -84,6 +72,8 @@
     box-shadow: 0 0 5px 0 #38c7ff;
   }
 
+
+
 </style>
 </head>
 <body>
@@ -97,79 +87,67 @@
         <div class="alert alert-info alert-dismissable">
           <a class="panel-close close" data-dismiss="alert">×</a>
           <i class="fa fa-coffee"></i>
-          This is an <strong>.alert</strong>. 수정할꺼양?
+          아이디 수정은 <strong>불가능</strong>합니다.
         </div>
-        <h3>Personal info</h3>
+        <h3>Store info</h3>
         <%--        <div class="col-md-3">--%>
         <%--          <div class="text-center">--%>
         <%--            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="avatar img-circle img-thumbnail" alt="avatar">--%>
         <%--          </div>--%>
         <%--        </div>--%>
-        <form class="form-horizontal" role="form" method="post" action="/cinfomodify">
+        <form class="form-horizontal" role="form" method="post" action="/storeinfomodify">
+
           <div class="form-group">
-            <label class="col-lg-3 control-label">이름</label>
+            <label class="col-lg-3 control-label">스토어 이름</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" value="${customervo.u_name}" name="u_name">
+              <input class="form-control" type="text" value="${storeinformation.s_name}" id="s_name" name="s_name" >
+              <div><span id="id_feedback" style="font-size: 12px;"></span></div>
             </div>
           </div>
           <div class="form-group">
-            <label class="col-lg-3 control-label">아이디</label>
+            <label class="col-lg-3 control-label">스토어 소개글</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" value="${customervo.u_id}" name="u_id" readonly>
+              <input class="form-control" type="text" value="${storeinformation.s_inst}" name="s_inst" >
             </div>
           </div>
           <div class="form-group">
-            <label class="col-lg-3 control-label">비밀번호</label>
+            <label class="col-lg-3 control-label">스토어 이메일</label>
             <div class="col-lg-8">
-              <input class="form-control" type="password" value="${customervo.u_pwd}" name="u_pwd" id="u_pwd">
+              <input class="form-control" type="text" value="${storeinformation.s_email}" name="s_email">
             </div>
           </div>
           <div class="form-group">
-            <label class="col-lg-3 control-label">비밀번호 확인 *</label>
+            <label class="col-lg-3 control-label">스토어 URL</label>
             <div class="col-lg-8">
-              <input class="form-control" type="password" value="${customervo.u_pwd}" name="u_pwd1" id="u_pwd1">
-              <span id="result" style="font-size: 12px;"></span>
+              <input class="form-control" type="text" value="${storeinformation.s_URL}" name="s_URL">
             </div>
           </div>
           <div class="form-group">
-            <label class="col-lg-3 control-label">이메일</label>
+            <label class="col-lg-3 control-label">스토어 전화번호</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" value="${customervo.u_email}" name="u_email">
+              <input class="form-control" type="text" value="${storeinformation.s_phone}" name="s_phone" >
             </div>
           </div>
           <div class="form-group">
-            <label class="col-lg-3 control-label">휴대폰 번호</label>
+            <label class="col-lg-3 control-label">스토어 주소</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" value="${customervo.u_phone}" name="u_phone">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-lg-3 control-label">주소</label>
-            <div class="col-lg-8">
-              <input type="text" class="size1" value="${customervo.u_addrcode}" id="addr1" name="u_addrcode">
+              <input type="text" class="size1" value="${storeinformation.s_addrCode}" id="addr1" name="s_addrCode">
               <button type="button" class="btn1"  onclick="execPostCode();"><i class="fa fa-search"></i> 우편번호 찾기</button>
-              <input class="form-control" type="text" value="${customervo.u_addrStreet}" id="addr2" name="u_addrStreet">
-              <input class="form-control" type="text" value="${customervo.u_addrDetail}" id="addr3" name="u_addrDetail">
+              <input class="form-control" type="text" value="${storeinformation.s_addrStreet}" id="addr2" name="s_addrStreet">
+              <input class="form-control" type="text" value="${storeinformation.s_addrDetail}" id="addr3" name="s_addrDetail">
             </div>
           </div>
           <div class="button">
-            <p>
-              <input type="submit" value="수정" class="btn">
-            </p>
-          </div>
+          <p>
+            <input type="submit" value="수정" class="btn">
+          </p>
+        </div>
         </form>
       </div>
     </div>
   </div>
 </div>
 <hr>
-<div class="button">
-  <p>
-  <form action="/customerdelete" method="get">
-    <input type="submit" value="회원탈퇴" class="btndelete">
-  </form>
-  </p>
-</div>
 </form>
 </body>
 
@@ -177,32 +155,30 @@
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
-  /* 자바 스크립트 함수 선언(비밀번호 확인) */
-  $('#u_pwd1').keyup(function (){
 
-    var u_pwd1 = $('#u_pwd1').val();
-    var u_pwd = $('#u_pwd').val();
+  $('#s_name').keyup(function (){
+    let s_name = $('#s_name').val();
+    $.ajax({
+      url:"/s_nameCheck?s_name="+s_name,
+      type:'GET',
+      dataType: 'json',
+      success : function (result){
 
-    if (u_pwd==u_pwd1){
-      $("#result").html('비밀번호가 같습니다.');
-      $("#result").css('color','#2fb380');
-    }else {
-      $("#result").html('비밀번호가 같지 않습니다.');
-      $("#result").css('color','#dc3545');
-    }
+        if(result == 1){
+          $("#id_feedback").html('이미 사용중인 이름입니다.');
+          $("#id_feedback").css('color','#dc3545');
+        }else {
+          $("#id_feedback").html('사용할 수 있는 이름입니다.');
+          $("#id_feedback").css('color','#2fb380');
+        }
+      },
+      error:function (){
+        alert('서버요청실패');
+      }
+    })
   })
-  $('.btn').click(function () {
-    var u_pwd1 = $('#u_pwd1').val();
-    var u_pwd = $('#u_pwd').val();
-    if (u_pwd==u_pwd1){
-      pass;
-    }else {
-      alert('비밀번호가 같지 않습니다.');
-      return false;
+</script>
 
-    }
-
-  })
 
 </script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
