@@ -185,6 +185,7 @@
                         </div>
                         <div class="post-content">
                             <a href='/board/read?pno=${productList[status.index].pno}'>${productList[status.index].p_subtitle }</a>
+                        </div>
                     </li>
                     </c:forEach>
                 </ul>
