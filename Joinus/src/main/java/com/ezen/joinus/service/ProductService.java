@@ -28,7 +28,10 @@ public interface ProductService {
     void removeProduct(int pno);
 
     // 최대(최근에 만든) pno 가져오기
-    int getNextPno();
+    public int getNextPno();
+
+    public List<ProductVO> selectCategory(String  p_category);
+
 
     // 상품명 조회
     List<ProductVO> getProductName(String p_name);
