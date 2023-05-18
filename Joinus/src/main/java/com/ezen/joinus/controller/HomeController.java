@@ -17,7 +17,7 @@ import java.util.*;
 
 @Controller
 public class HomeController {
-;
+
     @Setter(onMethod_=@Autowired)
     private ProductService productService;
     @Setter(onMethod_=@Autowired)
@@ -31,13 +31,14 @@ public class HomeController {
 
     //페이징 처리
     @GetMapping("/product_board")
+
     public String boardList(PagingVO vo,Model model,HttpSession session
             , @RequestParam(value="nowPage", required=false)String nowPage
             , @RequestParam(value="cntPerPage", required=false)String cntPerPage) {
         System.out.println(vo);
         CustomerUserVO customerloginUser = (CustomerUserVO) session.getAttribute("customerUserVO");
+
         int total = productService.countBoard();
-//        System.out.println("@@@@@@@@@@@@@@@@"+total);
         if (nowPage == null && cntPerPage == null) {
             nowPage = "1";
             cntPerPage = "5";

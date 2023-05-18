@@ -49,7 +49,14 @@
     <select id="getNextPno" resultType="int">
         select products_seq.nextval from dual
     </select>
+
     <select id="selectCategory" resultType="com.ezen.joinus.vo.ProductVO">
         select * from products_table where p_category=#{p_category}
+
+  </select>
+    <select id="getProductName" parameterType="String" resultType="com.ezen.joinus.vo.ProductVO">
+        SELECT *
+        FROM products_table
+        WHERE p_name LIKE '%' || #{p_name} || '%'
     </select>
 </mapper>

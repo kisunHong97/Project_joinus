@@ -72,6 +72,7 @@
   <table border="1">
     <thead>
     <tr>
+      <th>카테고리</th>
       <th>상품번호</th>
       <th>상품내용</th>
       <th>수량</th>
@@ -84,6 +85,7 @@
 
     <c:forEach items="${cart}" var="cart">
       <tr>
+        <td>${cart.product.p_category}</td>
         <td>${cart.pno}</td>
         <td><a href='/board/read?pno=${cart.pno}'>${cart.product.p_content}</a></td>
         <td>${cart.quantity}</td>
@@ -155,7 +157,7 @@
     $("#totalPrice").text(totalPrice);
 
   }
-  
+
   // 상단바 장바구니 진입 시 삭제 기능
   const deleteItems = () => {
     if (!isLoggedIn()) {
