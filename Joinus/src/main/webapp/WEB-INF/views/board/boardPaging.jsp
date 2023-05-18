@@ -57,9 +57,9 @@
         <c:forEach items="${viewAll}" var="list">
             <tr>
                 <td>${list.pno }</td>
-<%--                <td><a href='detail?seq=${list.pno }'>${list.title }</a></td>--%>
+                    <%--                <td><a href='detail?seq=${list.pno }'>${list.title }</a></td>--%>
                 <td>${list.p_name }</td>
-<%--                <td><fmt:formatDate value="${list.regdate }" pattern="yyyy.MM.dd"/> </td>--%>
+                    <%--                <td><fmt:formatDate value="${list.regdate }" pattern="yyyy.MM.dd"/> </td>--%>
                 <td>${list.p_price }</td>
             </tr>
         </c:forEach>

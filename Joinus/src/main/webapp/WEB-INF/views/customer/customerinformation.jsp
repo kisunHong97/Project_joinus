@@ -108,7 +108,7 @@
           <div class="form-group">
             <label class="col-lg-3 control-label">주소</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" value="${customervo.u_addresscode} ${customervo.u_addressStreet} ${customervo.u_addressDetail}" readonly>
+              <input class="form-control" type="text" value="${customervo.u_addrcode} ${customervo.u_addrStreet} ${customervo.u_addrDetail}" readonly>
             </div>
           </div>
         </form>

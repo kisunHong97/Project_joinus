@@ -66,8 +66,8 @@
 <br>
 
 <div id="mypage-menu">
-    <div><a href="#" onclick="showContent(2)">이용권 관리</a></div>
-    <div><a href="#" onclick="showContent(3)">찜목록</a></div>
+    <div><a href="#" onclick="showContent(1)">이용권 관리</a></div>
+    <div><a href="#" onclick="showContent(2)">찜목록</a></div>
     <div><a href="/myinformation?u_id=${a.u_id}" role="button">개인정보 수정</a></div>
     <div><a href="/customerpoint?point=${a.buypoint}" role="button">포인트 충전</a></div>
     <div><a href="#">문의 내역</a></div>
@@ -127,11 +127,9 @@
                                     <%= daysDiff %>일
                                 </c:otherwise>
                             </c:choose>
-
                         </td>
                     </tr>
                 </c:forEach>
-
                 </tbody>
             </table>
         </div>
@@ -146,9 +144,6 @@
 <div class="content" id="content2" style="display: none;">
     <div>Content for Link 2</div>
 </div>
-<div class="content" id="content3" style="display: none;">
-    <div>Content for Link 3</div>
-</div>
 <br>
 </body>
 <%@ include file="../footer/footer.jsp"%>
@@ -159,9 +154,4 @@
         $('.content').hide();
         $('#content' + contentId).show();
     }
-    $(document).ready(function (e){
-        $("#delBtn1").click(function (e){
-            $.ajax()
-        })
-    })
 </script>

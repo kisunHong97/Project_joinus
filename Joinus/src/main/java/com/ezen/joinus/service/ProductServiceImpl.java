@@ -55,6 +55,8 @@ public class ProductServiceImpl implements ProductService{
 		return productMapper.getNextPno();
 	}
 
+	@Override
+	public List<ProductVO> getProductName(String p_name) { return productMapper.getProductName(p_name);	}
 
 
 }

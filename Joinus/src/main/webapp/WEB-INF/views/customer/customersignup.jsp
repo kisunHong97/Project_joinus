@@ -178,14 +178,14 @@
                 <label>
                     <p style="text-align: left; font-size:12px; color:#666">address </p>
                     <div class="form-group">
-                        <input class="size1"  placeholder="우편번호" name="u_addresscode" id="addr1" type="text" readonly="readonly" >
+                        <input class="size1"  placeholder="우편번호" name="u_addrcode" id="addr1" type="text" readonly="readonly" >
                         <button type="button" class="btn1"  onclick="execPostCode();"><i class="fa fa-search"></i> 우편번호 찾기</button>
                     </div>
                     <div class="form-group">
-                        <input class="size"  placeholder="도로명 주소" name="u_addressStreet" id="addr2" type="text" readonly="readonly" />
+                        <input class="size"  placeholder="도로명 주소" name="u_addrStreet" id="addr2" type="text" readonly="readonly" />
                     </div>
                     <div class="form-group">
-                        <input class="size" placeholder="상세주소" name="u_addressDetail" id="addr3" type="text"  />
+                        <input class="size" placeholder="상세주소" name="u_addrDetail" id="addr3" type="text"  />
                     </div>
                 </label>
                 <label>
