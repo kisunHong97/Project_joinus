@@ -151,7 +151,7 @@
         background-color: #ffccab; /* 다른 사람이 입력한 메시지의 배경색 */
     }
     .message-box1 {
-        background-color: #ffd468;
+        background-color: #ffccab;
         max-width: 100%; /* 메시지 박스의 최대 너비 */
         padding: 1px;
         border-radius: 10px;
@@ -185,7 +185,6 @@
                         </div>
                         <div class="post-content">
                             <a href='/board/read?pno=${productList[status.index].pno}'>${productList[status.index].p_subtitle }</a>
-                        </div>
                     </li>
                     </c:forEach>
                 </ul>
