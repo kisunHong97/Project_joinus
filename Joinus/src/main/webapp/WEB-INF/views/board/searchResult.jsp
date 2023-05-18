@@ -166,18 +166,6 @@
                 </div>
             </div>
         </table>
-        <aside style="position: absolute; top: 200px; right: 360px;">
-            <div style="flex-shrink: 0; width: 300px;">
-                <h1 class="hit">Let's Join Us!</h1>
-                <input type="hidden" id="id" value="JOINUS 익명">
-                <div>
-                    <div id="chatarea" style="width: 260px; height: 300px; overflow-y: auto; background-color: #f7f7f7; padding: 10px;"></div>
-                    <input type="text" id="message" style="width: 86%;" />
-                    <input type="button" id="send" value="보내기" style="width: 68%; padding: 5px;"/>
-                    <input type="button" id="exit" value="나가기" />
-                </div>
-            </div>
-        </aside>
     </div>
 </section>
     <div style="display: block; text-align: center;">

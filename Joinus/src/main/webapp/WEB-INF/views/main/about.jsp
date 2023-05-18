@@ -123,7 +123,7 @@
         border:none;
         cursor: pointer;
         border-radius: 5px;
-    }
+     }
     .moving-text {
         position: absolute;
         white-space: nowrap;
@@ -288,18 +288,16 @@
     }
 
     // ##### 연결 되었습니다!
-    function onOpen(){
-        if (${customerloginUser==null}){
-            websocket.send("<div class='message-box1'>로그인 후 이용해주세요.</div>");
+    function onOpen() {
+        if (${customerloginUser == null}) {
+            websocket.send("<div style='color: #ff731b; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: bold;'>로그인 후 이용해주세요.&nbsp&nbsp&nbsp&nbsp</div>");
             document.getElementById("message").disabled = true;
             document.getElementById("send").disabled = true;
             document.getElementById("exit").disabled = true;
-
-        }else {
+        } else {
             id = document.getElementById("id").value;
-            websocket.send("<div class='message-box1'>" + id + "님이 입장하셨습니다.</div>");
+            websocket.send("<div style='color: #ff731b; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: bold;'>" + id + "님이 입장하셨습니다.&nbsp</div>");
         }
-
     }
 
     // ##### 메세지 보내기 버튼 클릭!
