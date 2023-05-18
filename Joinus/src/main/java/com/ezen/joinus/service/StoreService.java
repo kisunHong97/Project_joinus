@@ -8,8 +8,12 @@ public interface StoreService {
     public void registerStore(StoreVO vo);
 
     // 중복 가게이름 체크
-    public int s_nameCheck(String storename);
+    public int s_nameCheck(String s_name);
 
     // 최대(방금 생성된) sno 가져오기
     public int getMaxSno();
+
+    public StoreVO getStoreBno(int bno);
+
+    public void updateStore(StoreVO vo);
 }

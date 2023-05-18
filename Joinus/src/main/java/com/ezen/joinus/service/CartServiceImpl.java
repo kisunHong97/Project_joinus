@@ -21,7 +21,7 @@ public class CartServiceImpl implements CartService{
     }
 
     @Override
-    public void removeCart(int pno, String u_id) {
+    public void deleteCart(int pno, String u_id) {
         System.out.println("여기는 삭제 서비스 : " + pno + " uid : " + u_id);
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("pno", pno);

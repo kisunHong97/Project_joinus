@@ -67,16 +67,16 @@
     }
     .navbar-nav {
         list-style: none;
-        margin: 0;
+        margin:0;
         padding: 0;
         position: relative;
     }
     .navbar-nav li {
         display: inline-block;
-        margin-right: 10px;
+        margin-right: 5px;
         font-size: 15px;
         border-right: 1px solid #ccc;
-        padding-right: 10px;
+        padding-right: 5px;
         font-weight: bold;
     }
 
@@ -112,13 +112,8 @@
     .navbar navbar-expand-lg custom_nav-container{
 
     }
-    /*.container{*/
-    /*    border-top: 1px solid #dcdcdc;*/
 
-    /*}*/
 </style>
-
-
     <!-- header section strats -->
     <header class="header_section" style="background-color:white;" id="header">
         <div class="container" >
@@ -151,7 +146,7 @@
                         <a href="/mypage"  role="button" class="nav-link1"  style="top: 5px; height: 10px;" >마이페이지</a>
                     </li>
                     <li class="nav-item1">
-                        <a class="nav-link1" href="/service.jsp" style="top: 5px; height: 10px;">
+                        <a class="nav-link1" role="button" href="/community" style="top: 5px; height: 10px;">
                             커뮤니티
                         </a>
                     </li>
@@ -194,8 +189,7 @@
                         <ul class="navbar-nav">
                             <li class="nav-item">
                                 <a class="nav-link active" href="/product_board"
-                                >Home <span class="sr-only">(current)</span></a
-                                >
+                                >Home</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="../main/about.jsp">Food </a>
@@ -210,13 +204,9 @@
                                 <a class="nav-link" href="#">Traffic</a>
                             </li>
                         </ul>
-                        <form
-                                class="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0"
-                        >
-                            <button
-                                    class="btn my-2 my-sm-0 nav_search-btn"
-                                    type="submit"
-                            ></button>
+                        <form class="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0" action="/search" method="GET">
+                            <input type="text" name="query" value="상품을 검색해보세요!" style="color: slategrey; font-size: 14px; padding: 6px; border-radius: 5px; border: 1px solid lightgray;" onfocus="if(this.value==='상품을 검색해보세요!') this.value='';">
+                            <button class="btn my-2 my-sm-0 nav_search-btn" type="submit"></button>
                         </form>
                     </div>
                 </div>

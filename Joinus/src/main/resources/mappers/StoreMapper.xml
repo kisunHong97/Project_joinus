@@ -3,16 +3,21 @@
 <mapper namespace="com.ezen.joinus.mappers.StoreMapper">
     <!-- 회원가입 시 ebd_users테이블에 가입정보를 insert -->
     <insert id="insertStore" parameterType="com.ezen.joinus.vo.StoreVO">
-        INSERT INTO store_table(sno,bno,storename,storeaddresscode,storeaddressStreet,storeaddressDetail,storeinst,storeURL,storeImages,storeNumber)
-        VALUES(store_seq.nextval,#{bno},#{storename},#{storeaddresscode},#{storeaddressStreet},#{storeaddressDetail},#{storeinst},#{storeurl},#{storeimages},#{storenumber})
-
+        INSERT INTO store_table(sno,bno,s_name,s_addrCode,s_addrStreet,s_addrDetail,s_inst,s_email,s_URL,s_phone)
+        VALUES(store_seq.nextval,#{bno},#{s_name},#{s_addrCode},#{s_addrStreet},#{s_addrDetail},#{s_inst},#{s_email},#{s_URL},#{s_phone})
     </insert>
 
     <select id="s_nameCheck" parameterType="String" resultType="int">
-        select count(*) from store_table where storename=#{storename}
+        select count(*) from store_table where s_name=#{s_name}
     </select>
 
     <select id="getMaxSno" resultType="int">
         select max(sno) from store_table
     </select>
+    <select id="getStoreBno"  resultType="com.ezen.joinus.vo.StoreVO">
+        select * from store_table where bno=#{bno, jdbcType=INTEGER}
+    </select>
+    <update id="updateStore" parameterType="com.ezen.joinus.vo.StoreVO">
+        update store_table set s_name=#{s_name},s_addrCode=#{s_addrCode},s_addrStreet=#{s_addrStreet},s_addrDetail=#{s_addrDetail},s_inst=#{s_inst},s_email=#{s_email},s_URL=#{s_URL},s_phone=#{s_phone} where bno=#{bno}
+    </update>
 </mapper>

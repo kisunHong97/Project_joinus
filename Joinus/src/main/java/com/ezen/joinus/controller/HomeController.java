@@ -6,11 +6,11 @@ import com.ezen.joinus.service.*;
 import com.ezen.joinus.vo.*;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpSession;
 import java.util.*;
@@ -31,10 +31,19 @@ public class HomeController {
 
     //페이징 처리
     @GetMapping("/product_board")
-    public String boardList(PagingVO vo, Model model
+    public String boardList(PagingVO vo, ChatMessage chat1 ,Model model
             , @RequestParam(value="nowPage", required=false)String nowPage
             , @RequestParam(value="cntPerPage", required=false)String cntPerPage) {
-
+        System.out.println(vo);
+//        System.out.println(chat1);
+//        RestTemplate restTemplate = new RestTemplate();
+//        String url = "http://localhost:5000/"; //flask 로 간다
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.APPLICATION_JSON);
+//        HttpEntity<ChatMessage> request = new HttpEntity<>(chat1, headers);
+//        //HttpEntity<ChatMessage> request = new HttpEntity<ChatMessage>(chat1, headers);
+//        String response = restTemplate.postForObject(url, request, String.class);
+//        System.out.println(response);
         int total = productService.countBoard();
 //        System.out.println("@@@@@@@@@@@@@@@@"+total);
         if (nowPage == null && cntPerPage == null) {
@@ -196,7 +205,7 @@ public class HomeController {
         }
 
         cartService.getCartByPnoAndUid(pno, id);
-        cartService.removeCart(pno, id);
+        cartService.deleteCart(pno, id);
         System.out.println("삭제 성공");
 
         // 찜 목록에서 해당 상품 삭제

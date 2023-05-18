@@ -40,7 +40,7 @@ public class BusinessServiceImpl implements BusinessService{
 
     @Override
     public void modifyBusiness(BusinessUserVO vo) {
-        BusinessMapper.upadteBusiness(vo);
+        BusinessMapper.updateBusiness(vo);
     }
 
     @Override

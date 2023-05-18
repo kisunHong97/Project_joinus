@@ -26,12 +26,22 @@ public class StoreServiceImpl implements StoreService{
     }
 
     @Override
-    public int s_nameCheck(String storename) {
-        return storeMapper.s_nameCheck(storename);
+    public int s_nameCheck(String s_name) {
+        return storeMapper.s_nameCheck(s_name);
     }
 
     @Override
     public int getMaxSno() {
         return storeMapper.getMaxSno();
+    }
+
+    @Override
+    public StoreVO getStoreBno(int bno) {
+        return storeMapper.getStoreBno(bno);
+    }
+
+    @Override
+    public void updateStore(StoreVO vo) {
+        storeMapper.updateStore(vo);
     }
 }

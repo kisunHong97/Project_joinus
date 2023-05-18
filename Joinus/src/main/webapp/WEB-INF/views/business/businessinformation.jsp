@@ -119,7 +119,7 @@
           <div class="form-group">
             <label class="col-lg-3 control-label">주소</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" value="${businessvo.b_addresscode} ${businessvo.b_addressStreet} ${businessvo.b_addressDetail}" readonly>
+              <input class="form-control" type="text" value="${businessvo.b_addrcode} ${businessvo.b_addrStreet} ${businessvo.b_addrDetail}" readonly>
             </div>
           </div>
         </form>
@@ -137,7 +137,7 @@
 </div>
 <div class="button">
   <p>
-  <form action="/customermodify">
+  <form action="/storeinformation">
     <input type="submit" value="스토어정보 수정" class="btn1">
   </form>
   </p>

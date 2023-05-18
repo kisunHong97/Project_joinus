@@ -17,7 +17,7 @@
     /*table {*/
     /*  width: 100%;*/
     /*}*/
-    #outter {
+    .outter {
       display: block;
       width: 60%;
       margin: auto;
@@ -43,7 +43,7 @@
     }
 
     .board-body li {
-      width: calc(33.33% - 20px);
+      width: calc(23.33% - 20px);
       margin-right: 20px;
       margin-bottom: 20px;
       border: 1px solid #ccc;
@@ -84,6 +84,14 @@
       font-family: "Poppins", sans-serif;
       color : peru;
     }
+    .hit{
+        margin-top: 0px;
+        margin-bottom: 10px;
+        font-size:40px;
+        font-weight: 900;
+        color:#333;
+        letter-spacing:-1px;
+    }
 
   </style>
   <script>
@@ -92,70 +100,163 @@
       location.href="product_board?nowPage=${paging.nowPage}&cntPerPage="+sel;
     }
   </script>
-
   <body class="sub_page about_page">
-    <!-- about section -->
-    <section class="about_section layout_padding">
-      <div id="outter">
-        <div style="float: right;">
-          <select id="cntPerPage" name="sel" onchange="selChange()">
-            <option value="5"
-                    <c:if test="${paging.cntPerPage == 5}">selected</c:if>>5줄 보기</option>
-            <option value="10"
-                    <c:if test="${paging.cntPerPage == 10}">selected</c:if>>10줄 보기</option>
-            <option value="15"
-                    <c:if test="${paging.cntPerPage == 15}">selected</c:if>>15줄 보기</option>
-            <option value="20"
-                    <c:if test="${paging.cntPerPage == 20}">selected</c:if>>20줄 보기</option>
-          </select>
-        </div>
-          <!-- 옵션선택 끝 -->
-        <table border="1">
-          <div class="board">
-            <div class="board-body">
-              <ul>
-                  <c:forEach var="product" items="${productList}" varStatus="status">
-                      <li>
-                          <div class="post-thumbnail">
-                            <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일">
-                          </div>
-                          <div class="post-content">
-                              <a href='/board/read?pno=${productList[status.index].pno}'>${productList[status.index].p_subtitle }</a>
-                          </div>
-                      </li>
-                  </c:forEach>
-              </ul>
+<br>
+    <section>
+        <div class="outter">
+            <div style="float: right;">
+                <select id="cntPerPage" name="sel" onchange="selChange()">
+                    <option value="5"
+                            <c:if test="${paging.cntPerPage == 5}">selected</c:if>>5줄 보기</option>
+                    <option value="10"
+                            <c:if test="${paging.cntPerPage == 10}">selected</c:if>>10줄 보기</option>
+                    <option value="15"
+                            <c:if test="${paging.cntPerPage == 15}">selected</c:if>>15줄 보기</option>
+                    <option value="20"
+                            <c:if test="${paging.cntPerPage == 20}">selected</c:if>>20줄 보기</option>
+                </select>
             </div>
-          </div>
-
-        </table>
-        <input type="button" value="글쓰기" style="float: right;" onclick="location.href='/write'"><br>
-
-        <div style="display: block; text-align: center;">
-          <c:if test="${paging.startPage != 1 }">
-            <a href="/product_board?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
-          </c:if>
-          <c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
-            <c:choose>
-              <c:when test="${p == paging.nowPage }">
-                <b>${p }</b>
-              </c:when>
-              <c:when test="${p != paging.nowPage }">
-                <a href="/product_board?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
-              </c:when>
-            </c:choose>
-          </c:forEach>
-          <c:if test="${paging.endPage != paging.lastPage}">
-            <a href="/product_board?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
-          </c:if>
+            <h1 class="hit">히트상품</h1>
+            <!-- 옵션선택 끝 -->
+            <table border="1">
+                <div class="board">
+                    <div class="board-body">
+                        <ul>
+                            <c:forEach var="product" items="${productList}" varStatus="status">
+                                <li>
+                                    <div class="post-thumbnail">
+                                        <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일">
+                                    </div>
+                                    <div class="post-content">
+                                        <a href='/board/read?pno=${productList[status.index].pno}'>${productList[status.index].p_subtitle }</a>
+                                    </div>
+                                </li>
+                            </c:forEach>
+                        </ul>
+                    </div>
+                </div>
+            </table>
+            <aside style="position: absolute; top: 200px; right: 360px;">
+                <div style="flex-shrink: 0; width: 300px;">
+                    <h1 class="hit">Let's Join Us!</h1>
+                    <input type="hidden" id="id" value="JOINUS 익명">
+                    <div>
+                        <div id="chatarea" style="width: 260px; height: 300px; overflow-y: auto; background-color: #f7f7f7; padding: 10px;"></div>
+                        <input type="text" id="message" style="width: 86%;" />
+                        <input type="button" id="send" value="보내기" style="width: 68%; padding: 5px;"/>
+                        <input type="button" id="exit" value="나가기" />
+                    </div>
+                </div>
+            </aside>
         </div>
-      </div>
     </section>
-
+        <div style="display: block; text-align: center;">
+            <c:if test="${paging.startPage != 1 }">
+                <a href="/product_board?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
+            </c:if>
+            <c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
+                <c:choose>
+                    <c:when test="${p == paging.nowPage }">
+                        <b>${p }</b>
+                    </c:when>
+                    <c:when test="${p != paging.nowPage }">
+                        <a href="/product_board?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
+                    </c:when>
+                </c:choose>
+            </c:forEach>
+            <c:if test="${paging.endPage != paging.lastPage}">
+                <a href="/product_board?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
+            </c:if>
+        </div>
+    <section>
+        <div class="outter" style="flex-grow: 1;">
+            <h1 class="hit">맞춤 추천</h1>
+            <!-- 옵션선택 끝 -->
+            <table border="1">
+                <div class="board">
+                    <div class="board-body">
+                        <ul>
+                            <c:forEach var="product" items="${productList}" varStatus="status">
+                                <li>
+                                    <div class="post-thumbnail">
+                                        <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일">
+                                    </div>
+                                    <div class="post-content">
+                                        <a href='/board/read?pno=${productList[status.index].pno}'>${productList[status.index].p_subtitle }</a>
+                                    </div>
+                                </li>
+                            </c:forEach>
+                        </ul>
+                    </div>
+                </div>
+            </table>
+        </div>
+    </section>
     <%@ include file="../footer/footer.jsp"%>
   </body>
 </html>
+
+<!-- 생략된 코드 -->
+<script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>
+
+<script type="text/javascript">
+    // ##### 입장~~~!!
+    let websocket;
+    connect();
+    function connect(){
+        console.log("통신");
+// 		websocket = new WebSocket("ws://본인 아이 피주소/www/chat-ws");
+        websocket = new WebSocket("ws://localhost:8080/chat-ws");
+        //웹 소켓에 이벤트가 발생했을 때 호출될 함수 등록
+        websocket.onopen = onOpen;
+        websocket.onmessage = onMessage;
+    }
+
+    // ##### 연결 되었습니다!
+    function onOpen(){
+        id = document.getElementById("id").value;
+        websocket.send(id + "님 입장하셨습니다.");
+    }
+
+    // ##### 메세지 보내기 버튼 클릭!
+    document.getElementById("send").addEventListener("click", function() {
+        send();
+    });
+
+    function send(){
+        if (websocket.readyState === WebSocket.OPEN) {
+            id = document.getElementById("id").value;
+            msg = document.getElementById("message").value;
+            websocket.send(id + ":" + msg);
+            document.getElementById("message").value = "";
+        }
+    }
+
+    function onMessage(evt){
+        data= evt.data;
+        chatarea = document.getElementById("chatarea");
+        chatarea.innerHTML = chatarea.innerHTML + "<br/>" + data
+    }
+
+    // ##### 연결을 해제합니다!
+    document.getElementById("exit").addEventListener("click", function() {
+        disconnect();
+    });
+
+    function disconnect(){
+        id = document.getElementById("id").value;
+        websocket.send(id + "님이 퇴장하셨습니다.");
+        document.getElementById("message").disabled = true;
+        document.getElementById("send").disabled = true;
+        document.getElementById("exit").disabled = true;
+
+        //websocket.close();
+    }
+
+</script>
 <script>
+
     function openNav() {
         document.getElementById("myNav").classList.toggle("menu_width");
         document

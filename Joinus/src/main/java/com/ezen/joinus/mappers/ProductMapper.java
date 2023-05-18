@@ -14,4 +14,5 @@ public interface ProductMapper {
     void updateProduct(ProductVO vo);
     void deleteProduct(int pno);
     int getNextPno();
+    List<ProductVO> getProductName(String p_name);
 }
