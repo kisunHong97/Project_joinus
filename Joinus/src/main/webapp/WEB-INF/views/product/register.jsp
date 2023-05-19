@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
   <head>
     <!-- Basic -->
@@ -29,6 +30,7 @@ pageEncoding="UTF-8"%>
     }
   </style>
   <body>
+    <input type="hidden" name="sno" id="sno" value="${sno}">
     <div class="main" style="margin: 0 auto">
       <h1 class="logo" style="color: #ff731b;">상품 등록</h1>
       <form action="register" method="post">
@@ -442,6 +444,7 @@ pageEncoding="UTF-8"%>
         alert("상세정보 입력안함")
       }
 
+      productData['product']['sno'] = $("#sno").val();
       productData['product']['p_name'] = $("#p_name").val();
       productData['product']['p_inst'] = $("#p_inst").val();
       productData['product']['p_category'] = $("#p_category").val();
@@ -469,7 +472,8 @@ pageEncoding="UTF-8"%>
         data: JSON.stringify(productData),
         contentType: "application/json; charset=utf8",
         success: function (result) {
-          alert("저장 성공")
+          alert("등록 완료");
+          location.href="/product_board"
         }
       });
 

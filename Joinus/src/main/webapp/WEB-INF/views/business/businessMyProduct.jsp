@@ -94,19 +94,19 @@
 <br>
 <section>
     <div class="outter">
-        <h1 class="hit">Food</h1>
+        <h1 class="hit">상품 관리</h1>
         <!-- 옵션선택 끝 -->
         <table border="1">
             <div class="board">
                 <div class="board-body">
                     <ul>
-                        <c:forEach var="food" items="${Foodlist}" varStatus="status">
+                        <c:forEach var="myProduct" items="${myProductList}" varStatus="status">
                             <li>
                                 <div class="post-thumbnail">
                                     <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일">
                                 </div>
                                 <div class="post-content">
-                                    <a href="/board/read?pno=${Foodlist[status.index].pno}">${Foodlist[status.index].p_inst }</a>
+                                    <a href="/modify/${myProductList[status.index].pno}">${myProductList[status.index].p_inst }</a>
                                 </div>
                             </li>
                         </c:forEach>
@@ -119,7 +119,7 @@
 </section>
 <div style="display: block; text-align: center;">
     <c:if test="${paging.startPage != 1 }">
-        <a href="/Food?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
+        <a href="/showMyProduct?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
     </c:if>
     <c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
         <c:choose>
@@ -127,12 +127,12 @@
                 <b>${p }</b>
             </c:when>
             <c:when test="${p != paging.nowPage }">
-                <a href="/Food?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
+                <a href="/showMyProduct?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
             </c:when>
         </c:choose>
     </c:forEach>
     <c:if test="${paging.endPage != paging.lastPage}">
-        <a href="/Food?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
+        <a href="/showMyProduct?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
     </c:if>
 </div>
 <%@ include file="../footer/footer.jsp"%>

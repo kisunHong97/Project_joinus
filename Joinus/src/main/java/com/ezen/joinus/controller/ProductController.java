@@ -3,6 +3,7 @@ package com.ezen.joinus.controller;
 import com.ezen.joinus.dto.AttachFileDTO;
 import com.ezen.joinus.service.FileService;
 import com.ezen.joinus.service.ProductService;
+import com.ezen.joinus.service.StoreService;
 import com.ezen.joinus.vo.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Setter;
@@ -35,6 +36,9 @@ import java.util.Map;
 public class ProductController {
 
     @Setter(onMethod_=@Autowired)
+    private StoreService storeService;
+
+    @Setter(onMethod_=@Autowired)
     private ProductService productService;
 
     @Setter(onMethod_=@Autowired)
@@ -44,14 +48,16 @@ public class ProductController {
     // 흐름 : 시퀀스 넘버에서 다음 pno만 미리 가져와서 사용한 다음
     //      등록할 때는 가져온 pno를 직접 넣어서 DB에 데이터 삽입
     @GetMapping("/register")
-    public String register(HttpSession session) {
+    public String register(HttpSession session, Model model) {
         BusinessUserVO businessUser = (BusinessUserVO) session.getAttribute("BusinessUserVO");
+        StoreVO store = storeService.getStore(businessUser.getBno());
+        model.addAttribute("sno", store.getSno());
         return "product/register";
     }
 
 
     @PostMapping(value = "/register", consumes = "application/json", produces = {MediaType.TEXT_PLAIN_VALUE})
-    public String registerPost(@RequestBody Map<String, Object> productData) throws UnsupportedEncodingException {
+    public ResponseEntity<String> registerPost(@RequestBody Map<String, Object> productData) throws UnsupportedEncodingException {
         // {"thumbnail" : [썸네일주소, ...]}을 가져와서 key값으로 불러오기
         List<String> thumbnails = (List<String>)productData.get("thumbnail");
         String detail = (String) productData.get("detail");
@@ -59,10 +65,6 @@ public class ProductController {
         // {"product":{"p_name":이름, "p_inst":소개글...}을 가져와서 key값이 ProductVO의 변수와 맞는 이름에 값 넣기
         ObjectMapper objectMapper = new ObjectMapper();
         ProductVO product = objectMapper.convertValue(productData.get("product"), ProductVO.class);
-
-        // sno를 못받았기 때문에 임의의 값 지정
-        int imageSno = 1;
-        product.setSno(imageSno);
 
         // products_table에 데이터 삽입
         System.out.println("PRODUCT>>" + product);
@@ -84,7 +86,7 @@ public class ProductController {
         }
 
         // ajax의 success함수에 전송, 다른 주소로 갈라면 jquey에서 local.herf="주소" 같은걸로 이동해야한다.
-        return "success";
+        return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
     // 썸네일 파일 다운로드
@@ -127,7 +129,7 @@ public class ProductController {
 
 
     @PostMapping(value = "/modifyPost", consumes = "application/json", produces = {MediaType.TEXT_PLAIN_VALUE})
-    public String modifyPost(@RequestBody Map<String, Object> productData) throws UnsupportedEncodingException {
+    public ResponseEntity<String> modifyPost(@RequestBody Map<String, Object> productData) throws UnsupportedEncodingException {
         // 2. 디테일 삭제를 하면 2번 발동된다.
 
         // {"thumbnail" : [썸네일주소, ...]}을 가져와서 key값으로 불러오기
@@ -159,7 +161,7 @@ public class ProductController {
             fileService.registerProductImage(attach);
         }
 
-        return "success";
+        return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
 

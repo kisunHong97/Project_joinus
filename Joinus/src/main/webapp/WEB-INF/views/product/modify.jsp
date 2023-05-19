@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
   <head>
     <!-- Basic -->
@@ -23,7 +24,7 @@ pageEncoding="UTF-8"%>
     />
 
     <!-- bootstrap core css -->
-    <link rel="stylesheet" type="text/css" href="resources/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="../resources/css/bootstrap.css" />
 
     <!-- fonts style -->
     <link
@@ -31,10 +32,10 @@ pageEncoding="UTF-8"%>
       rel="stylesheet"
     />
     <!-- Custom styles for this template -->
-    <link href="resources/css/style.css" rel="stylesheet" />
+    <link href="../resources/css/style.css" rel="stylesheet" />
     <!-- responsive style -->
-    <link href="resources/css/responsive.css" rel="stylesheet" />
-    <link href="resources/css/productRegister.css" rel="stylesheet" />
+    <link href="../resources/css/responsive.css" rel="stylesheet" />
+    <link href="../resources/css/productRegister.css" rel="stylesheet" />
   </head>
   <%@ include file="../header/header.jsp"%>
   <body>
@@ -451,6 +452,7 @@ pageEncoding="UTF-8"%>
         contentType: "application/json; charset=utf8",
         success: function (result) {
           alert("저장 성공")
+          location.href="/showMyProduct"
         }
       });
 

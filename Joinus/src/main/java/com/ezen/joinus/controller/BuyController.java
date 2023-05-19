@@ -130,10 +130,6 @@ public class BuyController {
         System.out.println("plist : " + productVOList);
         model.addAttribute("productVOList", productVOList);
 
-//            productVO = productService.getProductContents(pno1);
-//            System.out.println(productVO);
-//            model.addAttribute("productVO", productVO);
-
         // 사용자 정보 가져오기
         String u_id = (String) session.getAttribute("id");
         System.out.println("장바구니 > 구매 페이지 로그인 된 사용자 아이디 불러오나?:"+u_id);

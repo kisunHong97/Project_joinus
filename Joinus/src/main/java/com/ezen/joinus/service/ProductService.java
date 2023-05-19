@@ -35,4 +35,9 @@ public interface ProductService {
 
     // 상품명 조회
     List<ProductVO> getProductName(String p_name);
+
+
+    // business에 있는 sno로 접근하여 ProductVO 가져오기
+    public List<ProductVO> selectProductListBySno(int sno);
+
 }

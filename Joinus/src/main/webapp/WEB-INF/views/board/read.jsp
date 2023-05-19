@@ -83,7 +83,7 @@
           <div class="col-md-6">
               <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                   <div class="carousel-inner">
-                      <c:forEach items="${thumbnails}" var="thumbnail" varStatus="status">
+                      <c:forEach items="${productVO.thumbnailList}" var="thumbnail" varStatus="status">
                           <c:if test="${status.index < 1}">
                               <div class="carousel-item active">
                                   <img src="/display?fileName=${thumbnail.uploadPath}/${thumbnail.uuid}_${thumbnail.fileName}" class="d-block w-100" width="50%" alt="...">
@@ -106,12 +106,8 @@
                   </a>
               </div>
           </div>
-
-
-
       <div class="col-md-6">
-        <h4>${productVO.p_subtitle }</h4>
-        <p>${productVO.p_content}</p>
+        <h4>${productVO.p_inst }</h4>
         <form>
           <div class="form-group">
             <label for="colorSelect">종류</label>
@@ -120,13 +116,24 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="sizeSelect">개월</label>
-            <input type="text" class="form-control" id="sizeSelect" value="${productVO.p_period}">
+            <label for="startDate">기간</label>
+              <br>
+              <c:if test="${productVO.p_type == 'fixed'}">
+                  <input type="text" class="form-control" id="startDate" style="display: inline-block; width: 110px;" data-type="fixed" value="<fmt:formatDate value='${productVO.p_startDate}' pattern='yyyy-MM-dd' />">
+                  <b style="display: inline-block; font-size: 25px; margin-right: 15px;">&nbsp&nbsp~</b>
+                  <input type="text" class="form-control" id="endDate" style="display: inline-block; width: 110px;" data-type="fixed" value="<fmt:formatDate value='${productVO.p_endDate}' pattern='yyyy-MM-dd' />">
+
+              </c:if>
+              <c:if test="${productVO.p_type == 'free'}">
+                  <input type="date" id="startDate" max="2099-12-31" data-type="free" class="period-startDate" style="width: 120px; margin-right: 15px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+                  <b style="display: inline-block; font-size: 25px; margin-right: 15px;">~</b>
+                  <input type="date" id="endDate" max="2099-12-31" data-type="free" class="period-endDate" style="width: 120px; margin-right: 15px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+              </c:if>
           </div>
-          <div class="form-group">
-            <label for="quantityInput">수량</label>
-            <input type="number" class="form-control" id="quantityInput" value="1" onchange="updateTotalPrice()">
-          </div>
+<%--          <div class="form-group">--%>
+<%--            <label for="quantityInput">수량</label>--%>
+<%--            <input type="number" class="form-control" id="quantityInput" value="1" onchange="updateTotalPrice()">--%>
+<%--          </div>--%>
           <div class="form-group">
             <label for="totalPrice">총 가격</label>
             <input type="number" class="form-control" id="totalPrice" value="${productVO.p_price}" readonly>
@@ -165,6 +172,7 @@
     <div id="product_info" class="tabcontent">
       <h3>상품 상세 정보</h3>
       <p>상품의 상세 정보</p>
+        <img src="/display?fileName=${productVO.detail.uploadPath}/${productVO.detail.uuid}_${productVO.detail.fileName}">
     </div>
 
     <div id="reviews" class="tabcontent">
@@ -179,7 +187,7 @@
 
     <div id="refund" class="tabcontent">
       <h3>환불</h3>
-      <p>환불 규정 </p>
+      <p>환불 규정  </p>
     </div>
   </div>
   </tbody>
@@ -210,13 +218,23 @@
   }
 </script>
 <script>
-  // 총금액 카운트
-  function updateTotalPrice() {
-    const quantity = document.getElementById("quantityInput").value;
-    const price = ${productVO.p_price};
-    const totalPrice = quantity * price;
-    document.getElementById("totalPrice").value = totalPrice;
-  }
+    $(document).ready(function(e) {
+        $('#endDate').on("change", function() {
+            var startDate = new Date($("#startDate").val());
+            var endDate = new Date($(this).val());
+            var day = (endDate - startDate) / (1000 * 60 * 60 * 24); // 일 단위로 계산
+            var totalPrice = (day+1) * ${productVO.p_price};
+            console.log(totalPrice)
+            $("#totalPrice").val(totalPrice);
+        });
+    });
+    <%--// 총금액 카운트--%>
+    <%--function updateTotalPrice() {--%>
+    <%--    const quantity = document.getElementById("quantityInput").value;--%>
+    <%--    const price = ${productVO.p_price};--%>
+    <%--    const totalPrice = quantity * price;--%>
+    <%--    document.getElementById("totalPrice").value = totalPrice;--%>
+    <%--}--%>
 </script>
 <script>
     // 로그인 여부 확인 함수
@@ -306,6 +324,10 @@
       // console.log("data_like : " + data_like)
       var f3 = $('#cartBtn').data('c');
       var f4 = $('#cartBtn').data('d');
+      var f5 = $('#totalPrice').val();
+      var f6 = $("#startDate").val();
+      var f7 = $("#endDate").val();
+      console.log(f5,f6,f7)
       var flag = false
       if(data_cart == "🛒"){
         deleteCart();
@@ -315,7 +337,7 @@
           console.log('여기는 삭제');
         }
       } else {
-        addCart(f3, f4);
+        addCart(f3, f4, f5, f6, f7);
         if (${customerUserVO != null || customerUserVO.u_id != null}){
           flag = !flag
           $('#cartBtn').text("🛒");
@@ -324,24 +346,47 @@
       }
     });
   });
-  function addCart(pno, u_id) {
+  function addCart(pno, u_id, c_price, c_startDate, c_endDate) {
     // 로그인 여부 확인
     if (!isLoggedIn()) {
       alert("로그인 후 이용해주세요.");
       return;
     }
 
-    // 수량 가져오기
-    const quantity = document.getElementById("quantityInput").value;
+    var start = "";
+    var end = "";
 
+      $("#startDate").each(function(idx, input) {
+          if ($(input).data("type") === "free" || $(input).data("type") === "fixed") {
+              var date = c_startDate.split("-");
+              start = date[0] + "년 " + date[1] + "월 " + date[2] + "일";
+          } else {
+              start = c_startDate;
+          }
+      });
+
+      $("#endDate").each(function(idx, input) {
+          if ($(input).data("type") === "free" || $(input).data("type") === "fixed") {
+              var date = c_endDate.split("-");
+              end = date[0] + "년 " + date[1] + "월 " + date[2] + "일";
+          } else {
+              end = c_endDate;
+          }
+      });
+
+
+      var cartData = {
+          'pno': pno,
+          'u_id': u_id,
+          'c_price': c_price,
+          'c_startDate': start,
+          'c_endDate': end,
+      }
     $.ajax({
       type: 'POST',
       url: "/cart/add",
-      data: {
-        pno,
-        u_id,
-        quantity // 수량 추가
-      },
+        data: JSON.stringify(cartData),
+        contentType: "application/json; charset=utf8",
       success: function(data) {
         alert("장바구니에 추가되었습니다.");
       },
@@ -381,7 +426,8 @@
         return;
       }
       var pno = ${productVO.pno}; // 구매 페이지 URL에 필요한 상품 번호(pno)를 설정합니다.
-      window.location.href = "/board/buy?pno=" + pno; // 구매 페이지로 이동합니다.
+      var c_price = $('#totalPrice').val();
+      window.location.href = "/board/buy?pno=" + pno + "&c_price=" + c_price; // 구매 페이지로 이동합니다.
     });
   });
 </script>

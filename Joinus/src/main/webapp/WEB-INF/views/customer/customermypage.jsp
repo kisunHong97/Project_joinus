@@ -142,7 +142,7 @@
 </c:choose>
 
 <div class="content" id="content2" style="display: none;">
-    <div>Content for Link 2</div>
+    ${}
 </div>
 <br>
 </body>
