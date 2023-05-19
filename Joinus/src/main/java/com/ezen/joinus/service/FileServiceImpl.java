@@ -19,6 +19,11 @@ public class FileServiceImpl implements FileService{
     }
 
     @Override
+    public void removeProductImage(int pno) {
+        fileMapper.deleteProductImage(pno);
+    }
+
+    @Override
     public AttachFileDTO selectMainThumbnail(int pno) {
         System.out.println("Service PNO : " + pno);
         return fileMapper.selectMainThumbnail(pno);
@@ -29,9 +34,8 @@ public class FileServiceImpl implements FileService{
         // return selectThumbnaulList(pno); 앞에 Mapper를 안쓰니깐 무한 재귀호출을 하네
         return fileMapper.selectThumbnailList(pno);
     }
-
     @Override
-    public void registerStoreImage(AttachFileDTO attach) {
-        fileMapper.insertStoreImage(attach);
+    public AttachFileDTO selectDetail(int pno) {
+        return fileMapper.selectDetail(pno);
     }
 }
