@@ -125,15 +125,15 @@ create table products_purchase_table (
                                          u_id varchar2(200),
                                          pno number,
                                          p_name varchar2(200),
-                                         p_period number,
                                          p_price number,
                                          memo varchar2(200),
-                                         currentDate varchar2(200),
-                                         futureDate varchar2(200),
+                                         startDate varchar2(200),
+                                         endDate varchar2(200),
                                          foreign key (pno) references products_table(pno) ON DELETE CASCADE,
                                          foreign key (u_id) references customers_table(u_id) ON DELETE CASCADE,
                                          foreign key (sno) references store_table(sno) ON DELETE CASCADE
 );
+drop table products_purchase_table;
 commit;
 ----- 더미 데이터 -----
 insert into customers_table values (customers_seq.nextval, 'user1', '1234', 'name1', 'user1@naver.com',
@@ -148,20 +148,24 @@ insert into business_table values (business_seq.nextval, 'business2', 'bs2', '12
                                    '수원시 영통구3', 'B');
 insert into business_table values (business_seq.nextval, 'business3', 'bs3', '1234', 'bs3@naver.com','010-2222-1111', '수원시 영통구1', '수원시 영통구2',
                                    '수원시 영통구3', 'B');
+insert into business_table values (business_seq.nextval, 'business4', 'bs4', '1234', 'bs2@naver.com','010-2222-1111', '수원시 영통구1', '수원시 영통구2',
+                                   '수원시 영통구3', 'B');
+insert into business_table values (business_seq.nextval, 'business5', 'bs5', '1234', 'bs3@naver.com','010-2222-1111', '수원시 영통구1', '수원시 영통구2',
+                                   '수원시 영통구3', 'B');
 --
 --
 --
 
 insert into store_table values (store_seq.nextval, 1, 'astore1', '수원시 영통구','수원시 영통구','수원시 영통구','요가학원','store@naver.com', 'www.naver.com',
-                                 '010-2020-2020');
+                                '010-2020-2020');
 insert into store_table values (store_seq.nextval, 2, 'astore2', '수원시 영통구','서울시 영통구','수원시 영통구','요가학원','store@naver.com', 'www.naver.com',
-                                 '010-2020-2020');
+                                '010-2020-2020');
 insert into store_table values (store_seq.nextval, 3, 'astore3', '수원시 영통구','수원시 영통구','수원시 영통구','요가학원','store@naver.com', 'www.naver.com',
-                                 '010-2020-2020');
-insert into store_table values (store_seq.nextval, 3, 'astore4', '수원시 영통구','대구시 영통구','수원시 영통구','요가학원','store@naver.com', 'www.naver.com',
-                                 '010-2020-2020');
-insert into store_table values (store_seq.nextval, 3, 'astore5', '수원시 영통구','서울시 영통구','수원시 영통구','요가학원','store@naver.com', 'www.naver.com',
-                                 '010-2020-2020');                                 
+                                '010-2020-2020');
+insert into store_table values (store_seq.nextval, 4, 'astore4', '수원시 영통구','대구시 영통구','수원시 영통구','요가학원','store@naver.com', 'www.naver.com',
+                                '010-2020-2020');
+insert into store_table values (store_seq.nextval, 5, 'astore5', '수원시 영통구','서울시 영통구','수원시 영통구','요가학원','store@naver.com', 'www.naver.com',
+                                '010-2020-2020');
 --
 --
 --
@@ -172,6 +176,8 @@ insert into products_table values (2, products_seq.nextval, 'product4', 'is Prod
 insert into products_table values (3, products_seq.nextval, 'product5', 'is Product5', 'physical fitness', 'free', sysdate, sysdate, 1000);
 insert into products_table values (3, products_seq.nextval, 'product6', 'is Product6', 'food', 'free', sysdate, sysdate, 2000);
 insert into products_table values (3, products_seq.nextval, 'product7', 'is Product7', 'food', 'free', sysdate, sysdate, 1000);
+insert into products_table values (4, products_seq.nextval, 'product8', 'is Product8', 'food', 'free', sysdate, sysdate, 1000);
+insert into products_table values (4, products_seq.nextval, 'product9', 'is Product9', 'food', 'free', sysdate, sysdate, 1000);
 
 insert into file_product_table values (file_seq.nextval, 1, 'thumbnail1.png', 'thumbnail', 'aaa', 'T');
 insert into file_product_table values (file_seq.nextval, 2, 'thumbnail2.png', 'thumbnail', 'bbb', 'T');
