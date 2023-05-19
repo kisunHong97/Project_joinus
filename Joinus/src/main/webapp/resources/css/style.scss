@@ -154,17 +154,17 @@ body {
 }
 
 .custom_nav2 {
-    padding: 0 45px;
-
-    .custom_nav-container {
-        padding: 5px 0;
-        background-color: $primary;
-        clip-path: polygon(0 0, 100% 0%, 95% 100%, 5% 100%);
-    }
+    //padding: 0 45px;
+    //
+    //.custom_nav-container {
+    //    padding: 5px 0;
+    //    background-color: $primary;
+    //    //clip-path: polygon(0 0, 100% 0%, 95% 100%, 5% 100%);
+    //}
 
     .navbar-expand-lg .navbar-nav .nav-item {
         .nav-link {
-            padding: 10px 30px;
+            padding: 0px 30px;
             color: #070101;
             text-align: center;
             position: relative;

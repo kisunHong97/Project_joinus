@@ -18,5 +18,8 @@ public interface ProductMapper {
 
     List<ProductVO> getProductName(String p_name);
 
+    List<ProductVO> getProductSno(int sno);
+
     List<ProductVO> selectProductListBySno(int sno);
+
 }
