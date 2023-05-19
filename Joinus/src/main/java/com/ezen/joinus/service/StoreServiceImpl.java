@@ -7,6 +7,8 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class StoreServiceImpl implements StoreService{
 
@@ -44,4 +46,10 @@ public class StoreServiceImpl implements StoreService{
     public void updateStore(StoreVO vo) {
         storeMapper.updateStore(vo);
     }
+
+    @Override
+    public List<StoreVO> selectlocation(String location) {
+        return storeMapper.selectlocation(location);
+    }
+
 }

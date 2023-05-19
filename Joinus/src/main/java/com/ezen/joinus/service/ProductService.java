@@ -35,4 +35,8 @@ public interface ProductService {
 
     // 상품명 조회
     List<ProductVO> getProductName(String p_name);
+
+    List<ProductVO> getProductSno(int sno);
+
+//    List<ProductVO> selectlocation(String location);
 }

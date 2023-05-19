@@ -62,6 +62,15 @@ public class ProductServiceImpl implements ProductService{
 
 	public List<ProductVO> getProductName(String p_name) { return productMapper.getProductName(p_name);	}
 
+	@Override
+	public List<ProductVO> getProductSno(int sno) {
+		return productMapper.getProductSno(sno);
+	}
+//
+//	@Override
+//	public List<ProductVO> selectlocation(String location) {
+//		return productMapper.selectlocation(location);
+//	}
 
 
 }

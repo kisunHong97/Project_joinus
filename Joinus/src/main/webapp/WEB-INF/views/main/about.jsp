@@ -143,8 +143,32 @@
         padding: 10px;
         margin-bottom: 10px;
         border-radius: 10px;
-    }
 
+    }
+    /*.message-box {*/
+    /*    text-align: left;*/
+    /*    align-self: flex-start; !* 내가 입력한 메시지는 왼쪽에 정렬 *!*/
+    /*    background-color: #ffae4d; !* 내가 입력한 메시지의 배경색 *!*/
+    /*    padding: 10px;*/
+    /*    margin-bottom: 10px;*/
+    /*    border-radius: 10px;*/
+    /*    position:relative;*/
+    /*    margin: 50px;*/
+    /*    width:200px;*/
+    /*    height:50px;*/
+    /*    !*background:#ffae4d;*!*/
+    /*    border-radius: 10px;*/
+    /*}*/
+    /*.message-box:after {*/
+    /*    border-top:15px solid #ffae4d;*/
+    /*    border-left: 15px solid transparent;*/
+    /*    border-right: 0px solid transparent;*/
+    /*    border-bottom: 0px solid transparent;*/
+    /*    content:"";*/
+    /*    position:absolute;*/
+    /*    top:10px;*/
+    /*    left:-15px;*/
+    /*}*/
     .message-box.other {
         text-align: right;
         align-self: flex-end; /* 다른 사람이 입력한 메시지는 오른쪽에 정렬 */
@@ -157,7 +181,19 @@
         border-radius: 10px;
         text-align: center; /* 가운데 정렬 */
     }
-
+    .allcategory li {
+        text-align: center;
+        background-color: black;
+        color: white;
+        padding: 5px;
+        margin-left: 327px;
+        width: 160px;
+        height: 40px;
+    }
+    .allcategory li:hover {
+        background-color: white;
+        color: black;
+    }
 </style>
 <script>
     function selChange() {
@@ -167,6 +203,7 @@
 </script>
 <body class="sub_page about_page">
 <br>
+<div class="balloon_03"></div>
 <section>
     <div class="outter ">
         <h1 class="hit">히트상품</h1>
@@ -340,8 +377,9 @@
     });
 
     function disconnect(){
+
         id = document.getElementById("id").value;
-        websocket.send(id + "님이 퇴장하셨습니다.");
+        websocket.send("<div class='message-box1'>" + id + "님이 퇴장하셨습니다.</div>");
         document.getElementById("message").disabled = true;
         document.getElementById("send").disabled = true;
         document.getElementById("exit").disabled = true;
