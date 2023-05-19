@@ -59,4 +59,8 @@
         FROM products_table
         WHERE p_name LIKE '%' || #{p_name} || '%'
     </select>
+
+    <select id="selectProductListBySno" parameterType="int" resultType="com.ezen.joinus.vo.ProductVO">
+        select * from products_table where sno = #{sno}
+    </select>
 </mapper>

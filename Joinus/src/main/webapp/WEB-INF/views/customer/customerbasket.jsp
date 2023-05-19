@@ -73,24 +73,20 @@
     <thead>
     <tr>
       <th>카테고리</th>
-      <th>상품번호</th>
-      <th>상품내용</th>
-      <th>수량</th>
+      <th>상품명</th>
+      <th>기간</th>
       <th>금액</th>
       <th>선택</th>
     </tr>
     </thead>
     <tbody>
-
-
     <c:forEach items="${cart}" var="cart">
       <tr>
         <td>${cart.product.p_category}</td>
-        <td>${cart.pno}</td>
-        <td><a href='/board/read?pno=${cart.pno}'>${cart.product.p_content}</a></td>
-        <td>${cart.quantity}</td>
+        <td><a href='/board/read?pno=${cart.pno}'>${cart.product.p_inst}</a></td>
+        <td>${cart.c_startDate} ~ ${cart.c_endDate}</td>
         <td>
-          <span class="total" data-price=${cart.product.p_price * cart.quantity}>${cart.product.p_price * cart.quantity}</span>
+          <span class="total" data-price=${cart.c_price}>${cart.c_price}원</span>
         </td>
         <td>
           <input type="checkbox" class="selectedItems" name="selectedItems" value="${cart.pno}">

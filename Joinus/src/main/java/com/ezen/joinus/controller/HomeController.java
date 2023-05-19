@@ -4,6 +4,7 @@ package com.ezen.joinus.controller;
 import com.ezen.joinus.dto.AttachFileDTO;
 import com.ezen.joinus.service.*;
 import com.ezen.joinus.vo.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 @Controller
@@ -70,8 +72,10 @@ public class HomeController {
 
     @RequestMapping(value = "/board/read", method = RequestMethod.GET)
     public String read(@ModelAttribute("ProductVO") ProductVO productVO, Model model, @RequestParam("pno") int pno, HttpSession session){
-        // 상품 정보 가져오기
+        // 상품 정보 가져오기(썸네일, 상세정보 포함)
         productVO = productService.getProductContents(pno);
+        productVO.setThumbnailList(fileService.selectThumbnailList(productVO.getPno()));
+        productVO.setDetail(fileService.selectDetail(productVO.getPno()));
         System.out.println(productVO);
         model.addAttribute("productVO", productVO);
 
@@ -82,9 +86,7 @@ public class HomeController {
         System.out.println(customerUserVO);
         model.addAttribute("customerUserVO", customerUserVO);
 
-        // 상품의 썸네일 데이터 모두 가져오기
-        List<AttachFileDTO> thumbnails = fileService.selectThumbnailList(productVO.getPno());
-        model.addAttribute("thumbnails", thumbnails);
+
 
         try{
             WishlistVO wishlist = wishlistService.getWishlistByPnoAndUid(pno, u_id);
@@ -159,12 +161,20 @@ public class HomeController {
     }
 
     // 해당 상품을 장바구니에 추가하는 기능
-    @PostMapping("/cart/add")
-    public ResponseEntity<String> addCart(CartVO vo, HttpSession session, @RequestParam int quantity) {
-        String id = (String) session.getAttribute("id");
-        System.out.println("장바구니 컨트롤러에 아이디 불러오나?:" + vo);
+    @PostMapping(value = "/cart/add", consumes = "application/json", produces = {MediaType.TEXT_PLAIN_VALUE})
+    public ResponseEntity<String> addCart(@RequestBody Map<String, Object> cartData,HttpSession session) throws UnsupportedEncodingException {
+        System.out.println("/CARD/ADD >>>>");
+        System.out.println(">> " + cartData);
 
-        // 로그인한 사용자 정보가 없는 경우
+        ObjectMapper objectMapper = new ObjectMapper();
+        CartVO cart = objectMapper.convertValue(cartData, CartVO.class);
+
+        System.out.println("CART : " + cart);
+
+        String id = (String) session.getAttribute("id");
+//        System.out.println("장바구니 컨트롤러에 아이디 불러오나?:" + vo);
+
+//         로그인한 사용자 정보가 없는 경우
         if (id == null) {
             return ResponseEntity.badRequest().body("로그인 후 이용해주세요.");
         }
@@ -176,16 +186,9 @@ public class HomeController {
             return ResponseEntity.badRequest().body("사용자만 이용 가능합니다.");
         }
 
-        CartVO cartVO = new CartVO();
-        cartVO.setPno(vo.getPno());
-        cartVO.setU_id(id);
-        cartVO.setW_date(new Date());
-        cartVO.setQuantity(quantity); // 수량 설정
+        cartService.addCart(cart);
 
-        System.out.println("cartVO:" + cartVO);
-        cartService.addCart(cartVO);
-
-        return new ResponseEntity("찜 목록에 추가되었습니다.", HttpStatus.OK);
+        return new ResponseEntity("장바구니에 추가되었습니다.", HttpStatus.OK);
     }
 
     // 해당 상품을 장바구니에서 삭제하는 기능

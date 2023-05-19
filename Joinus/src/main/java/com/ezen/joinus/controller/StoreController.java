@@ -53,14 +53,14 @@ public class StoreController {
     public String storeinformation(HttpSession session, Model model){
         BusinessUserVO businessUser = (BusinessUserVO) session.getAttribute("BusinessUserVO");
         System.out.println("스토어 정보 수정에 들어온 현재 사업자"+ businessUser);
-        model.addAttribute("storeinformation",storeService.getStoreBno(businessUser.getBno()));
+        model.addAttribute("storeinformation",storeService.getStore(businessUser.getBno()));
         return "business/storeinformation";
     }
     @GetMapping("/storemodify")
     public String storemodify(HttpSession session, Model model){
         BusinessUserVO businessUser = (BusinessUserVO) session.getAttribute("BusinessUserVO");
         System.out.println("스토어 정보 수정2에 들어온 현재 사업자"+ businessUser);
-        model.addAttribute("storeinformation",storeService.getStoreBno(businessUser.getBno()));
+        model.addAttribute("storeinformation",storeService.getStore(businessUser.getBno()));
         return "business/storemodify";
     }
     @PostMapping("/storeinfomodify")
