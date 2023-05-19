@@ -51,8 +51,8 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public int getNextPno() {
-		return productMapper.getNextPno();
+	public int getMaxPno() {
+		return productMapper.getMaxPno();
 	}
 
 	@Override

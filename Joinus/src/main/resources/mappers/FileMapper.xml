@@ -7,6 +7,10 @@
         values(file_seq.nextval, #{pno}, #{fileName}, #{uploadPath}, #{uuid}, #{image})
     </insert>
 
+    <delete id="deleteProductImage" parameterType="int">
+        delete from file_product_table where pno = #{pno}
+    </delete>
+
     <!--  맨 앞 이미지 파일 불러오기(썸네일)  -->
     <select id="selectMainThumbnail" parameterType="int" resultType="com.ezen.joinus.dto.AttachFileDTO">
         select * from file_product_table where pno = #{pno} and image = 'T' and rownum = 1
@@ -17,8 +21,8 @@
         select * from file_product_table where pno = #{pno} and image = 'T'
     </select>
 
-    <insert id="insertStoreImage" parameterType="com.ezen.joinus.dto.AttachFileDTO">
-        insert into file_store_table(fno, sno, fileName, uploadPath, uuid, image)
-        values(file_store_seq.nextval, #{sno}, #{fileName}, #{uploadPath}, #{uuid}, #{image})
-    </insert>
+    <!-- 이미지 파일 가져오기(상세정보) -->
+    <select id="selectDetail" parameterType="int" resultType="com.ezen.joinus.dto.AttachFileDTO">
+        select * from file_product_table where pno = #{pno} and image = 'I'
+    </select>
 </mapper>
