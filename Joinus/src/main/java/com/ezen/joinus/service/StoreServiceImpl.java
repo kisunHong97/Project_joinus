@@ -38,8 +38,8 @@ public class StoreServiceImpl implements StoreService{
     }
 
     @Override
-    public StoreVO getStoreBno(int bno) {
-        return storeMapper.getStoreBno(bno);
+    public StoreVO getStore(int bno) {
+        return storeMapper.getStore(bno);
     }
 
     @Override

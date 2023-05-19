@@ -1,6 +1,10 @@
 package com.ezen.joinus.vo;
 
+import com.ezen.joinus.dto.AttachFileDTO;
 import lombok.*;
+
+import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -8,20 +12,16 @@ import lombok.*;
 @Getter
 @Setter
 public class ProductVO {
-    private int sno;
     private int pno;
+    private int sno;
     private String p_name;
-    private String p_subtitle;
-    private String p_content;
-    private int p_price;
-    private String p_image;
-    private int p_period;
+    private String p_inst;
     private String p_category;
+    private String p_type;
+    private Date p_startDate;
+    private Date p_endDate;
+    private int p_price;
+    private List<AttachFileDTO> thumbnailList;
+    private AttachFileDTO detail;
 
-
-//    private List<AttachFileDTO> listAttach;
-
-//    찜 목록 테이블 생성 후 주석 해제
-//    private int wish_count;
-//    private String wish_product;
 }

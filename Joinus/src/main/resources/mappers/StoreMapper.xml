@@ -14,7 +14,7 @@
     <select id="getMaxSno" resultType="int">
         select max(sno) from store_table
     </select>
-    <select id="getStoreBno"  resultType="com.ezen.joinus.vo.StoreVO">
+    <select id="getStore"  resultType="com.ezen.joinus.vo.StoreVO">
         select * from store_table where bno=#{bno, jdbcType=INTEGER}
     </select>
     <update id="updateStore" parameterType="com.ezen.joinus.vo.StoreVO">

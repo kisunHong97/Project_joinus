@@ -51,8 +51,8 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public int getNextPno() {
-		return productMapper.getNextPno();
+	public int getMaxPno() {
+		return productMapper.getMaxPno();
 	}
 
 	@Override
@@ -66,11 +66,10 @@ public class ProductServiceImpl implements ProductService{
 	public List<ProductVO> getProductSno(int sno) {
 		return productMapper.getProductSno(sno);
 	}
-//
-//	@Override
-//	public List<ProductVO> selectlocation(String location) {
-//		return productMapper.selectlocation(location);
-//	}
 
+
+	public List<ProductVO> selectProductListBySno(int sno) {
+		return productMapper.selectProductListBySno(sno);
+	}
 
 }

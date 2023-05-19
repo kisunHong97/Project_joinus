@@ -8,7 +8,8 @@ import java.util.List;
 @Mapper
 public interface FileMapper {
     public void insertProductImage(AttachFileDTO attach);
+    public void deleteProductImage(int pno);
     public AttachFileDTO selectMainThumbnail(int pno);
     public List<AttachFileDTO> selectThumbnailList(int pno);
-    public void insertStoreImage(AttachFileDTO attach);
+    public AttachFileDTO selectDetail(int pno);
 }

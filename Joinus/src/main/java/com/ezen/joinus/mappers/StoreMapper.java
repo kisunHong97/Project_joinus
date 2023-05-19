@@ -11,7 +11,9 @@ public interface StoreMapper {
     public void insertStore(StoreVO vo);
     public int s_nameCheck(String s_name);
     public int getMaxSno();
+
     StoreVO getStoreBno(int bno);
+    StoreVO getStore(int bno);
     void updateStore(StoreVO vo);
 
     List<StoreVO> selectlocation(String location);

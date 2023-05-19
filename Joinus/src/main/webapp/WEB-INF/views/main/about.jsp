@@ -123,7 +123,7 @@
         border:none;
         cursor: pointer;
         border-radius: 5px;
-    }
+     }
     .moving-text {
         position: absolute;
         white-space: nowrap;
@@ -132,7 +132,7 @@
         animation: moveText 5s linear infinite;
     }
 
-    @keyframes moveText {
+   @keyframes moveText {
         0% { left: 20px; }
         100% { left: calc(100% - 200px); }
     }
@@ -143,43 +143,16 @@
         padding: 10px;
         margin-bottom: 10px;
         border-radius: 10px;
-
+        color: #ff731b; /* 글씨 색상 */
+        font-family: Helvetica, Arial, sans-serif; /* 폰트 */
+        font-size: 14px; /* 폰트 크기 */
+        font-weight: bold; /* 글씨 굵기 */
     }
-    /*.message-box {*/
-    /*    text-align: left;*/
-    /*    align-self: flex-start; !* 내가 입력한 메시지는 왼쪽에 정렬 *!*/
-    /*    background-color: #ffae4d; !* 내가 입력한 메시지의 배경색 *!*/
-    /*    padding: 10px;*/
-    /*    margin-bottom: 10px;*/
-    /*    border-radius: 10px;*/
-    /*    position:relative;*/
-    /*    margin: 50px;*/
-    /*    width:200px;*/
-    /*    height:50px;*/
-    /*    !*background:#ffae4d;*!*/
-    /*    border-radius: 10px;*/
-    /*}*/
-    /*.message-box:after {*/
-    /*    border-top:15px solid #ffae4d;*/
-    /*    border-left: 15px solid transparent;*/
-    /*    border-right: 0px solid transparent;*/
-    /*    border-bottom: 0px solid transparent;*/
-    /*    content:"";*/
-    /*    position:absolute;*/
-    /*    top:10px;*/
-    /*    left:-15px;*/
-    /*}*/
+
     .message-box.other {
         text-align: right;
         align-self: flex-end; /* 다른 사람이 입력한 메시지는 오른쪽에 정렬 */
         background-color: #ffccab; /* 다른 사람이 입력한 메시지의 배경색 */
-    }
-    .message-box1 {
-        background-color: #ffccab;
-        max-width: 100%; /* 메시지 박스의 최대 너비 */
-        padding: 1px;
-        border-radius: 10px;
-        text-align: center; /* 가운데 정렬 */
     }
     .allcategory li {
         text-align: center;
@@ -221,7 +194,7 @@
                             <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일">
                         </div>
                         <div class="post-content">
-                            <a href='/board/read?pno=${productList[status.index].pno}'>${productList[status.index].p_subtitle }</a>
+                            <a href='/board/read?pno=${productList[status.index].pno}'>${productList[status.index].p_inst }</a>
                         </div>
                     </li>
                     </c:forEach>
@@ -232,10 +205,10 @@
         <aside style="position: absolute; top: 200px; right: 360px;">
             <div style="flex-shrink: 0; width: 300px;">
                 <h1 class="hit">Let's Join Us!</h1>
-                <input type="hidden" id="id" value="${customerloginUser.u_name}"/>
+                <input type="hidden" id="id" value="${customerloginUser.u_name}">
                 <div class="moving-text">건전한 채팅 부탁드립니다</div>
                 <div>
-                    <div id="chatarea" class="chatarea" style="width: 260px; height: 300px; overflow-y: auto; background-color: white; padding: 10px; "></div>
+                    <div id="chatarea" class="chatarea" style="width: 260px; height: 300px; overflow-y: auto; background-color: white; padding: 10px; "><br></div>
                     <input type="text" class="message" id="message" style="width: 86%; height: 35px" />
                     <input type="button" id="send" class="account2" value="보내기" style="width: 65%; padding: 5px;"/>
                     <input type="button" id="exit" class="exit" value="나가기" />
@@ -278,7 +251,7 @@
                                     <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일">
                                 </div>
                                 <div class="post-content">
-                                    <a href='/board/read?pno=${productList[status.index].pno}'>${productList[status.index].p_subtitle }</a>
+                                    <a href='/board/read?pno=${productList[status.index].pno}'>${productList[status.index].p_inst }</a>
                                 </div>
                             </li>
                         </c:forEach>
@@ -325,18 +298,16 @@
     }
 
     // ##### 연결 되었습니다!
-    function onOpen(){
-        if (${customerloginUser==null}){
-            websocket.send("<div class='message-box1'>로그인 후 이용해주세요.</div>");
+    function onOpen() {
+        if (${customerloginUser == null}) {
+            websocket.send("<div style='color: #ff731b; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: bold;'>로그인 후 이용해주세요.&nbsp&nbsp&nbsp&nbsp</div>");
             document.getElementById("message").disabled = true;
             document.getElementById("send").disabled = true;
             document.getElementById("exit").disabled = true;
-
-        }else {
+        } else {
             id = document.getElementById("id").value;
-            websocket.send("<div class='message-box1'>" + id + "님이 입장하셨습니다.</div>");
+            websocket.send("<div style='color: #ff731b; font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: bold;'>" + id + "님이 입장하셨습니다.&nbsp&nbsp&nbsp&nbsp</div>");
         }
-
     }
 
     // ##### 메세지 보내기 버튼 클릭!

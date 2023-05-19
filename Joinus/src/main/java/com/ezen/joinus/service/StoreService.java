@@ -15,7 +15,7 @@ public interface StoreService {
     // 최대(방금 생성된) sno 가져오기
     public int getMaxSno();
 
-    public StoreVO getStoreBno(int bno);
+    public StoreVO getStore(int bno);
 
     public void updateStore(StoreVO vo);
 

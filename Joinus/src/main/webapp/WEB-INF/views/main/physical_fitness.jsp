@@ -127,7 +127,7 @@
                                     <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일">
                                 </div>
                                 <div class="post-content">
-                                    <a href="/board/read?pno=${physical_fitnesslist[status.index].pno}">${physical_fitnesslist[status.index].p_subtitle }</a>
+                                    <a href="/board/read?pno=${physical_fitnesslist[status.index].pno}">${physical_fitnesslist[status.index].p_inst }</a>
                                 </div>
                             </li>
                         </c:forEach>
