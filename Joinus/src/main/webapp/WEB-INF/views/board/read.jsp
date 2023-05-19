@@ -452,17 +452,34 @@
   }
 </script>
 <script>
-  $(document).ready(function() {
-    $("#buyBtn").click(function() {
-      if (!isLoggedIn()) {
-        alert("로그인 후 이용해주세요.");
-        return;
-      }
-      var pno = ${productVO.pno}; // 구매 페이지 URL에 필요한 상품 번호(pno)를 설정합니다.
-      var c_price = $('#totalPrice').val();
-      window.location.href = "/board/buy?pno=" + pno + "&c_price=" + c_price; // 구매 페이지로 이동합니다.
+    $(document).ready(function() {
+        $("#buyBtn").click(function() {
+            if (!isLoggedIn()) {
+                alert("로그인 후 이용해주세요.");
+                return;
+            }
+            var pno = ${productVO.pno};
+            var p_price = $('#totalPrice').val();
+            var startDate = $("#startDate").val(); // 선택된 시작 날짜
+            var endDate = $("#endDate").val(); // 선택된 종료 날짜
+            var url = "/board/buy?pno=" + pno + "&startDate=" + startDate + "&endDate=" + endDate + "&p_price=" + p_price; // 구매 페이지 URL에 선택된 날짜와 가격을 추가합니다.
+            window.location.href = url;
+        });
     });
-  });
+
+
+    <%--$(document).ready(function() {--%>
+  <%--  $("#buyBtn").click(function() {--%>
+  <%--    if (!isLoggedIn()) {--%>
+  <%--      alert("로그인 후 이용해주세요.");--%>
+  <%--      return;--%>
+  <%--    }--%>
+  <%--    var pno = ${productVO.pno}; // 구매 페이지 URL에 필요한 상품 번호(pno)를 설정합니다.--%>
+  <%--    var c_price = $('#totalPrice').val();--%>
+  <%--    window.location.href = "/board/buy?pno=" + pno ; // 구매 페이지로 이동합니다.--%>
+  <%--  });--%>
+  <%--});--%>
+  // + "&c_price=" + c_price
 </script>
 </body>
 <%@ include file="../footer/footer.jsp"%>

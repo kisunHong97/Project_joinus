@@ -73,11 +73,10 @@ public class BuyController {
         purchaseVO.setPno(vo.getPno());
         purchaseVO.setU_id(customerUserVO.getU_id());
         purchaseVO.setP_name(vo.getP_name());
-        purchaseVO.setP_period(vo.getP_period());
-        purchaseVO.setMemo(vo.getMemo());
         purchaseVO.setP_price(vo.getP_price());
-        purchaseVO.setCurrentDate(vo.getCurrentDate());
-        purchaseVO.setFutureDate(vo.getFutureDate());
+        purchaseVO.setMemo(vo.getMemo());
+        purchaseVO.setStartDate(vo.getStartDate());
+        purchaseVO.setEndDate(vo.getEndDate());
         System.out.println("purchaseVO:" + purchaseVO);
         purchaseService.productPurchase(purchaseVO);
         purchaseService.updateUserPoint(id, vo.getP_price());
