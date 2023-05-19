@@ -2,6 +2,8 @@ package com.ezen.joinus.service;
 
 import com.ezen.joinus.vo.StoreVO;
 
+import java.util.List;
+
 public interface StoreService {
 
     // 가게 테이블에 가게 정보를 삽입
@@ -16,4 +18,9 @@ public interface StoreService {
     public StoreVO getStore(int bno);
 
     public void updateStore(StoreVO vo);
+
+    List<StoreVO> selectlocation(String location);
+
+
+
 }

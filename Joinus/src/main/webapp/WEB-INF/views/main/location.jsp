@@ -95,39 +95,40 @@
 <section>
     <div class="outter">
         <div style="display: flex; align-items: center; justify-content: space-between;">
-            <h1 class="hit" style="font-size: 50px; margin-right: auto;">Academy</h1>
-        <form method="post" action="/location">
-            <input type="hidden" name="name" value="academy"/>
-            <input type="hidden" name="name1" value="Academy"/>
-            <select name="location" style="margin-left: auto;">
-                <option value="" disabled selected>지역 선택</option>
-                <option value="서울">서울</option>
-                <option value="수원">수원</option>
-                <option value="안양">안양</option>
-                <option value="인천">인천</option>
-                <option value="부산">부산</option>
-                <option value="대구">대구</option>
-                <option value="대전">대전</option>
-                <option value="광주">광주</option>
-                <option value="울산">울산</option>
-                <option value="용인">용인</option>
-                <option value="전주">전주</option>
-            </select>
-            <button type="submit" value="검색">검색</button>
-        </form>
+            <h1 class="hit" style="font-size: 50px; margin-right: auto;">${name1}</h1>
+            <form method="post" action="/location">
+                <input type="hidden" name="name" value="${name}"/>
+                <input type="hidden" name="name1" value="${name1}"/>
+                <select name="location" style="margin-left: auto;">
+                    <option value="" disabled selected>지역 선택</option>
+                    <option value="서울">서울</option>
+                    <option value="수원">수원</option>
+                    <option value="안양">안양</option>
+                    <option value="인천">인천</option>
+                    <option value="부산">부산</option>
+                    <option value="대구">대구</option>
+                    <option value="대전">대전</option>
+                    <option value="광주">광주</option>
+                    <option value="울산">울산</option>
+                    <option value="용인">용인</option>
+                    <option value="전주">전주</option>
+                </select>
+                <button type="submit" value="검색">검색</button>
+            </form>
         </div>
+        <br>
         <!-- 옵션선택 끝 -->
         <table border="1">
             <div class="board">
                 <div class="board-body">
                     <ul>
-                        <c:forEach var="academy" items="${Academylist}" varStatus="status">
+                        <c:forEach var="filterl" items="${filteredList}" varStatus="status">
                             <li>
                                 <div class="post-thumbnail">
                                     <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일">
                                 </div>
                                 <div class="post-content">
-                                    <a href="/board/read?pno=${Academylist[status.index].pno}">${Academylist[status.index].p_inst }</a>
+                                    <a href="/board/read?pno=${filteredList[status.index].pno}">${filteredList[status.index].p_subtitle }</a>
                                 </div>
                             </li>
                         </c:forEach>
@@ -140,7 +141,7 @@
 </section>
 <div style="display: block; text-align: center;">
     <c:if test="${paging.startPage != 1 }">
-        <a href="/Academy?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
+        <a href="/location?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
     </c:if>
     <c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
         <c:choose>
@@ -148,12 +149,12 @@
                 <b>${p }</b>
             </c:when>
             <c:when test="${p != paging.nowPage }">
-                <a href="/Academy?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
+                <a href="/location?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
             </c:when>
         </c:choose>
     </c:forEach>
     <c:if test="${paging.endPage != paging.lastPage}">
-        <a href="/Academy?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
+        <a href="/location?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
     </c:if>
 </div>
 <%@ include file="../footer/footer.jsp"%>

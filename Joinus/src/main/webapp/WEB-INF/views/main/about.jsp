@@ -132,7 +132,7 @@
         animation: moveText 5s linear infinite;
     }
 
-    @keyframes moveText {
+   @keyframes moveText {
         0% { left: 20px; }
         100% { left: calc(100% - 200px); }
     }
@@ -149,20 +149,24 @@
         font-weight: bold; /* 글씨 굵기 */
     }
 
-
     .message-box.other {
         text-align: right;
         align-self: flex-end; /* 다른 사람이 입력한 메시지는 오른쪽에 정렬 */
         background-color: #ffccab; /* 다른 사람이 입력한 메시지의 배경색 */
     }
-    .message-box1 {
-        background-color: #ffd468;
-        max-width: 100%; /* 메시지 박스의 최대 너비 */
-        padding: 1px;
-        border-radius: 10px;
-        text-align: center; /* 가운데 정렬 */
+    .allcategory li {
+        text-align: center;
+        background-color: black;
+        color: white;
+        padding: 5px;
+        margin-left: 327px;
+        width: 160px;
+        height: 40px;
     }
-
+    .allcategory li:hover {
+        background-color: white;
+        color: black;
+    }
 </style>
 <script>
     function selChange() {
@@ -172,6 +176,7 @@
 </script>
 <body class="sub_page about_page">
 <br>
+<div class="balloon_03"></div>
 <section>
     <div class="outter ">
         <h1 class="hit">히트상품</h1>
@@ -343,8 +348,9 @@
     });
 
     function disconnect(){
+
         id = document.getElementById("id").value;
-        websocket.send(id + "님이 퇴장하셨습니다.");
+        websocket.send("<div class='message-box1'>" + id + "님이 퇴장하셨습니다.</div>");
         document.getElementById("message").disabled = true;
         document.getElementById("send").disabled = true;
         document.getElementById("exit").disabled = true;
