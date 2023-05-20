@@ -88,7 +88,6 @@
                 </thead>
                 <tbody>
                 <c:set var="today" value="<%= new java.util.Date() %>" />
-
                 <c:forEach items="${buyInfo}" var="buy">
                     <%!
                         int daysDiff; // 변수를 스크립트릿 태그 안에서 선언
@@ -96,35 +95,35 @@
                     <tr>
                         <td>${buy.u_id}</td>
                         <td><a href='/board/read?pno=${buy.pno}'>${buy.p_name}</a></td>
-                        <td>${buy.currentDate} ~ ${buy.futureDate}</td>
+                        <td>${buy.startDate} ~ ${buy.endDate}</td>
                         <td>
-                            <fmt:parseDate value="${buy.currentDate}" var="startDate" pattern="yyyy년 MM월 dd일"/>
-                            <fmt:parseDate value="${buy.futureDate}" var="endDate" pattern="yyyy년 MM월 dd일"/>
-                                <%-- 남은 일 수 계산 --%>
+                            <fmt:parseDate value="${buy.startDate}" var="startDate" pattern="yyyy년 MM월 dd일"/>
+                            <fmt:parseDate value="${buy.endDate}" var="endDate" pattern="yyyy년 MM월 dd일"/>
                             <%
-                                Calendar todayCal = Calendar.getInstance();
-                                todayCal.setTime((java.util.Date)pageContext.getAttribute("today"));
-                                Calendar endCal = Calendar.getInstance();
-                                endCal.setTime((java.util.Date)pageContext.getAttribute("endDate"));
-                                long diffMillis = endCal.getTimeInMillis() - todayCal.getTimeInMillis();
-                                System.out.println(diffMillis+"@@@");
+                                // startDate와 endDate 값을 가져옴
+                                java.util.Date startDate = (java.util.Date) pageContext.getAttribute("startDate");
+                                java.util.Date endDate = (java.util.Date) pageContext.getAttribute("endDate");
+
+                                // 현재 날짜를 가져옴
+                                java.util.Date currentDate = new java.util.Date();
+
+                                // 남은 일수 계산
+                                long diffMillis = endDate.getTime() - startDate.getTime();
                                 int daysDiff = (int) (diffMillis / (24 * 60 * 60 * 1000));
 
-//                                if (todayCal.get(Calendar.DAY_OF_YEAR) != endCal.get(Calendar.DAY_OF_YEAR)) {
-//                                    daysDiff--; // 오늘은 제외하고 계산되도록 일수를 하나 줄임
-//                                }
-//                                if(daysDiff+1 <= 0){
-//                                    out.println("기간 만료");
-//                                }else{
-//                                    out.println((daysDiff+1)+"일");
-//                                }
+                                // 현재 날짜와 endDate 사이의 일수 계산
+                                long currentDiffMillis = endDate.getTime() - currentDate.getTime();
+                                int currentDaysDiff = (int) (currentDiffMillis / (24 * 60 * 60 * 1000));
+
+                                // 결과 출력
+//                                out.println("남은 일수: " + (currentDaysDiff + 1) + "일");
                             %>
                             <c:choose>
-                                <c:when test="<%= daysDiff+1 <= 0 %>">
+                                <c:when test="<%= currentDaysDiff+1 <= 0 %>">
                                     기간만료 <button type="button" id="delBtn1">삭제</button>
                                 </c:when>
                                 <c:otherwise>
-                                    <%= daysDiff %>일
+                                    <%= currentDaysDiff+2 %>일
                                 </c:otherwise>
                             </c:choose>
                         </td>
@@ -141,9 +140,29 @@
     </c:otherwise>
 </c:choose>
 
+<c:choose>
+<c:when test="${not empty buyInfo}">
 <div class="content" id="content2" style="display: none;">
-    ${}
-</div>
+                <table border="1">
+                    <thead>
+                    <tr>
+                        <th>카테고리</th>
+                        <th>상품명</th>
+                        <th>가격</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </c:when>
+        <c:otherwise>
+            <div class="content" id="content1">
+                <div>구매상품이 없습니다.</div>
+            </div>
+        </c:otherwise>
+    </c:choose>
 <br>
 </body>
 <%@ include file="../footer/footer.jsp"%>

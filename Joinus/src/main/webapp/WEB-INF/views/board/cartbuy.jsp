@@ -76,19 +76,19 @@
 <body>
 <div class="container">
     <h1>상품 구매 페이지</h1>
-    <c:forEach items="${productVOList}" var="productVO">
-    <div class="product-info">
-        <p>상품 설명 : ${productVO.p_inst}</p>
-        <p>이용 기간:  </p>
-        <p>가격: ${productVO.p_price}메소</p>
-        <p>보유 포인트 : ${customerUserVO.buypoint}메소</p>
-    </div>
-    <div class="customer-info">
-        <label for="name">요청사항 : </label>
-        <input type="text" id="name" name="memo" placeholder="전달할 요청사항을 입력하세요" style="width: 500px;">
-        <hr>
-    </div>
-        </c:forEach>
+    <c:forEach items="${combinedList}" var="combinedItem" varStatus="loop">
+        <div class="product-info">
+            <p>상품 설명 : ${combinedItem.productVO.p_inst}</p>
+            <p>이용 기간: ${combinedItem.cartVO.c_startDate} ~ ${combinedItem.cartVO.c_endDate} </p>
+            <p>가격: ${combinedItem.productVO.p_price}메소</p>
+            <p>보유 포인트 : ${customerUserVO.buypoint}메소</p>
+        </div>
+        <div class="customer-info">
+            <label for="name${loop.index}">요청사항 : </label>
+            <input type="text" id="name${loop.index}" name="memo" placeholder="전달할 요청사항을 입력하세요" style="width: 500px;">
+            <hr>
+        </div>
+    </c:forEach>
 
         <c:set var="total" value = "0" />
         <c:forEach items="${productVOList}" var="productVO">
@@ -106,7 +106,7 @@
             <c:otherwise>
             <label for="name">보유 메소가 부족합니다</label>
             </div>
-            <button class="buy-button">구매</button>
+            <button class="buy-button" type="submit">구매</button>
             </c:otherwise>
         </c:choose>
     </div>
@@ -117,37 +117,47 @@
         $(".buy-button").click(function (){
             if(${customerUserVO.buypoint <= 0}) {
                 alert("\n보유 메소가 부족합니다.\n충전 후 이용해 주세요.")
-            }else if (confirm("\n결제 후 3시간 이내 취소 요청 시 환불 처리되며, 3시간 이후에는 환불되지 않습니다.\n\n정말로 구매하시겠습니까?")) {
-                let memo = $("#name").val();
+            } else if (confirm("\n결제 후 3시간 이내 취소 요청 시 환불 처리되며, 3시간 이후에는 환불되지 않습니다.\n\n정말로 구매하시겠습니까?")) {
+                var productList = [];
 
-                // AJAX 요청 생성
+                <c:forEach items="${combinedList}" var="combinedItem" varStatus="loop">
+                var memo = $("#name" + ${loop.index}).val();
+                var product = {
+                    pno: ${combinedItem.productVO.pno},
+                    u_id: '${customerUserVO.u_id}',
+                    p_name: '${combinedItem.productVO.p_name}',
+                    p_price: ${combinedItem.productVO.p_price},
+                    memo: memo,
+                    startDate: '${combinedItem.cartVO.c_startDate}',
+                    endDate: '${combinedItem.cartVO.c_endDate}'
+                };
+                productList.push(product);
+                </c:forEach>
+
+                var data = {
+                    productList: productList
+                };
+                console.log(productList)
                 $.ajax({
-                    url: "/purchase", // 데이터를 전송할 서버의 URL
-                    method: "POST", // 요청 메소드 (POST, GET 등)
-                    data: { // 전송할 데이터
-                        <%--sno: ${}--%>
-                        pno: ${productVO.pno}, // 상품 ID
-                        u_id: '${customerUserVO.u_id}',
-                        p_name: '${productVO.p_name}',
-                        p_period: ${productVO.p_period},
-                        memo: memo,
-                        p_price: ${productVO.p_price},
-                        currentDate : '<%=currentDate%>',
-                        futureDate : '<%=futureDate%>'
-                    },
-                    success: function (response) {
-                        // 요청이 성공적으로 완료되었을 때의 처리
+                    type: "POST",
+                    url: "/cartPurchase",
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf8",
+                    success: function(response) {
+                        console.log(response);
                         alert("구매가 완료되었습니다.");
-                        // window.location.href = "/purchase-success"; // 구매 완료 페이지로 이동
                     },
-                    error: function (xhr, status, error) {
-                        // 요청이 실패하였을 때의 처리
+                    error: function(xhr, status, error) {
+                        console.log(error);
                         alert("구매에 실패하였습니다. 다시 시도해주세요.");
                     }
                 });
             }
         });
     });
+
 </script>
+
+
 <%@ include file="../footer/footer.jsp"%>
 </html>
