@@ -161,7 +161,7 @@
                     url: "/purchase", // 데이터를 전송할 서버의 URL
                     method: "POST", // 요청 메소드 (POST, GET 등)
                     data: { // 전송할 데이터
-                        <%--sno: ${}--%>
+                        sno: ${productVO.sno},
                         pno: ${productVO.pno}, // 상품 ID
                         u_id: '${customerUserVO.u_id}',
                         p_name: '${productVO.p_name}',

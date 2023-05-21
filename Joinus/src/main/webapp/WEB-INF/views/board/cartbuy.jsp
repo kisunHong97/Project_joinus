@@ -80,7 +80,7 @@
         <div class="product-info">
             <p>상품 설명 : ${combinedItem.productVO.p_inst}</p>
             <p>이용 기간: ${combinedItem.cartVO.c_startDate} ~ ${combinedItem.cartVO.c_endDate} </p>
-            <p>가격: ${combinedItem.productVO.p_price}메소</p>
+            <p>가격: ${combinedItem.cartVO.c_price}메소</p>
             <p>보유 포인트 : ${customerUserVO.buypoint}메소</p>
         </div>
         <div class="customer-info">
@@ -91,20 +91,19 @@
     </c:forEach>
 
         <c:set var="total" value = "0" />
-        <c:forEach items="${productVOList}" var="productVO">
-            <c:set var="total" value="${total + productVO.p_price}"/>
+        <c:forEach items="${cartVOList}" var="cartVO">
+            <c:set var="total" value="${total + cartVO.c_price}"/>
         </c:forEach>
-<%--        <c:out value="${total}"/>--%>
     <div class="customer-info">
         <c:choose>
             <c:when test="${total <= customerUserVO.buypoint}">
-            <label for="name">총 결제금액: ${total}메소</label><br>
-            <label for="name">구매 후 남은금액: ${customerUserVO.buypoint - total}메소</label>
+            <label>총 결제금액: ${total}메소</label><br>
+            <label>구매 후 남은금액: ${customerUserVO.buypoint - total}메소</label>
             </div>
             <button class="buy-button">구매</button>
             </c:when>
             <c:otherwise>
-            <label for="name">보유 메소가 부족합니다</label>
+            <label>보유 메소가 부족합니다</label>
             </div>
             <button class="buy-button" type="submit">구매</button>
             </c:otherwise>
@@ -123,6 +122,7 @@
                 <c:forEach items="${combinedList}" var="combinedItem" varStatus="loop">
                 var memo = $("#name" + ${loop.index}).val();
                 var product = {
+                    sno: ${combinedItem.productVO.sno},
                     pno: ${combinedItem.productVO.pno},
                     u_id: '${customerUserVO.u_id}',
                     p_name: '${combinedItem.productVO.p_name}',

@@ -74,6 +74,7 @@ public class BuyController {
             return ResponseEntity.badRequest().body("사용자만 이용 가능합니다.");
         }
         PurchaseVO purchaseVO = new PurchaseVO();
+        purchaseVO.setSno(vo.getSno());
         purchaseVO.setPno(vo.getPno());
         purchaseVO.setU_id(customerUserVO.getU_id());
         purchaseVO.setP_name(vo.getP_name());
@@ -84,6 +85,7 @@ public class BuyController {
         System.out.println("purchaseVO:" + purchaseVO);
         purchaseService.productPurchase(purchaseVO);
         purchaseService.updateUserPoint(id, vo.getP_price());
+        storeService.updateRevenue(vo.getP_price(), vo.getSno());
 
         return new ResponseEntity(" 구매 목록에 추가되었습니다.", HttpStatus.OK);
     }
@@ -97,6 +99,7 @@ public class BuyController {
 
         for (Map<String, Object> productData : productList) {
             PurchaseVO purchaseVO = new PurchaseVO();
+            purchaseVO.setSno((int) productData.get("sno"));
             purchaseVO.setPno((int) productData.get("pno"));
             purchaseVO.setU_id((String) productData.get("u_id"));
             purchaseVO.setP_name((String) productData.get("p_name"));
@@ -107,8 +110,12 @@ public class BuyController {
 
             purchaseService.productPurchase(purchaseVO);
             purchaseService.updateUserPoint(id, purchaseVO.getP_price());
+            // 구매시 장바구니에 있던 목록 삭제
+            cartService.getCartByPnoAndUid(purchaseVO.getPno(), id);
+            cartService.deleteCart(purchaseVO.getPno(), id);
+            // buyPoint 스토어 테이블에 전달
+            storeService.updateRevenue(purchaseVO.getP_price(), purchaseVO.getSno());
         }
-
         System.out.println("productList:" + productList);
         return new ResponseEntity<>("구매 목록에 추가되었습니다.", HttpStatus.OK);
     }

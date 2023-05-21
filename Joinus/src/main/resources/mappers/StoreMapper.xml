@@ -20,9 +20,12 @@
     <update id="updateStore" parameterType="com.ezen.joinus.vo.StoreVO">
         update store_table set s_name=#{s_name},s_addrCode=#{s_addrCode},s_addrStreet=#{s_addrStreet},s_addrDetail=#{s_addrDetail},s_inst=#{s_inst},s_email=#{s_email},s_URL=#{s_URL},s_phone=#{s_phone} where bno=#{bno}
     </update>
+    <update id="updateRevenue"  parameterType="java.util.Map">
+        update store_table
+        set s_revenue = s_revenue + #{s_revenue}
+        where sno = #{sno}
+    </update>
     <select id="selectlocation"  resultType="com.ezen.joinus.vo.StoreVO">
         SELECT * FROM store_table WHERE s_addrStreet LIKE '%' || #{location} || '%'
     </select>
-
-
 </mapper>
