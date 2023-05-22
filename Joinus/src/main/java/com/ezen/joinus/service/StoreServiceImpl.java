@@ -7,7 +7,9 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class StoreServiceImpl implements StoreService{
@@ -45,6 +47,15 @@ public class StoreServiceImpl implements StoreService{
     @Override
     public void updateStore(StoreVO vo) {
         storeMapper.updateStore(vo);
+    }
+
+    @Override
+    public void updateRevenue(int s_revenue, int sno) {
+        Map<String, Object> parameterMap = new HashMap<>();
+        parameterMap.put("s_revenue", s_revenue);
+        parameterMap.put("sno", sno);
+        System.out.println("매출 : " + parameterMap);
+        storeMapper.updateRevenue(parameterMap);
     }
 
     @Override

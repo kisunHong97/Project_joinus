@@ -202,7 +202,7 @@
                 </div>
             </div>
         </table>
-        <aside style="position: absolute; top: 200px; right: 360px;">
+        <aside style="position: absolute; top: 200px; right: 155px;">
             <div style="flex-shrink: 0; width: 300px;">
                 <h1 class="hit">Let's Join Us!</h1>
                 <input type="hidden" id="id" value="${customerloginUser.u_name}">

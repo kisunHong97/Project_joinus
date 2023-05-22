@@ -73,7 +73,7 @@ public class HeaderController {
                 } catch (Exception e) {
                     // 예외 처리
                 }
-                return "customer/customermypage";
+                return "/customer/customermypage";
             } else {
                 // 알 수 없는 역할인 경우 에러 페이지를 보여줍니다.
                 return "error";
