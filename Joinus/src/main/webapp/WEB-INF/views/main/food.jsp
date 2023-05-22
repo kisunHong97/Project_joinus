@@ -100,7 +100,7 @@
                 <input type="hidden" name="name" value="food"/>
                 <input type="hidden" name="name1" value="Food"/>
             <select name="location" style="margin-left: auto;">
-                <option value="" disabled selected>지역 선택</option>
+                <option value="지역 선택" disabled selected>지역 선택</option>
                 <option value="서울">서울</option>
                 <option value="수원">수원</option>
                 <option value="안양">안양</option>
@@ -113,7 +113,7 @@
                 <option value="용인">용인</option>
                 <option value="전주">전주</option>
             </select>
-                <button type="submit" value="검색">검색</button>
+                <button class="button" type="submit" value="검색">검색</button>
             </form>
         </div>
         <br>
@@ -163,8 +163,23 @@
 
 <!-- 생략된 코드 -->
 <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <script type="text/javascript">
+    console.log("테스트")
+    var selectedOption = $("select[name='location']").val();
+    console.log(selectedOption);
+    $(document).ready(function() {
+        $(".button").click(function(e) {
 
+            e.preventDefault(); // 기본 동작(폼 제출) 막기
+
+            var selectedOption = $("select[name='location']").val();
+
+            if (selectedOption === null) {
+                return; // 아무 동작 실행 안 함
+            }
+            // 컨트롤러 실행
+            $("form").submit();
+        });
+    });
 
 </script>

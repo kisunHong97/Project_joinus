@@ -113,7 +113,7 @@
                 <option value="용인">용인</option>
                 <option value="전주">전주</option>
             </select>
-            <button type="submit" value="검색">검색</button>
+            <button class="button" type="submit" value="검색">검색</button>
         </form>
         </div>
         <!-- 옵션선택 끝 -->
@@ -162,8 +162,24 @@
 
 <!-- 생략된 코드 -->
 <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <script type="text/javascript">
+    console.log("테스트")
+    var selectedOption = $("select[name='location']").val();
+    console.log(selectedOption);
+    $(document).ready(function() {
+        $(".button").click(function(e) {
 
+            e.preventDefault(); // 기본 동작(폼 제출) 막기
+
+            var selectedOption = $("select[name='location']").val();
+
+            if (selectedOption === null) {
+                return; // 아무 동작 실행 안 함
+            }
+            // 컨트롤러 실행
+            $("form").submit();
+        });
+    });
 
 </script>
+

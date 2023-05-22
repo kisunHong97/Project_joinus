@@ -113,7 +113,7 @@
                 <option value="용인">용인</option>
                 <option value="전주">전주</option>
             </select>
-            <button type="submit" value="검색">검색</button>
+            <button class="button" type="submit" value="검색">검색</button>
         </form>
         </div>
         <!-- 옵션선택 끝 -->
@@ -122,6 +122,7 @@
                 <div class="board-body">
                     <ul>
                         <c:forEach var="physical_fitness" items="${physical_fitnesslist}" varStatus="status">
+
                             <li>
                                 <div class="post-thumbnail">
                                     <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일">
@@ -162,8 +163,23 @@
 
 <!-- 생략된 코드 -->
 <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <script type="text/javascript">
+    console.log("테스트")
+    var selectedOption = $("select[name='location']").val();
+    console.log(selectedOption);
+    $(document).ready(function() {
+        $(".button").click(function(e) {
 
+            e.preventDefault(); // 기본 동작(폼 제출) 막기
+
+            var selectedOption = $("select[name='location']").val();
+
+            if (selectedOption === null) {
+                return; // 아무 동작 실행 안 함
+            }
+            // 컨트롤러 실행
+            $("form").submit();
+        });
+    });
 
 </script>

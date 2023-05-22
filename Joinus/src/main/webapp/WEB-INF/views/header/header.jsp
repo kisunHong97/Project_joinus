@@ -116,6 +116,7 @@
         margin: 0;
         padding: 0;
         border: solid 1px black;
+        font-weight: bold
     }
 
     .dropdown-menu li {
@@ -195,26 +196,12 @@
                         <a class="nav-link active" href="javascript:void(0);" onclick="toggleDropdown()">◼ 전체 카테고리</a>
                         <ul class="dropdown-menu" id="dropdownMenu">
                             <li>
-                                <a class="categorya" href="#">JoinUs</a></li>
+                                <a class="categorya" href="/product_board">JoinUs</a></li>
                             <li><a class="categorya" href="/Food">Food</a></li>
                             <li><a class="categorya" href="/Academy">Academy</a></li>
                             <li><a class="categorya" href="/Physical_Fitness">Physical Fitness</a></li>
                             <li><a class="categorya" href="/Traffic">Traffic</a></li>
                         </ul>
-                        <form class="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0" action="/search" method="GET" onsubmit="return validateForm()">
-                            <input type="text" name="query" id="searchInput" value="상품을 검색해보세요!" style="color: slategrey; font-size: 14px; padding: 6px; border-radius: 5px; border: 1px solid lightgray;" onfocus="if(this.value==='상품을 검색해보세요!') this.value='';">
-                            <button class="btn my-2 my-sm-0 nav_search-btn" type="submit"></button>
-                        </form>
-                        <script>
-                            function validateForm() {
-                                var searchInput = document.getElementById("searchInput");
-                                if (searchInput.value === "상품을 검색해보세요!" || searchInput.value === "") {
-                                    alert("검색어를 입력해주세요!");
-                                    return false;
-                                }
-                                return true;
-                            }
-                        </script>
 
                     </div>
 

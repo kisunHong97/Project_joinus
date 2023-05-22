@@ -187,7 +187,8 @@
                     <ul>
                         <c:forEach var="searchResult" items="${productList}" varStatus="status">
                         <c:if test="${status.index % 3 == 0}">
-                    </ul><ul>
+                    </ul>
+                    <ul>
                     </c:if>
                     <li>
                         <div class="post-thumbnail">
@@ -198,10 +199,11 @@
                         </div>
                     </li>
                     </c:forEach>
-                </ul>
+                   </ul>
                 </div>
             </div>
         </table>
+
         <aside style="position: absolute; top: 200px; right: 360px;">
             <div style="flex-shrink: 0; width: 300px;">
                 <h1 class="hit">Let's Join Us!</h1>
@@ -216,7 +218,6 @@
             </div>
         </aside>
     </div>
-</section>
 </section>
 <div style="display: block; text-align: center;">
     <c:if test="${paging.startPage != 1 }">
