@@ -1,5 +1,6 @@
 package com.ezen.joinus.service;
 
+import com.ezen.joinus.vo.RevenueVO;
 import com.ezen.joinus.vo.StoreVO;
 
 import java.util.List;
@@ -20,7 +21,9 @@ public interface StoreService {
     void updateStore(StoreVO vo);
 
     void updateRevenue(int s_revenue, int sno);
+    void insertRevenue(RevenueVO revenue);
 
+    List<RevenueVO> getRevenueList(int sno);
     List<StoreVO> selectlocation(String location);
 
 

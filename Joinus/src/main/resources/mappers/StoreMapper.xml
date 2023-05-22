@@ -28,4 +28,14 @@
     <select id="selectlocation"  resultType="com.ezen.joinus.vo.StoreVO">
         SELECT * FROM store_table WHERE s_addrStreet LIKE '%' || #{location} || '%'
     </select>
+    <insert id="insertRevenue" parameterType="com.ezen.joinus.vo.StoreVO">
+        INSERT INTO revenue_table (sno, revenue_date, revenue_amount)
+        VALUES (#{sno}, SYSDATE, #{revenue_amount})
+    </insert>
+    <select id="getRevenueList" resultType="com.ezen.joinus.vo.RevenueVO">
+        SELECT sno, SUM(revenue_amount) as revenue_amount, revenue_date
+        FROM revenue_table
+        group by sno, revenue_date
+    </select>
+
 </mapper>

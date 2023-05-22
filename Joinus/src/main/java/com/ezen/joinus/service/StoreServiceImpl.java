@@ -2,6 +2,7 @@ package com.ezen.joinus.service;
 
 import com.ezen.joinus.mappers.BusinessUserMapper;
 import com.ezen.joinus.mappers.StoreMapper;
+import com.ezen.joinus.vo.RevenueVO;
 import com.ezen.joinus.vo.StoreVO;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,19 @@ public class StoreServiceImpl implements StoreService{
         System.out.println("매출 : " + parameterMap);
         storeMapper.updateRevenue(parameterMap);
     }
+
+    @Override
+    public void insertRevenue(RevenueVO revenue) {
+        System.out.println("매출 테이블에 정보 추가 : " + revenue);
+        storeMapper.insertRevenue(revenue);
+    }
+
+    @Override
+    public List<RevenueVO> getRevenueList(int sno) {
+        System.out.println("수익금 조회 sno : " + sno);
+        return storeMapper.getRevenueList(sno);
+    }
+
 
     @Override
     public List<StoreVO> selectlocation(String location) {
