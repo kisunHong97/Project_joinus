@@ -116,6 +116,7 @@
         margin: 0;
         padding: 0;
         border: solid 1px black;
+        font-weight: bold
     }
 
     .dropdown-menu li {
@@ -195,14 +196,13 @@
                         <a class="nav-link active" href="javascript:void(0);" onclick="toggleDropdown()">◼ 전체 카테고리</a>
                         <ul class="dropdown-menu" id="dropdownMenu">
                             <li>
-                                <a class="categorya" href="#">JoinUs</a></li>
+                                <a class="categorya" href="/product_board">JoinUs</a></li>
                             <li><a class="categorya" href="/Food">Food</a></li>
                             <li><a class="categorya" href="/Academy">Academy</a></li>
                             <li><a class="categorya" href="/Physical_Fitness">Physical Fitness</a></li>
                             <li><a class="categorya" href="/Traffic">Traffic</a></li>
                         </ul>
                     </div>
-
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link active" href="/product_board">Home</a>
