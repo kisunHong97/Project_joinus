@@ -199,6 +199,7 @@ public class CategoryController {
             thumbnailList.add(fileService.selectMainThumbnail(filteredList1.getPno()));
         }
         System.out.println("name1:"+name1);
+        System.out.println("위치:"+location);
 
         System.out.println("thumbnailList:"+thumbnailList);
         System.out.println("filteredList:" + filteredList);
