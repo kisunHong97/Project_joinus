@@ -73,6 +73,14 @@ create table store_table(
                             s_revenue number default 0,
                             foreign key (bno) references business_table(bno)
 );
+CREATE TABLE revenue_table (
+                               sno NUMBER NOT NULL,
+                               revenue_date varchar2(200) NOT NULL,
+                               revenue_amount NUMBER,
+                               FOREIGN KEY (sno) REFERENCES store_table (sno)
+);
+select * from revenue_table;
+drop table revenue_table;
 -- 상품 정보 테이블
 -- 상품 테이블 수정
 create table products_table(
@@ -134,7 +142,6 @@ create table products_purchase_table (
                                          foreign key (u_id) references customers_table(u_id) ON DELETE CASCADE,
                                          foreign key (sno) references store_table(sno) ON DELETE CASCADE
 );
-drop table products_purchase_table;
 commit;
 ----- 더미 데이터 -----
 insert into customers_table values (customers_seq.nextval, 'user1', '1234', 'name1', 'user1@naver.com',
@@ -227,5 +234,9 @@ select * from file_product_table;
 select * from wishlist;
 select * from cart;
 select * from products_purchase_table;
-
+delete from products_purchase_table
+where sno >= 1;
+select * from revenue_table;
+delete from revenue_table
+where sno >= 1;
 commit;
