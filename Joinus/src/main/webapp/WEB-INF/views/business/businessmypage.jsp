@@ -40,20 +40,48 @@
 <body>
 <br>
 <div id="mypage-menu">
-    <div><a href="#">수익금 조회</a></div>
-    <div><a href="#">리뷰 확인</a></div>
+    <div><a href="#" onclick="showPage('revenue')">수익금 조회</a></div>
+    <div><a href="#" onclick="showPage('review')">리뷰 확인</a></div>
     <div><a href="/showMyProduct">등록글 조회</a></div>
     <div><a href="/register">상품 등록</a></div>
     <div><a href="/businessinformation?id=${business.b_id}">개인정보 수정</a></div>
-    <div><a href="#">공지사항 확인</a></div>
+    <div><a href="#" onclick="showPage('notice')">공지사항 확인</a></div>
 </div>
 
 <div class="mypage-form">
-    <form>
-        <!-- form 요소들 추가 -->
-    </form>
+    <div id="revenue-page">
+        <div class="page-content">
+            <h2>수익금 조회</h2>
+
+        </div>
+    </div>
+    <div id="review-page" style="display: none;">
+        <div class="page-content">
+            <h2>리뷰 확인</h2>
+            <p>여기에 리뷰 확인 페이지 내용을 추가하세요.</p>
+        </div>
+    </div>
+    <div id="notice-page" style="display: none;">
+        <div class="page-content">
+            <h2>공지사항 확인</h2>
+            <p>여기에 공지사항 확인 페이지 내용을 추가하세요.</p>
+        </div>
+    </div>
 </div>
 
 </body>
+<script>
+    function showPage(pageName) {
+        // 모든 페이지 숨기기
+        var pages = document.getElementsByClassName("mypage-form")[0].children;
+        for (var i = 0; i < pages.length; i++) {
+            pages[i].style.display = "none";
+        }
+
+        // 선택한 페이지 보이기
+        var selectedPage = document.getElementById(pageName + "-page");
+        selectedPage.style.display = "block";
+    }
+</script>
 <%@ include file="../footer/footer.jsp"%>
 </html>

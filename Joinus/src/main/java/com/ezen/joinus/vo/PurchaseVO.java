@@ -14,9 +14,8 @@ public class PurchaseVO {
     private String u_id;
     private int pno;
     private String p_name;
-    private int p_period;
     private int p_price;
     private String memo;
-    private String currentDate;
-    private String futureDate;
+    private String startDate;
+    private String endDate;
 }

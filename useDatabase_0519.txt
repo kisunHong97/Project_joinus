@@ -1,0 +1,201 @@
+----- 테이블 삭제 -----
+drop TABLE wishlist;
+drop TABLE cart;
+drop table products_purchase_table;
+drop table products_table cascade constraints;
+drop table store_table cascade constraints;
+drop table business_table cascade constraints;
+drop table file_product_table;
+drop table customers_table;
+----- 시퀀스 삭제 -----
+drop sequence customers_seq;
+drop sequence business_seq;
+drop sequence store_seq;
+drop sequence products_seq;
+drop sequence file_seq;
+drop sequence wish_seq;
+drop sequence cart_seq;
+----- 시퀀스 생성 -----
+create sequence customers_seq INCREMENT BY 1 START WITH 1;
+create sequence business_seq INCREMENT BY 1 START WITH 1;
+create sequence store_seq INCREMENT BY 1 START WITH 1;
+create sequence products_seq INCREMENT BY 1 START WITH 1;
+create sequence file_seq INCREMENT BY 1 START WITH 1;
+create sequence wish_seq INCREMENT BY 1 START WITH 1;
+create sequence cart_seq INCREMENT BY 1 START WITH 1;
+----- 테이블 생성 -----
+-- 고객 정보 테이블
+-- u_id(중복 방지), u_pwd, u_name, u_email, u_phone은 입력 필수
+create table customers_table(
+                                uno number not null primary key,
+                                u_id varchar2(100) unique not null,
+                                u_pwd varchar2(100) not null,
+                                u_name varchar2(100) not null,
+                                u_email varchar2(100) not null,
+                                u_phone varchar2(100) not null,
+                                u_addrcode varchar2(100),
+                                u_addrStreet varchar2(100),
+                                u_addrDetail varchar2(100),
+                                buyPoint number,
+                                auth char default 'A',
+                                payPoint number,
+                                wish_cnt number default 0,
+                                cart_cnt number default 0
+);
+update customers_table set buyPoint = 740000 where u_id = 'user1';
+-- 사업자 정보 테이블
+-- b_name, b_id(중복 방지), b_pwd1, b_pwd2, b_email, b_phone은 입력 필수
+create table business_table(
+                               bno number not null primary key,
+                               b_name varchar2(100) not null,
+                               b_id varchar2(100) unique not null,
+                               b_pwd varchar2(100) not null,
+                               b_email varchar2(100) not null,
+                               b_phone varchar2(100) not null,
+                               b_addrcode varchar2(100) not null,
+                               b_addrStreet varchar2(100) not null,
+                               b_addrDetail varchar2(100) not null,
+                               auth char default 'A'
+);
+-- 가게 정보 테이블
+-- s_name, s_addr은 입력 필수, s_url은 없는 사람도 있을테니 패스
+create table store_table(
+                            sno number not null primary key,
+                            bno number,
+                            s_name varchar2(100) not null,
+                            s_addrCode varchar2(100) not null,
+                            s_addrStreet varchar2(100) not null,
+                            s_addrDetail varchar2(100) not null,
+                            s_inst varchar2(100) not null,
+                            s_email varchar2(100) not null,
+                            s_URL varchar2(100),
+                            s_phone VARCHAR2(100),
+                            foreign key (bno) references business_table(bno)
+);
+-- 상품 정보 테이블
+-- 상품 테이블 수정
+create table products_table(
+                               sno number,
+                               pno number not null primary key,
+                               p_name varchar2(100) not null,
+                               p_inst varchar2(100) not null,
+                               p_category varchar2(100),
+                               p_type varchar2(20),
+                               p_startDate Date default sysdate,
+                               p_endDate Date default sysdate,
+                               p_price number,
+                               foreign key (sno) references store_table(sno)
+);
+-- 상품 썸네일 테이블
+create table file_product_table(
+                                   fno number not null primary key,
+                                   pno number,
+                                   fileName varchar2(50),
+                                   uploadPath varchar2(50),
+                                   uuid varchar2(50),
+                                   image varchar2(1), -- 썸네일이면 'T', 상세정보면 'I'
+                                   foreign key(pno) references products_table(pno)
+);
+-- 찜 목록 테이블
+CREATE TABLE wishlist (
+                          wno NUMBER(10) PRIMARY KEY,
+                          pno NUMBER(10) NOT NULL,
+                          u_id varchar2(100) ,
+                          w_date DATE NOT NULL,
+                          FOREIGN KEY (pno) REFERENCES products_table(pno) ON DELETE CASCADE,
+                          FOREIGN KEY (u_id) REFERENCES customers_table(u_id) ON DELETE CASCADE,
+                          CONSTRAINT unique_wishlist UNIQUE (pno, u_id)
+);
+-- 장바구니 테이블
+create table cart(
+                     cno number(10) PRIMARY KEY,
+                     pno number(10) NOT NULL,
+                     u_id varchar2(100),
+                     c_price number,
+                     c_startDate varchar2(200),
+                     c_endDate varchar2(200),
+                     w_date DATE NOT NULL,
+                     foreign key (u_id) references customers_table(u_id) ON DELETE CASCADE,
+                     foreign key (pno) references products_table(pno) ON DELETE CASCADE,
+                     CONSTRAINT unique_cart UNIQUE (pno, u_id)
+);
+-- 구매 상품 테이블
+create table products_purchase_table (
+                                         sno number,
+                                         u_id varchar2(200),
+                                         pno number,
+                                         p_name varchar2(200),
+                                         p_price number,
+                                         memo varchar2(200),
+                                         startDate varchar2(200),
+                                         endDate varchar2(200),
+                                         foreign key (pno) references products_table(pno) ON DELETE CASCADE,
+                                         foreign key (u_id) references customers_table(u_id) ON DELETE CASCADE,
+                                         foreign key (sno) references store_table(sno) ON DELETE CASCADE
+);
+drop table products_purchase_table;
+commit;
+----- 더미 데이터 -----
+insert into customers_table values (customers_seq.nextval, 'user1', '1234', 'name1', 'user1@naver.com',
+                                    '010-1111-1111', '용인시', '처안구', '상세주소', 100000, 'A', 100, 1, 1);
+insert into customers_table values (customers_seq.nextval, 'user2', '1234', 'name2', 'user2@naver.com',
+                                    '010-1111-2222', '수원시', '장안구', '상세주소',  100, 'A', 100, 1, 1);
+insert into customers_table values (customers_seq.nextval, 'user3', '1234', 'name3', 'user3@naver.com',
+                                    '010-1111-3333', '서울시', '동대문구', '상세주소', 100, 'A', 100, 1, 1);
+insert into business_table values (business_seq.nextval, 'business1', 'bs1', '1234', 'bs1@naver.com','010-2222-1111', '수원시 영통구1', '수원시 영통구2',
+                                   '수원시 영통구3', 'B');
+insert into business_table values (business_seq.nextval, 'business2', 'bs2', '1234', 'bs2@naver.com','010-2222-1111', '수원시 영통구1', '수원시 영통구2',
+                                   '수원시 영통구3', 'B');
+insert into business_table values (business_seq.nextval, 'business3', 'bs3', '1234', 'bs3@naver.com','010-2222-1111', '수원시 영통구1', '수원시 영통구2',
+                                   '수원시 영통구3', 'B');
+insert into business_table values (business_seq.nextval, 'business4', 'bs4', '1234', 'bs2@naver.com','010-2222-1111', '수원시 영통구1', '수원시 영통구2',
+                                   '수원시 영통구3', 'B');
+insert into business_table values (business_seq.nextval, 'business5', 'bs5', '1234', 'bs3@naver.com','010-2222-1111', '수원시 영통구1', '수원시 영통구2',
+                                   '수원시 영통구3', 'B');
+--
+--
+--
+
+insert into store_table values (store_seq.nextval, 1, 'astore1', '수원시 영통구','수원시 영통구','수원시 영통구','요가학원','store@naver.com', 'www.naver.com',
+                                '010-2020-2020');
+insert into store_table values (store_seq.nextval, 2, 'astore2', '수원시 영통구','서울시 영통구','수원시 영통구','요가학원','store@naver.com', 'www.naver.com',
+                                '010-2020-2020');
+insert into store_table values (store_seq.nextval, 3, 'astore3', '수원시 영통구','수원시 영통구','수원시 영통구','요가학원','store@naver.com', 'www.naver.com',
+                                '010-2020-2020');
+insert into store_table values (store_seq.nextval, 4, 'astore4', '수원시 영통구','대구시 영통구','수원시 영통구','요가학원','store@naver.com', 'www.naver.com',
+                                '010-2020-2020');
+insert into store_table values (store_seq.nextval, 5, 'astore5', '수원시 영통구','서울시 영통구','수원시 영통구','요가학원','store@naver.com', 'www.naver.com',
+                                '010-2020-2020');
+--
+--
+--
+insert into products_table values (1, products_seq.nextval, 'product1', 'is Product1', 'traffic', 'free', sysdate, sysdate, 1000);
+insert into products_table values (1, products_seq.nextval, 'product2', 'is Product2', 'traffic', 'free', sysdate, sysdate, 5000);
+insert into products_table values (1, products_seq.nextval, 'product3', 'is Product3', 'traffic', 'free', sysdate, sysdate, 2000);
+insert into products_table values (2, products_seq.nextval, 'product4', 'is Product4', 'academy', 'free', sysdate, sysdate, 3000);
+insert into products_table values (3, products_seq.nextval, 'product5', 'is Product5', 'physical fitness', 'free', sysdate, sysdate, 1000);
+insert into products_table values (3, products_seq.nextval, 'product6', 'is Product6', 'food', 'free', sysdate, sysdate, 2000);
+insert into products_table values (3, products_seq.nextval, 'product7', 'is Product7', 'food', 'free', sysdate, sysdate, 1000);
+insert into products_table values (4, products_seq.nextval, 'product8', 'is Product8', 'food', 'free', sysdate, sysdate, 1000);
+insert into products_table values (4, products_seq.nextval, 'product9', 'is Product9', 'food', 'free', sysdate, sysdate, 1000);
+
+insert into file_product_table values (file_seq.nextval, 1, 'thumbnail1.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 2, 'thumbnail2.png', 'thumbnail', 'bbb', 'T');
+insert into file_product_table values (file_seq.nextval, 3, 'thumbnail3.png', 'thumbnail', 'ccc', 'T');
+insert into file_product_table values (file_seq.nextval, 3, 'thumbnail4.png', 'thumbnail', 'ccc', 'T');
+insert into file_product_table values (file_seq.nextval, 3, 'thumbnail5.png', 'thumbnail', 'ccc', 'T');
+
+insert into wishlist values(wish_seq.nextval, 1, 'user1', sysdate);
+insert into wishlist values(wish_seq.nextval, 2, 'user2', sysdate);
+insert into wishlist values(wish_seq.nextval, 3, 'user3', sysdate);
+
+----- 더미데이터 확인 -----
+select * from customers_table;
+select * from business_table;
+select * from store_table;
+select * from products_table;
+select * from file_product_table;
+select * from wishlist;
+select * from cart;
+select * from products_purchase_table;
+commit;

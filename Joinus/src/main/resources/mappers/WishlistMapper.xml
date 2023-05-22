@@ -11,7 +11,7 @@
     <!-- 로그인한 사용자의 찜 목록에 추가 -->
     <insert id="addWishlist" parameterType="com.ezen.joinus.vo.WishlistVO">
         INSERT INTO wishlist(wno, pno, u_id, w_date)
-        VALUES (wishlist_seq.nextval, #{pno}, #{u_id}, SYSDATE)
+        VALUES (wish_seq.nextval, #{pno}, #{u_id}, SYSDATE)
     </insert>
 
     <!-- 로그인한 사용자의 찜 목록에 삭제 -->

@@ -86,8 +86,6 @@ public class HomeController {
         System.out.println(customerUserVO);
         model.addAttribute("customerUserVO", customerUserVO);
 
-
-
         try{
             WishlistVO wishlist = wishlistService.getWishlistByPnoAndUid(pno, u_id);
             System.out.println("wishlist : " + wishlist );
@@ -132,12 +130,12 @@ public class HomeController {
         }
         WishlistVO wishlistVO = new WishlistVO();
         wishlistVO.setPno(vo.getPno());
-        wishlistVO.setU_id(id);
+        wishlistVO.setU_id(vo.getU_id());
         wishlistVO.setW_date(new Date());
         System.out.println("WISHLISTVO:" + wishlistVO);
         wishlistService.addWishlist(wishlistVO);
 
-        return new ResponseEntity("찜 목록에 추가되었습니다.", HttpStatus.OK);
+        return new ResponseEntity<>("찜 목록에 추가되었습니다.", HttpStatus.OK);
     }
 
     // 해당 상품을 찜 목록에서 삭제하는 기능
@@ -147,7 +145,7 @@ public class HomeController {
         System.out.println("찜 삭제 컨트롤러에 pno 불러오나?:"+pno);
         // 로그인한 사용자 정보가 없는 경우
         if (id == null) {
-            return new ResponseEntity("로그인 후 이용해 주세요.", HttpStatus.OK);
+            return new ResponseEntity<>("로그인 후 이용해 주세요.", HttpStatus.OK);
         }
 
         wishlistService.getWishlistByPnoAndUid(pno, id);
@@ -157,7 +155,7 @@ public class HomeController {
         // 찜 목록에서 해당 상품 삭제
         System.out.println(pno);
         System.out.println("상품번호 pno :" + pno);
-        return new ResponseEntity("찜 목록에서 삭제되었습니다.", HttpStatus.OK);
+        return new ResponseEntity<>("찜 목록에서 삭제되었습니다.", HttpStatus.OK);
     }
 
     // 해당 상품을 장바구니에 추가하는 기능
@@ -188,7 +186,7 @@ public class HomeController {
 
         cartService.addCart(cart);
 
-        return new ResponseEntity("장바구니에 추가되었습니다.", HttpStatus.OK);
+        return new ResponseEntity<>("장바구니에 추가되었습니다.", HttpStatus.OK);
     }
 
     // 해당 상품을 장바구니에서 삭제하는 기능
@@ -198,7 +196,7 @@ public class HomeController {
         System.out.println("장바구니 삭제 컨트롤러에 pno 불러오나?:"+pno);
         // 로그인한 사용자 정보가 없는 경우
         if (id == null) {
-            return new ResponseEntity("로그인 후 이용해 주세요.", HttpStatus.OK);
+            return new ResponseEntity<>("로그인 후 이용해 주세요.", HttpStatus.OK);
         }
 
         cartService.getCartByPnoAndUid(pno, id);
@@ -208,7 +206,7 @@ public class HomeController {
         // 찜 목록에서 해당 상품 삭제
         System.out.println(pno);
         System.out.println("상품번호 pno :" + pno);
-        return new ResponseEntity("장바구니에서 삭제되었습니다.", HttpStatus.OK);
+        return new ResponseEntity<>("장바구니에서 삭제되었습니다.", HttpStatus.OK);
     }
 
     //상단바 장바구니 진입 시 삭제 컨트롤러

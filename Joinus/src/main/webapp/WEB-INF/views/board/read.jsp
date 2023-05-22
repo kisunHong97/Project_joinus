@@ -188,7 +188,6 @@
     <div id="refund" class="tabcontent">
        <h3>환불</h3>
       <div>
-       
           <strong>[환불 규정]</strong><br>
           <p>1. 티켓의 사용기한으로부터 10% 이내의 기간이 지난 경우, 환불이 불가능합니다.<br>
           2. 환불을 원하는 경우, 구매자는 티켓판매점에 신속하게 문의해야 합니다.<br>
@@ -219,21 +218,18 @@
           <p>- 환불이 성공적으로 완료되면 티켓판매점은 구매자에게 환불 완료를 통지합니다.<br>
               - 구매자는 환불된 금액이 정상적으로 받아졌는지 확인해야 합니다.<br></p>
       </div>
-
-     
     </div>
   </div>
   </tbody>
 </table>
-
-<script>
-  function openNav() {
-    document.getElementById("myNav").classList.toggle("menu_width");
-    document
-            .querySelector(".custom_menu-btn")
-            .classList.toggle("menu_btn-style");
-  }
-</script>
+<%--<script>--%>
+<%--  function openNav() {--%>
+<%--    document.getElementById("myNav").classList.toggle("menu_width");--%>
+<%--    document--%>
+<%--            .querySelector(".custom_menu-btn")--%>
+<%--            .classList.toggle("menu_btn-style");--%>
+<%--  }--%>
+<%--</script>--%>
 <script>
   <!-- 탭 스크립트 -->
   function openTab(evt, tabName) {
@@ -261,13 +257,6 @@
             $("#totalPrice").val(totalPrice);
         });
     });
-    <%--// 총금액 카운트--%>
-    <%--function updateTotalPrice() {--%>
-    <%--    const quantity = document.getElementById("quantityInput").value;--%>
-    <%--    const price = ${productVO.p_price};--%>
-    <%--    const totalPrice = quantity * price;--%>
-    <%--    document.getElementById("totalPrice").value = totalPrice;--%>
-    <%--}--%>
 </script>
 <script>
     // 로그인 여부 확인 함수
@@ -285,8 +274,8 @@
     $('#wishBtn').click(function (e) {
       var data_like = $("#wishBtn").text()
       // console.log("data_like : " + data_like)
-      var f1 = $('#wishBtn').data('a');
-      var f2 = $('#wishBtn').data('b');
+      let f1 = $('#wishBtn').data('a');
+      let f2 = $('#wishBtn').data('b');
       var flag = false
       if(data_like == "❤️"){
         deleteWishlist();
@@ -311,23 +300,21 @@
       alert("로그인 후 이용해주세요.");
       return;
     }
-
-    $.ajax({
-      type: 'POST',
-      url: "/wishlist/add",
-      data: {
-        pno,
-        u_id,
-
-      },
-      success: function(data) {
-        alert("찜 목록에 추가되었습니다.");
-      },
-      error: function(request, status, error) {
-        console.log("에러")
-        alert(error);
-      }
-    });
+      $.ajax({
+          type: 'POST',
+          url: "/wishlist/add",
+          data: {
+              pno,
+              u_id
+          },
+          success: function(data) {
+              alert("찜 목록에 추가되었습니다.");
+          },
+          error: function(request, status, error) {
+              console.log("에러")
+              alert(error);
+          }
+      });
   }
 
   function deleteWishlist() {
@@ -406,8 +393,6 @@
               end = c_endDate;
           }
       });
-
-
       var cartData = {
           'pno': pno,
           'u_id': u_id,
@@ -452,17 +437,20 @@
   }
 </script>
 <script>
-  $(document).ready(function() {
-    $("#buyBtn").click(function() {
-      if (!isLoggedIn()) {
-        alert("로그인 후 이용해주세요.");
-        return;
-      }
-      var pno = ${productVO.pno}; // 구매 페이지 URL에 필요한 상품 번호(pno)를 설정합니다.
-      var c_price = $('#totalPrice').val();
-      window.location.href = "/board/buy?pno=" + pno + "&c_price=" + c_price; // 구매 페이지로 이동합니다.
+    $(document).ready(function() {
+        $("#buyBtn").click(function() {
+            if (!isLoggedIn()) {
+                alert("로그인 후 이용해주세요.");
+                return;
+            }
+            var pno = ${productVO.pno};
+            var p_price = $('#totalPrice').val();
+            var startDate = $("#startDate").val(); // 선택된 시작 날짜
+            var endDate = $("#endDate").val(); // 선택된 종료 날짜
+            var url = "/board/buy?pno=" + pno + "&startDate=" + startDate + "&endDate=" + endDate + "&p_price=" + p_price; // 구매 페이지 URL에 선택된 날짜와 가격을 추가합니다.
+            window.location.href = url;
+        });
     });
-  });
 </script>
 </body>
 <%@ include file="../footer/footer.jsp"%>
