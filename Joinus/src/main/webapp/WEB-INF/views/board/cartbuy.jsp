@@ -126,7 +126,7 @@
                     pno: ${combinedItem.productVO.pno},
                     u_id: '${customerUserVO.u_id}',
                     p_name: '${combinedItem.productVO.p_name}',
-                    p_price: ${combinedItem.productVO.p_price},
+                    p_price: ${combinedItem.cartVO.c_price},
                     memo: memo,
                     startDate: '${combinedItem.cartVO.c_startDate}',
                     endDate: '${combinedItem.cartVO.c_endDate}'
