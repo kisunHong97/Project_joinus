@@ -44,7 +44,7 @@ public class BusinessServiceImpl implements BusinessService{
     }
 
     @Override
-    public void removeBusiness(String b_id) {
-        BusinessMapper.deleteBusiness(b_id);
+    public void removeBusiness(Integer  bno) {
+        BusinessMapper.deleteBusiness(bno);
     }
 }

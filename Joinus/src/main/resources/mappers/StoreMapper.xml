@@ -28,4 +28,7 @@
     <select id="selectlocation"  resultType="com.ezen.joinus.vo.StoreVO">
         SELECT * FROM store_table WHERE s_addrStreet LIKE '%' || #{location} || '%'
     </select>
+    <delete id="deletestore">
+        delete FROM store_table WHERE bno = #{bno, jdbcType=INTEGER}
+    </delete>
 </mapper>

@@ -202,6 +202,18 @@
         }
 
     })
+    $('.btndelete').click(function() {
+        list = ${list};
+        console.log('삭제해보아요');
+        if (list.length === 0) {
+            return true;
+        } else {
+            alert('사업자님의 스토어에서 등록하신 제품이 존재합니다. 제품 삭제 후 탈퇴가 가능합니다.');
+            return false;
+        }
+    });
+
+
 
 </script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>

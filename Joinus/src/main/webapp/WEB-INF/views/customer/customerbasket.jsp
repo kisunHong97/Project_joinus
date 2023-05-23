@@ -5,7 +5,7 @@
 <html>
 <head>
   <title>Title</title>
-<%@ include file="../header/header.jsp"%>
+
   <style>
     /* 테이블 스타일 */
     table {
@@ -64,7 +64,7 @@
       color: #888;
     }
   </style>
-
+  <%@ include file="../header/header.jsp"%>
 </head>
 <body>
 

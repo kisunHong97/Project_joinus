@@ -13,6 +13,6 @@ public interface BusinessUserMapper {
     BusinessUserVO getBusinessById(String b_id);
     void insertBusiness(BusinessUserVO vo);
     void updateBusiness(BusinessUserVO vo);//사업자 정보 수정
-    void deleteBusiness(String b_id);//사업자회원 탈퇴
+    void deleteBusiness(Integer bno);//사업자회원 탈퇴
 
 }

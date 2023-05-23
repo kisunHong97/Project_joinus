@@ -52,7 +52,6 @@
 
     <select id="selectCategory" resultType="com.ezen.joinus.vo.ProductVO">
         select * from products_table where p_category=#{p_category}
-
   </select>
     <select id="getProductName" parameterType="String" resultType="com.ezen.joinus.vo.ProductVO">
         SELECT *
@@ -64,5 +63,9 @@
     </select>
     <select id="selectProductListBySno" parameterType="int" resultType="com.ezen.joinus.vo.ProductVO">
         select * from products_table where sno = #{sno}
+    </select>
+<!--    카테고리별 제품 갯수-->
+    <select id="countProduct" resultType="int">
+        SELECT COUNT(*) FROM products_table where p_category=#{p_category}
     </select>
 </mapper>

@@ -22,4 +22,6 @@ public interface ProductMapper {
 
     List<ProductVO> selectProductListBySno(int sno);
 
+    int countProduct(String p_category);
+
 }
