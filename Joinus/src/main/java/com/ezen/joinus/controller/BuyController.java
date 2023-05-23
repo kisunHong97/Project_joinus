@@ -86,6 +86,11 @@ public class BuyController {
         purchaseService.productPurchase(purchaseVO);
         purchaseService.updateUserPoint(id, vo.getP_price());
         storeService.updateRevenue(vo.getP_price(), vo.getSno());
+        RevenueVO revenueVO = new RevenueVO();
+        revenueVO.setSno(vo.getSno());
+        revenueVO.setRevenue_date(vo.getStartDate());
+        revenueVO.setRevenue_amount(vo.getP_price());
+        storeService.insertRevenue(revenueVO);
 
         return new ResponseEntity(" 구매 목록에 추가되었습니다.", HttpStatus.OK);
     }
@@ -115,6 +120,11 @@ public class BuyController {
             cartService.deleteCart(purchaseVO.getPno(), id);
             // buyPoint 스토어 테이블에 전달
             storeService.updateRevenue(purchaseVO.getP_price(), purchaseVO.getSno());
+            RevenueVO revenueVO = new RevenueVO();
+            revenueVO.setSno((int) productData.get("sno"));
+            revenueVO.setRevenue_date((String) productData.get("startDate"));
+            revenueVO.setRevenue_amount((int) productData.get("p_price"));
+            storeService.insertRevenue(revenueVO);
         }
         System.out.println("productList:" + productList);
         return new ResponseEntity<>("구매 목록에 추가되었습니다.", HttpStatus.OK);

@@ -9,15 +9,25 @@ import com.ezen.joinus.service.StoreService;
 import com.ezen.joinus.vo.*;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class BusinessController {
@@ -34,6 +44,17 @@ public class BusinessController {
     @Setter(onMethod_=@Autowired)
     private FileService fileService;
 
+    // 수익금 조회 메서드
+    @GetMapping("/storeRevenue")
+    public ResponseEntity<List<RevenueVO>> getRevenueList(Model model, HttpSession session,Integer  sno) {
+        System.out.println("수익금 ajax 들오나");
+        BusinessUserVO businessUser = (BusinessUserVO) session.getAttribute("BusinessUserVO");
+        List<RevenueVO> revenueList = storeService.getRevenueList(businessUser.getBno());
+        System.out.println("수익금조회 리스트 : " + revenueList);
+        List<RevenueVO> result = revenueList.stream().filter(i -> i.getSno() == sno).collect(Collectors.toList());
+        return new ResponseEntity<>(result,HttpStatus.OK);
+    }
+
     @GetMapping("/businessinformation")//사업자 개인정보 수정화면 들어가기
     public String Businessinformation(Model model, HttpSession session){
         BusinessUserVO businessUser = (BusinessUserVO) session.getAttribute("BusinessUserVO");
@@ -43,6 +64,7 @@ public class BusinessController {
         model.addAttribute("businessvo" ,businessUserService.getBusinessById(businessUser.getB_id()));
         return "business/businessinformation";
     }
+
     @GetMapping("/businessmodify")//사업자 개인정보 수정화면 들어가기 2
     public String businessmodify(Model model, HttpSession session){
         BusinessUserVO businessUser = (BusinessUserVO) session.getAttribute("BusinessUserVO");
