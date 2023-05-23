@@ -14,29 +14,39 @@
     <select id="getMaxSno" resultType="int">
         select max(sno) from store_table
     </select>
+  
     <select id="getStore"  resultType="com.ezen.joinus.vo.StoreVO">
         select * from store_table where bno=#{bno, jdbcType=INTEGER}
     </select>
+  
     <update id="updateStore" parameterType="com.ezen.joinus.vo.StoreVO">
         update store_table set s_name=#{s_name},s_addrCode=#{s_addrCode},s_addrStreet=#{s_addrStreet},s_addrDetail=#{s_addrDetail},s_inst=#{s_inst},s_email=#{s_email},s_URL=#{s_URL},s_phone=#{s_phone} where bno=#{bno}
     </update>
+  
     <update id="updateRevenue"  parameterType="java.util.Map">
         update store_table
         set s_revenue = s_revenue + #{s_revenue}
         where sno = #{sno}
     </update>
+  
     <select id="selectlocation"  resultType="com.ezen.joinus.vo.StoreVO">
         SELECT * FROM store_table WHERE s_addrStreet LIKE '%' || #{location} || '%'
     </select>
+
     <insert id="insertRevenue" parameterType="com.ezen.joinus.vo.StoreVO">
         INSERT INTO revenue_table (sno, revenue_date, revenue_amount)
         VALUES (#{sno}, SYSDATE, #{revenue_amount})
     </insert>
+  
     <select id="getRevenueList" resultType="com.ezen.joinus.vo.RevenueVO">
         SELECT sno, SUM(revenue_amount) as revenue_amount, revenue_date
         FROM revenue_table
         group by sno, revenue_date
         order by revenue_date asc
     </select>
+
+    <delete id="deletestore">
+        delete FROM store_table WHERE bno = #{bno, jdbcType=INTEGER}
+    </delete>
 
 </mapper>

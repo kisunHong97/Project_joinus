@@ -10,7 +10,7 @@ import lombok.*;
 public class StoreVO {//store_table
 
     private int sno;
-    private int bno;
+    private Integer bno;
     private String s_name ;
     private String s_addrCode ;
     private String s_addrStreet ;

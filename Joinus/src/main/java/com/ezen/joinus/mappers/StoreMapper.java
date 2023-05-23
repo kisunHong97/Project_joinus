@@ -13,14 +13,18 @@ public interface StoreMapper {
     public int s_nameCheck(String s_name);
     public int getMaxSno();
 
-    StoreVO getStoreBno(int bno);
-    StoreVO getStore(int bno);
+    StoreVO getStoreBno(Integer bno);
+    StoreVO getStore(Integer bno);
     void updateStore(StoreVO vo);
     void updateRevenue(Map<String, Object> paramMap);
+
     // 수익금 저장
     void insertRevenue(RevenueVO revenue);
     List<RevenueVO> getRevenueList(int sno);
+
     List<StoreVO> selectlocation(String location);
+
+    void deletestore(Integer bno);
 
 
 

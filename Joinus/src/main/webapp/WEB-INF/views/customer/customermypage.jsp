@@ -18,8 +18,8 @@
     }
 
     #mypage-menu > div {
-        width: 160px;
-        height: 110px;
+        width: 130px;
+        height: 90px;
         margin-right: 20px;
         border: 1px solid #e5e5e5;
         display: flex;
@@ -71,6 +71,7 @@
     <div><a href="/myinformation?u_id=${a.u_id}" role="button">개인정보 수정</a></div>
     <div><a href="/customerpoint?point=${a.buypoint}" role="button">포인트 충전</a></div>
     <div><a href="#">문의 내역</a></div>
+    <div><a href="#">환불 신청</a></div>
 
 </div>
 <br>

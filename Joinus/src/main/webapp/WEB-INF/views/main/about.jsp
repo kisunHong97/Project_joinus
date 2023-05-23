@@ -38,7 +38,7 @@
     .board-body ul {
         list-style: none;
         padding: 0;
-        margin: 0;
+        margin-left: 50px;
         display: flex;
         flex-wrap: wrap;
     }
@@ -60,6 +60,7 @@
         display: block;
         width: 100%;
         height: auto;
+
     }
 
     .post-content {
@@ -123,7 +124,7 @@
         border:none;
         cursor: pointer;
         border-radius: 5px;
-     }
+    }
     .moving-text {
         position: absolute;
         white-space: nowrap;
@@ -132,7 +133,7 @@
         animation: moveText 5s linear infinite;
     }
 
-   @keyframes moveText {
+    @keyframes moveText {
         0% { left: 20px; }
         100% { left: calc(100% - 200px); }
     }
@@ -167,6 +168,80 @@
         background-color: white;
         color: black;
     }
+
+    /*.arrow-right {*/
+    /*    position: relative;*/
+    /*    top: -300px; !* 원하는 만큼 요소를 위로 옮깁니다 *!*/
+    /*    font-size: 35px;*/
+    /*    color: #e5e5e5;*/
+    /*    font-weight: bold;*/
+    /*}*/
+    /*.arrow-left {*/
+    /*    position: relative;*/
+    /*    font-size: 35px;*/
+    /*    color: #e5e5e5;*/
+    /*    font-weight: bold;*/
+    /*    top: -300px;*/
+    /*    left: 795px; !* 원하는 만큼 요소를 오른쪽으로 이동시킵니다 *!*/
+    /*}*/
+    .board {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .board-body {
+        display: flex;
+        flex-wrap: wrap;
+        transition: transform 0.5s ease-in-out;
+        width: 75%;
+    }
+
+    .board-item {
+        flex: 0 0 33.33%;
+        box-sizing: border-box;
+        padding: 10px;
+    }
+
+    .arrow-left,
+    .arrow-right {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 40px;
+        background-color: #f2f2f2;
+        text-align: center;
+        line-height: 40px;
+        font-weight: bold;
+        font-size: 20px;
+        text-decoration: none;
+        color: #333;
+    }
+
+    .arrow-left {
+        left: 10px;
+    }
+
+    .arrow-right {
+        right: 5px;
+        left: 810px;
+    }
+    #slider {
+        display: flex;
+        transition: transform 0.5s ease;
+    }
+    .slide {
+        flex: 0 0 33.33%;
+        padding: 10px;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    .slide.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
 </style>
 <script>
     function selChange() {
@@ -176,33 +251,60 @@
 </script>
 <body class="sub_page about_page">
 <br>
-<div class="balloon_03"></div>
 <section>
     <div class="outter ">
         <h1 class="hit">히트상품</h1>
         <!-- 옵션선택 끝 -->
-        <table border="1">
-            <div class="board">
-                <div class="board-body">
-                    <ul>
-                        <c:forEach var="searchResult" items="${productList}" varStatus="status">
-                        <c:if test="${status.index % 3 == 0}">
-                    </ul>
-                    <ul>
-                    </c:if>
-                    <li>
-                        <div class="post-thumbnail">
-                            <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일">
+        <div class="board">
+            <div class="board-body">
+                <div class="row">
+                    <div id="slider">
+                        <div class="col-12">
+                            <div class="row">
+                                <c:forEach var="food" items="${productList}" varStatus="status">
+                                    <c:if test="${status.index >= (paging.nowPage-1) * 6 && status.index < paging.nowPage * 6}">
+                                        <div class="col-4">
+                                            <div class="board-item">
+                                                <div class="post-thumbnail">
+                                                    <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일">
+                                                </div>
+                                                <div class="post-content">
+                                                    <a href="/board/read?pno=${productList[status.index].pno}">${productList[status.index].p_inst}</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </c:if>
+                                </c:forEach>
+                            </div>
                         </div>
-                        <div class="post-content">
-                            <a href='/board/read?pno=${productList[status.index].pno}'>${productList[status.index].p_inst }</a>
-                        </div>
-                    </li>
-                    </c:forEach>
-                   </ul>
+                    </div>
                 </div>
             </div>
-        </table>
+            <a class="arrow-left" href="#">&lt;</a>
+            <a class="arrow-right" href="#">&gt;</a>
+        </div>
+        </div>
+
+<%--        <table border="1">--%>
+<%--            <div class="board">--%>
+<%--                <div class="board-body">--%>
+<%--                    <c:forEach var="food" items="${productList}" varStatus="status">--%>
+<%--                        <c:if test="${status.index >= (paging.nowPage-1) * 6 && status.index < paging.nowPage * 6}">--%>
+<%--                            <div class="board-item">--%>
+<%--                                <div class="post-thumbnail">--%>
+<%--                                    <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일">--%>
+<%--                                </div>--%>
+<%--                                <div class="post-content">--%>
+<%--                                    <a href="/board/read?pno=${productList[status.index].pno}">${productList[status.index].p_inst }</a>--%>
+<%--                                </div>--%>
+<%--                            </div>--%>
+<%--                        </c:if>--%>
+<%--                    </c:forEach>--%>
+<%--                </div>--%>
+<%--                <a class="arrow-left" href="#">&lt;</a>--%>
+<%--                <a class="arrow-right" href="#">&gt;</a>--%>
+<%--            </div>--%>
+<%--        </table>--%>
 
         <aside style="position: absolute; top: 200px; right: 360px;">
             <div style="flex-shrink: 0; width: 300px;">
@@ -219,23 +321,24 @@
         </aside>
     </div>
 </section>
+
 <div style="display: block; text-align: center;">
-    <c:if test="${paging.startPage != 1 }">
-        <a href="/product_board?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
-    </c:if>
-    <c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
-        <c:choose>
-            <c:when test="${p == paging.nowPage }">
-                <b>${p }</b>
-            </c:when>
-            <c:when test="${p != paging.nowPage }">
-                <a href="/product_board?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
-            </c:when>
-        </c:choose>
-    </c:forEach>
-    <c:if test="${paging.endPage != paging.lastPage}">
-        <a href="/product_board?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
-    </c:if>
+    <%--    <c:if test="${paging.startPage != 1 }">--%>
+    <%--        <a href="/product_board?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>--%>
+    <%--    </c:if>--%>
+    <%--    <c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">--%>
+    <%--        <c:choose>--%>
+    <%--            <c:when test="${p == paging.nowPage }">--%>
+    <%--                <b>${p }</b>--%>
+    <%--            </c:when>--%>
+    <%--            <c:when test="${p != paging.nowPage }">--%>
+    <%--                <a href="/product_board?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>--%>
+    <%--            </c:when>--%>
+    <%--        </c:choose>--%>
+    <%--    </c:forEach>--%>
+    <%--    <c:if test="${paging.endPage != paging.lastPage}">--%>
+    <%--        <a href="/product_board?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>--%>
+    <%--    </c:if>--%>
 </div>
 </div>
 <section>
@@ -265,6 +368,45 @@
 <%@ include file="../footer/footer.jsp"%>
 </body>
 </html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        var boardWidth = $('.board-body').width();
+        var boardItemCount = $('.board-item').length;
+        var itemsPerRow = 3;
+        var boardHeight = Math.ceil(boardItemCount / itemsPerRow) * $('.board-item').outerHeight();
+        var currentIndex = 0;
+
+        $('.board').css('height', boardHeight);
+
+        $('.arrow-right').click(function() {
+            if (currentIndex < Math.ceil(boardItemCount / itemsPerRow) - 1) {
+                currentIndex++;
+                $('.board-body').css('transform', 'translateX(-' + (currentIndex * boardWidth) + 'px)');
+            }
+        });
+
+        $('.arrow-left').click(function() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                $('.board-body').css('transform', 'translateX(-' + (currentIndex * boardWidth) + 'px)');
+            }
+        });
+
+        function loadRemainingItems() {
+            var visibleItemCount = (currentIndex + 1) * itemsPerRow;
+            var totalItemCount = $('.board-item').length;
+
+            if (visibleItemCount < totalItemCount) {
+                var remainingItems = $('.board-item:lt(' + totalItemCount + '):gt(' + visibleItemCount + ')').clone();
+                $('.board-body').append(remainingItems);
+            }
+        }
+
+        // 슬라이드 이동 완료 후에 남은 리스트를 불러오도록 호출
+        $('.arrow-right, .arrow-left').on('transitionend', loadRemainingItems);
+    });
+</script>
 <script>
     // 페이지 로드 시 실행되는 함수
     window.onload = function() {

@@ -132,13 +132,19 @@ public class HeaderController {
         int total = productService.countBoard();
         if (nowPage == null && cntPerPage == null) {
             nowPage = "1";
-            cntPerPage = "5";
+            cntPerPage = "16";
         } else if (nowPage == null) {
             nowPage = "1";
         } else if (cntPerPage == null) {
-            cntPerPage = "5";
+            cntPerPage = "16";
         }
-        vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+        int cntPage= 0;
+        if ((total / 16.0)>0){
+            cntPage = (int) Math.ceil(total / 16.0);
+        }else{
+            cntPage = 1;
+        }
+        vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage),cntPage);
         model.addAttribute("paging", vo);
 
         List<AttachFileDTO> thumbnailList = new ArrayList<>();

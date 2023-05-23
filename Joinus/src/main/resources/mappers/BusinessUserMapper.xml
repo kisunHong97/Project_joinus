@@ -25,7 +25,7 @@
     </update>
     <!--  개인정보 삭제 시 사업자_테이블 정보를 삭제 -->
     <delete id="deleteBusiness">
-        delete from business_table where b_id=#{b_id,jdbcType=VARCHAR}
+        delete from business_table where bno=#{bno, jdbcType=INTEGER}
     </delete>
 
 </mapper>

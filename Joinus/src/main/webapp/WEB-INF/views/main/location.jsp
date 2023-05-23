@@ -7,6 +7,7 @@
     <title>Title</title>
 </head>
 <%@ include file="../header/header.jsp"%>
+<link href="../../../resources/css/category.css" rel="stylesheet" />
 <style>
     @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 100;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf) format('opentype');}
     @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 300;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 400;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 500;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 700;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 900;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format('opentype');}
@@ -99,7 +100,7 @@
             <form method="post" action="/location">
                 <input type="hidden" name="name" value="${name}"/>
                 <input type="hidden" name="name1" value="${name1}"/>
-                <select name="location" style="margin-left: auto;">
+                <select class="styled-select" name="location" style="margin-left: auto;">
                     <option value="" disabled selected>지역 선택</option>
                     <option value="서울">서울</option>
                     <option value="수원">수원</option>
@@ -113,51 +114,54 @@
                     <option value="용인">용인</option>
                     <option value="전주">전주</option>
                 </select>
-                <button class="button" type="submit" value="검색">검색</button>
+                <button class="search-button " type="submit" value="검색">검색</button>
             </form>
         </div>
         <br>
         <!-- 옵션선택 끝 -->
-        <table border="1">
+            <table border="1">
             <div class="board">
-                <div class="board-body">
-                    <ul>
-                        <c:forEach var="filterl" items="${filteredList}" varStatus="status">
-
-                            <li>
-                                <div class="post-thumbnail">
-                                    <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일">
-                                </div>
-                                <div class="post-content">
-                                    <a href="/board/read?pno=${filteredList[status.index].pno}">${filteredList[status.index].p_inst }</a>
-                                </div>
-                            </li>
-                        </c:forEach>
-                    </ul>
-                </div>
+            <div class="board-body">
+            <ul>
+                <c:forEach var="filterl" items="${filteredList}" varStatus="status">
+                <c:if test="${status.index >= (paging.nowPage-1) * 16 && status.index < paging.nowPage * 16}">
+                    <li>
+                        <div class="post-thumbnail">
+                            <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일">
+                        </div>
+                        <div class="post-content">
+                            <a href="/board/read?pno=${filteredList[status.index].pno}">${filteredList[status.index].p_inst }</a>
+                        </div>
+                    </li>
+                </c:if>
+            </c:forEach>
+            </ul>
             </div>
-        </table>
-    </div>
-</section>
-</section>
-<div style="display: block; text-align: center;">
-    <c:if test="${paging.startPage != 1 }">
-        <a href="/location?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
-    </c:if>
-    <c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
-        <c:choose>
-            <c:when test="${p == paging.nowPage }">
-                <b>${p }</b>
-            </c:when>
-            <c:when test="${p != paging.nowPage }">
-                <a href="/location?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
-            </c:when>
-        </c:choose>
-    </c:forEach>
-    <c:if test="${paging.endPage != paging.lastPage}">
-        <a href="/location?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
-    </c:if>
-</div>
+            </div>
+            </table>
+            </div>
+            </section>
+            </section>
+            <br>
+            <div class="pagination" style="display: block; text-align: center;">
+            <c:if test="${paging.startPage != 1 && paging.startPage != 0 }">
+                <a href="/location?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
+            </c:if>
+            <c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
+                <c:choose>
+                    <c:when test="${p == paging.nowPage }">
+                        <b>${p }</b>
+                    </c:when>
+                    <c:when test="${p != paging.nowPage }">
+                        <a href="/location?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
+                    </c:when>
+                </c:choose>
+            </c:forEach>
+            <c:if test="${paging.endPage != paging.lastPage && paging.lastPage > 10}">
+                <a href="/location?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
+            </c:if>
+            </div>
+            <br>
 <%@ include file="../footer/footer.jsp"%>
 </body>
 </html>
