@@ -1,5 +1,6 @@
 package com.ezen.joinus.mappers;
 
+import com.ezen.joinus.vo.InquiryVO;
 import com.ezen.joinus.vo.PagingVO;
 import com.ezen.joinus.vo.ProductVO;
 
@@ -23,5 +24,7 @@ public interface ProductMapper {
     List<ProductVO> selectProductListBySno(int sno);
 
     int countProduct(String p_category);
-
+    void saveInquiry(InquiryVO inquiryVO);
+    List<InquiryVO> getInquiries(String p_name);
+    InquiryVO updateInquiry(String arg0, String param1);
 }

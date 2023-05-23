@@ -107,6 +107,110 @@
       background-color: #ffc59b;
 
   }
+  #qnaForm {
+      margin-bottom: 20px;
+  }
+
+  #qnaTextarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      resize: vertical;
+  }
+
+  #qnaForm button {
+      padding: 8px 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+  }
+
+  #qnaForm button:hover {
+      background-color: #45a049;
+  }
+
+  .inquiry {
+      background-color: #f7f7f7;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+  }
+
+  .inquiry p {
+      margin: 0;
+      padding: 0;
+  }
+
+  .inquiry-text {
+      font-weight: bold;
+  }
+
+  .inquiry-date {
+      color: #888;
+      font-size: 12px;
+  }
+  .btn-inquiry{
+      width: 560px;
+      height: 60px;
+      border: none;
+      background-color: #ff731b;
+      border-radius: 5px;
+      font-size: 17px;
+      color: white;
+      font-weight: bold;
+  }
+  #inquiryButton{
+      width: 100px;
+      height: 40px;
+      border: none;
+      background-color: #ff731b;
+      border-radius: 5px;
+      font-size: 17px;
+      color: white;
+      font-weight: bold;
+  }
+  .inquiry-Content{
+      width: 1110px;
+      border: 1px solid #c9c9c9;
+  }
+  .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 600px;
+  }
+
+  .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+  }
+
+  .close:hover,
+  .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+  }
 
 </style>
 <%@ include file="../header/header.jsp"%>
@@ -211,13 +315,12 @@
     <div class="tab">
       <button class="tablinks" onclick="openTab(event, 'product_info')">상품 상세 정보</button>
       <button class="tablinks" onclick="openTab(event, 'reviews')">구매후기</button>
-      <button class="tablinks" onclick="openTab(event, 'qna')">상품문의</button>
+      <button class="tablinks" id="inquiryTab" onclick="openTab(event, 'qna')">상품문의</button>
       <button class="tablinks" onclick="openTab(event, 'refund')">환불</button>
     </div>
     <!-- 탭 내용 -->
     <div id="product_info" class="tabcontent">
       <h3>상품 상세 정보</h3>
-      <p>상품의 상세 정보</p>
         <img src="/display?fileName=${productVO.detail.uploadPath}/${productVO.detail.uuid}_${productVO.detail.fileName}">
     </div>
 
@@ -226,12 +329,31 @@
       <p>구매후기</p>
     </div>
 
-    <div id="qna" class="tabcontent">
-      <h3>상품문의</h3>
-      <p>상품문의 내용</p>
-    </div>
-
-    <div id="refund" class="tabcontent">
+      <div id="qna" class="tabcontent">
+          <button id="inquiryButton">문의하기</button><hr>
+          <div id="inquiryForm" class="modal">
+              <div class="modal-content">
+                  <span class="close">&times;</span>
+                  <form id="qnaForm">
+                      <textarea id="qnaTextarea" class="inquiry-Content" rows="4" cols="50" placeholder="상품 문의를 작성해주세요"></textarea>
+                      <button type="button" class="btn-inquiry" onclick="submitInquiry()">문의 등록</button>
+                  </form>
+              </div>
+          </div>
+          <div id="editInquiryModal" class="modal">
+              <div class="modal-content">
+                  <span class="close">&times;</span>
+                  <form id="editInquiryForm">
+                      <textarea id="editInquiryTextarea" class="inquiry-Content" rows="4" cols="50" placeholder="문의 내용을 수정해주세요"></textarea>
+                      <button type="button" class="btn-update-inquiry" onclick="updateInquiry()">수정</button>
+                  </form>
+              </div>
+          </div>
+          <div id="qnaList">
+              <!-- 상품 문의 목록이 표시될 영역 -->
+          </div>
+      </div>
+      <div id="refund" class="tabcontent">
        <h3>환불</h3>
       <div>
           <strong>[환불 규정]</strong><br>
@@ -266,31 +388,164 @@
       </div>
     </div>
   </div>
+  <input type="hidden" value="${customerUserVO}" id="customerUserVO">
   </tbody>
 </table>
-<%--<script>--%>
-<%--  function openNav() {--%>
-<%--    document.getElementById("myNav").classList.toggle("menu_width");--%>
-<%--    document--%>
-<%--            .querySelector(".custom_menu-btn")--%>
-<%--            .classList.toggle("menu_btn-style");--%>
-<%--  }--%>
-<%--</script>--%>
 <script>
-  <!-- 탭 스크립트 -->
-  function openTab(evt, tabName) {
-    var i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-      tabcontent[i].style.display = "none";
+    // 페이지 로드 시 첫 번째 탭을 활성화
+    document.addEventListener('DOMContentLoaded', function() {
+        openTab(event, 'product_info');
+    });
+
+    function openTab(evt, tabName) {
+
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
     }
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-      tablinks[i].className = tablinks[i].className.replace(" active", "");
+</script>
+<script>
+    $(document).ready(function() {
+        $("#inquiryTab").click(function (){
+            loadInquiries('${productVO.p_name}');
+        });
+
+        $("#inquiryButton").click(function() {
+            $("#inquiryForm").css("display", "block");
+        });
+
+        $(".close").click(function() {
+            $("#inquiryForm").css("display", "none");
+        });
+
+        $("#btnSubmitInquiry").click(function() {
+            submitInquiry();
+        });
+    });
+
+    $(document).on("click", ".btn-edit", function() {
+        var inquiryText = $(this).siblings(".inquiry-text").text().replace("문의 내용: ", "");
+        $("#editInquiryTextarea").val(inquiryText);
+        $("#editInquiryModal").css("display", "block");
+    });
+
+    $(".close").click(function() {
+        // ...
+        $("#editInquiryModal").css("display", "none");
+    });
+
+    function submitInquiry() {
+        var inquiryText = $("#qnaTextarea").val();
+
+        $.ajax({
+            url: "/submitInquiry",
+            type: "POST",
+            data: {
+                inquiryText: inquiryText,
+                p_name : '${productVO.p_name}',
+                sno : ${store.sno}
+            },
+            success: function(response) {
+                alert("등록되었습니다.");
+
+                // 입력 필드를 초기화
+                $("#qnaTextarea").val("");
+                // 모달 닫기
+                $("#inquiryForm").css("display", "none");
+
+                // 등록된 문의글을 바로 표시
+                var inquiryContent = $("<p>").text("문의 내용: " + inquiryText).addClass("inquiry-text");
+                var inquiryDate = $("<p>").text("문의 일시: " + new Date().toLocaleString()).addClass("inquiry-date");
+                var newInquiry = $("<div>").addClass("inquiry");
+                newInquiry.append(inquiryContent, inquiryDate);
+                $("#qnaList").append(newInquiry);
+
+                // 등록된 문의글의 내용을 서버로부터 다시 받아와서 화면에 표시
+                loadInquiries('${productVO.p_name}');
+            },
+            error: function() {
+                // 요청이 실패한 경우, 오류 처리
+                console.error("상품 문의 등록에 실패했습니다.");
+            }
+        });
     }
-    document.getElementById(tabName).style.display = "block";
-    evt.currentTarget.className += " active";
-  }
+
+    function loadInquiries(p_name) {
+        $.ajax({
+            url: "/getInquiries",
+            type: "GET",
+            data: {
+                p_name: p_name
+            },
+            dataType: "json", // JSON 형식의 응답을 기대
+            success: function(response) {
+                // 기존의 문의 목록을 초기화
+                $("#qnaList").empty();
+
+                if (response && response.length > 0) {
+                    response.forEach(function(vo) {
+                        var inquiryContent = $("<p>").text("문의 내용: " + vo.u_inquiry).addClass("inquiry-text");
+                        var inquiryDate = $("<p>").text("문의 일시: " + new Date(vo.inquiry_date).toLocaleString()).addClass("inquiry-date");
+                        var editButton = $("<button>").text("수정").addClass("btn-edit");
+                        var newInquiry = $("<div>").addClass("inquiry");
+                        newInquiry.append(inquiryContent, inquiryDate, editButton);
+                        $("#qnaList").append(newInquiry);
+                    });
+                } else {
+                    $("#qnaList").text("등록된 문의가 없습니다.");
+                }
+            },
+            error: function() {
+                console.error("문의 목록을 가져오는 데 실패했습니다.");
+            }
+        });
+    }
+
+    function updateInquiry() {
+        var editedInquiryText = $("#editInquiryTextarea").val();
+        console.log(editedInquiryText)
+        // 코드 수정 필요: 해당 문의의 ID 또는 식별자를 가져와서 서버로 전송
+
+        $.ajax({
+            url: "/updateInquiry",
+            type: "POST",
+            data: {
+                u_name: '${customerUserVO.u_name}', // 수정할 문의의 ID 또는 식별자
+                u_inquiry : editedInquiryText
+            },
+            dataType: "json",
+            success: function(response) {
+                console.log("응답:"+response)
+                alert("수정 되었습니다.")
+                // if (response && response.length > 0) {
+                //     response.forEach(function(vo) {
+                //         var inquiryContent = $("<p>").text("문의 내용: " + vo.u_inquiry).addClass("inquiry-text");
+                //         var inquiryDate = $("<p>").text("문의 일시: " + new Date(vo.inquiry_date).toLocaleString()).addClass("inquiry-date");
+                //         var editButton = $("<button>").text("수정").addClass("btn-edit");
+                //         var newInquiry = $("<div>").addClass("inquiry");
+                //         newInquiry.append(inquiryContent, inquiryDate, editButton);
+                //         $("#qnaList").append(newInquiry);
+                //     });
+                // } else {
+                //     $("#qnaList").text("등록된 문의가 없습니다.");
+                // }
+            },
+            error: function() {
+                console.error("문의 내용을 수정하는 데 실패했습니다.");
+            }
+        });
+
+        $("#editInquiryModal").css("display", "none");
+    }
+
 </script>
 <script>
     $(document).ready(function(e) {
@@ -310,7 +565,7 @@
     // 로그인 여부를 확인하는 코드 작성
     // 로그인되어 있으면 true 반환, 아니면 false 반환
     // 예시:
-    if (${customerUserVO == null || customerUserVO.u_id == null}) {
+    if (($("#customerUserVO") != null || $("#u_id") != null)) {
       return false;
     } else {
       return true;
@@ -325,14 +580,14 @@
       var flag = false
       if(data_like == "❤️"){
         deleteWishlist();
-        if (${customerUserVO != null || customerUserVO.u_id != null}){
+        if (($("#customerUserVO") != null || $("#u_id") != null)){
           flag = !flag
           $('#wishBtn').text("🤍");
           console.log('여기는 삭제');
         }
       } else {
         addWishlist(f1, f2);
-        if (${customerUserVO != null || customerUserVO.u_id != null}){
+        if (($("#customerUserVO") != null || $("#u_id") != null)){
           flag = !flag
           $('#wishBtn').text("❤️");
           console.log('여기는 추가');
@@ -397,14 +652,14 @@
       var flag = false
       if(data_cart == "🛒"){
         deleteCart();
-        if (${customerUserVO != null || customerUserVO.u_id != null}){
+        if (($("#customerUserVO") != null || $("#u_id") != null)){
           flag = !flag
           $('#cartBtn').text("장바구니담기");
           console.log('여기는 삭제');
         }
       } else {
         addCart(f3, f4, f5, f6, f7);
-        if (${customerUserVO != null || customerUserVO.u_id != null}){
+        if (($("#customerUserVO") != null || $("#u_id") != null)){
           flag = !flag
           $('#cartBtn').text("🛒");
           console.log('여기는 추가');

@@ -15,6 +15,8 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Controller
@@ -89,15 +91,6 @@ public class HomeController {
         Integer sno = productVO.getSno();
         System.out.println("sno!!!!!!!!!!"+sno);
         model.addAttribute("store", storeService.getStore(sno));
-
-
-
-        //상품을 올린 스토어 정보
-//        BusinessUserVO businessUser = (BusinessUserVO) session.getAttribute("BusinessUserVO");
-//        model.addAttribute("store",storeService.getStore(businessUser.getBno()));
-
-
-
 
         // 사용자 정보 가져오기
         String u_id = (String) session.getAttribute("id");
@@ -239,6 +232,61 @@ public class HomeController {
             System.out.println("pno: " + pno);
             cartService.getCartByPnoAndUid(pno, id);
             cartService.deleteCart(pno, id);
+        }
+    }
+
+    @PostMapping("/submitInquiry")
+    @ResponseBody
+    public String submitInquiry(@RequestParam("inquiryText") String inquiryText,
+                                String p_name, int sno,
+                                HttpSession session) {
+        CustomerUserVO customerloginUser = (CustomerUserVO) session.getAttribute("customerUserVO");
+        String id = (String) session.getAttribute("id");
+        // 현재 시간을 가져옵니다.
+        LocalDateTime currentTime = LocalDateTime.now();
+        // java.time.LocalDateTime 객체를 java.sql.Timestamp 객체로 변환합니다.
+        Timestamp timestamp = Timestamp.valueOf(currentTime);
+        System.out.println("상품문의 컨트롤러 들어오나? :" + inquiryText);
+        InquiryVO inquiryVO = new InquiryVO();
+        inquiryVO.setSno(sno);
+        inquiryVO.setP_name(p_name);
+        inquiryVO.setU_name(customerloginUser.getU_name());
+        inquiryVO.setU_inquiry(inquiryText);
+        inquiryVO.setInquiry_date(timestamp);
+        System.out.println("문의 : " + inquiryVO);
+
+        productService.saveInquiry(inquiryVO);
+        // 상품 문의 등록이 완료되었음을 클라이언트에 응답합니다.
+        return "success";
+    }
+
+    @GetMapping("/getInquiries")
+    @ResponseBody
+    public List<InquiryVO> getInquiries(String p_name) {
+        System.out.println("문의글 조회 : " + p_name);
+        // 서비스 레이어에서 등록된 상품 문의 목록을 조회하는 메서드를 호출하여 결과를 반환합니다.
+        List<InquiryVO> inquiries = productService.getInquiries(p_name);
+        System.out.println("문의글 리스트 : " + inquiries);
+
+        return inquiries;
+    }
+
+    @PostMapping("/updateInquiry")
+    @ResponseBody
+    public String updateInquiry(String u_name, String u_inquiry, HttpSession session) {
+        CustomerUserVO customerloginUser = (CustomerUserVO) session.getAttribute("customerUserVO");
+        System.out.println("문의 내역 수정 들어오나 ? : " + u_name + u_inquiry);
+        // 수정된 문의 내용을 업데이트하는 비즈니스 로직 수행
+        try {
+            System.out.println(customerloginUser.getU_name() + u_name);
+            if(customerloginUser.getU_name().equals(u_name)){
+                System.out.println("문의 내역 작성자와 수정하려는 사용자의 아이디가 일치합니다.");
+                productService.updateInquiry(u_name, u_inquiry);
+            }
+            return "success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error";
         }
     }
 }
