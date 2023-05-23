@@ -141,29 +141,29 @@
     </c:otherwise>
 </c:choose>
 
-<c:choose>
-<c:when test="${not empty buyInfo}">
-<div class="content" id="content2" style="display: none;">
-                <table border="1">
-                    <thead>
-                    <tr>
-                        <th>카테고리</th>
-                        <th>상품명</th>
-                        <th>가격</th>
-                    </tr>
-                    </thead>
-                    <tbody>
+<%--<c:choose>--%>
+<%--<c:when test="${not empty buyInfo}">--%>
+<%--<div class="content" id="content2" style="display: none;">--%>
+<%--                <table border="1">--%>
+<%--                    <thead>--%>
+<%--                    <tr>--%>
+<%--                        <th>카테고리</th>--%>
+<%--                        <th>상품명</th>--%>
+<%--                        <th>가격</th>--%>
+<%--                    </tr>--%>
+<%--                    </thead>--%>
+<%--                    <tbody>--%>
 
-                    </tbody>
-                </table>
-            </div>
-        </c:when>
-        <c:otherwise>
-            <div class="content" id="content1">
-                <div>구매상품이 없습니다.</div>
-            </div>
-        </c:otherwise>
-    </c:choose>
+<%--                    </tbody>--%>
+<%--                </table>--%>
+<%--            </div>--%>
+<%--        </c:when>--%>
+<%--        <c:otherwise>--%>
+<%--            <div class="content" id="content1">--%>
+<%--                <div>구매상품이 없습니다.</div>--%>
+<%--            </div>--%>
+<%--        </c:otherwise>--%>
+<%--    </c:choose>--%>
 <br>
 </body>
 <%@ include file="../footer/footer.jsp"%>
