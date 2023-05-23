@@ -40,7 +40,7 @@ public class StoreServiceImpl implements StoreService{
     }
 
     @Override
-    public StoreVO getStore(int bno) {
+    public StoreVO getStore(Integer bno) {
         return storeMapper.getStore(bno);
     }
 
@@ -61,6 +61,11 @@ public class StoreServiceImpl implements StoreService{
     @Override
     public List<StoreVO> selectlocation(String location) {
         return storeMapper.selectlocation(location);
+    }
+
+    @Override
+    public void deletestore(Integer bno) {
+        storeMapper.deletestore(bno);
     }
 
 }

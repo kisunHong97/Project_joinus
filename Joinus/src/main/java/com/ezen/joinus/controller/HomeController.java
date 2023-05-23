@@ -31,6 +31,9 @@ public class HomeController {
     @Setter(onMethod_=@Autowired)
     private CartService cartService;
 
+    @Setter(onMethod_=@Autowired)
+    private StoreService storeService;
+
     //페이징 처리
     @GetMapping("/product_board")
 
@@ -43,24 +46,29 @@ public class HomeController {
         int total = productService.countBoard();
         if (nowPage == null && cntPerPage == null) {
             nowPage = "1";
-            cntPerPage = "5";
+            cntPerPage = "6";
         } else if (nowPage == null) {
             nowPage = "1";
         } else if (cntPerPage == null) {
-            cntPerPage = "5";
+            cntPerPage ="6";
         }
-        vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+        System.out.println("total!!!!!!!!:"+total);
+        int cntPage = (int) Math.ceil((double) total / 6.0);
+
+        vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage),cntPage);
         model.addAttribute("paging", vo);
         List<ProductVO> productList = productService.selectBoard(vo);
 
         List<AttachFileDTO> thumbnailList = new ArrayList<>();
+        System.out.println("vo!!!!!!!!!!!!!!:"+vo);
+        System.out.println("productList:!!!!!!!!!!!:"+productList);
 
         for(ProductVO product : productList){
             thumbnailList.add(fileService.selectMainThumbnail(product.getPno()));
             System.out.println(fileService.selectMainThumbnail(product.getPno()));
         }
 
-        System.out.println(">> " + thumbnailList);
+        System.out.println(">>>>>>>>> " + thumbnailList);
 
         model.addAttribute("productList", productList);
         model.addAttribute("thumbnailList", thumbnailList);
@@ -78,6 +86,18 @@ public class HomeController {
         productVO.setDetail(fileService.selectDetail(productVO.getPno()));
         System.out.println(productVO);
         model.addAttribute("productVO", productVO);
+        Integer sno = productVO.getSno();
+        System.out.println("sno!!!!!!!!!!"+sno);
+        model.addAttribute("store", storeService.getStore(sno));
+
+
+
+        //상품을 올린 스토어 정보
+//        BusinessUserVO businessUser = (BusinessUserVO) session.getAttribute("BusinessUserVO");
+//        model.addAttribute("store",storeService.getStore(businessUser.getBno()));
+
+
+
 
         // 사용자 정보 가져오기
         String u_id = (String) session.getAttribute("id");

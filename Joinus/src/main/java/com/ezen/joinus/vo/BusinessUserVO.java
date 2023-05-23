@@ -8,7 +8,7 @@ import lombok.*;
 @Getter
 @Setter
 public class BusinessUserVO {//business_table
-    private int bno;
+    private Integer bno;
     private String b_name;
     private String b_id;
     private String b_pwd;

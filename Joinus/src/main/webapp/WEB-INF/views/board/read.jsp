@@ -43,8 +43,9 @@
 <style>
   .tab {
     overflow: hidden;
-    border: 1px solid #ccc;
-    background-color: #f1f1f1;
+      border-top: 1px solid #e7e7e7; /* 위쪽에 검은색 테두리 추가 */
+      border-bottom: 2px solid black; /* 아래쪽에 검은색 테두리 추가 */
+    background-color: #ffffff;
   }
   .tab button {
     background-color: inherit;
@@ -60,7 +61,7 @@
     background-color: #ddd;
   }
   .tab button.active {
-    background-color: #ccc;
+    background-color: #ffffff;
   }
   .tabcontent {
     display: none;
@@ -68,6 +69,45 @@
     border: 1px solid #ccc;
     border-top: none;
   }
+  .plcc_banner img {
+      display: block;
+      width: 100%;
+  }
+  .plcc_banner img {
+      vertical-align: top;
+  }
+  .plcc_banner img {
+      border: 0 none;
+  }
+  .plcc_banner img {
+      border: 0;
+      -ms-interpolation-mode: bicubic;
+  }
+  .btnbasket{
+      height: 50px;
+      width: 248px;
+      background-color: #ffffff;
+      border: 1px solid #000000;
+      font-weight: bold;
+
+  }
+  .btnpurchase{
+      height: 50px;
+      width: 248px;
+      background-color: #ff731b;
+      border: none;
+      font-weight: bold;
+      color: white;
+  }
+  .btnwarning{
+      height: 50px;
+      width: 50px;
+      border:none;
+      border-radius: 10px;
+      background-color: #ffc59b;
+
+  }
+
 </style>
 <%@ include file="../header/header.jsp"%>
 <body class="sub_page about_page">
@@ -107,6 +147,8 @@
               </div>
           </div>
       <div class="col-md-6">
+          <div style="color: #8e8e8e">🏠︎ ${store.s_name}</div>
+          <hr>
         <h4>${productVO.p_inst }</h4>
         <form>
           <div class="form-group">
@@ -138,24 +180,28 @@
             <label for="totalPrice">총 가격</label>
             <input type="number" class="form-control" id="totalPrice" value="${productVO.p_price}" readonly>
           </div>
+            <div class="plcc_banner">
+                <img src="http://pics.auction.co.kr/vip/2022/2207_pc_vip_bn_img_01.png" alt="G마켓" 옥션="" 스마일카드="" 최대="" 2만원="" 혜택!="">
+            </div>
+            <br>
           <c:choose>
             <c:when test="${like == 1}">
-              <button type="button" class="btn btn-warning" id="wishBtn" data-a='${productVO.pno}' data-b='${customerUserVO.u_id}'>❤️</button>
+              <button type="button" class="btnwarning" id="wishBtn" data-a='${productVO.pno}' data-b='${customerUserVO.u_id}'>❤️</button>
             </c:when>
             <c:otherwise>
-              <button type="button" class="btn btn-warning" id="wishBtn" data-a='${productVO.pno}' data-b='${customerUserVO.u_id}'>🤍</button>
+              <button type="button" class="btnwarning" id="wishBtn" data-a='${productVO.pno}' data-b='${customerUserVO.u_id}'>🤍</button>
             </c:otherwise>
           </c:choose>
 
           <c:choose>
             <c:when test="${cart == 1}">
-              <button type="button" class="btn btn-primary" id="cartBtn" data-c='${productVO.pno}' data-d='${customerUserVO.u_id}'>🛒</button>
+              <button type="button" class="btnbasket" id="cartBtn" data-c='${productVO.pno}' data-d='${customerUserVO.u_id}'>🛒</button>
             </c:when>
             <c:otherwise>
-              <button type="button" class="btn btn-primary" id="cartBtn" data-c='${productVO.pno}' data-d='${customerUserVO.u_id}'>장바구니담기</button>
+              <button type="button" class="btnbasket" id="cartBtn" data-c='${productVO.pno}' data-d='${customerUserVO.u_id}'>장바구니</button>
             </c:otherwise>
           </c:choose>
-          <button type="button" id="buyBtn" class="btn btn-success">구매</button>
+          <button type="button" id="buyBtn" class="btnpurchase">구매하기</button>
         </form>
       </div>
 

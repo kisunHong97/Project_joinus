@@ -72,4 +72,9 @@ public class ProductServiceImpl implements ProductService{
 		return productMapper.selectProductListBySno(sno);
 	}
 
+	@Override
+	public int countProduct(String p_category) {
+		return productMapper.countProduct(p_category);
+	}
+
 }

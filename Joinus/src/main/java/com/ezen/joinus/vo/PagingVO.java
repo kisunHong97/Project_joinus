@@ -3,15 +3,17 @@ package com.ezen.joinus.vo;
 public class PagingVO {
 
     // 현재페이지, 시작페이지, 끝페이지, 게시글 총 갯수, 페이지당 글 갯수, 마지막페이지, SQL쿼리에 쓸 start, end
-    private int nowPage, startPage, endPage, total, cntPerPage, lastPage, start, end;
-    private int cntPage = 5;
+    private int nowPage, startPage, endPage, total, cntPerPage, lastPage, start, end,cntPage;
+
+
 
     public PagingVO() {
     }
-    public PagingVO(int total, int nowPage, int cntPerPage) {
+    public PagingVO(int total, int nowPage, int cntPerPage , int cntPage) {
         setNowPage(nowPage);
         setCntPerPage(cntPerPage);
         setTotal(total);
+        setCntPage(cntPage);
         calcLastPage(getTotal(), getCntPerPage());
         calcStartEndPage(getNowPage(), cntPage);
         calcStartEnd(getNowPage(), getCntPerPage());
@@ -85,16 +87,26 @@ public class PagingVO {
     public void setEnd(int end) {
         this.end = end;
     }
-    public int setCntPage() {
+    public int getCntPage() {
         return cntPage;
     }
-    public void getCntPage(int cntPage) {
+
+    public void setCntPage(int cntPage) {
         this.cntPage = cntPage;
     }
+
     @Override
     public String toString() {
-        return "PagingVO [nowPage=" + nowPage + ", startPage=" + startPage + ", endPage=" + endPage + ", total=" + total
-                + ", cntPerPage=" + cntPerPage + ", lastPage=" + lastPage + ", start=" + start + ", end=" + end
-                + ", cntPage=" + cntPage + "]";
+        return "PagingVO{" +
+                "nowPage=" + nowPage +
+                ", startPage=" + startPage +
+                ", endPage=" + endPage +
+                ", total=" + total +
+                ", cntPerPage=" + cntPerPage +
+                ", lastPage=" + lastPage +
+                ", start=" + start +
+                ", end=" + end +
+                ", cntPage=" + cntPage +
+                '}';
     }
 }

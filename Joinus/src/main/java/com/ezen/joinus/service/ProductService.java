@@ -41,4 +41,6 @@ public interface ProductService {
     // business에 있는 sno로 접근하여 ProductVO 가져오기
     public List<ProductVO> selectProductListBySno(int sno);
 
+    int countProduct(String p_category);
+
 }

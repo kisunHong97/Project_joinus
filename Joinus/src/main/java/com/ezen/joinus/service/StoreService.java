@@ -15,13 +15,15 @@ public interface StoreService {
     // 최대(방금 생성된) sno 가져오기
     int getMaxSno();
 
-    StoreVO getStore(int bno);
+    StoreVO getStore(Integer bno);
 
     void updateStore(StoreVO vo);
 
     void updateRevenue(int s_revenue, int sno);
 
     List<StoreVO> selectlocation(String location);
+
+    void deletestore(Integer bno);
 
 
 }
