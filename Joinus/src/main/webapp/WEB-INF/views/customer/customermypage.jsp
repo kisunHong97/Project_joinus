@@ -60,6 +60,55 @@
     th {
         background-color: #f2f2f2;
     }
+    .review{
+        display: flex;
+        justify-content: center;
+    }
+    .review > div {
+        width: 880px;
+        height: 700px;
+        position: relative;
+        /*margin-right: 20px;*/
+        /*border: none;*/
+        /*display: flex;*/
+        /*margin-left: 20px;*/
+        /*justify-content: center;*/
+        /*align-items: center;*/
+    }
+    /*.reviewInfo {*/
+    /*    display: flex;*/
+    /*    align-items: center;*/
+    /*    margin-bottom: 10px;*/
+    /*}*/
+
+    /*.reviewInfo .star {*/
+    /*    margin-right: 10px;*/
+    /*}*/
+
+    /*.reviewInfo span {*/
+    /*    margin-right: 10px;*/
+    /*}*/
+    .reviewInfo > div{
+        display: inline-block;
+    }
+
+    .date {
+        position: absolute;
+        right: 0;/* 원하는 만큼의 오프셋 값을 설정하세요 */
+        letter-spacing:-1px;
+    }
+    .p_name{
+        margin-left: 15px;
+        margin-right: 15px;
+
+    }
+    /*.divp_name{*/
+    /*    width: 30px;*/
+    /*}*/
+    /*.textreview{*/
+    /*    position: absolute;*/
+    /*    transform: translateX(20px);*/
+    /*}*/
 </style>
 </head>
 <body>
@@ -70,7 +119,7 @@
     <div><a href="#" onclick="showContent(2)">찜목록</a></div>
     <div><a href="/myinformation?u_id=${a.u_id}" role="button">개인정보 수정</a></div>
     <div><a href="/customerpoint?point=${a.buypoint}" role="button">포인트 충전</a></div>
-    <div><a href="#">문의 내역</a></div>
+    <div><a href="#" onclick="showContent5(5)">작성한 리뷰</a></div>
     <div><a href="#">환불 신청</a></div>
 
 </div>
@@ -165,13 +214,59 @@
 <%--        </c:otherwise>--%>
 <%--    </c:choose>--%>
 <br>
+
+<div class="review" id="content5" style="display: none;">
+    <br>
+    <div id="reviewList">
+        <div style="border-bottom: 1px solid salmon">
+
+            <span><h3 style="font-weight: 900; letter-spacing:-1px; display: block; margin-top: -20px">리뷰</h3></span>
+        </div>
+
+        <c:forEach items="${reviewlist}" var="review">
+            <div class="reviewItem">
+                <div class="reviewInfo" style="border-bottom: 1px solid #ffd3c0; height: 50px; display: block; margin-top: 50px;"  >
+                   <div class="divstar"><span class="star" style="color: #ff731b; width: 100px">
+                            <script>
+                        var rating = ${review.rating};
+                        var stars = "";
+                        for (var i = 1; i <= 5; i++) {
+                            if (i <= rating) {
+                                stars += '<span class="star">★</span>';
+                            } else {
+                                stars += '<span class="star">☆</span>';
+                            }
+                        }
+                        document.write(stars);
+                    </script></span></div>
+                    <div class="divp_name" style="width: 120px; text-align: center;"><a href="board/read?pno=${review.pno}" class="p_name"> ${review.p_name}</a></div>
+                    <div class="divtextreview" style="width: 500px;"> <span class="textreview"> ${review.review}</span></div>
+                    <span class="date" style="color: #ff731b;">${review.sys_date}</span>
+                </div>
+            </div>
+        </c:forEach>
+
+        <c:if test="${empty reviewlist}">
+            <br>
+            <div class="noReviews" style="text-align: center">작성한 리뷰가 없습니다.</div>
+        </c:if>
+    </div>
+
+    <br>
+</div>
 </body>
 <%@ include file="../footer/footer.jsp"%>
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
     function showContent(contentId) {
+        $('.review').hide();
         $('.content').hide();
+        $('#content' + contentId).show();
+    }
+    function showContent5(contentId) {
+        $('.content').hide();
+        $('.review').hide();
         $('#content' + contentId).show();
     }
 </script>

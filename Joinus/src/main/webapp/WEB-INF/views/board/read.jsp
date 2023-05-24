@@ -107,6 +107,51 @@
       background-color: #ffc59b;
 
   }
+  .rating {
+      display: inline-block;
+  }
+
+  .rating input {
+      display: none;
+  }
+
+  .rating label {
+      float: right;
+      color: #aaa;
+      font-size: 20px;
+      padding: 0;
+      cursor: pointer;
+  }
+
+  .rating label:before {
+      content: '\2606'; /* 별 아이콘의 유니코드 값을 지정합니다 */
+  }
+
+  .rating input:checked ~ label {
+      color: #ffcc00; /* 선택된 별의 색상을 지정합니다 */
+  }
+
+  .rating label:hover,
+  .rating label:hover ~ label {
+      color: #ffcc00; /* 마우스를 올렸을 때 별의 색상을 지정합니다 */
+  }
+
+  /* 별의 크기 및 간격을 조정할 수 있습니다 */
+  .rating label {
+      margin-right: 5px;
+  }
+
+  /* 선택된 별 이후의 별을 비활성화합니다 */
+  .rating input:checked ~ label:before {
+      content: '\2605';
+  }
+  .reviewContent{
+      width: 1110px;
+      border: 1px solid #c9c9c9;
+  }
+  .btnreview{
+      width: 1110px;
+  }
   #qnaForm {
       margin-bottom: 20px;
   }
@@ -162,6 +207,18 @@
       color: white;
       font-weight: bold;
   }
+  .reviewItem {
+      border-top: 2px solid #ffcaab;
+      border-bottom: 2px solid #ffcaab;
+      padding: 10px 0;
+      margin-bottom: 10px;
+
+  }
+  .star{
+      color: #ff731b;
+      font-weight: bold;
+      font-size: 15px;
+    }
   #inquiryButton{
       width: 100px;
       height: 40px;
@@ -253,7 +310,7 @@
       <div class="col-md-6">
           <div style="color: #8e8e8e">🏠︎ ${store.s_name}</div>
           <hr>
-        <h4>${productVO.p_inst }</h4>
+        <h4 id="productname" name="p_name">${productVO.p_name }</h4>
         <form>
           <div class="form-group">
             <label for="colorSelect">종류</label>
@@ -325,9 +382,71 @@
     </div>
 
     <div id="reviews" class="tabcontent">
-      <h3>구매후기</h3>
-      <p>구매후기</p>
-    </div>
+      <h3>리뷰 작성</h3>
+
+        <form action="/review" method="post">
+            <textarea class="reviewContent" name="review" rows="5" cols="50" placeholder="리뷰를 입력하세요"></textarea>
+            <br>
+            <div class="rating">
+                <span style="font-weight: bold;">평점:</span>
+                <input type="radio" id="star5" name="rating" value="5">
+                <label for="star5"></label>
+                <input type="radio" id="star4" name="rating" value="4">
+                <label for="star4"></label>
+                <input type="radio" id="star3" name="rating" value="3">
+                <label for="star3"></label>
+                <input type="radio" id="star2" name="rating" value="2">
+                <label for="star2"></label>
+                <input type="radio" id="star1" name="rating" value="1">
+                <label for="star1"></label>
+            </div>
+            <br>
+            <button class="btnreview" type="submit">리뷰 등록</button>
+            <input type="hidden" value="${productVO.pno}" id="productVOpno" name="pno">
+            <input type="hidden" value="${productVO.p_name}" id="productVOp_name" name="p_name">
+        </form>
+        <hr>
+        <h3>후기</h3>
+            <span id=reviewAverage style="font-weight: bold; font-size: 30px; color:#ff731b;">${avg}/5</span>
+        <span style="color:#ff731b; font-weight: bold; ">(${listlength}개 후기)</span>
+        <br>
+        <br>
+        <div id="reviewList">
+            <c:forEach items="${productlist}" var="review">
+                <div class="reviewItem">
+                    <div class="reviewInfo">
+                        &nbsp;<span class="star" style="color: #ff731b;">
+                            <script>
+                        var rating = ${review.rating};
+                        var stars = "";
+                        for (var i = 1; i <= 5; i++) {
+                            if (i <= rating) {
+                                stars += '<span class="star">★</span>';
+                            } else {
+                                stars += '<span class="star">☆</span>';
+                            }
+                        }
+                        document.write(stars);
+                    </script></span>&nbsp;
+                        <script>
+                            var username = '${review.u_name}';
+                            var maskedUsername = username.charAt(0) + '*'.repeat(username.length - 1);
+                            document.write('<span style="color: #ff731b;">' + maskedUsername + '</span>');
+                        </script>&nbsp;
+                        <span style="color: #ff731b;">${review.sys_date}</span>
+
+                    </div>
+                    <br>
+                   <div class="reviewContent" style="border: none"><span>&nbsp; ${review.review}</span></div>
+                </div>
+            </c:forEach>
+
+            <c:if test="${empty productlist}">
+                <div class="noReviews">작성한 리뷰가 없습니다.</div>
+            </c:if>
+        </div>
+
+
 
       <div id="qna" class="tabcontent">
           <button id="inquiryButton">문의하기</button><hr>
@@ -388,8 +507,71 @@
       </div>
     </div>
   </div>
+  </div>
   </tbody>
+       <input type="hidden" value="${customerUserVO.u_id}" id="u_id">
+       <input type="hidden" value="${customerUserVO.u_name}" id="u_name" name="u_name">
+       <input type="hidden" value="${list}" id="list">
+       <input type="hidden" value="${customerUserVO}" id="customerUserVO">
+       <input type="hidden" value="${productVO.pno}" id="productVO" name="pno">
+       <input type="hidden" value="${productlist}" id="productlist" name="productlist">
+
 </table>
+<script>
+    var avgValue = ${avg}; // avg 값이 0인 경우 숨김 처리
+
+    if (avgValue === 0) {
+        var spanElement = document.getElementById("reviewAverage");
+        spanElement.style.display = "none";
+    }
+</script>
+<script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+    console.log("일단 작동")
+    $(document).ready(function() {
+        console.log("일단 작동")
+        console.log($("#productname").text())
+        console.log($("#productlist").val())
+        console.log($("#u_id").val())
+        $(".btnreview").click(function (){
+            if($("#u_id").val()=="") {
+                alert("로그인 후 가능합니다.")
+                return false;
+            }else if($(".reviewContent").val().length <10 && $(".reviewContent").val()!=""){
+                alert("리뷰는 10자 이상 작성해주세요")
+                return false;
+            }else if ($(".reviewContent").val()==""){
+                alert("리뷰를 입력해주세요");
+                return false;
+            }else if($("#list").val().indexOf($("#productname").text()) === -1) {
+                alert("구매한 고객만 리뷰 등록이 가능합니다.")
+                return false;
+            }else if($("#productlist").val().indexOf($("#u_id").val()) !== -1){
+                alert("리뷰작성은 한번만 가능합니다.")
+                return false;
+            } else if ($('input[name="rating"]:checked').length === 0) {
+                alert("평점을 선택해주세요.");
+                return false;
+            } else {
+                var confirmation = confirm("리뷰를 등록하시겠습니까?");
+                if (confirmation) {
+                    alert("리뷰가 등록되었습니다.");
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        })
+    });
+</script>
+<script>
+  function openNav() {
+    document.getElementById("myNav").classList.toggle("menu_width");
+    document
+            .querySelector(".custom_menu-btn")
+            .classList.toggle("menu_btn-style");
+  }
+</script>
 <script>
     // 페이지 로드 시 첫 번째 탭을 활성화
     document.addEventListener('DOMContentLoaded', function() {
@@ -658,14 +840,15 @@
       var flag = false
       if(data_cart == "🛒"){
         deleteCart();
-        if (($("#customerUserVO") != null || $("#u_id") != null)){
+        if ($("#customerUserVO") != null || $("#u_id") != null){
           flag = !flag
           $('#cartBtn').text("장바구니담기");
           console.log('여기는 삭제');
         }
       } else {
         addCart(f3, f4, f5, f6, f7);
-        if (($("#customerUserVO") != null || $("#u_id") != null)){
+        if ($("#customerUserVO") != null || $("#u_id") != null){
+
           flag = !flag
           $('#cartBtn').text("🛒");
           console.log('여기는 추가');
@@ -750,7 +933,7 @@
                 alert("로그인 후 이용해주세요.");
                 return;
             }
-            var pno = ${productVO.pno};
+            var pno = $("#productVO").val();
             var p_price = $('#totalPrice').val();
             var startDate = $("#startDate").val(); // 선택된 시작 날짜
             var endDate = $("#endDate").val(); // 선택된 종료 날짜

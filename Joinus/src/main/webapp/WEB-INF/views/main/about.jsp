@@ -426,7 +426,6 @@
 <!-- 생략된 코드 -->
 <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>
-
 <script type="text/javascript">
     // ##### 입장~~~!!
     let websocket;

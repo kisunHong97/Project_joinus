@@ -2,11 +2,13 @@ package com.ezen.joinus.service;
 
 import com.ezen.joinus.mappers.CustomerUserMapper;
 import com.ezen.joinus.vo.CustomerUserVO;
+import com.ezen.joinus.vo.ReviewVO;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -52,4 +54,20 @@ public class CustomerServiceImpl implements CustomerService {
         paramMap.put("buypoint", buypoint);
         customerMapper.update(paramMap);
     }
+
+    @Override
+    public void insertreview(ReviewVO vo) {
+        customerMapper.insertreview(vo);
+    }
+
+    @Override
+    public List<ReviewVO> getreview(int pno) {
+        return customerMapper.getreview(pno);
+    }
+    @Override
+    public List<ReviewVO> customerreview(String u_id) {
+        return customerMapper.customerreview(u_id);
+    }
+
+
 }
