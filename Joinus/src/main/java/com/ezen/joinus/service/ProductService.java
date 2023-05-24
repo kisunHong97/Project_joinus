@@ -47,5 +47,6 @@ public interface ProductService {
     void saveInquiry(InquiryVO inquiryVO);
 
     List<InquiryVO> getInquiries(String p_name);
-    InquiryVO updateInquiry(String u_name, String u_inquiry);
+    int updateInquiry(InquiryVO inquiryVO);
+    int getCurrentIno(int ino);
 }

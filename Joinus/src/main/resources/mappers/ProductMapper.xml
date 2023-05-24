@@ -80,8 +80,13 @@
         where p_name = #{p_name}
     </select>
 
-    <update id="updateInquiry">
-        update products_inquiry set u_inquiry = #{param1}
-        where u_name = #{arg0}
+    <update id="updateInquiry" parameterType="com.ezen.joinus.vo.InquiryVO">
+        update products_inquiry set u_inquiry = #{u_inquiry}
+        where ino = #{ino}
     </update>
+
+    <select id="getCurrentIno" resultType="int">
+        SELECT * FROM products_inquiry
+        where ino = #{ino}
+    </select>
 </mapper>

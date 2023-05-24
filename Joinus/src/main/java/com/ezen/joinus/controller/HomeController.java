@@ -239,7 +239,8 @@ public class HomeController {
     @ResponseBody
     public String submitInquiry(@RequestParam("inquiryText") String inquiryText,
                                 String p_name, int sno,
-                                HttpSession session) {
+                                HttpSession session,
+                                Model model) {
         CustomerUserVO customerloginUser = (CustomerUserVO) session.getAttribute("customerUserVO");
         String id = (String) session.getAttribute("id");
         // 현재 시간을 가져옵니다.
@@ -256,6 +257,7 @@ public class HomeController {
         System.out.println("문의 : " + inquiryVO);
 
         productService.saveInquiry(inquiryVO);
+        model.addAttribute("inquiryVO", inquiryVO);
         // 상품 문의 등록이 완료되었음을 클라이언트에 응답합니다.
         return "success";
     }
@@ -270,18 +272,29 @@ public class HomeController {
 
         return inquiries;
     }
+    @GetMapping("/getCurrentIno")
+    @ResponseBody
+    public int getCurrentIno(int ino) {
+        // 현재 DB에 있는 ino 값을 조회하여 반환하는 로직을 구현합니다.
+        int currentIno = productService.getCurrentIno(ino);
+        System.out.println("ino : " + currentIno);
+        return currentIno;
+    }
 
     @PostMapping("/updateInquiry")
     @ResponseBody
-    public String updateInquiry(String u_name, String u_inquiry, HttpSession session) {
+    public String updateInquiry(int ino, String u_inquiry, HttpSession session) {
         CustomerUserVO customerloginUser = (CustomerUserVO) session.getAttribute("customerUserVO");
-        System.out.println("문의 내역 수정 들어오나 ? : " + u_name + u_inquiry);
+        System.out.println("문의 내역 수정 들어오나 ? : " + ino + u_inquiry);
         // 수정된 문의 내용을 업데이트하는 비즈니스 로직 수행
         try {
-            System.out.println(customerloginUser.getU_name() + u_name);
-            if(customerloginUser.getU_name().equals(u_name)){
+            System.out.println(customerloginUser.getU_name() + ino);
+            if(customerloginUser.getU_name().equals(ino)){
                 System.out.println("문의 내역 작성자와 수정하려는 사용자의 아이디가 일치합니다.");
-                productService.updateInquiry(u_name, u_inquiry);
+                InquiryVO inquiryVO = new InquiryVO();
+                inquiryVO.setIno(ino);
+                inquiryVO.setU_inquiry(u_inquiry);
+                productService.updateInquiry(inquiryVO);
             }
             return "success";
         } catch (Exception e) {

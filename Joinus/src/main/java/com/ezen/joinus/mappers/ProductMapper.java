@@ -26,5 +26,6 @@ public interface ProductMapper {
     int countProduct(String p_category);
     void saveInquiry(InquiryVO inquiryVO);
     List<InquiryVO> getInquiries(String p_name);
-    InquiryVO updateInquiry(String arg0, String param1);
+    int updateInquiry(InquiryVO inquiryVO);
+    int getCurrentIno(int ino);
 }

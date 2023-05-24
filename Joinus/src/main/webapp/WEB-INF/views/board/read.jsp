@@ -454,6 +454,7 @@
                 sno : ${store.sno}
             },
             success: function(response) {
+                console.log("등록 되나? : " + response)
                 alert("등록되었습니다.");
 
                 // 입력 필드를 초기화
@@ -509,37 +510,37 @@
         });
     }
 
-    function updateInquiry() {
-        var editedInquiryText = $("#editInquiryTextarea").val();
-        console.log(editedInquiryText)
-        // 코드 수정 필요: 해당 문의의 ID 또는 식별자를 가져와서 서버로 전송
 
+    function updateInquiry() {
         $.ajax({
-            url: "/updateInquiry",
-            type: "POST",
-            data: {
-                u_name: '${customerUserVO.u_name}', // 수정할 문의의 ID 또는 식별자
-                u_inquiry : editedInquiryText
-            },
+            url: "/getCurrentIno",
+            type: "GET",
             dataType: "json",
             success: function(response) {
-                console.log("응답:"+response)
-                alert("수정 되었습니다.")
-                // if (response && response.length > 0) {
-                //     response.forEach(function(vo) {
-                //         var inquiryContent = $("<p>").text("문의 내용: " + vo.u_inquiry).addClass("inquiry-text");
-                //         var inquiryDate = $("<p>").text("문의 일시: " + new Date(vo.inquiry_date).toLocaleString()).addClass("inquiry-date");
-                //         var editButton = $("<button>").text("수정").addClass("btn-edit");
-                //         var newInquiry = $("<div>").addClass("inquiry");
-                //         newInquiry.append(inquiryContent, inquiryDate, editButton);
-                //         $("#qnaList").append(newInquiry);
-                //     });
-                // } else {
-                //     $("#qnaList").text("등록된 문의가 없습니다.");
-                // }
+                console.log(response)
+                var ino = response; // 현재 ino 값을 변수에 저장
+                var editedInquiryText = $("#editInquiryTextarea").val();
+
+                $.ajax({
+                    url: "/updateInquiry",
+                    type: "POST",
+                    data: {
+                        ino: ${},
+                        u_inquiry: editedInquiryText
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        console.log("응답:" + response);
+                        alert("수정 되었습니다.");
+                        loadInquiries('${productVO.p_name}');
+                    },
+                    error: function() {
+                        console.error("문의 내용을 수정하는 데 실패했습니다.");
+                    }
+                });
             },
             error: function() {
-                console.error("문의 내용을 수정하는 데 실패했습니다.");
+                console.error("현재 ino 값을 가져오는 데 실패했습니다.");
             }
         });
 
@@ -565,8 +566,8 @@
     // 로그인 여부를 확인하는 코드 작성
     // 로그인되어 있으면 true 반환, 아니면 false 반환
     // 예시:
-    if (($("#customerUserVO") != null || $("#u_id") != null)) {
-      return false;
+    if (${customerUserVO == null || customerUserVO.u_id == null}){
+          return false;
     } else {
       return true;
     }
