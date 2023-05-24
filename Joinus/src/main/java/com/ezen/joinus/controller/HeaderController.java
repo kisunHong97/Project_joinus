@@ -69,6 +69,9 @@ public class HeaderController {
                         List<PurchaseVO> resultList = purchaseService.getPurchaseInfo(u_id);
                         System.out.println(resultList);
                         model.addAttribute("buyInfo", resultList);
+                        List<ReviewVO> reviewlist = customerService.customerreview(customerloginUser.getU_id());
+                        System.out.println("고객이 작성한 리뷰!"+reviewlist);
+                        model.addAttribute("reviewlist",reviewlist);
                     }
                 } catch (Exception e) {
                     // 예외 처리
