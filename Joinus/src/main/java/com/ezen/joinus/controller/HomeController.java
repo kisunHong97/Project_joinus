@@ -49,11 +49,11 @@ public class HomeController {
         int total = productService.countBoard();
         if (nowPage == null && cntPerPage == null) {
             nowPage = "1";
-            cntPerPage = "6";
+            cntPerPage = "8";
         } else if (nowPage == null) {
             nowPage = "1";
         } else if (cntPerPage == null) {
-            cntPerPage ="6";
+            cntPerPage ="8";
         }
         System.out.println("total!!!!!!!!:"+total);
         int cntPage = (int) Math.ceil((double) total / 6.0);
@@ -61,10 +61,21 @@ public class HomeController {
         vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage),cntPage);
         model.addAttribute("paging", vo);
         List<ProductVO> productList = productService.selectBoard(vo);
-
         List<AttachFileDTO> thumbnailList = new ArrayList<>();
+        List<AttachFileDTO> thumbnailList1 = new ArrayList<>();
+        List<StoreVO> storeVOList = storeService.getAllStore();
+        List<PurchaseVO> purchaseVOList = purchaseService.getAllpurchase();
+        System.out.println("전체 구매목록 : " + purchaseVOList);
+        model.addAttribute("purchaseVOList", purchaseVOList);
+        model.addAttribute("storeVOList", storeVOList);
+        System.out.println("storeAll : " + storeVOList);
         System.out.println("vo!!!!!!!!!!!!!!:"+vo);
         System.out.println("productList:!!!!!!!!!!!:"+productList);
+
+        for(PurchaseVO product : purchaseVOList){
+            thumbnailList1.add(fileService.selectMainThumbnail(product.getPno()));
+            System.out.println(fileService.selectMainThumbnail(product.getPno()));
+        }
 
         for(ProductVO product : productList){
             thumbnailList.add(fileService.selectMainThumbnail(product.getPno()));
@@ -75,6 +86,7 @@ public class HomeController {
 
         model.addAttribute("productList", productList);
         model.addAttribute("thumbnailList", thumbnailList);
+        model.addAttribute("thumbnailList1", thumbnailList1);
         model.addAttribute("customerloginUser",customerloginUser);
 
         return "main/about";
@@ -178,6 +190,8 @@ public class HomeController {
         }
         WishlistVO wishlistVO = new WishlistVO();
         wishlistVO.setPno(vo.getPno());
+        wishlistVO.setP_name(vo.getP_name());
+        wishlistVO.setP_category(vo.getP_category());
         wishlistVO.setU_id(vo.getU_id());
         wishlistVO.setW_date(new Date());
         System.out.println("WISHLISTVO:" + wishlistVO);
@@ -204,6 +218,19 @@ public class HomeController {
         System.out.println(pno);
         System.out.println("상품번호 pno :" + pno);
         return new ResponseEntity<>("찜 목록에서 삭제되었습니다.", HttpStatus.OK);
+    }
+
+    //상단바 마이페이지 진입 시 찜삭제 컨트롤러
+    @PostMapping("/wishlist/delete")
+    @ResponseBody
+    public void deleteWishlist(@RequestBody List<Integer> pnoList, HttpSession session) {
+        String id = (String) session.getAttribute("id");
+        System.out.println("마이페이지 찜 삭제 컨트롤러: " + pnoList);
+        for (int pno : pnoList) {
+            System.out.println("pno: " + pno);
+            wishlistService.getWishlistByPnoAndUid(pno, id);
+            wishlistService.deleteWishlist(pno, id);
+        }
     }
 
     // 해당 상품을 장바구니에 추가하는 기능

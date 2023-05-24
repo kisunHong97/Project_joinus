@@ -7,6 +7,7 @@
 <head>
     <title>Title</title>
 </head>
+<script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
 <%@ include file="../header/header.jsp"%>
 <style>
     @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 100;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf) format('opentype');}
@@ -30,31 +31,7 @@
     /*  width: 100%;*/
     /*}*/
 
-    .board-header {
-        text-align: center;
-        margin-bottom: 20px;
-    }
 
-    .board-body ul {
-        list-style: none;
-        padding: 0;
-        margin-left: 50px;
-        display: flex;
-        flex-wrap: wrap;
-    }
-
-    .board-body li {
-        width: calc(23.33% - 20px);
-        margin-right: 20px;
-        margin-bottom: 20px;
-        border: 1px solid #ccc;
-        box-shadow: 0 2px 2px rgba(0,0,0,0.3);
-        transition: box-shadow 0.2s ease-in-out;
-    }
-
-    .board-body li:hover {
-        box-shadow: 0 4px 4px rgba(0,0,0,0.3);
-    }
 
     .post-thumbnail img {
         display: block;
@@ -155,19 +132,6 @@
         align-self: flex-end; /* 다른 사람이 입력한 메시지는 오른쪽에 정렬 */
         background-color: #ffccab; /* 다른 사람이 입력한 메시지의 배경색 */
     }
-    .allcategory li {
-        text-align: center;
-        background-color: black;
-        color: white;
-        padding: 5px;
-        margin-left: 327px;
-        width: 160px;
-        height: 40px;
-    }
-    .allcategory li:hover {
-        background-color: white;
-        color: black;
-    }
 
     /*.arrow-right {*/
     /*    position: relative;*/
@@ -188,124 +152,106 @@
         position: relative;
         overflow: hidden;
     }
-
     .board-body {
         display: flex;
         flex-wrap: wrap;
-        transition: transform 0.5s ease-in-out;
-        width: 75%;
+        overflow: hidden;
+        width: 100%;
+        height: auto; /* 또는 필요한 높이 값으로 설정 */
     }
 
-    .board-item {
-        flex: 0 0 33.33%;
-        box-sizing: border-box;
-        padding: 10px;
-    }
-
-    .arrow-left,
-    .arrow-right {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 40px;
-        height: 40px;
-        background-color: #f2f2f2;
-        text-align: center;
-        line-height: 40px;
-        font-weight: bold;
-        font-size: 20px;
-        text-decoration: none;
-        color: #333;
-    }
-
-    .arrow-left {
-        left: 10px;
-    }
-
-    .arrow-right {
-        right: 5px;
-        left: 810px;
-    }
-    #slider {
+    .board-body ul {
         display: flex;
-        transition: transform 0.5s ease;
+        flex-wrap: wrap; /* 수정 */
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        width: 75%; /* 수정 */
+        transition: transform 0.5s ease-in-out;
     }
-    .slide {
-        flex: 0 0 33.33%;
-        padding: 10px;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.5s ease, visibility 0.5s ease;
-    }
-    .slide.active {
-        opacity: 1;
-        visibility: visible;
+
+    .board-body ul li {
+        flex: 0 0 calc(33.33% - 20px); /* 수정: 한 줄에 3개씩 표시하도록 수정 */
+        margin-bottom: 20px;
+        padding: 0 10px;
+        box-sizing: border-box;
     }
 
 </style>
 <script>
-    function selChange() {
-        var sel = document.getElementById('cntPerPage').value;
-        location.href="product_board?nowPage=${paging.nowPage}&cntPerPage="+sel;
-    }
+    document.addEventListener("DOMContentLoaded", function() {
+        var boardBodies = document.querySelectorAll(".board-body");
+
+        boardBodies.forEach(function(boardBody) {
+            var scrollAmount = 0;
+            var scrollStep = (boardBody.clientWidth / 3) * 2; /* 한 번에 스크롤할 너비를 2/3로 수정 */
+
+            var btnRight = document.createElement("button");
+            btnRight.textContent = "→";
+            btnRight.addEventListener("click", function() {
+                scrollAmount += scrollStep;
+                boardBody.scroll({
+                    left: scrollAmount,
+                    behavior: "smooth"
+                });
+            });
+
+            var btnLeft = document.createElement("button");
+            btnLeft.textContent = "←";
+            btnLeft.addEventListener("click", function() {
+                scrollAmount -= scrollStep;
+                boardBody.scroll({
+                    left: scrollAmount,
+                    behavior: "smooth"
+                });
+            });
+
+            boardBody.parentNode.insertBefore(btnLeft, boardBody);
+            boardBody.parentNode.insertBefore(btnRight, boardBody.nextSibling);
+        });
+    });
+
 </script>
 <body class="sub_page about_page">
 <br>
 <section>
     <div class="outter ">
         <h1 class="hit">히트상품</h1>
-        <!-- 옵션선택 끝 -->
         <div class="board">
             <div class="board-body">
-                <div class="row">
-                    <div id="slider">
-                        <div class="col-12">
-                            <div class="row">
-                                <c:forEach var="food" items="${productList}" varStatus="status">
-                                    <c:if test="${status.index >= (paging.nowPage-1) * 6 && status.index < paging.nowPage * 6}">
-                                        <div class="col-4">
-                                            <div class="board-item">
-                                                <div class="post-thumbnail">
-                                                    <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일">
-                                                </div>
-                                                <div class="post-content">
-                                                    <a href="/board/read?pno=${productList[status.index].pno}">${productList[status.index].p_inst}</a>
-                                                </div>
-                                            </div>
+                <c:choose>
+                    <c:when test="${!empty purchaseVOList}">
+                        <ul>
+                            <c:forEach var="product" items="${purchaseVOList}" varStatus="status">
+                                    <li>
+                                        <div class="post-thumbnail">
+<%--                                            <img src="/display?fileName=${thumbnailList1[status.index].uploadPath}/${thumbnailList1[status.index].uuid}_${thumbnailList1[status.index].fileName}" alt="게시물 썸네일"/>--%>
                                         </div>
-                                    </c:if>
-                                </c:forEach>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                        <div class="post-content">
+                                            <a href="/board/read?pno=${purchaseVOList[status.index].pno}">${purchaseVOList[status.index].p_name}</a>
+                                        </div>
+                                    </li>
+                            </c:forEach>
+                        </ul>
+                    </c:when>
+                    <c:when test="${empty purchaseVOList}">
+                        <ul>
+                            <c:forEach var="product" items="${productList}" varStatus="status">
+                                    <li>
+                                        <div class="post-thumbnail">
+<%--                                            <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일"/>--%>
+                                        </div>
+                                        <div class="post-content">
+                                            <a href="/board/read?pno=${productList[status.index].pno}">${productList[status.index].p_name}</a>
+                                        </div>
+                                    </li>
+                            </c:forEach>
+                        </ul>
+                    </c:when>
+                </c:choose>
+
             </div>
-            <a class="arrow-left" href="#">&lt;</a>
-            <a class="arrow-right" href="#">&gt;</a>
         </div>
-        </div>
-
-<%--        <table border="1">--%>
-<%--            <div class="board">--%>
-<%--                <div class="board-body">--%>
-<%--                    <c:forEach var="food" items="${productList}" varStatus="status">--%>
-<%--                        <c:if test="${status.index >= (paging.nowPage-1) * 6 && status.index < paging.nowPage * 6}">--%>
-<%--                            <div class="board-item">--%>
-<%--                                <div class="post-thumbnail">--%>
-<%--                                    <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일">--%>
-<%--                                </div>--%>
-<%--                                <div class="post-content">--%>
-<%--                                    <a href="/board/read?pno=${productList[status.index].pno}">${productList[status.index].p_inst }</a>--%>
-<%--                                </div>--%>
-<%--                            </div>--%>
-<%--                        </c:if>--%>
-<%--                    </c:forEach>--%>
-<%--                </div>--%>
-<%--                <a class="arrow-left" href="#">&lt;</a>--%>
-<%--                <a class="arrow-right" href="#">&gt;</a>--%>
-<%--            </div>--%>
-<%--        </table>--%>
-
         <aside style="position: absolute; top: 200px; right: 360px;">
             <div style="flex-shrink: 0; width: 300px;">
                 <h1 class="hit">Let's Join Us!</h1>
@@ -321,54 +267,44 @@
         </aside>
     </div>
 </section>
-
-<div style="display: block; text-align: center;">
-    <%--    <c:if test="${paging.startPage != 1 }">--%>
-    <%--        <a href="/product_board?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>--%>
-    <%--    </c:if>--%>
-    <%--    <c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">--%>
-    <%--        <c:choose>--%>
-    <%--            <c:when test="${p == paging.nowPage }">--%>
-    <%--                <b>${p }</b>--%>
-    <%--            </c:when>--%>
-    <%--            <c:when test="${p != paging.nowPage }">--%>
-    <%--                <a href="/product_board?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>--%>
-    <%--            </c:when>--%>
-    <%--        </c:choose>--%>
-    <%--    </c:forEach>--%>
-    <%--    <c:if test="${paging.endPage != paging.lastPage}">--%>
-    <%--        <a href="/product_board?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>--%>
-    <%--    </c:if>--%>
-</div>
-</div>
+<p>${customerloginUser.u_addrcode}</p>
 <section>
     <div class="outter" style="flex-grow: 1;">
-        <h1 class="hit">맞춤 추천</h1>
+        <h1 class="hit">내 주변 가게</h1>
         <!-- 옵션선택 끝 -->
-        <table border="1">
-            <div class="board">
-                <div class="board-body">
-                    <ul>
-                        <c:forEach var="product" items="${productList}" varStatus="status">
-                            <li>
-                                <div class="post-thumbnail">
-                                    <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일">
-                                </div>
-                                <div class="post-content">
-                                    <a href='/board/read?pno=${productList[status.index].pno}'>${productList[status.index].p_inst }</a>
-                                </div>
-                            </li>
-                        </c:forEach>
-                    </ul>
-                </div>
+        <div class="board">
+            <div class="board-body">
+                <c:set var="hasNearbyProducts" value="false" />
+                <ul>
+                    <c:forEach var="store" items="${storeVOList}" varStatus="status">
+                        <c:choose>
+                            <c:when test="${customerloginUser.u_addrcode == store.s_addrCode}">
+                                <c:set var="hasNearbyProducts" value="true" />
+                                <c:forEach var="product" items="${productList}" varStatus="productStatus">
+                                    <c:if test="${store.sno == product.sno}">
+                                        <li>
+                                            <div class="post-thumbnail">
+<%--                                                <img src="/display?fileName=${thumbnailList[productStatus.index].uploadPath}/${thumbnailList[productStatus.index].uuid}_${thumbnailList[productStatus.index].fileName}" alt="게시물 썸네일">--%>
+                                            </div>
+                                            <div class="post-content">
+                                                <a href='/board/read?pno=${product.pno}'>${product.p_inst}</a>
+                                            </div>
+                                        </li>
+                                    </c:if>
+                                </c:forEach>
+                            </c:when>
+                        </c:choose>
+                    </c:forEach>
+                </ul>
+                <c:if test="${not hasNearbyProducts}">
+                    <p>근처에 등록된 상품이 없습니다.</p>
+                </c:if>
             </div>
-        </table>
+        </div>
     </div>
 </section>
 <%@ include file="../footer/footer.jsp"%>
 </body>
-</html>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
         var boardWidth = $('.board-body').width();
@@ -424,7 +360,6 @@
     };
 </script>
 <!-- 생략된 코드 -->
-<script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>
 <script type="text/javascript">
     // ##### 입장~~~!!
@@ -490,7 +425,6 @@
     });
 
     function disconnect(){
-
         id = document.getElementById("id").value;
         websocket.send("<div class='message-box1'>" + id + "님이 퇴장하셨습니다.</div>");
         document.getElementById("message").disabled = true;
@@ -499,14 +433,5 @@
 
         //websocket.close();
     }
-
 </script>
-<script>
-
-    function openNav() {
-        document.getElementById("myNav").classList.toggle("menu_width");
-        document
-            .querySelector(".custom_menu-btn")
-            .classList.toggle("menu_btn-style");
-    }
-</script>
+</html>

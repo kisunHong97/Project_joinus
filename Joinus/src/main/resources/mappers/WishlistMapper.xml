@@ -10,8 +10,8 @@
 
     <!-- 로그인한 사용자의 찜 목록에 추가 -->
     <insert id="addWishlist" parameterType="com.ezen.joinus.vo.WishlistVO">
-        INSERT INTO wishlist(wno, pno, u_id, w_date)
-        VALUES (wish_seq.nextval, #{pno}, #{u_id}, SYSDATE)
+        INSERT INTO wishlist(wno, pno, p_name, p_category, u_id, w_date)
+        VALUES (wish_seq.nextval, #{pno}, #{p_name}, #{p_category}, #{u_id}, SYSDATE)
     </insert>
 
     <!-- 로그인한 사용자의 찜 목록에 삭제 -->
@@ -22,6 +22,10 @@
 
     <select id="selectWishlistByPnoAndUid" parameterType="java.util.Map" resultType="com.ezen.joinus.vo.WishlistVO">
         SELECT * FROM wishlist WHERE pno = #{pno} AND u_id = #{u_id}
+    </select>
+
+    <select id="getWishlistUid" resultType="com.ezen.joinus.vo.WishlistVO">
+        SELECT * FROM wishlist where u_id = #{u_id}
     </select>
 
 </mapper>

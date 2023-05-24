@@ -37,5 +37,11 @@ public class PurchaseServiceImpl implements PurchaseService{
         return purchaseMapper.selectUPurchaseUserId(u_id);
     }
 
+    @Override
+    public List<PurchaseVO> getAllpurchase() {
+        System.out.println("구매목록 전체 리스트 가져오기 : ");
+        return purchaseMapper.getAllpurchase();
+    }
+
 
 }
