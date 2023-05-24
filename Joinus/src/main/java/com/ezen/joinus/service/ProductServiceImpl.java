@@ -1,6 +1,7 @@
 package com.ezen.joinus.service;
 
 import com.ezen.joinus.mappers.ProductMapper;
+import com.ezen.joinus.vo.InquiryVO;
 import com.ezen.joinus.vo.PagingVO;
 import com.ezen.joinus.vo.ProductVO;
 import lombok.Setter;
@@ -77,4 +78,21 @@ public class ProductServiceImpl implements ProductService{
 		return productMapper.countProduct(p_category);
 	}
 
+	@Override
+	public void saveInquiry(InquiryVO inquiryVO) {
+		System.out.println("문의 글 등록 되나 ? : " + inquiryVO);
+		productMapper.saveInquiry(inquiryVO);
+	}
+
+	@Override
+	public List<InquiryVO> getInquiries(String p_name) {
+		System.out.println("문의글 조회 서비스:" + p_name);
+		return productMapper.getInquiries(p_name);
+	}
+
+	@Override
+	public int updateInquiry(String u_name, String u_inquiry) {
+		System.out.println("문의 내역 수정 서비스 : " + u_name + u_inquiry);
+		return productMapper.updateInquiry(u_name, u_inquiry);
+	}
 }
