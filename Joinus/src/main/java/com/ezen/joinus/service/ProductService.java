@@ -1,5 +1,6 @@
 package com.ezen.joinus.service;
 
+import com.ezen.joinus.vo.InquiryVO;
 import com.ezen.joinus.vo.PagingVO;
 import com.ezen.joinus.vo.ProductVO;
 
@@ -43,4 +44,8 @@ public interface ProductService {
 
     int countProduct(String p_category);
 
+    void saveInquiry(InquiryVO inquiryVO);
+
+    List<InquiryVO> getInquiries(String p_name);
+    int updateInquiry(String u_name, String u_inquiry);
 }

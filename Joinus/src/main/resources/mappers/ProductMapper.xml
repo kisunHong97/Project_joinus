@@ -68,4 +68,20 @@
     <select id="countProduct" resultType="int">
         SELECT COUNT(*) FROM products_table where p_category=#{p_category}
     </select>
+
+    <!-- 상품 문의 등록 -->
+    <insert id="saveInquiry" parameterType="com.ezen.joinus.vo.InquiryVO">
+        insert into products_inquiry (ino, sno, p_name, u_name, u_inquiry, inquiry_date)
+        values (inquiry_seq.nextval, #{sno}, #{p_name}, #{u_name}, #{u_inquiry}, #{inquiry_date})
+    </insert>
+
+    <select id="getInquiries" resultType="com.ezen.joinus.vo.InquiryVO">
+        select * from products_inquiry
+        where p_name = #{p_name}
+    </select>
+
+    <update id="updateInquiry">
+        update products_inquiry set u_inquiry = #{param1}
+        where u_name = #{arg0}
+    </update>
 </mapper>
