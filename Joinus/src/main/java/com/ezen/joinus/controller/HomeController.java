@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
+import java.text.DecimalFormat;
 import java.util.*;
 
 @Controller
@@ -30,13 +31,13 @@ public class HomeController {
     private WishlistService wishlistService;
     @Setter(onMethod_=@Autowired)
     private CartService cartService;
-
     @Setter(onMethod_=@Autowired)
     private StoreService storeService;
 
+    @Setter(onMethod_=@Autowired)
+    private PurchaseService purchaseService;
     //페이징 처리
     @GetMapping("/product_board")
-
     public String boardList(PagingVO vo,Model model,HttpSession session
             , @RequestParam(value="nowPage", required=false)String nowPage
             , @RequestParam(value="cntPerPage", required=false)String cntPerPage) {
@@ -81,6 +82,7 @@ public class HomeController {
     @RequestMapping(value = "/board/read", method = RequestMethod.GET)
     public String read(@ModelAttribute("ProductVO") ProductVO productVO, Model model, @RequestParam("pno") int pno, HttpSession session){
         // 상품 정보 가져오기(썸네일, 상세정보 포함)
+        System.out.println("pno가져오니???"+pno);
         productVO = productService.getProductContents(pno);
         productVO.setThumbnailList(fileService.selectThumbnailList(productVO.getPno()));
         productVO.setDetail(fileService.selectDetail(productVO.getPno()));
@@ -90,14 +92,9 @@ public class HomeController {
         System.out.println("sno!!!!!!!!!!"+sno);
         model.addAttribute("store", storeService.getStore(sno));
 
-
-
         //상품을 올린 스토어 정보
 //        BusinessUserVO businessUser = (BusinessUserVO) session.getAttribute("BusinessUserVO");
 //        model.addAttribute("store",storeService.getStore(businessUser.getBno()));
-
-
-
 
         // 사용자 정보 가져오기
         String u_id = (String) session.getAttribute("id");
@@ -126,9 +123,48 @@ public class HomeController {
             System.out.println("로그인 안해서 여기 진입 합니다.");
             productService.getProductContents(pno);
         }
+        System.out.println("프로덕트네임!!:" + productVO.getP_name());
+        String P_name = productVO.getP_name();
+        List<ReviewVO> list2 = customerService.getreview(pno);
+        System.out.println("왜 ??"+list2);
+        float totalRating = 0;
+        float avg = 0;
+        for (ReviewVO review : list2) {
+            totalRating += review.getRating();
+            avg = totalRating / list2.size();
+        }
+// 소수점 아래 2번째 자리까지만 표시하는 DecimalFormat 객체 생성
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        String formattedAvg = decimalFormat.format(avg);
 
+        System.out.println("평균: " + formattedAvg);
 
-        return "/board/read";
+       // model.addAttribute("customer",customerUserVO);
+
+//        List<PurchaseVO> list = purchaseService.getPurchaseInfo(u_id);
+//        model.addAttribute("list",list);
+//        model.addAttribute("productlist",list2);
+//        model.addAttribute("avg",formattedAvg);
+//        model.addAttribute("listlength", list2.size());
+//        model.addAttribute("customerid",customerUserVO.getU_id());
+//        System.out.println("구매한 목록list!!!!!!!!!!!"+list);
+        if (u_id==null){
+            model.addAttribute("productlist",list2);
+            model.addAttribute("avg",formattedAvg);
+            model.addAttribute("listlength", list2.size());
+           // model.addAttribute("customerid",customerUserVO.getU_id());
+            return "/board/read";
+        }else {
+            List<PurchaseVO> list = purchaseService.getPurchaseInfo(u_id);
+            model.addAttribute("list",list);
+            model.addAttribute("productlist",list2);
+            model.addAttribute("avg",formattedAvg);
+            model.addAttribute("listlength", list2.size());
+            model.addAttribute("customerid",customerUserVO.getU_id());
+            System.out.println("구매한 목록list!!!!!!!!!!!"+list);
+            return "/board/read";
+        }
+//        return "/board/read";
     }
 
     // 해당 상품을 찜 목록에 추가하는 기능
