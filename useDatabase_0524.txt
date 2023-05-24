@@ -8,6 +8,8 @@ drop table business_table cascade constraints;
 drop table file_product_table;
 drop table customers_table;
 drop table review_table;
+drop table products_inquiry;
+drop table revenue_table;
 ----- 시퀀스 삭제 -----
 drop sequence customers_seq;
 drop sequence business_seq;
@@ -112,12 +114,15 @@ create table file_product_table(
 CREATE TABLE wishlist (
                           wno NUMBER(10) PRIMARY KEY,
                           pno NUMBER(10) NOT NULL,
+                          p_name varchar2(200) not null,
+                          p_category varchar2(200) not null,
                           u_id varchar2(100) ,
                           w_date DATE NOT NULL,
                           FOREIGN KEY (pno) REFERENCES products_table(pno) ON DELETE CASCADE,
                           FOREIGN KEY (u_id) REFERENCES customers_table(u_id) ON DELETE CASCADE,
                           CONSTRAINT unique_wishlist UNIQUE (pno, u_id)
 );
+select * from wishlist;
 -- 장바구니 테이블
 create table cart(
                      cno number(10) PRIMARY KEY,
@@ -190,15 +195,15 @@ insert into business_table values (business_seq.nextval, 'business5', 'bs5', '12
 --
 --
 
-insert into store_table values (store_seq.nextval, 1, 'astore1', '수원시 영통구','수원시 영통구','수원시 영통구','요가학원','store@naver.com', 'www.naver.com',
+insert into store_table values (store_seq.nextval, 1, 'astore1', '수원시','수원시 영통구','수원시 영통구','요가학원','store@naver.com', 'www.naver.com',
                                 '010-2020-2020',0);
-insert into store_table values (store_seq.nextval, 2, 'astore2', '수원시 영통구','서울시 영통구','수원시 영통구','요가학원','store@naver.com', 'www.naver.com',
+insert into store_table values (store_seq.nextval, 2, 'astore2', '수원시','서울시 영통구','수원시 영통구','요가학원','store@naver.com', 'www.naver.com',
                                 '010-2020-2020',0);
-insert into store_table values (store_seq.nextval, 3, 'astore3', '수원시 영통구','수원시 영통구','수원시 영통구','요가학원','store@naver.com', 'www.naver.com',
+insert into store_table values (store_seq.nextval, 3, 'astore3', '수원시','수원시 영통구','수원시 영통구','요가학원','store@naver.com', 'www.naver.com',
                                 '010-2020-2020',0);
-insert into store_table values (store_seq.nextval, 4, 'astore4', '수원시 영통구','대구시 영통구','수원시 영통구','요가학원','store@naver.com', 'www.naver.com',
+insert into store_table values (store_seq.nextval, 4, 'astore4', '수원시','대구시 영통구','수원시 영통구','요가학원','store@naver.com', 'www.naver.com',
                                 '010-2020-2020',0);
-insert into store_table values (store_seq.nextval, 5, 'astore5', '수원시 영통구','서울시 영통구','수원시 영통구','요가학원','store@naver.com', 'www.naver.com',
+insert into store_table values (store_seq.nextval, 5, 'astore5', '수원시','서울시 영통구','수원시 영통구','요가학원','store@naver.com', 'www.naver.com',
                                 '010-2020-2020',0);
 --
 --
@@ -247,9 +252,9 @@ insert into file_product_table values (file_seq.nextval, 19, 'thumbnail5.png', '
 insert into file_product_table values (file_seq.nextval, 20, 'thumbnail1.png', 'thumbnail', 'aaa', 'T');
 insert into file_product_table values (file_seq.nextval, 21, 'thumbnail1.png', 'thumbnail', 'aaa', 'T');
 
-insert into wishlist values(wish_seq.nextval, 1, 'user1', sysdate);
-insert into wishlist values(wish_seq.nextval, 2, 'user2', sysdate);
-insert into wishlist values(wish_seq.nextval, 3, 'user3', sysdate);
+-- insert into wishlist values(wish_seq.nextval, 1, 'user1', sysdate);
+-- insert into wishlist values(wish_seq.nextval, 2, 'user2', sysdate);
+-- insert into wishlist values(wish_seq.nextval, 3, 'user3', sysdate);
 
 ----- 더미데이터 확인 -----
 select * from customers_table;
