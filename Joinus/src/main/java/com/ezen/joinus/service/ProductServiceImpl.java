@@ -91,13 +91,8 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public int updateInquiry(InquiryVO inquiryVO) {
-		System.out.println("문의 내역 수정 서비스 : " +inquiryVO);
-		return productMapper.updateInquiry(inquiryVO);
-	}
-
-	@Override
-	public int getCurrentIno(int ino) {
-		return productMapper.getCurrentIno(ino);
+	public InquiryVO updateInquiry(String u_name, String u_inquiry) {
+		System.out.println("문의 내역 수정 서비스 : " + u_name + u_inquiry);
+		return productMapper.updateInquiry(u_name, u_inquiry);
 	}
 }
