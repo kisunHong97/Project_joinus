@@ -1,8 +1,10 @@
 package com.ezen.joinus.mappers;
 
 import com.ezen.joinus.vo.CustomerUserVO;
+import com.ezen.joinus.vo.ReviewVO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
 import java.util.Map;
 
 @Mapper
@@ -15,5 +17,9 @@ public interface CustomerUserMapper {
     void updateCustomer(CustomerUserVO vo);
     void deleteCustomer(String u_id);
     void update(Map<String, Object> paramMap);
+    void insertreview(ReviewVO vo);
+
+    List<ReviewVO> getreview(int pno);
+    List<ReviewVO> customerreview(String u_id);
 
 }

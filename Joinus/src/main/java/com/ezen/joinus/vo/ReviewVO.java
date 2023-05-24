@@ -9,12 +9,15 @@ import java.util.Date;
 @ToString
 @Getter
 @Setter
-public class WishlistVO {
-    private int wno;
+public class ReviewVO {
+    private int rno;
     private int pno;
-    private String p_name;
-    private String p_category;
     private String u_id;
-    private Date w_date;
+    private String u_name;
+    private String review;
+    private String sys_date;
+    private int rating;
+    private String p_name;
+
 
 }

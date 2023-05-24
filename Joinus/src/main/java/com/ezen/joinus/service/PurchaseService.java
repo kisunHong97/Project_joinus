@@ -11,4 +11,6 @@ public interface PurchaseService {
     void updateUserPoint(String u_id, int p_price);
 
     List<PurchaseVO> getPurchaseInfo(String u_id);
+
+    List<PurchaseVO> getAllpurchase();
 }

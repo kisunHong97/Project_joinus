@@ -37,6 +37,9 @@ public class HeaderController {
     @Setter(onMethod_=@Autowired)
     private FileService fileService;
 
+    @Setter(onMethod_=@Autowired)
+    private WishlistService wishlistService;
+
     @GetMapping("/mypage")
     public String myPage(HttpSession session, Model model) {
         System.out.println("작동되나요? 마이페이지 컨트롤러");
@@ -69,6 +72,12 @@ public class HeaderController {
                         List<PurchaseVO> resultList = purchaseService.getPurchaseInfo(u_id);
                         System.out.println(resultList);
                         model.addAttribute("buyInfo", resultList);
+                        List<WishlistVO> wishlistVOList = wishlistService.getWishlistUid(u_id);
+                        System.out.println("찜한 리스트 : " + wishlistVOList);
+                        model.addAttribute("wishlistVOList", wishlistVOList);
+                        List<ReviewVO> reviewlist = customerService.customerreview(customerloginUser.getU_id());
+                        System.out.println("고객이 작성한 리뷰!"+reviewlist);
+                        model.addAttribute("reviewlist",reviewlist);
                     }
                 } catch (Exception e) {
                     // 예외 처리

@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
+import java.text.DecimalFormat;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -32,13 +33,13 @@ public class HomeController {
     private WishlistService wishlistService;
     @Setter(onMethod_=@Autowired)
     private CartService cartService;
-
     @Setter(onMethod_=@Autowired)
     private StoreService storeService;
 
+    @Setter(onMethod_=@Autowired)
+    private PurchaseService purchaseService;
     //페이징 처리
     @GetMapping("/product_board")
-
     public String boardList(PagingVO vo,Model model,HttpSession session
             , @RequestParam(value="nowPage", required=false)String nowPage
             , @RequestParam(value="cntPerPage", required=false)String cntPerPage) {
@@ -48,11 +49,11 @@ public class HomeController {
         int total = productService.countBoard();
         if (nowPage == null && cntPerPage == null) {
             nowPage = "1";
-            cntPerPage = "6";
+            cntPerPage = "8";
         } else if (nowPage == null) {
             nowPage = "1";
         } else if (cntPerPage == null) {
-            cntPerPage ="6";
+            cntPerPage ="8";
         }
         System.out.println("total!!!!!!!!:"+total);
         int cntPage = (int) Math.ceil((double) total / 6.0);
@@ -60,10 +61,21 @@ public class HomeController {
         vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage),cntPage);
         model.addAttribute("paging", vo);
         List<ProductVO> productList = productService.selectBoard(vo);
-
         List<AttachFileDTO> thumbnailList = new ArrayList<>();
+        List<AttachFileDTO> thumbnailList1 = new ArrayList<>();
+        List<StoreVO> storeVOList = storeService.getAllStore();
+        List<PurchaseVO> purchaseVOList = purchaseService.getAllpurchase();
+        System.out.println("전체 구매목록 : " + purchaseVOList);
+        model.addAttribute("purchaseVOList", purchaseVOList);
+        model.addAttribute("storeVOList", storeVOList);
+        System.out.println("storeAll : " + storeVOList);
         System.out.println("vo!!!!!!!!!!!!!!:"+vo);
         System.out.println("productList:!!!!!!!!!!!:"+productList);
+
+        for(PurchaseVO product : purchaseVOList){
+            thumbnailList1.add(fileService.selectMainThumbnail(product.getPno()));
+            System.out.println(fileService.selectMainThumbnail(product.getPno()));
+        }
 
         for(ProductVO product : productList){
             thumbnailList.add(fileService.selectMainThumbnail(product.getPno()));
@@ -74,6 +86,7 @@ public class HomeController {
 
         model.addAttribute("productList", productList);
         model.addAttribute("thumbnailList", thumbnailList);
+        model.addAttribute("thumbnailList1", thumbnailList1);
         model.addAttribute("customerloginUser",customerloginUser);
 
         return "main/about";
@@ -83,6 +96,7 @@ public class HomeController {
     @RequestMapping(value = "/board/read", method = RequestMethod.GET)
     public String read(@ModelAttribute("ProductVO") ProductVO productVO, Model model, @RequestParam("pno") int pno, HttpSession session){
         // 상품 정보 가져오기(썸네일, 상세정보 포함)
+        System.out.println("pno가져오니???"+pno);
         productVO = productService.getProductContents(pno);
         productVO.setThumbnailList(fileService.selectThumbnailList(productVO.getPno()));
         productVO.setDetail(fileService.selectDetail(productVO.getPno()));
@@ -91,6 +105,10 @@ public class HomeController {
         Integer sno = productVO.getSno();
         System.out.println("sno!!!!!!!!!!"+sno);
         model.addAttribute("store", storeService.getStore(sno));
+
+
+//        BusinessUserVO businessUser = (BusinessUserVO) session.getAttribute("BusinessUserVO");
+//        model.addAttribute("store",storeService.getStore(businessUser.getBno()));
 
         // 사용자 정보 가져오기
         String u_id = (String) session.getAttribute("id");
@@ -115,13 +133,42 @@ public class HomeController {
             } else {
                 model.addAttribute("cart", 0);
             }
-        }catch (Exception e){
+        }catch (Exception e) {
             System.out.println("로그인 안해서 여기 진입 합니다.");
             productService.getProductContents(pno);
         }
+        System.out.println("프로덕트네임!!:" + productVO.getP_name());
+        String P_name = productVO.getP_name();
+        List<ReviewVO> list2 = customerService.getreview(pno);
+        System.out.println("왜 ??"+list2);
+        float totalRating = 0;
+        float avg = 0;
+        for (ReviewVO review : list2) {
+            totalRating += review.getRating();
+            avg = totalRating / list2.size();
+        }
+// 소수점 아래 2번째 자리까지만 표시하는 DecimalFormat 객체 생성
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        String formattedAvg = decimalFormat.format(avg);
 
+        System.out.println("평균: " + formattedAvg);
 
-        return "/board/read";
+        if (u_id==null){
+            model.addAttribute("productlist",list2);
+            model.addAttribute("avg",formattedAvg);
+            model.addAttribute("listlength", list2.size());
+           // model.addAttribute("customerid",customerUserVO.getU_id());
+            return "/board/read";
+        }else {
+            List<PurchaseVO> list = purchaseService.getPurchaseInfo(u_id);
+            model.addAttribute("list",list);
+            model.addAttribute("productlist",list2);
+            model.addAttribute("avg",formattedAvg);
+            model.addAttribute("listlength", list2.size());
+            model.addAttribute("customerid",customerUserVO.getU_id());
+            System.out.println("구매한 목록list!!!!!!!!!!!"+list);
+            return "/board/read";
+        }
     }
 
     // 해당 상품을 찜 목록에 추가하는 기능
@@ -143,6 +190,8 @@ public class HomeController {
         }
         WishlistVO wishlistVO = new WishlistVO();
         wishlistVO.setPno(vo.getPno());
+        wishlistVO.setP_name(vo.getP_name());
+        wishlistVO.setP_category(vo.getP_category());
         wishlistVO.setU_id(vo.getU_id());
         wishlistVO.setW_date(new Date());
         System.out.println("WISHLISTVO:" + wishlistVO);
@@ -169,6 +218,19 @@ public class HomeController {
         System.out.println(pno);
         System.out.println("상품번호 pno :" + pno);
         return new ResponseEntity<>("찜 목록에서 삭제되었습니다.", HttpStatus.OK);
+    }
+
+    //상단바 마이페이지 진입 시 찜삭제 컨트롤러
+    @PostMapping("/wishlist/delete")
+    @ResponseBody
+    public void deleteWishlist(@RequestBody List<Integer> pnoList, HttpSession session) {
+        String id = (String) session.getAttribute("id");
+        System.out.println("마이페이지 찜 삭제 컨트롤러: " + pnoList);
+        for (int pno : pnoList) {
+            System.out.println("pno: " + pno);
+            wishlistService.getWishlistByPnoAndUid(pno, id);
+            wishlistService.deleteWishlist(pno, id);
+        }
     }
 
     // 해당 상품을 장바구니에 추가하는 기능
@@ -271,11 +333,13 @@ public class HomeController {
         return inquiries;
     }
 
+
+
     @PostMapping("/updateInquiry")
     @ResponseBody
     public String updateInquiry(String u_name, String u_inquiry, HttpSession session) {
         CustomerUserVO customerloginUser = (CustomerUserVO) session.getAttribute("customerUserVO");
-        System.out.println("문의 내역 수정 들어오나 ? : " + u_name + u_inquiry);
+        System.out.println("문의 내역 수정 들어오나 ? 이름 : " + u_name + "수정 내용 : " + u_inquiry);
         // 수정된 문의 내용을 업데이트하는 비즈니스 로직 수행
         try {
             System.out.println(customerloginUser.getU_name() + u_name);

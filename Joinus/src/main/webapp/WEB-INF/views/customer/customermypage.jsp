@@ -60,6 +60,76 @@
     th {
         background-color: #f2f2f2;
     }
+    .review{
+        display: flex;
+        justify-content: center;
+    }
+    .review > div {
+        width: 880px;
+        height: 700px;
+        position: relative;
+        /*margin-right: 20px;*/
+        /*border: none;*/
+        /*display: flex;*/
+        /*margin-left: 20px;*/
+        /*justify-content: center;*/
+        /*align-items: center;*/
+    }
+    /*.reviewInfo {*/
+    /*    display: flex;*/
+    /*    align-items: center;*/
+    /*    margin-bottom: 10px;*/
+    /*}*/
+
+    /*.reviewInfo .star {*/
+    /*    margin-right: 10px;*/
+    /*}*/
+
+    /*.reviewInfo span {*/
+    /*    margin-right: 10px;*/
+    /*}*/
+    .reviewInfo > div{
+        display: inline-block;
+    }
+
+    .date {
+        position: absolute;
+        right: 0;/* 원하는 만큼의 오프셋 값을 설정하세요 */
+        letter-spacing:-1px;
+    }
+    .p_name{
+        margin-left: 15px;
+        margin-right: 15px;
+
+    }
+    /*.divp_name{*/
+    /*    width: 30px;*/
+    /*}*/
+    /*.textreview{*/
+    /*    position: absolute;*/
+    /*    transform: translateX(20px);*/
+    /*}*/
+    /* 컨테이너 스타일 */
+    .container {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    /* 버튼 스타일 */
+    button {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        padding: 10px 20px;
+        border: none;
+        background-color: #ff731b;
+        color: white;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
+    button:hover {
+        background-color: #ff6f84;
+    }
 </style>
 </head>
 <body>
@@ -67,10 +137,10 @@
 
 <div id="mypage-menu">
     <div><a href="#" onclick="showContent(1)">이용권 관리</a></div>
-    <div><a href="#" onclick="showContent(2)">찜목록</a></div>
+    <div id="wishlistTabContent"><a href="#" onclick="showContent(2)">찜목록</a></div>
     <div><a href="/myinformation?u_id=${a.u_id}" role="button">개인정보 수정</a></div>
     <div><a href="/customerpoint?point=${a.buypoint}" role="button">포인트 충전</a></div>
-    <div><a href="#">문의 내역</a></div>
+    <div><a href="#" onclick="showContent5(5)">작성한 리뷰</a></div>
     <div><a href="#">환불 신청</a></div>
 
 </div>
@@ -141,37 +211,139 @@
     </c:otherwise>
 </c:choose>
 
-<%--<c:choose>--%>
-<%--<c:when test="${not empty buyInfo}">--%>
-<%--<div class="content" id="content2" style="display: none;">--%>
-<%--                <table border="1">--%>
-<%--                    <thead>--%>
-<%--                    <tr>--%>
-<%--                        <th>카테고리</th>--%>
-<%--                        <th>상품명</th>--%>
-<%--                        <th>가격</th>--%>
-<%--                    </tr>--%>
-<%--                    </thead>--%>
-<%--                    <tbody>--%>
+<c:choose>
+    <c:when test="${not empty wishlistVOList}">
+        <div class="content" id="content2" style="display: none;">
+            <table border="1">
+                <thead>
+                <tr>
+                    <th>카테고리</th>
+                    <th>상품명</th>
+                    <th>선택</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${wishlistVOList}" var="wishlist">
+                    <tr>
+                        <td>${wishlist.p_category}</td>
+                        <td><a href="board/read?pno=${wishlist.pno}" class="p_name">${wishlist.p_name}</a></td>
+                        <td>
+                            <input type="checkbox" class="selectedItems" name="selectedItems" value="${wishlist.pno}">
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </c:when>
+    <c:otherwise>
+        <div class="content" id="content2" style="display: none;">
+            <div>찜한상품이 없습니다.</div>
+        </div>
+    </c:otherwise>
+</c:choose>
+<div class="container">
+    <div>
+        <button onclick="deleteItems()">삭제</button>
+    </div>
+</div>
 
-<%--                    </tbody>--%>
-<%--                </table>--%>
-<%--            </div>--%>
-<%--        </c:when>--%>
-<%--        <c:otherwise>--%>
-<%--            <div class="content" id="content1">--%>
-<%--                <div>구매상품이 없습니다.</div>--%>
-<%--            </div>--%>
-<%--        </c:otherwise>--%>
-<%--    </c:choose>--%>
-<br>
+<div class="review" id="content5" style="display: none;">
+    <br>
+    <div id="reviewList">
+        <div style="border-bottom: 1px solid salmon">
+
+            <span><h3 style="font-weight: 900; letter-spacing:-1px; display: block; margin-top: -20px">리뷰</h3></span>
+        </div>
+
+        <c:forEach items="${reviewlist}" var="review">
+            <div class="reviewItem">
+                <div class="reviewInfo" style="border-bottom: 1px solid #ffd3c0; height: 50px; display: block; margin-top: 50px;"  >
+                   <div class="divstar"><span class="star" style="color: #ff731b; width: 100px">
+                            <script>
+                        var rating = ${review.rating};
+                        var stars = "";
+                        for (var i = 1; i <= 5; i++) {
+                            if (i <= rating) {
+                                stars += '<span class="star">★</span>';
+                            } else {
+                                stars += '<span class="star">☆</span>';
+                            }
+                        }
+                        document.write(stars);
+                    </script></span></div>
+                    <div class="divp_name" style="width: 120px; text-align: center;"><a href="board/read?pno=${review.pno}" class="p_name"> ${review.p_name}</a></div>
+                    <div class="divtextreview" style="width: 500px;"> <span class="textreview"> ${review.review}</span></div>
+                    <span class="date" style="color: #ff731b;">${review.sys_date}</span>
+                </div>
+            </div>
+        </c:forEach>
+
+        <c:if test="${empty reviewlist}">
+            <br>
+            <div class="noReviews" style="text-align: center">작성한 리뷰가 없습니다.</div>
+        </c:if>
+    </div>
+
+    <br>
+</div>
 </body>
 <%@ include file="../footer/footer.jsp"%>
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
+    // 로그인 여부 확인 함수
+    function isLoggedIn() {
+        if (${customerUserVO == null || customerUserVO.u_id == null}) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     function showContent(contentId) {
+        $('.review').hide();
         $('.content').hide();
         $('#content' + contentId).show();
     }
+    function showContent5(contentId) {
+        $('.content').hide();
+        $('.review').hide();
+        $('#content' + contentId).show();
+    }
+
+    // 상단바 장바구니 진입 시 삭제 기능
+    const deleteItems = () => {
+        if (!isLoggedIn()) {
+            alert("로그인 후 이용해주세요.");
+            return;
+        }
+
+        const selectedItems = []; // 선택된 항목의 ID를 담을 배열
+
+        // 선택된 항목의 ID를 배열에 추가
+        $('.selectedItems:checked').each(function () {
+            selectedItems.push($(this).val());
+        });
+        console.log(selectedItems)
+        if (selectedItems.length === 0) {
+            alert("삭제할 항목을 선택해주세요.");
+            return;
+        }
+
+        // 선택된 항목의 ID를 URL에 추가하여 AJAX 요청
+        $.ajax({
+            type: "POST",
+            url: "/wishlist/delete",
+            data: JSON.stringify(selectedItems), // 선택된 항목의 ID 배열을 JSON 형식으로 변환하여 서버로 전달
+            contentType: "application/json", // 전달하는 데이터의 형식을 명시 (JSON 형식)
+            success: function(response) {
+                alert("선택된 항목이 찜목록에서 삭제되었습니다.");
+                location.reload()
+            },
+            error: function(xhr, status, error) {
+                alert("에러 발생");
+            },
+        });
+    };
 </script>

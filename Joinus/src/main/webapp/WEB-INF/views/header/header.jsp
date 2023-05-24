@@ -164,8 +164,8 @@
                         <a href="/mypage"  role="button" class="nav-link1"  style="top: 5px; height: 10px;" >마이페이지</a>
                     </li>
                     <li class="nav-item1">
-                        <a class="nav-link1" role="button" href="/community" style="top: 5px; height: 10px;">
-                            커뮤니티
+                        <a class="nav-link1" role="button" href="/inquiry" style="top: 5px; height: 10px;">
+                            문의내역
                         </a>
                     </li>
                     <li class="nav-item1">
