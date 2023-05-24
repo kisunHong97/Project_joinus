@@ -388,7 +388,6 @@
       </div>
     </div>
   </div>
-  <input type="hidden" value="${customerUserVO}" id="customerUserVO">
   </tbody>
 </table>
 <script>
@@ -412,6 +411,7 @@
         evt.currentTarget.className += " active";
     }
 </script>
+<!-- 문의 내역 등록 조회 수정 -->
 <script>
     $(document).ready(function() {
         $("#inquiryTab").click(function (){
@@ -433,6 +433,7 @@
 
     $(document).on("click", ".btn-edit", function() {
         var inquiryText = $(this).siblings(".inquiry-text").text().replace("문의 내용: ", "");
+        console.log("문의 수정 진입 : " + inquiryText)
         $("#editInquiryTextarea").val(inquiryText);
         $("#editInquiryModal").css("display", "block");
     });
@@ -487,16 +488,20 @@
             },
             dataType: "json", // JSON 형식의 응답을 기대
             success: function(response) {
+                console.log("조회 : " + response)
                 // 기존의 문의 목록을 초기화
                 $("#qnaList").empty();
 
                 if (response && response.length > 0) {
                     response.forEach(function(vo) {
+                        console.log("문의 내용 : " + vo.u_inquiry)
+                        console.log("문의 일시 : " + new Date(vo.inquiry_date).toLocaleString())
                         var inquiryContent = $("<p>").text("문의 내용: " + vo.u_inquiry).addClass("inquiry-text");
                         var inquiryDate = $("<p>").text("문의 일시: " + new Date(vo.inquiry_date).toLocaleString()).addClass("inquiry-date");
                         var editButton = $("<button>").text("수정").addClass("btn-edit");
                         var newInquiry = $("<div>").addClass("inquiry");
                         newInquiry.append(inquiryContent, inquiryDate, editButton);
+                        console.log("new :"+newInquiry.text())
                         $("#qnaList").append(newInquiry);
                     });
                 } else {
@@ -511,13 +516,14 @@
 
     function updateInquiry() {
         var editedInquiryText = $("#editInquiryTextarea").val();
-        console.log(editedInquiryText)
+        console.log("수정할 문의 텍스트 : " + editedInquiryText)
         // 코드 수정 필요: 해당 문의의 ID 또는 식별자를 가져와서 서버로 전송
 
         $.ajax({
             url: "/updateInquiry",
             type: "POST",
             data: {
+                // ino : ino,
                 u_name: '${customerUserVO.u_name}', // 수정할 문의의 ID 또는 식별자
                 u_inquiry : editedInquiryText
             },
@@ -565,7 +571,7 @@
     // 로그인 여부를 확인하는 코드 작성
     // 로그인되어 있으면 true 반환, 아니면 false 반환
     // 예시:
-    if (($("#customerUserVO") != null || $("#u_id") != null)) {
+      if (${customerUserVO == null || customerUserVO.u_id == null}) {
       return false;
     } else {
       return true;

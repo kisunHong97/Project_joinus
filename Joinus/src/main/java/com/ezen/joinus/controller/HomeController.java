@@ -115,12 +115,10 @@ public class HomeController {
             } else {
                 model.addAttribute("cart", 0);
             }
-        }catch (Exception e){
+        }catch (Exception e) {
             System.out.println("로그인 안해서 여기 진입 합니다.");
             productService.getProductContents(pno);
         }
-
-
         return "/board/read";
     }
 
@@ -271,11 +269,13 @@ public class HomeController {
         return inquiries;
     }
 
+
+
     @PostMapping("/updateInquiry")
     @ResponseBody
     public String updateInquiry(String u_name, String u_inquiry, HttpSession session) {
         CustomerUserVO customerloginUser = (CustomerUserVO) session.getAttribute("customerUserVO");
-        System.out.println("문의 내역 수정 들어오나 ? : " + u_name + u_inquiry);
+        System.out.println("문의 내역 수정 들어오나 ? 이름 : " + u_name + "수정 내용 : " + u_inquiry);
         // 수정된 문의 내용을 업데이트하는 비즈니스 로직 수행
         try {
             System.out.println(customerloginUser.getU_name() + u_name);
