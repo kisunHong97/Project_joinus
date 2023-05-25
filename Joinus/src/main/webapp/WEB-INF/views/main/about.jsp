@@ -8,6 +8,7 @@
     <title>Title</title>
 </head>
 <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="../../../resources/css/category.css" rel="stylesheet" />
 <%@ include file="../header/header.jsp"%>
 <style>
     @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 100;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf) format('opentype');}
@@ -152,119 +153,109 @@
         position: relative;
         overflow: hidden;
     }
+
     .board-body {
         display: flex;
         flex-wrap: wrap;
         overflow: hidden;
         width: 100%;
-        height: auto; /* 또는 필요한 높이 값으로 설정 */
+        height: auto;
     }
 
     .board-body ul {
         display: flex;
-        flex-wrap: wrap; /* 수정 */
+        flex-wrap: wrap;
         list-style-type: none;
         margin: 0;
         padding: 0;
-        width: 75%; /* 수정 */
+        width: 75%;
         transition: transform 0.5s ease-in-out;
     }
 
     .board-body ul li {
-        flex: 0 0 calc(33.33% - 20px); /* 수정: 한 줄에 3개씩 표시하도록 수정 */
+        flex: 0 0 calc(33.33% - 20px);
         margin-bottom: 20px;
         padding: 0 10px;
         box-sizing: border-box;
     }
-
 </style>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        var boardBodies = document.querySelectorAll(".board-body");
+        var boardBodies = document.querySelectorAll(".board-body"); // 수정: .board-body 요소들을 선택합니다.
 
-        boardBodies.forEach(function(boardBody) {
+        boardBodies.forEach(function(boardBody) { // 수정: boardBodies에 대해 forEach 반복문을 수행합니다.
             var scrollAmount = 0;
-            var scrollStep = (boardBody.clientWidth / 3) * 2; /* 한 번에 스크롤할 너비를 2/3로 수정 */
+            var scrollStep = (boardBody.clientWidth / 3) * 2;
 
             var btnRight = document.createElement("button");
             btnRight.textContent = "→";
             btnRight.addEventListener("click", function() {
                 scrollAmount += scrollStep;
-                boardBody.scroll({
-                    left: scrollAmount,
-                    behavior: "smooth"
-                });
+                boardBody.scrollLeft = scrollAmount;
             });
 
             var btnLeft = document.createElement("button");
             btnLeft.textContent = "←";
             btnLeft.addEventListener("click", function() {
                 scrollAmount -= scrollStep;
-                boardBody.scroll({
-                    left: scrollAmount,
-                    behavior: "smooth"
-                });
+                boardBody.scrollLeft = scrollAmount;
             });
 
-            boardBody.parentNode.insertBefore(btnLeft, boardBody);
-            boardBody.parentNode.insertBefore(btnRight, boardBody.nextSibling);
+            boardBody.parentElement.appendChild(btnLeft); // 수정: 버튼을 boardBody의 부모 요소에 추가합니다.
+            boardBody.parentElement.appendChild(btnRight); // 수정: 버튼을 boardBody의 부모 요소에 추가합니다.
         });
     });
-
 </script>
 <body class="sub_page about_page">
 <br>
 <section>
-    <div class="outter ">
+    <div class="outter">
         <h1 class="hit">히트상품</h1>
         <div class="board">
             <div class="board-body">
-                <c:choose>
-                    <c:when test="${!empty purchaseVOList}">
-                        <ul>
+                <ul>
+                    <c:choose>
+                        <c:when test="${!empty purchaseVOList}">
                             <c:forEach var="product" items="${purchaseVOList}" varStatus="status">
-                                    <li>
-                                        <div class="post-thumbnail">
-<%--                                            <img src="/display?fileName=${thumbnailList1[status.index].uploadPath}/${thumbnailList1[status.index].uuid}_${thumbnailList1[status.index].fileName}" alt="게시물 썸네일"/>--%>
-                                        </div>
-                                        <div class="post-content">
-                                            <a href="/board/read?pno=${purchaseVOList[status.index].pno}">${purchaseVOList[status.index].p_name}</a>
-                                        </div>
-                                    </li>
+                                <li>
+                                    <div class="post-thumbnail">
+                                             <img src="/display?fileName=${thumbnailList1[status.index].uploadPath}/${thumbnailList1[status.index].uuid}_${thumbnailList1[status.index].fileName}" alt="게시물 썸네일"/>
+                                    </div>
+                                    <div class="post-content">
+                                        <a href="/board/read?pno=${purchaseVOList[status.index].pno}">${purchaseVOList[status.index].p_name}</a>
+                                    </div>
+                                </li>
                             </c:forEach>
-                        </ul>
-                    </c:when>
-                    <c:when test="${empty purchaseVOList}">
-                        <ul>
+                        </c:when>
+                        <c:when test="${empty purchaseVOList}">
                             <c:forEach var="product" items="${productList}" varStatus="status">
-                                    <li>
-                                        <div class="post-thumbnail">
-<%--                                            <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일"/>--%>
-                                        </div>
-                                        <div class="post-content">
-                                            <a href="/board/read?pno=${productList[status.index].pno}">${productList[status.index].p_name}</a>
-                                        </div>
-                                    </li>
+                                <li>
+                                    <div class="post-thumbnail">
+                                        <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일"/>
+                                    </div>
+                                    <div class="post-content">
+                                        <a href="/board/read?pno=${productList[status.index].pno}">${productList[status.index].p_name}</a>
+                                    </div>
+                                </li>
                             </c:forEach>
-                        </ul>
-                    </c:when>
-                </c:choose>
-
+                        </c:when>
+                    </c:choose>
+                </ul>
             </div>
         </div>
-        <aside style="position: absolute; top: 200px; right: 360px;">
-            <div style="flex-shrink: 0; width: 300px;">
-                <h1 class="hit">Let's Join Us!</h1>
-                <input type="hidden" id="id" value="${customerloginUser.u_name}">
-                <div class="moving-text">건전한 채팅 부탁드립니다</div>
-                <div>
-                    <div id="chatarea" class="chatarea" style="width: 260px; height: 300px; overflow-y: auto; background-color: white; padding: 10px; "><br></div>
-                    <input type="text" class="message" id="message" style="width: 86%; height: 35px" />
-                    <input type="button" id="send" class="account2" value="보내기" style="width: 65%; padding: 5px;"/>
-                    <input type="button" id="exit" class="exit" value="나가기" />
-                </div>
-            </div>
-        </aside>
+<%--        <aside style="position: absolute; top: 200px; right: 360px;">--%>
+<%--            <div style="flex-shrink: 0; width: 300px;">--%>
+<%--                <h1 class="hit">Let's Join Us!</h1>--%>
+<%--                <input type="hidden" id="id" value="${customerloginUser.u_name}">--%>
+<%--                <div class="moving-text">건전한 채팅 부탁드립니다</div>--%>
+<%--                <div>--%>
+<%--                    <div id="chatarea" class="chatarea" style="width: 260px; height: 300px; overflow-y: auto; background-color: white; padding: 10px; "><br></div>--%>
+<%--                    <input type="text" class="message" id="message" style="width: 86%; height: 35px" />--%>
+<%--                    <input type="button" id="send" class="account2" value="보내기" style="width: 65%; padding: 5px;"/>--%>
+<%--                    <input type="button" id="exit" class="exit" value="나가기" />--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--        </aside>--%>
     </div>
 </section>
 <p>${customerloginUser.u_addrcode}</p>
@@ -297,7 +288,7 @@
                     </c:forEach>
                 </ul>
                 <c:if test="${not hasNearbyProducts}">
-                    <p>근처에 등록된 상품이 없습니다.</p>
+                    <h5>근처에 등록된 상품이 없습니다.</h5>
                 </c:if>
             </div>
         </div>

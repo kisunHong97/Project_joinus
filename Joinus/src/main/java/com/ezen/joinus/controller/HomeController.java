@@ -49,11 +49,11 @@ public class HomeController {
         int total = productService.countBoard();
         if (nowPage == null && cntPerPage == null) {
             nowPage = "1";
-            cntPerPage = "8";
+            cntPerPage = "6";
         } else if (nowPage == null) {
             nowPage = "1";
         } else if (cntPerPage == null) {
-            cntPerPage ="8";
+            cntPerPage ="6";
         }
         System.out.println("total!!!!!!!!:"+total);
         int cntPage = (int) Math.ceil((double) total / 6.0);
