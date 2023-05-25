@@ -236,45 +236,19 @@
       color: white;
       font-weight: bold;
   }
-  .inquiry-Content{
-      width: 1110px;
-      border: 1px solid #c9c9c9;
+  .divtag{
+      display: inline-block;
+      text-align: center;
+      margin-left: 15px;
+      margin-right: 15px;
+      /*width: 50px;*/
   }
-  .modal {
-      display: none;
-      position: fixed;
-      z-index: 1;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0, 0, 0, 0.4);
-  }
-
-  .modal-content {
-      background-color: #fefefe;
-      margin: 15% auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%;
-      max-width: 600px;
-  }
-
-  .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
+  .title{
       font-weight: bold;
-      cursor: pointer;
+      letter-spacing:-1px;
   }
 
-  .close:hover,
-  .close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-  }
+
 
 </style>
 <%@ include file="../header/header.jsp"%>
@@ -337,10 +311,6 @@
                   <input type="date" id="endDate" max="2099-12-31" data-type="free" class="period-endDate" style="width: 120px; margin-right: 15px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
               </c:if>
           </div>
-<%--          <div class="form-group">--%>
-<%--            <label for="quantityInput">수량</label>--%>
-<%--            <input type="number" class="form-control" id="quantityInput" value="1" onchange="updateTotalPrice()">--%>
-<%--          </div>--%>
           <div class="form-group">
             <label for="totalPrice">총 가격</label>
             <input type="number" class="form-control" id="totalPrice" value="${productVO.p_price}" readonly>
@@ -376,17 +346,17 @@
     <div class="tab">
       <button class="tablinks" onclick="openTab(event, 'product_info')">상품 상세 정보</button>
       <button class="tablinks" onclick="openTab(event, 'reviews')">구매후기</button>
-      <button class="tablinks" id="inquiryTab" onclick="openTab(event, 'qna')">상품문의</button>
+      <button class="tablinks" onclick="openTab(event, 'qna')">상품문의</button>
       <button class="tablinks" onclick="openTab(event, 'refund')">환불</button>
     </div>
     <!-- 탭 내용 -->
     <div id="product_info" class="tabcontent">
-      <h3>상품 상세 정보</h3>
+      <h3 class="title">상품 상세 정보</h3>
         <img src="/display?fileName=${productVO.detail.uploadPath}/${productVO.detail.uuid}_${productVO.detail.fileName}">
     </div>
 
     <div id="reviews" class="tabcontent">
-      <h3>리뷰 작성</h3>
+      <h3 class="title">리뷰 작성</h3>
 
         <form action="/review" method="post">
             <textarea class="reviewContent" name="review" rows="5" cols="50" placeholder="리뷰를 입력하세요"></textarea>
@@ -410,7 +380,7 @@
             <input type="hidden" value="${productVO.p_name}" id="productVOp_name" name="p_name">
         </form>
         <hr>
-        <h3>후기</h3>
+        <h3 class="title">후기</h3>
             <span id=reviewAverage style="font-weight: bold; font-size: 30px; color:#ff731b;">${avg}/5</span>
         <span style="color:#ff731b; font-weight: bold; ">(${listlength}개 후기)</span>
         <br>
@@ -451,6 +421,53 @@
         </div>
     </div>
 
+     <div id ="qna" class="tabcontent">
+
+         <h3  class="title" style="font-weight: bold; ">상품 문의</h3>
+         <br>
+         <div class="bigdiv" style="position: relative">
+         <div class="divtag" style="width: 50px;">NO</div>
+         <div class="divtag" style="width: 50px;">작성자</div>
+         <div class="divtag" style="width: 500px;">제목</div>
+         <div class="divtag" style="width: 50px;">날짜</div>
+             <div class="divtag" style="width: 200px;">상태</div>
+             <form action="/cinquiry" >
+                 <input type="hidden" value="${productVO.pno}"  name="pno">
+                 <input type="hidden" value="${productVO.p_name}"  name="p_name">
+                 <input type="hidden" value="${productVO.sno}"  name="sno">
+
+          <button id="inquiryButton" style=" position: absolute; right: 20px; top: -8px;">문의하기</button>
+             </form>
+             </div>
+         <div id="inquirylist">
+             <hr>
+             <c:forEach items="${inquirylist}" var="inquiry" varStatus="loop">
+                 <div class="inquirywItem">
+                     <div class="inquiryInfo">
+                         <div class="divtag" style="width: 50px;">
+                         &nbsp;<span class="ino" style="color: #ff731b;">
+                             <input type="hidden" value="${inquiry.ino}"  name="ino">
+                             <input type="hidden" value="${inquiry.pno}"  name="pno">
+                             ${loop.index+1}
+                         </span>&nbsp;</div>
+                         <div class="divtag" style="width: 50px;"><span> ${inquiry.u_name}</span></div>
+                         <div class="divtag" style="width: 500px;"><a id="inqua" href="/modifyinqu/ino=${inquiry.ino}/pno=${inquiry.pno}">🔒&nbsp;${inquiry.i_title}</a></div>
+                         <div class="divtag" style="width: 50px;"><span style="color: #808080;">${inquiry.inquiry_date}</span></div>
+                         <div class="divtag" style="width: 200px;"> <span style="color: #ff731b;">${inquiry.status}</span></div>
+                         <input type="hidden" value="${inquiry.u_id}"  id="inquiryu_id">
+                     </div>
+                     <hr>
+                 </div>
+             </c:forEach>
+
+             <c:if test="${empty inquirylist}">
+                 <div class="noinquirylist">등록된 글이 없습니다.</div>
+             </c:if>
+         </div>
+
+     </div>
+    </div>
+
       <div id="qna" class="tabcontent">
           <button id="inquiryButton">문의하기</button><hr>
           <div id="inquiryForm" class="modal">
@@ -477,7 +494,7 @@
       </div>
 
       <div id="refund" class="tabcontent">
-       <h3>환불</h3>
+       <h3 class="title">환불</h3>
       <div>
           <strong>[환불 규정]</strong><br>
           <p>1. 티켓의 사용기한으로부터 10% 이내의 기간이 지난 경우, 환불이 불가능합니다.<br>
@@ -513,14 +530,51 @@
   </div>
   </div>
   </tbody>
-       <input type="hidden" value="${customerUserVO.u_id}" id="u_id">
-       <input type="hidden" value="${customerUserVO.u_name}" id="u_name" name="u_name">
-       <input type="hidden" value="${list}" id="list">
-       <input type="hidden" value="${customerUserVO}" id="customerUserVO">
-       <input type="hidden" value="${productVO.pno}" id="productVO" name="pno">
-       <input type="hidden" value="${productlist}" id="productlist" name="productlist">
-
+    <input type="hidden" value="${customerUserVO.u_id}" id="u_id">
+    <input type="hidden" value="${customerUserVO.u_name}" id="u_name" name="u_name">
+    <input type="hidden" value="${list}" id="list">
+    <input type="hidden" value="${customerUserVO}" id="customerUserVO">
+    <input type="hidden" value="${productVO.pno}" id="productVO" name="pno">
+    <input type="hidden" value="${productlist}" id="productlist" name="productlist">
+    <input type="hidden" value="${businessUser.b_id}" id="b_id" name="b_id">
+    <input type="hidden" value="${productsno}" id="sno" name="sno">
+    <input type="hidden" value="${businessUser.bno}" id="bno" name="bno">
+    <input type="hidden" value="${productfinalsno}" id="psno" name="psno">
 </table>
+<script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        console.log($("#b_id").val());
+        console.log("으아아아아악!");
+        console.log("호오?"+ $("#inquiryu_id").val())
+        console.log("bno:"+$("#bno").val());
+        console.log("sno:"+$("#sno").val());
+        console.log("psno:"+$("#psno").val());
+
+
+
+        $("#inqua").click(function() {
+            if ($("#u_id").val() === "" && $("#b_id").val() === "") {
+                alert("로그인 후 다시 시도해주세요!");
+                return false;
+            }
+            if($("#u_id").val() !== ""){
+                if ($("#u_id").val() !== $("#inquiryu_id").val() ) {
+                    alert("문의글은 작성자만 볼 수 있습니다.");
+                    return false;
+                }
+            }else if($("#bno").val() !== ""){
+                if($("#sno").val() !== $("#psno").val()){
+                    alert("현재 제품 판매자만 가능합니다.")
+                    return false;
+                }
+            }else {
+                return true;
+            }
+        });
+
+    });
+</script>
 <script>
     var avgValue = ${avg}; // avg 값이 0인 경우 숨김 처리
 
@@ -566,6 +620,7 @@
             }
         })
     });
+
 </script>
 <script>
   function openNav() {
@@ -574,6 +629,21 @@
             .querySelector(".custom_menu-btn")
             .classList.toggle("menu_btn-style");
   }
+  $(document).ready(function () {
+      console.log("문의글 등록버튼")
+      $('#inquiryButton').click(function () {
+          if($("#u_id").val()=="" && $("#b_id").val() == ""){
+              alert("로그인 후 가능합니다.")
+              return false;
+          }else if($("#u_id").val() =="" && $("#b_id").val() != ""){
+              alert("사업자는 문의글 등록을 할 수 없습니다.")
+              return false;
+          }else {
+              return true;
+          }
+
+      });
+  });
 </script>
 <script>
     // 페이지 로드 시 첫 번째 탭을 활성화
@@ -582,7 +652,6 @@
     });
 
     function openTab(evt, tabName) {
-
         var i, tabcontent, tablinks;
         tabcontent = document.getElementsByClassName("tabcontent");
         for (i = 0; i < tabcontent.length; i++) {
@@ -595,148 +664,6 @@
         document.getElementById(tabName).style.display = "block";
         evt.currentTarget.className += " active";
     }
-</script>
-<!-- 문의 내역 등록 조회 수정 -->
-<script>
-    $(document).ready(function() {
-        $("#inquiryTab").click(function (){
-            loadInquiries('${productVO.p_name}');
-        });
-
-        $("#inquiryButton").click(function() {
-            $("#inquiryForm").css("display", "block");
-        });
-
-        $(".close").click(function() {
-            $("#inquiryForm").css("display", "none");
-        });
-
-        $("#btnSubmitInquiry").click(function() {
-            submitInquiry();
-        });
-    });
-
-    $(document).on("click", ".btn-edit", function() {
-        var inquiryText = $(this).siblings(".inquiry-text").text().replace("문의 내용: ", "");
-        console.log("문의 수정 진입 : " + inquiryText)
-        $("#editInquiryTextarea").val(inquiryText);
-        $("#editInquiryModal").css("display", "block");
-    });
-
-    $(".close").click(function() {
-        // ...
-        $("#editInquiryModal").css("display", "none");
-    });
-
-    function submitInquiry() {
-        var inquiryText = $("#qnaTextarea").val();
-
-        $.ajax({
-            url: "/submitInquiry",
-            type: "POST",
-            data: {
-                inquiryText: inquiryText,
-                p_name : '${productVO.p_name}',
-                sno : ${store.sno}
-            },
-            success: function(response) {
-                alert("등록되었습니다.");
-
-                // 입력 필드를 초기화
-                $("#qnaTextarea").val("");
-                // 모달 닫기
-                $("#inquiryForm").css("display", "none");
-
-                // 등록된 문의글을 바로 표시
-                var inquiryContent = $("<p>").text("문의 내용: " + inquiryText).addClass("inquiry-text");
-                var inquiryDate = $("<p>").text("문의 일시: " + new Date().toLocaleString()).addClass("inquiry-date");
-                var newInquiry = $("<div>").addClass("inquiry");
-                newInquiry.append(inquiryContent, inquiryDate);
-                $("#qnaList").append(newInquiry);
-
-                // 등록된 문의글의 내용을 서버로부터 다시 받아와서 화면에 표시
-                loadInquiries('${productVO.p_name}');
-            },
-            error: function() {
-                // 요청이 실패한 경우, 오류 처리
-                console.error("상품 문의 등록에 실패했습니다.");
-            }
-        });
-    }
-
-    function loadInquiries(p_name) {
-        $.ajax({
-            url: "/getInquiries",
-            type: "GET",
-            data: {
-                p_name: p_name
-            },
-            dataType: "json", // JSON 형식의 응답을 기대
-            success: function(response) {
-                console.log("조회 : " + response)
-                // 기존의 문의 목록을 초기화
-                $("#qnaList").empty();
-
-                if (response && response.length > 0) {
-                    response.forEach(function(vo) {
-                        console.log("문의 내용 : " + vo.u_inquiry)
-                        console.log("문의 일시 : " + new Date(vo.inquiry_date).toLocaleString())
-                        var inquiryContent = $("<p>").text("문의 내용: " + vo.u_inquiry).addClass("inquiry-text");
-                        var inquiryDate = $("<p>").text("문의 일시: " + new Date(vo.inquiry_date).toLocaleString()).addClass("inquiry-date");
-                        var editButton = $("<button>").text("수정").addClass("btn-edit");
-                        var newInquiry = $("<div>").addClass("inquiry");
-                        newInquiry.append(inquiryContent, inquiryDate, editButton);
-                        console.log("new :"+newInquiry.text())
-                        $("#qnaList").append(newInquiry);
-                    });
-                } else {
-                    $("#qnaList").text("등록된 문의가 없습니다.");
-                }
-            },
-            error: function() {
-                console.error("문의 목록을 가져오는 데 실패했습니다.");
-            }
-        });
-    }
-
-    function updateInquiry() {
-        var editedInquiryText = $("#editInquiryTextarea").val();
-        console.log("수정할 문의 텍스트 : " + editedInquiryText)
-        // 코드 수정 필요: 해당 문의의 ID 또는 식별자를 가져와서 서버로 전송
-
-        $.ajax({
-            url: "/updateInquiry",
-            type: "POST",
-            data: {
-                // ino : ino,
-                u_name: '${customerUserVO.u_name}', // 수정할 문의의 ID 또는 식별자
-                u_inquiry : editedInquiryText
-            },
-            dataType: "json",
-            success: function(response) {
-                console.log("응답:"+response)
-                alert("수정 되었습니다.")
-                // if (response && response.length > 0) {
-                //     response.forEach(function(vo) {
-                //         var inquiryContent = $("<p>").text("문의 내용: " + vo.u_inquiry).addClass("inquiry-text");
-                //         var inquiryDate = $("<p>").text("문의 일시: " + new Date(vo.inquiry_date).toLocaleString()).addClass("inquiry-date");
-                //         var editButton = $("<button>").text("수정").addClass("btn-edit");
-                //         var newInquiry = $("<div>").addClass("inquiry");
-                //         newInquiry.append(inquiryContent, inquiryDate, editButton);
-                //         $("#qnaList").append(newInquiry);
-                //     });
-                // } else {
-                //     $("#qnaList").text("등록된 문의가 없습니다.");
-                // }
-            },
-            error: function() {
-                console.error("문의 내용을 수정하는 데 실패했습니다.");
-            }
-        });
-
-        $("#editInquiryModal").css("display", "none");
-    }
-
 </script>
 <script>
     $(document).ready(function(e) {

@@ -71,17 +71,41 @@
 
     <!-- 상품 문의 등록 -->
     <insert id="saveInquiry" parameterType="com.ezen.joinus.vo.InquiryVO">
-        insert into products_inquiry (ino, sno, p_name, u_name, u_inquiry, inquiry_date)
-        values (inquiry_seq.nextval, #{sno}, #{p_name}, #{u_name}, #{u_inquiry}, #{inquiry_date})
+        insert into products_inquiry (ino, pno,sno, u_id , p_name, u_name,i_title, u_inquiry, inquiry_date , status)
+        values (inquiry_seq.nextval, #{pno},#{sno},#{u_id}, #{p_name}, #{u_name}, #{i_title}, #{u_inquiry}, #{inquiry_date},'답변 대기')
     </insert>
+
+    <select id="allinquiries" resultType="com.ezen.joinus.vo.InquiryVO">
+        select * from products_inquiry where pno=#{pno}
+    </select>
 
     <select id="getInquiries" resultType="com.ezen.joinus.vo.InquiryVO">
         select * from products_inquiry
-        where p_name = #{p_name}
+        where ino = #{ino}
     </select>
 
-    <update id="updateInquiry">
-        update products_inquiry set u_inquiry = #{param1}
-        where u_name = #{arg0}
+    <select id="userallinqu" resultType="com.ezen.joinus.vo.InquiryVO">
+        select * from products_inquiry
+        where u_id = #{u_id}
+    </select>
+
+    <update id="updateinqu" parameterType="com.ezen.joinus.vo.InquiryVO">
+        update products_inquiry set i_title = #{i_title}, u_inquiry = #{u_inquiry} , inquiry_date= #{inquiry_date}
+        where ino = #{ino}
     </update>
+    <update id="updatestatus" parameterType="com.ezen.joinus.vo.InquiryVO">
+        update products_inquiry set status = '답변 완료'
+        where ino = #{ino}
+    </update>
+    <insert id="insertb_answer" parameterType="com.ezen.joinus.vo.B_answerVO">
+        insert into b_inquiry (bno ,ino,sno, b_answer, b_id, pno, status,sys_date ) values (b_inquiry_seq.nextval, #{ino},#{sno},#{b_answer},#{b_id},#{pno},'답변 완료',#{sys_date})
+    </insert>
+    <select id="selectb_answer" resultType="com.ezen.joinus.vo.B_answerVO">
+        select * from b_inquiry where ino=#{ino}
+    </select>
+    <select id="allstoreinqu" resultType="com.ezen.joinus.vo.InquiryVO">
+        select * from products_inquiry
+        where sno = #{sno}
+    </select>
+
 </mapper>

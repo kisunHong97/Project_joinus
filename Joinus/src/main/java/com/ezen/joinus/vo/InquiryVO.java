@@ -11,12 +11,14 @@ import java.util.Date;
 @Setter
 public class InquiryVO {
     private int ino;
+    private int pno;
     private int sno;
+    private String u_id;
     private String p_name;
     private String u_name;
+    private String i_title;
     private String u_inquiry;
-    private Date inquiry_date;
-    private String response;
+    private String inquiry_date;
     private String status;
 
 

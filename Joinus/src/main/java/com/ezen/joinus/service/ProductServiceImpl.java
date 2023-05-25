@@ -1,6 +1,7 @@
 package com.ezen.joinus.service;
 
 import com.ezen.joinus.mappers.ProductMapper;
+import com.ezen.joinus.vo.B_answerVO;
 import com.ezen.joinus.vo.InquiryVO;
 import com.ezen.joinus.vo.PagingVO;
 import com.ezen.joinus.vo.ProductVO;
@@ -85,14 +86,64 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public List<InquiryVO> getInquiries(String p_name) {
-		System.out.println("문의글 조회 서비스:" + p_name);
-		return productMapper.getInquiries(p_name);
+	public List<InquiryVO> allinquiries(int pno) {
+		return productMapper.allinquiries(pno);
 	}
 
 	@Override
-	public int updateInquiry(String u_name, String u_inquiry) {
-		System.out.println("문의 내역 수정 서비스 : " + u_name + u_inquiry);
-		return productMapper.updateInquiry(u_name, u_inquiry);
+	public InquiryVO getInquiries(int ino) {
+		return productMapper.getInquiries(ino);
 	}
+
+	@Override
+	public List<InquiryVO> userallinqu(String u_id) {
+		return productMapper.userallinqu(u_id);
+	}
+
+	@Override
+	public InquiryVO custgetinqu(int pno, String u_id) {
+		return null;
+	}
+
+	@Override
+	public void updateinqu(InquiryVO inquiryVO) {
+		productMapper.updateinqu(inquiryVO);
+	}
+
+	@Override
+	public void insertb_answer(B_answerVO b_answerVO) {
+		productMapper.insertb_answer(b_answerVO);
+
+	}
+
+	@Override
+	public B_answerVO selectb_answer(int ino) {
+		return productMapper.selectb_answer(ino);
+	}
+	@Override
+	public ProductVO getProduct(int pno) {
+		return productMapper.getProduct(pno);
+	}
+
+	@Override
+	public List<InquiryVO> allstoreinqu(int bno) {
+		return productMapper.allstoreinqu(bno);
+	}
+
+	@Override
+	public void updatestatus(int ino) {
+		productMapper.updatestatus(ino);
+	}
+
+//	@Override
+//	public List<InquiryVO> getInquiries(String p_name) {
+//		System.out.println("문의글 조회 서비스:" + p_name);
+//		return productMapper.getInquiries(p_name);
+//	}
+//
+//	@Override
+//	public int updateInquiry(String u_name, String u_inquiry) {
+//		System.out.println("문의 내역 수정 서비스 : " + u_name + u_inquiry);
+//		return productMapper.updateInquiry(u_name, u_inquiry);
+//	}
 }
