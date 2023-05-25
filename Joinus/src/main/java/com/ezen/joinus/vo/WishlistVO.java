@@ -12,6 +12,8 @@ import java.util.Date;
 public class WishlistVO {
     private int wno;
     private int pno;
+    private String p_name;
+    private String p_category;
     private String u_id;
     private Date w_date;
 

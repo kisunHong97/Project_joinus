@@ -41,6 +41,8 @@ a {
 
 .post-content {
     padding: 10px;
+    text-align: center;
+    margin-top: 10px;
 }
 
 .post-content h3 {

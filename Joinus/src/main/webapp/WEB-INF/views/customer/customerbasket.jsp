@@ -64,7 +64,7 @@
     /* 총 구매 금액 스타일 */
     .total-price-container {
       text-align: center;
-      margin-bottom: 20px;
+      /*margin-bottom: 20px;*/
       font-size: 16px;
       color: #888;
     }
@@ -76,12 +76,12 @@
 <div class="container">
   <table border="1">
     <thead>
-    <tr>
-      <th class="th">카테고리</th>
-      <th class="th">상품명</th>
-      <th class="th">기간</th>
-      <th class="th">금액</th>
-      <th class="th">선택</th>
+    <tr style="text-align: center;">
+      <th>카테고리</th>
+      <th>상품명</th>
+      <th>기간</th>
+      <th>금액</th>
+      <th>선택</th>
     </tr>
     </thead>
     <tbody>
@@ -113,14 +113,14 @@
     <p>총 구매 금액:
     <span id="totalPrice">0</span>
       원</p>
-  </div>
-  </c:if>
-<div class="container">
+   <div class="container">
   <div class="button1">
     <button onclick="deleteItems()">삭제</button>
     <button id="buy">구매</button>
   </div>
 </div>
+  </div>
+  </c:if>
 <form id="transferPno" method="post" action="/board/cartbuy">
 
 </form>
@@ -149,7 +149,7 @@
     // 체크된 체크박스들의 가격 합산
     $(".selectedItems:checked").each(function() {
       const price = $(this).closest("tr").find(".total").data("price");
-      console.log(price);
+      console.log("선택항목 금액 : " + price);
       totalPrice += price;
     });
 
@@ -192,15 +192,20 @@
       },
     });
   };
-  $("#buy").click(function (e){
-    console.log("여기 버튼이 눌렸다 ")
-    let str=""
-    $('.selectedItems:checked').each(function () {
-      str+="<input type='hidden' name='pno' value='"+$(this).val()+"'/>"
-    });
-    console.log(str)
-    $("#transferPno").append(str).submit();
-  })
+  $("#buy").click(function (e) {
+    if ($('.selectedItems:checked').length === 0) {
+      alert("구매 항목을 선택해주세요.");
+      return;
+    } else {
+      let str = "";
+      $('.selectedItems:checked').each(function () {
+        str += "<input type='hidden' name='pno' value='" + $(this).val() + "'/>";
+      });
+      console.log(str);
+      $("#transferPno").append(str).submit();
+    }
+  });
+
   // const calculateTotal = () => {
   //   $(document).ready(function() {
   //     if (!isLoggedIn()) {

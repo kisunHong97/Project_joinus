@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -40,6 +41,12 @@ public class WishlistServiceImpl implements WishlistService{
         paramMap.put("u_id", u_id);
         System.out.println("paramMap : "+paramMap);
         return wishlistMapper.selectWishlistByPnoAndUid(paramMap);
+    }
+
+    @Override
+    public List<WishlistVO> getWishlistUid(String u_id) {
+        System.out.println("찜목록 pno 조회 : " + u_id);
+        return wishlistMapper.getWishlistUid(u_id);
     }
 
 

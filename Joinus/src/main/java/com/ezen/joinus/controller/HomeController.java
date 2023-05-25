@@ -64,10 +64,21 @@ public class HomeController {
         vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage),cntPage);
         model.addAttribute("paging", vo);
         List<ProductVO> productList = productService.selectBoard(vo);
-
         List<AttachFileDTO> thumbnailList = new ArrayList<>();
+        List<AttachFileDTO> thumbnailList1 = new ArrayList<>();
+        List<StoreVO> storeVOList = storeService.getAllStore();
+        List<PurchaseVO> purchaseVOList = purchaseService.getAllpurchase();
+        System.out.println("전체 구매목록 : " + purchaseVOList);
+        model.addAttribute("purchaseVOList", purchaseVOList);
+        model.addAttribute("storeVOList", storeVOList);
+        System.out.println("storeAll : " + storeVOList);
         System.out.println("vo!!!!!!!!!!!!!!:"+vo);
         System.out.println("productList:!!!!!!!!!!!:"+productList);
+
+        for(PurchaseVO product : purchaseVOList){
+            thumbnailList1.add(fileService.selectMainThumbnail(product.getPno()));
+            System.out.println(fileService.selectMainThumbnail(product.getPno()));
+        }
 
         for(ProductVO product : productList){
             thumbnailList.add(fileService.selectMainThumbnail(product.getPno()));
@@ -78,6 +89,7 @@ public class HomeController {
 
         model.addAttribute("productList", productList);
         model.addAttribute("thumbnailList", thumbnailList);
+        model.addAttribute("thumbnailList1", thumbnailList1);
         model.addAttribute("customerloginUser",customerloginUser);
 
         return "main/about";
@@ -85,16 +97,16 @@ public class HomeController {
     // 게시물 이동
 
     @RequestMapping(value = "/board/read", method = RequestMethod.GET)
-    public String read(@ModelAttribute("ProductVO") ProductVO productVO, Model model, @RequestParam("pno") int pno, HttpSession session){
+    public String read(@ModelAttribute("ProductVO") ProductVO productVO, Model model, @RequestParam("pno") int pno, HttpSession session) {
         // 상품 정보 가져오기(썸네일, 상세정보 포함)
-        System.out.println("pno가져오니???"+pno);
+        System.out.println("pno가져오니???" + pno);
         productVO = productService.getProductContents(pno);
         productVO.setThumbnailList(fileService.selectThumbnailList(productVO.getPno()));
         productVO.setDetail(fileService.selectDetail(productVO.getPno()));
         System.out.println(productVO);
         model.addAttribute("productVO", productVO);
         Integer sno = productVO.getSno();
-        System.out.println("sno!!!!!!!!!!"+sno);
+        System.out.println("sno!!!!!!!!!!" + sno);
         model.addAttribute("store", storeService.getStore(sno));
 
         BusinessUserVO businessUser = (BusinessUserVO) session.getAttribute("BusinessUserVO");
@@ -102,14 +114,14 @@ public class HomeController {
 
         // 사용자 정보 가져오기
         String u_id = (String) session.getAttribute("id");
-        System.out.println("로그인 된 사용자 아이디 불러오나?:"+u_id);
+        System.out.println("로그인 된 사용자 아이디 불러오나?:" + u_id);
         CustomerUserVO customerUserVO = customerService.getCustomerById(u_id);
         System.out.println(customerUserVO);
         model.addAttribute("customerUserVO", customerUserVO);
 
-        try{
+        try {
             WishlistVO wishlist = wishlistService.getWishlistByPnoAndUid(pno, u_id);
-            System.out.println("wishlist : " + wishlist );
+            System.out.println("wishlist : " + wishlist);
             if (wishlist != null) {
                 model.addAttribute("like", 1);
             } else {
@@ -123,14 +135,13 @@ public class HomeController {
             } else {
                 model.addAttribute("cart", 0);
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("로그인 안해서 여기 진입 합니다.");
             productService.getProductContents(pno);
         }
         System.out.println("프로덕트네임!!:" + productVO.getP_name());
         String P_name = productVO.getP_name();
         List<ReviewVO> list2 = customerService.getreview(pno);
-        System.out.println("왜 ??"+list2);
 
         //list2 역순으로 나오게함(리뷰 리스트)
         Collections.reverse(list2);
@@ -147,6 +158,7 @@ public class HomeController {
 
         System.out.println("평균: " + formattedAvg);
         List<InquiryVO> inquiryList = productService.allinquiries(pno);
+
 
         //inquiryList 역순으로 나오게함 (문의 목록)
         Collections.reverse(inquiryList);
@@ -194,12 +206,13 @@ public class HomeController {
             model.addAttribute("productsno",productsno);
             model.addAttribute("productfinalsno",productVOListfinal.getSno());
             model.addAttribute("numbers",numbers);
+            model.addAttribute("businessUser", businessUser);
+            StoreVO getstoreVO = storeService.getStore(businessUser.getBno());
             return "/board/read";
         } else {
             return "/board/read";
         }
     }
-
     // 해당 상품을 찜 목록에 추가하는 기능
     @PostMapping("/wishlist/add")
     public ResponseEntity<String> addWishlist(WishlistVO vo, HttpSession session) {
@@ -219,6 +232,8 @@ public class HomeController {
         }
         WishlistVO wishlistVO = new WishlistVO();
         wishlistVO.setPno(vo.getPno());
+        wishlistVO.setP_name(vo.getP_name());
+        wishlistVO.setP_category(vo.getP_category());
         wishlistVO.setU_id(vo.getU_id());
         wishlistVO.setW_date(new Date());
         System.out.println("WISHLISTVO:" + wishlistVO);
@@ -245,6 +260,19 @@ public class HomeController {
         System.out.println(pno);
         System.out.println("상품번호 pno :" + pno);
         return new ResponseEntity<>("찜 목록에서 삭제되었습니다.", HttpStatus.OK);
+    }
+
+    //상단바 마이페이지 진입 시 찜삭제 컨트롤러
+    @PostMapping("/wishlist/delete")
+    @ResponseBody
+    public void deleteWishlist(@RequestBody List<Integer> pnoList, HttpSession session) {
+        String id = (String) session.getAttribute("id");
+        System.out.println("마이페이지 찜 삭제 컨트롤러: " + pnoList);
+        for (int pno : pnoList) {
+            System.out.println("pno: " + pno);
+            wishlistService.getWishlistByPnoAndUid(pno, id);
+            wishlistService.deleteWishlist(pno, id);
+        }
     }
 
     // 해당 상품을 장바구니에 추가하는 기능

@@ -18,6 +18,8 @@ public interface StoreService {
 
     StoreVO getStore(Integer bno);
 
+    List<StoreVO> getAllStore();
+
     void updateStore(StoreVO vo);
 
     void updateRevenue(int s_revenue, int sno);

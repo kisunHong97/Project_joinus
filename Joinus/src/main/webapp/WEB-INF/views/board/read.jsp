@@ -252,13 +252,10 @@
 
 </style>
 <%@ include file="../header/header.jsp"%>
+<script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
 <body class="sub_page about_page">
 <table id="datatable-scroller"
        class="table table-bordered tbl_Form">
-  <colgroup>
-    <col width="250px" />
-    <col />
-  </colgroup>
   <tbody>
   <div class="container mt-5">
       <div class="row">
@@ -324,10 +321,10 @@
             <br>
           <c:choose>
             <c:when test="${like == 1}">
-              <button type="button" class="btnwarning" id="wishBtn" data-a='${productVO.pno}' data-b='${customerUserVO.u_id}'>❤️</button>
+              <button type="button" class="btnwarning" id="wishBtn" data-a='${productVO.pno}' data-b='${customerUserVO.u_id}' data-c='${productVO.p_name}' data-d='${productVO.p_category}'>❤️</button>
             </c:when>
             <c:otherwise>
-              <button type="button" class="btnwarning" id="wishBtn" data-a='${productVO.pno}' data-b='${customerUserVO.u_id}'>🤍</button>
+              <button type="button" class="btnwarning" id="wishBtn" data-a='${productVO.pno}' data-b='${customerUserVO.u_id}' data-c='${productVO.p_name}' data-d='${productVO.p_category}'>🤍</button>
             </c:otherwise>
           </c:choose>
 
@@ -422,7 +419,6 @@
                 <div class="noReviews">작성한 리뷰가 없습니다.</div>
             </c:if>
         </div>
-
     </div>
 
      <div id ="qna" class="tabcontent">
@@ -469,8 +465,33 @@
              </c:if>
          </div>
 
-
      </div>
+    </div>
+
+      <div id="qna" class="tabcontent">
+          <button id="inquiryButton">문의하기</button><hr>
+          <div id="inquiryForm" class="modal">
+              <div class="modal-content">
+                  <span class="close">&times;</span>
+                  <form id="qnaForm">
+                      <textarea id="qnaTextarea" class="inquiry-Content" rows="4" cols="50" placeholder="상품 문의를 작성해주세요"></textarea>
+                      <button type="button" class="btn-inquiry" onclick="submitInquiry()">문의 등록</button>
+                  </form>
+              </div>
+          </div>
+          <div id="editInquiryModal" class="modal">
+              <div class="modal-content">
+                  <span class="close">&times;</span>
+                  <form id="editInquiryForm">
+                      <textarea id="editInquiryTextarea" class="inquiry-Content" rows="4" cols="50" placeholder="문의 내용을 수정해주세요"></textarea>
+                      <button type="button" class="btn-update-inquiry" onclick="updateInquiry()">수정</button>
+                  </form>
+              </div>
+          </div>
+          <div id="qnaList">
+              <!-- 상품 문의 목록이 표시될 영역 -->
+          </div>
+      </div>
 
       <div id="refund" class="tabcontent">
        <h3 class="title">환불</h3>
@@ -562,7 +583,6 @@
         spanElement.style.display = "none";
     }
 </script>
-<script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
     console.log("일단 작동")
     $(document).ready(function() {
@@ -675,6 +695,10 @@
       // console.log("data_like : " + data_like)
       let f1 = $('#wishBtn').data('a');
       let f2 = $('#wishBtn').data('b');
+      // p_name, p_category 추가
+      let p_name = $('#wishBtn').data('c');
+      let p_category = $('#wishBtn').data('d');
+
       var flag = false
       if(data_like == "❤️"){
         deleteWishlist();
@@ -684,7 +708,7 @@
           console.log('여기는 삭제');
         }
       } else {
-        addWishlist(f1, f2);
+        addWishlist(f1, f2, p_name, p_category);
         if (($("#customerUserVO") != null || $("#u_id") != null)){
           flag = !flag
           $('#wishBtn').text("❤️");
@@ -693,7 +717,7 @@
       }
     });
   });
-  function addWishlist(pno, u_id) {
+  function addWishlist(pno, u_id, p_name, p_category) {
     // 로그인 여부 확인
     if (!isLoggedIn()) {
       alert("로그인 후 이용해주세요.");
@@ -704,7 +728,9 @@
           url: "/wishlist/add",
           data: {
               pno,
-              u_id
+              u_id,
+              p_name,
+              p_category
           },
           success: function(data) {
               alert("찜 목록에 추가되었습니다.");
@@ -739,31 +765,41 @@
 <script>
   $(document).ready(function (e) {
     $('#cartBtn').click(function (e) {
-      var data_cart = $("#cartBtn").text()
-      // console.log("data_like : " + data_like)
-      var f3 = $('#cartBtn').data('c');
-      var f4 = $('#cartBtn').data('d');
-      var f5 = $('#totalPrice').val();
-      var f6 = $("#startDate").val();
-      var f7 = $("#endDate").val();
-      console.log(f5,f6,f7)
-      var flag = false
-      if(data_cart == "🛒"){
-        deleteCart();
-        if ($("#customerUserVO") != null || $("#u_id") != null){
-          flag = !flag
-          $('#cartBtn').text("장바구니담기");
-          console.log('여기는 삭제');
-        }
-      } else {
-        addCart(f3, f4, f5, f6, f7);
-        if ($("#customerUserVO") != null || $("#u_id") != null){
+    if (${productVO.p_type == 'free'}){
+        var startDate = document.getElementById("startDate").value;
+        var endDate = document.getElementById("endDate").value;
 
-          flag = !flag
-          $('#cartBtn').text("🛒");
-          console.log('여기는 추가');
+        if (startDate === "" || endDate === "") {
+            alert("기간을 선택해주세요.");
+        } else {
+            var data_cart = $("#cartBtn").text()
+            // console.log("data_like : " + data_like)
+            var f3 = $('#cartBtn').data('c');
+            var f4 = $('#cartBtn').data('d');
+            var f5 = $('#totalPrice').val();
+            var f6 = $("#startDate").val();
+            var f7 = $("#endDate").val();
+            console.log(f5,f6,f7)
+            var flag = false
+            if(data_cart == "🛒"){
+                deleteCart();
+                if ($("#customerUserVO") != null || $("#u_id") != null){
+                    flag = !flag
+                    $('#cartBtn').text("장바구니담기");
+                    console.log('여기는 삭제');
+                }
+            } else {
+                addCart(f3, f4, f5, f6, f7);
+                if ($("#customerUserVO") != null || $("#u_id") != null){
+
+                    flag = !flag
+                    $('#cartBtn').text("🛒");
+                    console.log('여기는 추가');
+                }
+            }
         }
-      }
+    }
+
     });
   });
   function addCart(pno, u_id, c_price, c_startDate, c_endDate) {
@@ -843,12 +879,21 @@
                 alert("로그인 후 이용해주세요.");
                 return;
             }
-            var pno = $("#productVO").val();
-            var p_price = $('#totalPrice').val();
-            var startDate = $("#startDate").val(); // 선택된 시작 날짜
-            var endDate = $("#endDate").val(); // 선택된 종료 날짜
-            var url = "/board/buy?pno=" + pno + "&startDate=" + startDate + "&endDate=" + endDate + "&p_price=" + p_price; // 구매 페이지 URL에 선택된 날짜와 가격을 추가합니다.
-            window.location.href = url;
+            if (${productVO.p_type == 'free'}){
+                var startDate = document.getElementById("startDate").value;
+                var endDate = document.getElementById("endDate").value;
+
+                if (startDate === "" || endDate === "") {
+                    alert("기간을 선택해주세요.");
+                } else {
+                    var pno = $("#productVO").val();
+                    var p_price = $('#totalPrice').val();
+                    var startDate = $("#startDate").val(); // 선택된 시작 날짜
+                    var endDate = $("#endDate").val(); // 선택된 종료 날짜
+                    var url = "/board/buy?pno=" + pno + "&startDate=" + startDate + "&endDate=" + endDate + "&p_price=" + p_price; // 구매 페이지 URL에 선택된 날짜와 가격을 추가합니다.
+                    window.location.href = url;
+                }
+            }
         });
     });
 </script>

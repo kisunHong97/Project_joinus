@@ -69,7 +69,6 @@
         </table>
     </div>
 </section>
-</section>
 <br>
 <div class="pagination" style="display: block; text-align: center;">
     <c:if test="${paging.startPage != 1 }">
