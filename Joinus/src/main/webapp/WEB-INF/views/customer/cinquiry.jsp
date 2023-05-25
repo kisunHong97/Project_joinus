@@ -61,7 +61,7 @@
 <br>
 
 <div class="divmain">
-    <h1>문의글 등록</h1>
+    <h1 style="font-weight: bold; letter-spacing: -1px">문의글 등록</h1>
     <br>
     <div class="form-container">
         <form action="/inquirysubmit" method="post">

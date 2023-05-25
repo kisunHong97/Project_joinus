@@ -55,7 +55,8 @@ public class CustomerController {
         System.out.println("현재 로그인사람의 uno"+uno);
         System.out.println(customerUserVO);
         customerService.modifyCustomer(customerUserVO);
-        return "redirect:/product_board";
+        session.invalidate();
+        return "main/login";
 
     }
     @GetMapping("/customerdelete")
@@ -118,15 +119,17 @@ public class CustomerController {
         return "redirect:/mypage";
     }
     @GetMapping("/review")
-    public String getreview(@RequestParam("pno") int pno){
+    public String getreview(@RequestParam("pno") int pno , @RequestParam("sno") int sno){
+        System.out.println("sno제발가져와라.."+sno);
         System.out.println("으으아악pno:"+pno);
         return "redirect:/board/read?pno=" + pno;
     }
 
     //리뷰 구현
     @PostMapping("/review")
-    public String review(HttpSession session, ReviewVO reviewVO,@RequestParam("pno") int pno,Model model){
+    public String review(HttpSession session, ReviewVO reviewVO,@RequestParam("pno") int pno,@RequestParam("sno") int sno,Model model){
         System.out.println("으으아악pno:"+pno);
+        System.out.println("sno제발가져와라.."+sno);
         CustomerUserVO customerloginUser = (CustomerUserVO) session.getAttribute("customerUserVO");
 
         reviewVO.setU_name(customerloginUser.getU_name());
@@ -143,6 +146,7 @@ public class CustomerController {
         reviewVO.setSys_date(formatedNow);
         reviewVO.setU_id(customerloginUser.getU_id());
         reviewVO.setPno(pno);
+        reviewVO.setSno(sno);
         customerService.insertreview(reviewVO);
         return "redirect:/board/read?pno=" + pno;
     }

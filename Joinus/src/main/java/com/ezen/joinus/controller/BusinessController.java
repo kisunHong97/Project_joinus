@@ -90,13 +90,16 @@ public class BusinessController {
         System.out.println(businessUser);
 
         businessUserService.modifyBusiness(businessUserVO);
-        return "redirect:/product_board";
+        session.invalidate();
+        return "main/login";
     }
     @GetMapping("/businessdelete")
     public String businessdelete(HttpSession session,Model model){
         BusinessUserVO businessUser = (BusinessUserVO) session.getAttribute("BusinessUserVO");
         model.addAttribute("businessvo",businessUser);
-
+        List<ProductVO> list = productService.getProductSno(businessUser.getBno());
+        model.addAttribute("list",list);
+        System.out.println("list를 보아요!:"+list);
         session.setAttribute("errormessage1", "비밀번호가 맞지 않습니다.");
         return "business/binfodelete";
     }

@@ -12,6 +12,7 @@ import java.util.Date;
 public class ReviewVO {
     private int rno;
     private int pno;
+    private int sno;
     private String u_id;
     private String u_name;
     private String review;

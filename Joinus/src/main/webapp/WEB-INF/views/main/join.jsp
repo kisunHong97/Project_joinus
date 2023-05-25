@@ -116,28 +116,6 @@
     }
 
 </style>
-<%--<body>--%>
-<%--<div class="container1" id="con">--%>
-<%--    <div id="login">--%>
-<%--        <div class="main1" style="margin: 0 auto" id="login_form"><!--로그인 폼-->--%>
-<%--            <form action="/customerjoin" method="post" id="a">--%>
-<%--                <h3 class="logo1" style="letter-spacing:-1px;">개인회원</h3>--%>
-<%--                <br>--%>
-<%--                <p>--%>
-<%--                    <input type="submit" value="가입하기" class="btn" href="" >--%>
-<%--                </p>--%>
-<%--            </form>--%>
-<%--            <form action="/join" method="post" id="b">--%>
-<%--                <h3 class="login" style="letter-spacing:-1px;">사업자회원</h3>--%>
-<%--                <br>--%>
-<%--                <p>--%>
-<%--                    <input type="submit" value="가입하기" class="btn" >--%>
-<%--                </p>--%>
-<%--            </form>--%>
-<%--        </div>--%>
-<%--    </div><!--con-->--%>
-<%--</div>--%>
-<%--<br>--%>
 
 <body>
 <br>

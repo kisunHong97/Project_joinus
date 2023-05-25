@@ -28,4 +28,9 @@
         delete from business_table where bno=#{bno, jdbcType=INTEGER}
     </delete>
 
+    <select id="selectreviewsno" resultType="com.ezen.joinus.vo.ReviewVO">
+        SELECT * FROM review_table WHERE sno =  #{sno}
+    </select>
+
+
 </mapper>

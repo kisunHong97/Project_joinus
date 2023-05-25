@@ -99,11 +99,6 @@
                     This is an <strong>.alert</strong>. 수정할꺼양?
                 </div>
                 <h3>Personal info</h3>
-                <%--        <div class="col-md-3">--%>
-                <%--          <div class="text-center">--%>
-                <%--            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="avatar img-circle img-thumbnail" alt="avatar">--%>
-                <%--          </div>--%>
-                <%--        </div>--%>
                 <form class="form-horizontal" role="form" method="post" action="/binfomodify">
                     <div class="form-group">
                         <label class="col-lg-3 control-label">이름</label>
@@ -202,16 +197,6 @@
         }
 
     })
-    $('.btndelete').click(function() {
-        list = ${list};
-        console.log('삭제해보아요');
-        if (list.length === 0) {
-            return true;
-        } else {
-            alert('사업자님의 스토어에서 등록하신 제품이 존재합니다. 제품 삭제 후 탈퇴가 가능합니다.');
-            return false;
-        }
-    });
 
 
 
