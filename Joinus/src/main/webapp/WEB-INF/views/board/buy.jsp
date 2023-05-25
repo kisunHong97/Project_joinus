@@ -8,18 +8,18 @@
 <head>
     <title>상품 구매 페이지</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 0;
-        }
+        /*body {*/
+        /*    font-family: Arial, sans-serif;*/
+        /*    background-color: #f5f5f5;*/
+        /*    margin: 0;*/
+        /*    padding: 0;*/
+        /*}*/
 
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+        /*.container {*/
+        /*    !*max-width: 600px;*!*/
+        /*    margin: 0 auto;*/
+        /*    padding: 20px;*/
+        /*}*/
 
         h1 {
             color: #333333;
@@ -55,10 +55,11 @@
 
         .buy-button {
             display: inline-block;
-            background-color: #ed969e;
+            background-color: #ff374a;
             color: #ffffff;
             padding: 10px 20px;
-            font-size: 16px;
+            font-size: 18px;
+            font-weight: bold;
             border: none;
             border-radius: 4px;
             cursor: pointer;
@@ -66,8 +67,26 @@
         }
 
         .buy-button:hover {
-            background-color: #ff6f84;
+            border: 2px solid #ff374a;
+            color: #ff374a;
+            background-color: #ffffff;
+            border-radius: 4px;
+            padding: 10px 20px;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
+        /*.container {*/
+        /*    !*display: flex;*!*/
+        /*    justify-content: center;*/
+        /*    align-items: center;*/
+
+        /*}*/
+        /*.product-info{*/
+        /*    text-align: center;*/
+        /*}*/
+
     </style>
 </head>
 <%@ include file="../header/header.jsp"%>
@@ -113,36 +132,46 @@
 
 </script>
 <body>
-<div class="container">
-    <h1>상품 구매 페이지</h1>
-    <div class="product-info">
-        <p>상품 설명 : ${productVO.p_inst}</p>
-<%--        <p>이용 기간: <fmt:formatDate value='${productVO.p_startDate}' pattern='yyyy년 MM월 dd일' /> ~ <fmt:formatDate value='${productVO.p_endDate}' pattern='yyyy년 MM월 dd일' /></p>--%>
-        <p>이용 기간:
-            <span id="startDateDisplay"></span> ~
-            <span id="endDateDisplay"></span>
-        </p>
+<br>
+<div class="container" style="height: 650px; align-items: center;">
+    <h1 style="letter-spacing: -1px; font-weight: bold">구매 페이지</h1>
+    <br>
+    <div class="buydiv" style="text-align: center;">
+      <div class="product-info">
+        <div style="width: 300px; height: 40px; border-bottom: 2px solid black; margin-left: 420px">
+            <p style="font-size: 20px; font-weight: bold;">구매 상품</p>
+        </div>
+        <div><p style=" height: 40px; margin-top: 10px;">${productVO.p_name}</p></div>
+        <br>
+        <div style="width: 300px; height: 40px; border-bottom: 2px solid black; margin-left: 420px">
+            <p style="font-size: 20px; font-weight: bold">이용 기간</p>
+        </div>
+        <div><p style=" height: 40px; margin-top: 10px;"> <span id="startDateDisplay"></span> ~
+            <span id="endDateDisplay"></span></p></div>
+        <br>
+
 <%--        <p>가격: ${productVO.p_price}메소</p>--%>
-        <p>가격: <span id="p_price"></span></p>
-        <p>보유 포인트 : ${customerUserVO.buypoint}메소</p>
+        <p>가격: <span id="p_price"></span>&nbsp;포인트</p>
+        <p>보유 포인트 : ${customerUserVO.buypoint}&nbsp;포인트</p>
     </div>
     <div class="customer-info">
         <label for="name">요청사항 : </label>
-        <input type="text" id="name" name="memo" placeholder="전달할 요청사항을 입력하세요" style="width: 500px;">
+        <input type="text" id="name" name="memo" placeholder="전달할 요청사항을 입력하세요" style="width: 500px; border: 1px solid #afafaf">
         <hr>
         <c:choose>
             <c:when test="${productVO.p_price <= customerUserVO.buypoint}">
-                <label for="name">총 결제금액: <span id="p_price_span"></span>메소</label><br>
-                <label for="name">구매 후 남은금액: <span id="remaining_price_span"></span>메소</label>
+                <label for="name">총 결제 포인트 : <span id="p_price_span" style="font-size: 30px"></span>&nbsp;포인트</label><br>
+                <label for="name">구매 후 남은 포인트 : <span id="remaining_price_span" style="font-size: 20px"></span>&nbsp;포인트</label>
                 </div>
                 <button class="buy-button">구매</button>
             </c:when>
             <c:otherwise>
-                <label for="name">보유 메소가 부족합니다ㅋㅋ.</label>
+                <label for="name">보유 포인트가 부족합니다.</label>
                 </div>
                 <button class="buy-button">구매</button>
             </c:otherwise>
         </c:choose>
+</div>
 </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>

@@ -100,6 +100,10 @@
     button:hover {
         background-color: #ff6f84;
     }
+    .deletebutton {
+        text-align: right; /* 내용을 오른쪽으로 정렬 */
+        padding-right: 930px; /* 오른쪽 여백을 추가 */
+    }
 </style>
 </head>
 <body>
@@ -204,17 +208,15 @@
                 </c:forEach>
                 </tbody>
             </table>
-            <div class="container">
-                <div>
-                    <button onclick="deleteItems()">삭제</button>
-                </div>
-            </div>
         </div>
+        <div class="deletebutton"><button onclick="deleteItems()">삭제</button></div>
+        <br>
     </c:when>
     <c:otherwise>
-        <div class="content" id="content2" style="display: none;">
+        <div class="content" id="content2" style="display: none;" >
             <div>찜한상품이 없습니다.</div>
         </div>
+        <br>
     </c:otherwise>
 </c:choose>
 
