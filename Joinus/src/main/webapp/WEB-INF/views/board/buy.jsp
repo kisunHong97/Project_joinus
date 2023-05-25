@@ -173,7 +173,7 @@
                     success: function (response) {
                         // 요청이 성공적으로 완료되었을 때의 처리
                         alert("구매가 완료되었습니다.");
-                        // window.location.href = "/purchase-success"; // 구매 완료 페이지로 이동
+                        window.location.href = "/product_board"; // 메인 페이지로 이동
                     },
                     error: function (xhr, status, error) {
                         // 요청이 실패하였을 때의 처리

@@ -234,6 +234,11 @@
                 </c:forEach>
                 </tbody>
             </table>
+            <div class="container">
+                <div>
+                    <button onclick="deleteItems()">삭제</button>
+                </div>
+            </div>
         </div>
     </c:when>
     <c:otherwise>
@@ -242,11 +247,7 @@
         </div>
     </c:otherwise>
 </c:choose>
-<div class="container">
-    <div>
-        <button onclick="deleteItems()">삭제</button>
-    </div>
-</div>
+
 
 <div class="review" id="content5" style="display: none;">
     <br>
@@ -289,7 +290,6 @@
 </div>
 </body>
 <%@ include file="../footer/footer.jsp"%>
-</html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
     // 로그인 여부 확인 함수
@@ -312,7 +312,7 @@
         $('#content' + contentId).show();
     }
 
-    // 상단바 장바구니 진입 시 삭제 기능
+    // 찜목록 진입 시 삭제 기능
     const deleteItems = () => {
         if (!isLoggedIn()) {
             alert("로그인 후 이용해주세요.");
@@ -347,3 +347,4 @@
         });
     };
 </script>
+</html>

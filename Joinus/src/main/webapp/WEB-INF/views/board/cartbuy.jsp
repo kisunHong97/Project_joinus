@@ -146,6 +146,7 @@
                     success: function(response) {
                         console.log(response);
                         alert("구매가 완료되었습니다.");
+                        window.location.href = "/product_board"; // 메인 페이지로 이동
                     },
                     error: function(xhr, status, error) {
                         console.log(error);

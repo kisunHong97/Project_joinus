@@ -838,31 +838,41 @@
 <script>
   $(document).ready(function (e) {
     $('#cartBtn').click(function (e) {
-      var data_cart = $("#cartBtn").text()
-      // console.log("data_like : " + data_like)
-      var f3 = $('#cartBtn').data('c');
-      var f4 = $('#cartBtn').data('d');
-      var f5 = $('#totalPrice').val();
-      var f6 = $("#startDate").val();
-      var f7 = $("#endDate").val();
-      console.log(f5,f6,f7)
-      var flag = false
-      if(data_cart == "🛒"){
-        deleteCart();
-        if ($("#customerUserVO") != null || $("#u_id") != null){
-          flag = !flag
-          $('#cartBtn').text("장바구니담기");
-          console.log('여기는 삭제');
-        }
-      } else {
-        addCart(f3, f4, f5, f6, f7);
-        if ($("#customerUserVO") != null || $("#u_id") != null){
+    if (${productVO.p_type == 'free'}){
+        var startDate = document.getElementById("startDate").value;
+        var endDate = document.getElementById("endDate").value;
 
-          flag = !flag
-          $('#cartBtn').text("🛒");
-          console.log('여기는 추가');
+        if (startDate === "" || endDate === "") {
+            alert("기간을 선택해주세요.");
+        } else {
+            var data_cart = $("#cartBtn").text()
+            // console.log("data_like : " + data_like)
+            var f3 = $('#cartBtn').data('c');
+            var f4 = $('#cartBtn').data('d');
+            var f5 = $('#totalPrice').val();
+            var f6 = $("#startDate").val();
+            var f7 = $("#endDate").val();
+            console.log(f5,f6,f7)
+            var flag = false
+            if(data_cart == "🛒"){
+                deleteCart();
+                if ($("#customerUserVO") != null || $("#u_id") != null){
+                    flag = !flag
+                    $('#cartBtn').text("장바구니담기");
+                    console.log('여기는 삭제');
+                }
+            } else {
+                addCart(f3, f4, f5, f6, f7);
+                if ($("#customerUserVO") != null || $("#u_id") != null){
+
+                    flag = !flag
+                    $('#cartBtn').text("🛒");
+                    console.log('여기는 추가');
+                }
+            }
         }
-      }
+    }
+
     });
   });
   function addCart(pno, u_id, c_price, c_startDate, c_endDate) {
@@ -942,12 +952,21 @@
                 alert("로그인 후 이용해주세요.");
                 return;
             }
-            var pno = $("#productVO").val();
-            var p_price = $('#totalPrice').val();
-            var startDate = $("#startDate").val(); // 선택된 시작 날짜
-            var endDate = $("#endDate").val(); // 선택된 종료 날짜
-            var url = "/board/buy?pno=" + pno + "&startDate=" + startDate + "&endDate=" + endDate + "&p_price=" + p_price; // 구매 페이지 URL에 선택된 날짜와 가격을 추가합니다.
-            window.location.href = url;
+            if (${productVO.p_type == 'free'}){
+                var startDate = document.getElementById("startDate").value;
+                var endDate = document.getElementById("endDate").value;
+
+                if (startDate === "" || endDate === "") {
+                    alert("기간을 선택해주세요.");
+                } else {
+                    var pno = $("#productVO").val();
+                    var p_price = $('#totalPrice').val();
+                    var startDate = $("#startDate").val(); // 선택된 시작 날짜
+                    var endDate = $("#endDate").val(); // 선택된 종료 날짜
+                    var url = "/board/buy?pno=" + pno + "&startDate=" + startDate + "&endDate=" + endDate + "&p_price=" + p_price; // 구매 페이지 URL에 선택된 날짜와 가격을 추가합니다.
+                    window.location.href = url;
+                }
+            }
         });
     });
 </script>

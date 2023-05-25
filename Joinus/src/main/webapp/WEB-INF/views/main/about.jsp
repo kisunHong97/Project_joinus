@@ -32,46 +32,42 @@
     /*  width: 100%;*/
     /*}*/
 
+    /*.post-thumbnail img {*/
+    /*    display: block;*/
+    /*    width: 100%;*/
+    /*    height: auto;*/
 
+    /*}*/
 
-    .post-thumbnail img {
-        display: block;
-        width: 100%;
-        height: auto;
+    /*.post-content {*/
+    /*    padding: 10px;*/
+    /*}*/
 
+    /*.post-content h3 {*/
+    /*    margin-top: 0;*/
+    /*    margin-bottom: 10px;*/
+    /*}*/
+
+    /*.post-content p {*/
+    /*    margin: 0;*/
+    /*    line-height: 1.5;*/
+    /*}*/
+
+    /*.post-content a {*/
+    /*    display: block;*/
+    /*    text-align: center;*/
+    /*    margin-top: 10px;*/
+    /*    font-size: 13px;*/
+    /*    font-weight: bold;*/
+    /*    font-family: "Poppins", sans-serif;*/
+    /*    color : peru;*/
+    /*}*/
+    .post-thumbnail {
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
-    .post-content {
-        padding: 10px;
-    }
-
-    .post-content h3 {
-        margin-top: 0;
-        margin-bottom: 10px;
-    }
-
-    .post-content p {
-        margin: 0;
-        line-height: 1.5;
-    }
-
-    .post-content a {
-        display: block;
-        text-align: center;
-        margin-top: 10px;
-        font-size: 13px;
-        font-weight: bold;
-        font-family: "Poppins", sans-serif;
-        color : peru;
-    }
-    .hit{
-        margin-top: 0px;
-        margin-bottom: 10px;
-        font-size:40px;
-        font-weight: 900;
-        color:#333;
-        letter-spacing:-1px;
-    }
     .account2 {
         width:140px;
         height: 35px;
@@ -134,21 +130,6 @@
         background-color: #ffccab; /* 다른 사람이 입력한 메시지의 배경색 */
     }
 
-    /*.arrow-right {*/
-    /*    position: relative;*/
-    /*    top: -300px; !* 원하는 만큼 요소를 위로 옮깁니다 *!*/
-    /*    font-size: 35px;*/
-    /*    color: #e5e5e5;*/
-    /*    font-weight: bold;*/
-    /*}*/
-    /*.arrow-left {*/
-    /*    position: relative;*/
-    /*    font-size: 35px;*/
-    /*    color: #e5e5e5;*/
-    /*    font-weight: bold;*/
-    /*    top: -300px;*/
-    /*    left: 795px; !* 원하는 만큼 요소를 오른쪽으로 이동시킵니다 *!*/
-    /*}*/
     .board {
         position: relative;
         overflow: hidden;
@@ -179,33 +160,6 @@
         box-sizing: border-box;
     }
 </style>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var boardBodies = document.querySelectorAll(".board-body"); // 수정: .board-body 요소들을 선택합니다.
-
-        boardBodies.forEach(function(boardBody) { // 수정: boardBodies에 대해 forEach 반복문을 수행합니다.
-            var scrollAmount = 0;
-            var scrollStep = (boardBody.clientWidth / 3) * 2;
-
-            var btnRight = document.createElement("button");
-            btnRight.textContent = "→";
-            btnRight.addEventListener("click", function() {
-                scrollAmount += scrollStep;
-                boardBody.scrollLeft = scrollAmount;
-            });
-
-            var btnLeft = document.createElement("button");
-            btnLeft.textContent = "←";
-            btnLeft.addEventListener("click", function() {
-                scrollAmount -= scrollStep;
-                boardBody.scrollLeft = scrollAmount;
-            });
-
-            boardBody.parentElement.appendChild(btnLeft); // 수정: 버튼을 boardBody의 부모 요소에 추가합니다.
-            boardBody.parentElement.appendChild(btnRight); // 수정: 버튼을 boardBody의 부모 요소에 추가합니다.
-        });
-    });
-</script>
 <body class="sub_page about_page">
 <br>
 <section>
@@ -243,22 +197,23 @@
                 </ul>
             </div>
         </div>
-<%--        <aside style="position: absolute; top: 200px; right: 360px;">--%>
-<%--            <div style="flex-shrink: 0; width: 300px;">--%>
-<%--                <h1 class="hit">Let's Join Us!</h1>--%>
-<%--                <input type="hidden" id="id" value="${customerloginUser.u_name}">--%>
-<%--                <div class="moving-text">건전한 채팅 부탁드립니다</div>--%>
-<%--                <div>--%>
-<%--                    <div id="chatarea" class="chatarea" style="width: 260px; height: 300px; overflow-y: auto; background-color: white; padding: 10px; "><br></div>--%>
-<%--                    <input type="text" class="message" id="message" style="width: 86%; height: 35px" />--%>
-<%--                    <input type="button" id="send" class="account2" value="보내기" style="width: 65%; padding: 5px;"/>--%>
-<%--                    <input type="button" id="exit" class="exit" value="나가기" />--%>
-<%--                </div>--%>
-<%--            </div>--%>
-<%--        </aside>--%>
+        <aside style="position: absolute; top: 200px; right: 360px;">
+            <div style="flex-shrink: 0; width: 300px;">
+                <h1 class="hit">Let's Join Us!</h1>
+                <input type="hidden" id="id" value="${customerloginUser.u_name}">
+                <div class="moving-text">건전한 채팅 부탁드립니다</div>
+                <div>
+                    <div id="chatarea" class="chatarea" style="width: 260px; height: 300px; overflow-y: auto; background-color: white; padding: 10px; "><br></div>
+                    <input type="text" class="message" id="message" style="width: 86%; height: 35px" />
+                    <input type="button" id="send" class="account2" value="보내기" style="width: 65%; padding: 5px;"/>
+                    <input type="button" id="exit" class="exit" value="나가기" />
+                </div>
+            </div>
+        </aside>
     </div>
 </section>
-<p>${customerloginUser.u_addrcode}</p>
+<%-- 현재 로그인된 사용자 주소 --%>
+<%--<p>${customerloginUser.u_addrcode}</p>--%>
 <section>
     <div class="outter" style="flex-grow: 1;">
         <h1 class="hit">내 주변 가게</h1>
@@ -275,7 +230,7 @@
                                     <c:if test="${store.sno == product.sno}">
                                         <li>
                                             <div class="post-thumbnail">
-<%--                                                <img src="/display?fileName=${thumbnailList[productStatus.index].uploadPath}/${thumbnailList[productStatus.index].uuid}_${thumbnailList[productStatus.index].fileName}" alt="게시물 썸네일">--%>
+                                                <img src="/display?fileName=${thumbnailList[productStatus.index].uploadPath}/${thumbnailList[productStatus.index].uuid}_${thumbnailList[productStatus.index].fileName}" alt="게시물 썸네일">
                                             </div>
                                             <div class="post-content">
                                                 <a href='/board/read?pno=${product.pno}'>${product.p_inst}</a>
@@ -296,44 +251,6 @@
 </section>
 <%@ include file="../footer/footer.jsp"%>
 </body>
-<script>
-    $(document).ready(function() {
-        var boardWidth = $('.board-body').width();
-        var boardItemCount = $('.board-item').length;
-        var itemsPerRow = 3;
-        var boardHeight = Math.ceil(boardItemCount / itemsPerRow) * $('.board-item').outerHeight();
-        var currentIndex = 0;
-
-        $('.board').css('height', boardHeight);
-
-        $('.arrow-right').click(function() {
-            if (currentIndex < Math.ceil(boardItemCount / itemsPerRow) - 1) {
-                currentIndex++;
-                $('.board-body').css('transform', 'translateX(-' + (currentIndex * boardWidth) + 'px)');
-            }
-        });
-
-        $('.arrow-left').click(function() {
-            if (currentIndex > 0) {
-                currentIndex--;
-                $('.board-body').css('transform', 'translateX(-' + (currentIndex * boardWidth) + 'px)');
-            }
-        });
-
-        function loadRemainingItems() {
-            var visibleItemCount = (currentIndex + 1) * itemsPerRow;
-            var totalItemCount = $('.board-item').length;
-
-            if (visibleItemCount < totalItemCount) {
-                var remainingItems = $('.board-item:lt(' + totalItemCount + '):gt(' + visibleItemCount + ')').clone();
-                $('.board-body').append(remainingItems);
-            }
-        }
-
-        // 슬라이드 이동 완료 후에 남은 리스트를 불러오도록 호출
-        $('.arrow-right, .arrow-left').on('transitionend', loadRemainingItems);
-    });
-</script>
 <script>
     // 페이지 로드 시 실행되는 함수
     window.onload = function() {
