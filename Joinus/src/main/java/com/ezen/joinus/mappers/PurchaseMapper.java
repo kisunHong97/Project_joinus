@@ -10,5 +10,7 @@ public interface PurchaseMapper {
     void insertProduct(PurchaseVO purchaseVO);
     void updateUserPoint(CustomerUserVO customerUserVO);
     List<PurchaseVO> selectUPurchaseUserId(String u_id);
+    List<PurchaseVO> getPurchaseInfoSno(int sno);
     List<PurchaseVO> getAllpurchase();
+    void deleteProduct(int pno);
 }

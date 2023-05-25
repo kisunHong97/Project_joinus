@@ -6,9 +6,12 @@ import com.ezen.joinus.service.*;
 import com.ezen.joinus.vo.*;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.naming.directory.SearchResult;
@@ -57,6 +60,9 @@ public class HeaderController {
                 model.addAttribute("business",businessService.getBusinessById(BusinessloginUser.getB_id()));
                 List<ReviewVO> reviewVOList = businessService.selectreviewsno(BusinessloginUser.getBno());
                 model.addAttribute("reviewlist",reviewVOList);
+                List<PurchaseVO> memberManagement = purchaseService.getPurchaseInfoSno(BusinessloginUser.getBno());
+                System.out.println("해당 스토어(bno)의 회원 관리 구매 정보 : " + memberManagement);
+                model.addAttribute("memberManagement", memberManagement);
                 System.out.println("작동되나요? 사업자가 로그인되어있어요");
                 return  "business/businessmypage";
             } else if (customerloginUser != null) {
@@ -87,6 +93,8 @@ public class HeaderController {
             }
         }
     }
+
+    // 상단바 장바구니
     @GetMapping("/mycart")
     public String myCart(HttpSession session, Model model) {
         System.out.println("작동되나요? 장바구니 컨트롤러");
@@ -127,6 +135,7 @@ public class HeaderController {
         }
     }
 
+//    검색기능
     @GetMapping("/search")
     public String search(@RequestParam("query") String query, Model model,
                          PagingVO vo, ChatMessage chat1,
@@ -168,4 +177,10 @@ public class HeaderController {
         return "/board/searchResult";
     }
 
+    @PostMapping("/expirationDate")
+    public ResponseEntity<String> expirationDate(int pno, HttpSession session) {
+        System.out.println("기간만료 삭제 버튼 pno : " + pno);
+        purchaseService.deleteProduct(pno);
+        return new ResponseEntity<>("구매상품목록에서 삭제되었습니다.", HttpStatus.OK);
+    }
 }
