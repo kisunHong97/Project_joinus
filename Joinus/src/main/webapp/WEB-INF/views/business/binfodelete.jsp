@@ -64,11 +64,12 @@
             <div id="errormessage" style="color:red; display: none;" class="error" > ${errormessage1} </div>
             <br>
             <div>
-                <input type="submit" id="btndelete" class="btndelete" value="확인"></input>
+                <input type="submit" id="btndelete" class="btndelete" value="확인">
                 <p id="alert2" class="account"> </p>
             </div>
         </div>
     </div>
+    <input type="hidden" id="list" class="list" value="${list}">
 </form>
 </body>
 <%@ include file="../footer/footer.jsp"%>
@@ -77,14 +78,20 @@
 <script type="text/javascript">
     var u_pwd = $('#b_pwd').val();
     var vo_b_pwd = "${businessvo.b_pwd}";
+    var list =  $('#list').val();
+    console.log(list);
 
     $('.btndelete').click(function () {
         var b_pwd = $('#b_pwd').val();
+        var list =  $('#list').val();
         console.log("인풋에넣은 값"+b_pwd);
         console.log(vo_b_pwd);
         if (b_pwd != vo_b_pwd) {
             console.log('틀립니다.');
             $('.error').show();
+            return false;
+        } else if(list != ""){
+            alert("등록하신 제품이 존재합니다. 제품 삭제 후 회원 탈퇴가 가능합니다.")
             return false;
         } else {
             console.log('맞습니다.');

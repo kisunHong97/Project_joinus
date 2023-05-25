@@ -78,7 +78,7 @@
 <br>
 
 <div class="divmain">
-  <h1>문의글 <span style="font-size: 15px" class="small">NO.${inquiryVO.ino}</span></h1>
+  <h1 style="font-weight: bold">문의글 <span style="font-size: 15px" class="small">NO.${inquiryVO.ino}</span></h1>
   <br>
   <div class="form-container">
     <form action="/inquirymodify/ino=${inquiryVO.ino}" method="get">

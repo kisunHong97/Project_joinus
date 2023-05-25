@@ -2,9 +2,12 @@ package com.ezen.joinus.service;
 
 import com.ezen.joinus.mappers.BusinessUserMapper;
 import com.ezen.joinus.vo.BusinessUserVO;
+import com.ezen.joinus.vo.ReviewVO;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class BusinessServiceImpl implements BusinessService{
@@ -46,5 +49,10 @@ public class BusinessServiceImpl implements BusinessService{
     @Override
     public void removeBusiness(Integer  bno) {
         BusinessMapper.deleteBusiness(bno);
+    }
+
+    @Override
+    public List<ReviewVO> selectreviewsno(int sno) {
+        return BusinessMapper.selectreviewsno(sno);
     }
 }

@@ -325,14 +325,19 @@
 
     // ##### 연결 되었습니다!
     function onOpen() {
-        if (${customerloginUser == null}) {
-            websocket.send("<div style='color: #ff6f84; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: bold;'>로그인 후 이용해주세요.&nbsp&nbsp&nbsp&nbsp</div>");
+        if (${customerloginUser == null} && ${businessUser == null}) {
+            websocket.send("<div style='color: #7c7c7c; font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: bold; text-align: center'>로그인 후 이용해주세요.</div>");
+            document.getElementById("message").disabled = true;
+            document.getElementById("send").disabled = true;
+            document.getElementById("exit").disabled = true;
+        }else if(${businessUser != null} && ${customerloginUser == null}){
+            websocket.send("<div style='color: #7c7c7c; font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: bold; text-align: center;'>사업자는 채팅이 불가능합니다.</div>");
             document.getElementById("message").disabled = true;
             document.getElementById("send").disabled = true;
             document.getElementById("exit").disabled = true;
         } else {
             id = document.getElementById("id").value;
-            websocket.send("<div style='color: black; font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: bold;'>" + id + "님이 입장하셨습니다.&nbsp&nbsp&nbsp&nbsp</div>");
+            websocket.send("<div style='color: black; font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: bold; text-align: center;'>" + id + "님이 입장하셨습니다.</div>");
         }
     }
 

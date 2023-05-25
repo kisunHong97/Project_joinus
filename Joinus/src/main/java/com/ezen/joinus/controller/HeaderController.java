@@ -46,10 +46,6 @@ public class HeaderController {
         // 세션에서 로그인한 사용자 정보를 가져옵니다.
         BusinessUserVO BusinessloginUser = (BusinessUserVO) session.getAttribute("BusinessUserVO");
         CustomerUserVO customerloginUser = (CustomerUserVO) session.getAttribute("customerUserVO");
-//        CustomerUserVO customer = customerService.getCustomerById(customerloginUser.getU_id());
-//        BusinessUserVO business = businessService.getBusinessById(BusinessloginUser.getB_id());
-//        System.out.println("포인트" + customer.getBuypoint());
-//        System.out.println("사업자정보"+business);
 
         if (BusinessloginUser == null && customerloginUser == null) {
             // 로그인한 사용자가 없는 경우 로그인 페이지로 리다이렉트합니다.
@@ -59,6 +55,8 @@ public class HeaderController {
             if (BusinessloginUser != null) {
                 // 사업자용 마이페이지를 보여줍니다.
                 model.addAttribute("business",businessService.getBusinessById(BusinessloginUser.getB_id()));
+                List<ReviewVO> reviewVOList = businessService.selectreviewsno(BusinessloginUser.getBno());
+                model.addAttribute("reviewlist",reviewVOList);
                 System.out.println("작동되나요? 사업자가 로그인되어있어요");
                 return  "business/businessmypage";
             } else if (customerloginUser != null) {

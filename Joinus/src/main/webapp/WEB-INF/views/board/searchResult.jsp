@@ -7,6 +7,7 @@
     <title>Title</title>
 </head>
 <%@ include file="../header/header.jsp"%>
+<link href="../../../resources/css/category.css" rel="stylesheet" />
 <style>
     @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 100;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf) format('opentype');}
     @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 300;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 400;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 500;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 700;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 900;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format('opentype');}
@@ -144,6 +145,8 @@
 <%--            </select>--%>
 <%--        </div>--%>
         <h1 class="hit">검색 결과</h1>
+    <hr>
+    <br>
         <!-- 옵션선택 끝 -->
         <table border="1">
             <div class="board">
@@ -168,25 +171,45 @@
         </table>
     </div>
 </section>
-    <div style="display: block; text-align: center;">
-        <c:if test="${paging.startPage != 1 }">
-            <a href="/product_board?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
-        </c:if>
-        <c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
-            <c:choose>
-                <c:when test="${p == paging.nowPage }">
-                    <b>${p }</b>
-                </c:when>
-                <c:when test="${p != paging.nowPage }">
-                    <a href="/product_board?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
-                </c:when>
-            </c:choose>
-        </c:forEach>
-        <c:if test="${paging.endPage != paging.lastPage}">
-            <a href="/product_board?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
-        </c:if>
-    </div>
+
+<%--    <div style="display: block; text-align: center;">--%>
+<%--        <c:if test="${paging.startPage != 1 }">--%>
+<%--            <a href="/product_board?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>--%>
+<%--        </c:if>--%>
+<%--        <c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">--%>
+<%--            <c:choose>--%>
+<%--                <c:when test="${p == paging.nowPage }">--%>
+<%--                    <b>${p }</b>--%>
+<%--                </c:when>--%>
+<%--                <c:when test="${p != paging.nowPage }">--%>
+<%--                    <a href="/product_board?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>--%>
+<%--                </c:when>--%>
+<%--            </c:choose>--%>
+<%--        </c:forEach>--%>
+<%--        <c:if test="${paging.endPage != paging.lastPage}">--%>
+<%--            <a href="/product_board?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>--%>
+<%--        </c:if>--%>
+<%--    </div>--%>
 </div>
+<div class="pagination" style="display: block; text-align: center;">
+    <c:if test="${paging.startPage != 1 }">
+        <a href="/product_board?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
+    </c:if>
+    <c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
+        <c:choose>
+            <c:when test="${p == paging.nowPage }">
+                <b>${p }</b>
+            </c:when>
+            <c:when test="${p != paging.nowPage }">
+                <a href="/product_board?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
+            </c:when>
+        </c:choose>
+    </c:forEach>
+    <c:if test="${paging.endPage != paging.lastPage && paging.lastPage > 10}">
+        <a href="/product_board?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
+    </c:if>
+</div>
+<br>
 <%@ include file="../footer/footer.jsp"%>
 <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>
