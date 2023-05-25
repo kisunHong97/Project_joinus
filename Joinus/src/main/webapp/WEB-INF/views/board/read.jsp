@@ -343,53 +343,53 @@
     </div>
     <br>
     <!-- 탭 버튼 -->
-    <div class="tab">
-      <button class="tablinks" onclick="openTab(event, 'product_info')">상품 상세 정보</button>
-      <button class="tablinks" onclick="openTab(event, 'reviews')">구매후기</button>
-      <button class="tablinks" onclick="openTab(event, 'qna')">상품문의</button>
-      <button class="tablinks" onclick="openTab(event, 'refund')">환불</button>
-    </div>
-    <!-- 탭 내용 -->
-    <div id="product_info" class="tabcontent">
-      <h3 class="title">상품 상세 정보</h3>
-        <img src="/display?fileName=${productVO.detail.uploadPath}/${productVO.detail.uuid}_${productVO.detail.fileName}">
-    </div>
+      <div class="tab">
+          <button class="tablinks" onclick="openTab(event, 'product_info')">상품 상세 정보</button>
+          <button class="tablinks" onclick="openTab(event, 'reviews')">구매후기</button>
+          <button class="tablinks" onclick="openTab(event, 'qna')">상품문의</button>
+          <button class="tablinks" onclick="openTab(event, 'refund')">환불</button>
+      </div>
+      <!-- 탭 내용 -->
+      <div id="product_info" class="tabcontent">
+          <h3 class="title">상품 상세 정보</h3>
+          <img src="/display?fileName=${productVO.detail.uploadPath}/${productVO.detail.uuid}_${productVO.detail.fileName}">
+      </div>
 
-    <div id="reviews" class="tabcontent">
-      <h3 class="title">리뷰 작성</h3>
+      <div id="reviews" class="tabcontent">
+          <h3 class="title">리뷰 작성</h3>
 
-        <form action="/review" method="post">
-            <textarea class="reviewContent" name="review" rows="5" cols="50" placeholder="리뷰를 입력하세요"></textarea>
-            <br>
-            <div class="rating">
-                <span style="font-weight: bold;">평점:</span>
-                <input type="radio" id="star5" name="rating" value="5">
-                <label for="star5"></label>
-                <input type="radio" id="star4" name="rating" value="4">
-                <label for="star4"></label>
-                <input type="radio" id="star3" name="rating" value="3">
-                <label for="star3"></label>
-                <input type="radio" id="star2" name="rating" value="2">
-                <label for="star2"></label>
-                <input type="radio" id="star1" name="rating" value="1">
-                <label for="star1"></label>
-            </div>
-            <br>
-            <button class="btnreview" type="submit">리뷰 등록</button>
-            <input type="hidden" value="${productVO.pno}" id="productVOpno" name="pno">
-            <input type="hidden" value="${productVO.p_name}" id="productVOp_name" name="p_name">
-        </form>
-        <hr>
-        <h3 class="title">후기</h3>
-            <span id=reviewAverage style="font-weight: bold; font-size: 30px; color:#ff731b;">${avg}/5</span>
-        <span style="color:#ff731b; font-weight: bold; ">(${listlength}개 후기)</span>
-        <br>
-        <br>
-        <div id="reviewList">
-            <c:forEach items="${productlist}" var="review">
-                <div class="reviewItem">
-                    <div class="reviewInfo">
-                        &nbsp;<span class="star" style="color: #ff731b;">
+          <form action="/review" method="post">
+              <textarea class="reviewContent" name="review" rows="5" cols="50" placeholder="리뷰를 입력하세요"></textarea>
+              <br>
+              <div class="rating">
+                  <span style="font-weight: bold;">평점:</span>
+                  <input type="radio" id="star5" name="rating" value="5">
+                  <label for="star5"></label>
+                  <input type="radio" id="star4" name="rating" value="4">
+                  <label for="star4"></label>
+                  <input type="radio" id="star3" name="rating" value="3">
+                  <label for="star3"></label>
+                  <input type="radio" id="star2" name="rating" value="2">
+                  <label for="star2"></label>
+                  <input type="radio" id="star1" name="rating" value="1">
+                  <label for="star1"></label>
+              </div>
+              <br>
+              <button class="btnreview" type="submit">리뷰 등록</button>
+              <input type="hidden" value="${productVO.pno}" id="productVOpno" name="pno">
+              <input type="hidden" value="${productVO.p_name}" id="productVOp_name" name="p_name">
+          </form>
+          <hr>
+          <h3 class="title">후기</h3>
+          <span id=reviewAverage style="font-weight: bold; font-size: 30px; color:#ff731b;">${avg}/5</span>
+          <span style="color:#ff731b; font-weight: bold; ">(${listlength}개 후기)</span>
+          <br>
+          <br>
+          <div id="reviewList">
+              <c:forEach items="${productlist}" var="review">
+                  <div class="reviewItem">
+                      <div class="reviewInfo">
+                          &nbsp;<span class="star" style="color: #ff731b;">
                             <script>
                         var rating = ${review.rating};
                         var stars = "";
@@ -402,131 +402,107 @@
                         }
                         document.write(stars);
                     </script></span>&nbsp;
-                        <script>
-                            var username = '${review.u_name}';
-                            var maskedUsername = username.charAt(0) + '*'.repeat(username.length - 1);
-                            document.write('<span style="color: #ff731b;">' + maskedUsername + '</span>');
-                        </script>&nbsp;
-                        <span style="color: #ff731b;">${review.sys_date}</span>
+                          <script>
+                              var username = '${review.u_name}';
+                              var maskedUsername = username.charAt(0) + '*'.repeat(username.length - 1);
+                              document.write('<span style="color: #ff731b;">' + maskedUsername + '</span>');
+                          </script>&nbsp;
+                          <span style="color: #ff731b;">${review.sys_date}</span>
 
-                    </div>
-                    <br>
-                   <div class="reviewContent" style="border: none"><span>&nbsp; ${review.review}</span></div>
-                </div>
-            </c:forEach>
+                      </div>
+                      <br>
+                      <div class="reviewContent" style="border: none"><span>&nbsp; ${review.review}</span></div>
+                  </div>
+              </c:forEach>
 
-            <c:if test="${empty productlist}">
-                <div class="noReviews">작성한 리뷰가 없습니다.</div>
-            </c:if>
-        </div>
-    </div>
+              <c:if test="${empty productlist}">
+                  <div class="noReviews">작성한 리뷰가 없습니다.</div>
+              </c:if>
+          </div>
 
-     <div id ="qna" class="tabcontent">
+      </div>
 
-         <h3  class="title" style="font-weight: bold; ">상품 문의</h3>
-         <br>
-         <div class="bigdiv" style="position: relative">
-         <div class="divtag" style="width: 50px;">NO</div>
-         <div class="divtag" style="width: 50px;">작성자</div>
-         <div class="divtag" style="width: 500px;">제목</div>
-         <div class="divtag" style="width: 50px;">날짜</div>
-             <div class="divtag" style="width: 200px;">상태</div>
-             <form action="/cinquiry" >
-                 <input type="hidden" value="${productVO.pno}"  name="pno">
-                 <input type="hidden" value="${productVO.p_name}"  name="p_name">
-                 <input type="hidden" value="${productVO.sno}"  name="sno">
+      <div id ="qna" class="tabcontent">
 
-          <button id="inquiryButton" style=" position: absolute; right: 20px; top: -8px;">문의하기</button>
-             </form>
-             </div>
-         <div id="inquirylist">
-             <hr>
-             <c:forEach items="${inquirylist}" var="inquiry" varStatus="loop">
-                 <div class="inquirywItem">
-                     <div class="inquiryInfo">
-                         <div class="divtag" style="width: 50px;">
-                         &nbsp;<span class="ino" style="color: #ff731b;">
+          <h3  class="title" style="font-weight: bold; ">상품 문의</h3>
+          <br>
+          <div class="bigdiv" style="position: relative">
+              <div class="divtag" style="width: 50px;">NO</div>
+              <div class="divtag" style="width: 50px;">작성자</div>
+              <div class="divtag" style="width: 300px;">제목</div>
+              <div class="divtag" style="width: 50px;">날짜</div>
+              <div class="divtag" style="width: 200px;">상태</div>
+              <form action="/cinquiry" >
+                  <input type="hidden" value="${productVO.pno}"  name="pno">
+                  <input type="hidden" value="${productVO.p_name}"  name="p_name">
+                  <input type="hidden" value="${productVO.sno}"  name="sno">
+                  <%--                 <input type="hidden" value="${inquirylist.ino}"  name="ino">--%>
+                  <button id="inquiryButton" style=" position: absolute; right: 20px; top: -8px;">문의하기</button>
+              </form>
+          </div>
+
+          <div id="inquirylist">
+              <hr>
+              <c:forEach items="${inquirylist}" var="inquiry">
+                  <div class="inquirywItem">
+                      <div class="inquiryInfo">
+                          <div class="divtag" style="width: 50px;">
+                              &nbsp;<span class="ino" style="color: #ff731b;">
                              <input type="hidden" value="${inquiry.ino}"  name="ino">
-                             <input type="hidden" value="${inquiry.pno}"  name="pno">
-                             ${loop.index+1}
+                       ${inquiry.ino}
                          </span>&nbsp;</div>
-                         <div class="divtag" style="width: 50px;"><span> ${inquiry.u_name}</span></div>
-                         <div class="divtag" style="width: 500px;"><a id="inqua" href="/modifyinqu/ino=${inquiry.ino}/pno=${inquiry.pno}">🔒&nbsp;${inquiry.i_title}</a></div>
-                         <div class="divtag" style="width: 50px;"><span style="color: #808080;">${inquiry.inquiry_date}</span></div>
-                         <div class="divtag" style="width: 200px;"> <span style="color: #ff731b;">${inquiry.status}</span></div>
-                         <input type="hidden" value="${inquiry.u_id}"  id="inquiryu_id">
-                     </div>
-                     <hr>
-                 </div>
-             </c:forEach>
+                          <div class="divtag" style="width: 50px;"><span> ${inquiry.u_name}</span></div>
+                          <div class="divtag" style="width: 300px;"><a id="inqua" href="/modifyinqu/ino=${inquiry.ino}">🔒&nbsp;${inquiry.i_title}</a></div>
+                          <div class="divtag" style="width: 50px;"><span style="color: #808080;">${inquiry.inquiry_date}</span></div>
+                          <div class="divtag" style="width: 200px;"> <span style="color: #ff731b;">${inquiry.status}</span></div>
+                          <input type="hidden" value="${inquiry.u_id}"  id="inquiryu_id">
+                      </div>
+                      <hr>
+                  </div>
+              </c:forEach>
 
-             <c:if test="${empty inquirylist}">
-                 <div class="noinquirylist">등록된 글이 없습니다.</div>
-             </c:if>
-         </div>
+              <c:if test="${empty inquirylist}">
+                  <div class="noinquirylist">등록된 글이 없습니다.</div>
+              </c:if>
+          </div>
 
-     </div>
-    </div>
 
-      <div id="qna" class="tabcontent">
-          <button id="inquiryButton">문의하기</button><hr>
-          <div id="inquiryForm" class="modal">
-              <div class="modal-content">
-                  <span class="close">&times;</span>
-                  <form id="qnaForm">
-                      <textarea id="qnaTextarea" class="inquiry-Content" rows="4" cols="50" placeholder="상품 문의를 작성해주세요"></textarea>
-                      <button type="button" class="btn-inquiry" onclick="submitInquiry()">문의 등록</button>
-                  </form>
-              </div>
-          </div>
-          <div id="editInquiryModal" class="modal">
-              <div class="modal-content">
-                  <span class="close">&times;</span>
-                  <form id="editInquiryForm">
-                      <textarea id="editInquiryTextarea" class="inquiry-Content" rows="4" cols="50" placeholder="문의 내용을 수정해주세요"></textarea>
-                      <button type="button" class="btn-update-inquiry" onclick="updateInquiry()">수정</button>
-                  </form>
-              </div>
-          </div>
-          <div id="qnaList">
-              <!-- 상품 문의 목록이 표시될 영역 -->
-          </div>
       </div>
 
       <div id="refund" class="tabcontent">
-       <h3 class="title">환불</h3>
-      <div>
-          <strong>[환불 규정]</strong><br>
-          <p>1. 티켓의 사용기한으로부터 10% 이내의 기간이 지난 경우, 환불이 불가능합니다.<br>
-          2. 환불을 원하는 경우, 구매자는 티켓판매점에 신속하게 문의해야 합니다.<br>
-          3. 환불 신청은 원본 영수증 또는 구매 확인서와 함께 제출되어야 합니다.<br>
-          4. 환불은 원래 결제 수단으로 환불되며, 원래 결제 금액에서 환불 수수료 또는 처리 수수료가 공제될 수 있습니다.<br>
-          5. 환불 가능한 금액은 티켓 가격에서 환불 수수료 또는 처리 수수료를 공제한 후의 잔액입니다.<br>
-          6. 티켓을 다른사람에게 양도하거나, 사용자가 다를 경우  환불이 거부될 수 있습니다.<br>
-              7. 티켓판매점은 단독으로 환불 규정을 변경하거나 취소할 권한을 가집니다. 변경된 환불 규정은 사전 공지 후 적용됩니다.</p>
-          <br>
-          <strong>[환불 요청]</strong><br>
-          <p>- 마이페이지 -> 환불신청
-          - 구매자는 환불을 원하는 경우 가능한 빠르게 티켓판매점에 연락하여 환불 요청을 알려야 합니다.<br>
-              - 환불 요청은 구매한 티켓의 정보와 함께 전화, 이메일, 온라인 양식 등을 통해 제출될 수 있습니다.<br></p>
-          <br>
-          <strong>[환불 신청 검토]</strong><br>
-          <p>- 티켓판매점은 환불 신청을 검토하고, 환불 가능 여부를 확인합니다.<br>
-              - 환불 신청이 접수되면 티켓의 상태와 구매 내역을 확인하고, 환불 조건을 적용하여 처리 여부를 결정합니다.<br></p>
-          <br>
-          <strong>[환불 승인]</strong><br>
-          <p>- 환불 신청이 승인되면 티켓판매점은 구매자에게 환불 승인을 통지합니다.<br>
-              - 승인된 환불은 원래 결제 수단으로 환불됩니다.<br></p>
-          <br>
-          <strong>[환불 처리]</strong><br>
-          <p>- 환불 처리 단계에서는 원래 결제 금액에서 환불 수수료 또는 처리 수수료를 공제한 후의 잔액이 구매자에게 환불됩니다.<br>
-              - 환불 처리 시간은 일반적으로 결제 수단과 환불 방법에 따라 다를 수 있습니다.<br></p>
-          <br>
-          <strong>[환불 완료]</strong><br>
-          <p>- 환불이 성공적으로 완료되면 티켓판매점은 구매자에게 환불 완료를 통지합니다.<br>
-              - 구매자는 환불된 금액이 정상적으로 받아졌는지 확인해야 합니다.<br></p>
+          <h3 class="title">환불</h3>
+          <div>
+              <strong>[환불 규정]</strong><br>
+              <p>1. 티켓의 사용기한으로부터 10% 이내의 기간이 지난 경우, 환불이 불가능합니다.<br>
+                  2. 환불을 원하는 경우, 구매자는 티켓판매점에 신속하게 문의해야 합니다.<br>
+                  3. 환불 신청은 원본 영수증 또는 구매 확인서와 함께 제출되어야 합니다.<br>
+                  4. 환불은 원래 결제 수단으로 환불되며, 원래 결제 금액에서 환불 수수료 또는 처리 수수료가 공제될 수 있습니다.<br>
+                  5. 환불 가능한 금액은 티켓 가격에서 환불 수수료 또는 처리 수수료를 공제한 후의 잔액입니다.<br>
+                  6. 티켓을 다른사람에게 양도하거나, 사용자가 다를 경우  환불이 거부될 수 있습니다.<br>
+                  7. 티켓판매점은 단독으로 환불 규정을 변경하거나 취소할 권한을 가집니다. 변경된 환불 규정은 사전 공지 후 적용됩니다.</p>
+              <br>
+              <strong>[환불 요청]</strong><br>
+              <p>- 마이페이지 -> 환불신청
+                  - 구매자는 환불을 원하는 경우 가능한 빠르게 티켓판매점에 연락하여 환불 요청을 알려야 합니다.<br>
+                  - 환불 요청은 구매한 티켓의 정보와 함께 전화, 이메일, 온라인 양식 등을 통해 제출될 수 있습니다.<br></p>
+              <br>
+              <strong>[환불 신청 검토]</strong><br>
+              <p>- 티켓판매점은 환불 신청을 검토하고, 환불 가능 여부를 확인합니다.<br>
+                  - 환불 신청이 접수되면 티켓의 상태와 구매 내역을 확인하고, 환불 조건을 적용하여 처리 여부를 결정합니다.<br></p>
+              <br>
+              <strong>[환불 승인]</strong><br>
+              <p>- 환불 신청이 승인되면 티켓판매점은 구매자에게 환불 승인을 통지합니다.<br>
+                  - 승인된 환불은 원래 결제 수단으로 환불됩니다.<br></p>
+              <br>
+              <strong>[환불 처리]</strong><br>
+              <p>- 환불 처리 단계에서는 원래 결제 금액에서 환불 수수료 또는 처리 수수료를 공제한 후의 잔액이 구매자에게 환불됩니다.<br>
+                  - 환불 처리 시간은 일반적으로 결제 수단과 환불 방법에 따라 다를 수 있습니다.<br></p>
+              <br>
+              <strong>[환불 완료]</strong><br>
+              <p>- 환불이 성공적으로 완료되면 티켓판매점은 구매자에게 환불 완료를 통지합니다.<br>
+                  - 구매자는 환불된 금액이 정상적으로 받아졌는지 확인해야 합니다.<br></p>
+          </div>
       </div>
-    </div>
   </div>
   </div>
   </tbody>
@@ -540,6 +516,7 @@
     <input type="hidden" value="${productsno}" id="sno" name="sno">
     <input type="hidden" value="${businessUser.bno}" id="bno" name="bno">
     <input type="hidden" value="${productfinalsno}" id="psno" name="psno">
+    <%--       <input type="hidden" value="${prosno}" id="prosno" name="prosno">--%>
 </table>
 <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
