@@ -102,8 +102,8 @@
         height: 100px;
     }
     .navbar-brand img {
-        width: 200px;
-        height: 70px;
+        width: 190px;
+        height: 60px;
         position: relative;
         left: 345px;
     }
@@ -127,6 +127,9 @@
     .dropdown-menu li:hover {
         background-color: #ffffff;
         color: #000000;
+    }
+    .custom_nav-container{
+        height: 60px;
     }
 
 
@@ -179,14 +182,12 @@
             <div class="logodiv">
                 <h1 class="logo">
                     <a class="navbar-brand" href="/product_board">
-                        <img src="../../../resources/images/JOINUSLOGOFINAL.png" alt="" />
+                        <img src="../../../resources/images/Joinuslogo.png" alt="" />
                     </a>
                 </h1>
             </div>
         </div>
     </header>
-    <!-- end header section -->
-    <!-- slider section -->
 <div class="container" style="border-top: 1px solid #dcdcdc; border-bottom: 2px solid black;">
     <div class="custom_nav2">
         <nav class="navbar navbar-expand-lg custom_nav-container" style="background-color: white">

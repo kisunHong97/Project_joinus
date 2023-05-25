@@ -1,7 +1,10 @@
 package com.ezen.joinus.controller;
 
 import com.ezen.joinus.service.CustomerService;
+import com.ezen.joinus.service.ProductService;
+import com.ezen.joinus.service.PurchaseService;
 import com.ezen.joinus.vo.CustomerUserVO;
+import com.ezen.joinus.vo.InquiryVO;
 import com.ezen.joinus.vo.ReviewVO;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,9 @@ public class CustomerController {
 
     @Setter(onMethod_=@Autowired)
     private CustomerService customerService;
+
+    @Setter(onMethod_=@Autowired)
+    private ProductService productService;
 
     //개인정보 불러오기
     @GetMapping("/myinformation")
@@ -122,14 +128,13 @@ public class CustomerController {
     public String review(HttpSession session, ReviewVO reviewVO,@RequestParam("pno") int pno,Model model){
         System.out.println("으으아악pno:"+pno);
         CustomerUserVO customerloginUser = (CustomerUserVO) session.getAttribute("customerUserVO");
+
         reviewVO.setU_name(customerloginUser.getU_name());
         // 현재 시간을 가져옵니다.
         // 현재 날짜 구하기
         LocalDate now = LocalDate.now();
-
         // 포맷 정의
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-
         // 포맷 적용
         String formatedNow = now.format(formatter);
 
@@ -139,11 +144,9 @@ public class CustomerController {
         reviewVO.setU_id(customerloginUser.getU_id());
         reviewVO.setPno(pno);
         customerService.insertreview(reviewVO);
-        //,@RequestParam("p_name") String p_name
-//        model.addAttribute("productreview", customerService.getreview(p_name));
-
         return "redirect:/board/read?pno=" + pno;
     }
+
 
 
 }

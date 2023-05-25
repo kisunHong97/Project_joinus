@@ -7,47 +7,47 @@
   <title>Title</title>
   <%@ include file="../header/header.jsp"%>
   <style>
-    /* 테이블 스타일 */
-    table {
-      border-collapse: collapse;
-      width: 70%;
-      margin: 0 auto;
-      margin-top: 20px;
-      margin-bottom: 20px;
-    }
+    /*!* 테이블 스타일 *!*/
+    /*table {*/
+    /*  border-collapse: collapse;*/
+    /*  width: 70%;*/
+    /*  margin: 0 auto;*/
+    /*  margin-top: 20px;*/
+    /*  margin-bottom: 20px;*/
+    /*}*/
 
-    th, td {
-      border: 1px solid #ccc;
-      padding: 8px;
-      text-align: center;
-    }
+    /*th, td {*/
+    /*  border: 1px solid #ccc;*/
+    /*  padding: 8px;*/
+    /*  text-align: center;*/
+    /*}*/
 
-    th {
-      background-color: #f2f2f2;
-    }
+    /*th {*/
+    /*  background-color: #f2f2f2;*/
+    /*}*/
 
-    /* 컨테이너 스타일 */
-    .container {
-      text-align: center;
-      margin-bottom: 20px;
-    }
+    /*!* 컨테이너 스타일 *!*/
+    /*.container {*/
+    /*  text-align: center;*/
+    /*  margin-bottom: 20px;*/
+    /*}*/
 
-    /* 버튼 스타일 */
-    button {
-      font-family: 'Noto Sans KR', sans-serif;
-      font-weight: 500;
-      font-size: 14px;
-      padding: 10px 20px;
-      border: none;
-      background-color: #ff731b;
-      color: white;
-      cursor: pointer;
-      margin-right: 10px;
-    }
+    /*!* 버튼 스타일 *!*/
+    /*button {*/
+    /*  font-family: 'Noto Sans KR', sans-serif;*/
+    /*  font-weight: 500;*/
+    /*  font-size: 14px;*/
+    /*  padding: 10px 20px;*/
+    /*  border: none;*/
+    /*  background-color: #ff731b;*/
+    /*  color: white;*/
+    /*  cursor: pointer;*/
+    /*  margin-right: 10px;*/
+    /*}*/
 
-    button:hover {
-      background-color: #ff6f84;
-    }
+    /*button:hover {*/
+    /*  background-color: #ff6f84;*/
+    /*}*/
 
     /* 비어있는 메시지 스타일 */
     .empty-message {
@@ -55,61 +55,26 @@
       margin-top: 20px;
       font-size: 14px;
       color: #888;
-    }
-    /* 총 구매 금액 스타일 */
-    .total-price-container {
+      height: 300px;
       text-align: center;
-      margin-bottom: 20px;
-      font-size: 16px;
-      color: #888;
     }
+    /*!* 총 구매 금액 스타일 *!*/
+    /*.total-price-container {*/
+    /*  text-align: center;*/
+    /*  margin-bottom: 20px;*/
+    /*  font-size: 16px;*/
+    /*  color: #888;*/
+    /*}*/
   </style>
 
 </head>
 <body>
-
-<div class="container">
-  <table border="1">
-    <thead>
-    <tr>
-      <th>카테고리</th>
-      <th>상품명</th>
-      <th>기간</th>
-      <th>금액</th>
-      <th>선택</th>
-    </tr>
-    </thead>
-    <tbody>
-    <c:forEach items="${cart}" var="cart">
-      <tr>
-        <td>${cart.product.p_category}</td>
-        <td><a href='/board/read?pno=${cart.pno}'>${cart.product.p_inst}</a></td>
-        <td>${cart.c_startDate} ~ ${cart.c_endDate}</td>
-        <td>
-          <span class="total" data-price=${cart.c_price}>${cart.c_price}원</span>
-        </td>
-        <td>
-          <input type="checkbox" class="selectedItems" name="selectedItems" value="${cart.pno}">
-        </td>
-      </tr>
-    </c:forEach>
-    </tbody>
-  </table>
-</div>
-<%-- 장바구니가 비었을 때 메시지 표시 --%>
 <c:if test="${empty cart}">
-  <div class="empty-message">
-    사업자는 장바구니 기능을 사용하실  수 없습니다.
+  <div class="empty-message" style="display: flex; justify-content: center; align-items: center;">
+    <p>사업자는 장바구니 기능을 사용하실 수 없습니다.</p>
   </div>
 </c:if>
 <br>
-<c:if test="${!empty cart}">
-  <div class="total-price-container">
-    <p>총 구매 금액:
-      <span id="totalPrice">0</span>
-      원</p>
-  </div>
-</c:if>
 
 </form>
 </body>

@@ -25,6 +25,8 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -160,5 +162,33 @@ public class BusinessController {
         model.addAttribute("thumbnailList", thumbnailList);
 
         return "business/businessMyProduct";
+    }
+
+    //사업자 답변 등록
+    @GetMapping("/b_answer")
+    public String b_answer(HttpSession session,@RequestParam("ino") int ino,Model model,@RequestParam("pno") int pno){
+        model.addAttribute("b_answerVO",productService.selectb_answer(ino));
+        return "redirect:/modifyinqu/ino="+ino+"/pno="+pno;
+
+    }
+    @PostMapping("/b_answer")
+    public String businessanswer(HttpSession session, @RequestParam("ino") int ino,@RequestParam("pno") int pno,@RequestParam("sno") int sno, B_answerVO b_answerVO,Model model){
+        BusinessUserVO businessUser = (BusinessUserVO) session.getAttribute("BusinessUserVO");
+        LocalDate now = LocalDate.now();
+        // 포맷 정의
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        // 포맷 적용
+        String formatedNow = now.format(formatter);
+
+        b_answerVO.setB_id(businessUser.getB_id());
+        b_answerVO.setSys_date(formatedNow);
+        b_answerVO.setPno(pno);
+        b_answerVO.setIno(ino);
+        b_answerVO.setSno(sno);
+        productService.insertb_answer(b_answerVO);
+        productService.updatestatus(ino);
+        System.out.println("b_answerVO:"+b_answerVO);
+        return "redirect:/modifyinqu/ino="+ino+"/pno="+pno;
     }
 }

@@ -17,17 +17,21 @@
     }
 
     th, td {
-      border: 1px solid #ccc;
+      border: 1px solid #cecece;
       padding: 8px;
       text-align: center;
     }
 
     th {
-      background-color: #f2f2f2;
+      text-align: center;
+      background-color: #ffffff;
+    }
+    .th{
+      text-align: center;
     }
 
-    /* 컨테이너 스타일 */
-    .container {
+
+    .button1 {
       text-align: center;
       margin-bottom: 20px;
     }
@@ -43,6 +47,7 @@
       color: white;
       cursor: pointer;
       margin-right: 10px;
+
     }
 
     button:hover {
@@ -72,11 +77,11 @@
   <table border="1">
     <thead>
     <tr>
-      <th>카테고리</th>
-      <th>상품명</th>
-      <th>기간</th>
-      <th>금액</th>
-      <th>선택</th>
+      <th class="th">카테고리</th>
+      <th class="th">상품명</th>
+      <th class="th">기간</th>
+      <th class="th">금액</th>
+      <th class="th">선택</th>
     </tr>
     </thead>
     <tbody>
@@ -111,8 +116,7 @@
   </div>
   </c:if>
 <div class="container">
-  <div>
-
+  <div class="button1">
     <button onclick="deleteItems()">삭제</button>
     <button id="buy">구매</button>
   </div>
