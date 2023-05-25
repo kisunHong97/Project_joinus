@@ -36,6 +36,7 @@
         SELECT sno, SUM(revenue_amount) as revenue_amount, revenue_date
         FROM revenue_table
         group by sno, revenue_date
+        order by revenue_date asc
     </select>
 
 </mapper>

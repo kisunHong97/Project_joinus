@@ -102,8 +102,6 @@
             success: function(response) {
                 console.log(response);
                 // 수익 데이터 추출
-
-
                 drawRevenueChart(response.map(i=>i.revenue_date) , response.map(i=>i.revenue_amount) ); // 데이터를 받아와 차트를 그리는 함수 호출
             },
             error: function() {
@@ -117,21 +115,43 @@
         console.log("date: " + dates, amounts);
         var ctx = document.getElementById('revenueChart').getContext('2d');
 
-        var dayOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
+        var dayOfWeek = ["월", "화", "수", "목", "금", "토", "일"];
         var labels = dates.map(function(date) {
             var parts = date.split("/");
+            console.log(parts);
             var year = parseInt(parts[0]);
-            var month = parseInt(parts[1]) - 1;
+            if (year < 100) {
+                // 두 자리 수 연도인 경우 처리
+                year += 2000; // 예: 23 -> 2023
+            }
+            var month = parseInt(parts[1]) - 1; // 1을 빼줌
             var dayOfMonth = parseInt(parts[2]);
             var dateObj = new Date(year, month, dayOfMonth);
+            console.log(dateObj);
             var dayIndex = dateObj.getDay();
-            return dayOfWeek[dayIndex] + " " + dayOfMonth + "일";
+            console.log(dayIndex);
+            return parseInt(month + 1) + "월" + " " + dayOfMonth + "일" + " " + dayOfWeek[dayIndex - 1] + "요일";
         });
 
+        // labels.reverse(); // 날짜 배열을 역순으로 변경
+        console.log(labels);
         if (chart) {
             chart.destroy(); // 이전 차트 객체를 파괴하여 초기화
         }
 
+        // 주간 총 수익금 계산
+        var weekTotalAmounts = [];
+        var currentWeekTotal = 0;
+
+        for (var i = 0; i < amounts.length; i++) {
+            currentWeekTotal += amounts[i];
+            if (labels[i].startsWith("월") || i === labels.length - 1) {
+                weekTotalAmounts.push(currentWeekTotal);
+                currentWeekTotal = 0;
+            }
+        }
+
+        console.log(weekTotalAmounts)
         chart = new Chart(ctx, {
             type: 'bar',
             data: {
@@ -187,6 +207,7 @@
             }
         });
     }
+
 </script>
 <%@ include file="../footer/footer.jsp"%>
 </html>
