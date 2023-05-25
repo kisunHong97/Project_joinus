@@ -8,7 +8,7 @@
     /*}*/
 
 </style>
-<section class="info_section layout_padding2-top" style="background-color: #eeeeee; border-top: 1px solid #dcdcdc;">
+<section class="info_section layout_padding2-top" style="background-color: #ffefe6; border-top: 1px solid #dcdcdc;">
     <div class="container" >
         <div class="row">
             <div class="col-md-3">
