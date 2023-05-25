@@ -225,10 +225,8 @@
     <br>
     <div id="reviewList">
         <div style="border-bottom: 1px solid salmon">
-
             <span><h3 style="font-weight: 900; letter-spacing:-1px; display: block; margin-top: -20px">리뷰</h3></span>
         </div>
-
         <c:forEach items="${reviewlist}" var="review">
             <div class="reviewItem">
                 <div class="reviewInfo" style="border-bottom: 1px solid #ffd3c0; height: 50px; display: block; margin-top: 50px;"  >

@@ -378,6 +378,7 @@
               <button class="btnreview" type="submit">리뷰 등록</button>
               <input type="hidden" value="${productVO.pno}" id="productVOpno" name="pno">
               <input type="hidden" value="${productVO.p_name}" id="productVOp_name" name="p_name">
+              <input type="hidden" value="${productVO.sno}"  name="sno">
           </form>
           <hr>
           <h3 class="title">후기</h3>
@@ -452,7 +453,7 @@
                        ${inquiry.ino}
                          </span>&nbsp;</div>
                           <div class="divtag" style="width: 50px;"><span> ${inquiry.u_name}</span></div>
-                          <div class="divtag" style="width: 300px;"><a id="inqua" href="/modifyinqu/ino=${inquiry.ino}">🔒&nbsp;${inquiry.i_title}</a></div>
+                          <div class="divtag" style="width: 300px;"><a id="inqua" href="/modifyinqu/ino=${inquiry.ino}/pno=${inquiry.pno}">🔒&nbsp;${inquiry.i_title}</a></div>
                           <div class="divtag" style="width: 50px;"><span style="color: #808080;">${inquiry.inquiry_date}</span></div>
                           <div class="divtag" style="width: 200px;"> <span style="color: #ff731b;">${inquiry.status}</span></div>
                           <input type="hidden" value="${inquiry.u_id}"  id="inquiryu_id">
@@ -567,10 +568,16 @@
         console.log($("#productname").text())
         console.log($("#productlist").val())
         console.log($("#u_id").val())
+        console.log("뜨나요??" + $("#b_id").val());
         $(".btnreview").click(function (){
             if($("#u_id").val()=="") {
-                alert("로그인 후 가능합니다.")
-                return false;
+                if($("#u_id").val()=="" && $("#b_id").val()==""){
+                    alert("로그인 후 가능합니다.")
+                    return false;
+                }else if($("#u_id").val()=="" && $("#b_id").val()!=""){
+                    alert("사업자는 리뷰 등록이 불가능합니다.")
+                    return false;
+                }
             }else if($(".reviewContent").val().length <10 && $(".reviewContent").val()!=""){
                 alert("리뷰는 10자 이상 작성해주세요")
                 return false;

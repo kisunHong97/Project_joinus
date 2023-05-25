@@ -3,17 +3,16 @@ pageEncoding="UTF-8"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
   <head>
-    <!-- Basic -->
-    <!-- Custom styles for this template -->
-    <link href="../resources/css/style.css" rel="stylesheet" />
-    <!-- responsive style -->
+
     <link href="../resources/css/responsive.css" rel="stylesheet" />
     <link href="../resources/css/productRegister.css" rel="stylesheet" />
   </head>
   <%@ include file="../header/header.jsp"%>
   <body>
+
     <div class="main" style="margin: 0 auto">
-      <h1 class="logo">상품 등록</h1>
+      <h1 class="logo" style="font-weight: bold; letter-spacing: -1px">상품 수정</h1>
+
       <form action="modify" method="post">
         <input type="hidden" name="sno" id="sno" value="${product.sno}">
         <input type="hidden" name="pno" id="pno" value="${product.pno}">

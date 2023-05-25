@@ -33,7 +33,7 @@
 
     <insert id="insertreview" parameterType="com.ezen.joinus.vo.ReviewVO">
         INSERT INTO review_table
-        VALUES(review_seq.nextval,#{pno},#{u_id}, #{u_name}, #{p_name}, #{review},#{sys_date}, #{rating})
+        VALUES(review_seq.nextval,#{pno},#{sno}, #{u_id}, #{u_name}, #{p_name}, #{review},#{sys_date}, #{rating})
     </insert>
     <select id="getreview" resultType="com.ezen.joinus.vo.ReviewVO">
         select * from review_table where pno=#{pno}

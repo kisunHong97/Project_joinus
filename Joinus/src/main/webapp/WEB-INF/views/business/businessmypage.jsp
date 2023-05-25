@@ -46,17 +46,37 @@
     .view:hover {
         background-color: #45a049;
     }
+    .review > div {
+        width: 880px;
+        height: 700px;
+        position: relative;
+    }
+
+    .reviewInfo > div{
+        display: inline-block;
+    }
+
+    .date {
+        /*position: absolute;*/
+        /*right: 0;!* 원하는 만큼의 오프셋 값을 설정하세요 *!*/
+        letter-spacing:-1px;
+    }
+    .divp_name{
+        margin-left: 5px;
+        margin-right: 5px;
+
+    }
 </style>
 </head>
 <body>
 <br>
 <div id="mypage-menu">
     <div><a href="#" onclick="showPage('revenue')">수익금 조회</a></div>
-    <div><a href="#" onclick="showPage('review')">리뷰 확인</a></div>
+    <div><a href="#" onclick="showPage('notice')">공지사항 확인</a></div>
     <div><a href="/showMyProduct">등록글 조회</a></div>
     <div><a href="/register">상품 등록</a></div>
     <div><a href="/businessinformation?id=${business.b_id}">개인정보 수정</a></div>
-    <div><a href="#" onclick="showPage('notice')">공지사항 확인</a></div>
+    <div><a href="#" onclick="showPage('review')">리뷰 확인</a></div>
 </div>
 <div class="mypage-form">
     <div id="revenue-page">
@@ -69,8 +89,41 @@
     </div>
     <div id="review-page" style="display: none;">
         <div class="page-content">
-            <h2>리뷰 확인</h2>
-            <p>여기에 리뷰 확인 페이지 내용을 추가하세요.</p>
+            <div id="reviewList" style="width: 1000px; margin-left: 440px">
+                <div style="border-bottom: 1px solid salmon; ">
+                    <span><h2 style="font-weight: 900; letter-spacing:-1px; display: block; margin-top: 30px ;margin-bottom: 20px">등록된 리뷰</h2></span>
+                </div>
+                <c:forEach items="${reviewlist}" var="review">
+                    <div class="reviewItem">
+                        <div class="reviewInfo" style="border-bottom: 1px solid #ffd3c0; height: 50px; display: block; margin-top: 30px;"  >
+                            <div class="divstar"><span class="star" style="color: #ff731b; width: 100px">
+                            <script>
+                        var rating = ${review.rating};
+                        var stars = "";
+                        for (var i = 1; i <= 5; i++) {
+                            if (i <= rating) {
+                                stars += '<span class="star">★</span>';
+                            } else {
+                                stars += '<span class="star">☆</span>';
+                            }
+                        }
+                        document.write(stars);
+                    </script></span></div>
+                            <div class="divp_name" style="width: 270px; text-align: center;"><a href="board/read?pno=${review.pno}" class="p_name"> ${review.p_name}</a></div>
+                            <div class="divu_id" style="width: 30px; text-align: center;"><span>${review.u_id}</span></div>
+                            <div class="divtextreview" style="width: 500px; text-align: center;"> <span class="textreview"> ${review.review}</span></div>
+                            <span class="date" style="color: #ff731b;">${review.sys_date}</span>
+                        </div>
+                    </div>
+                </c:forEach>
+
+                <c:if test="${empty reviewlist}">
+                    <br>
+                    <div class="noReviews" style="text-align: center">작성된 리뷰가 없습니다.</div>
+                </c:if>
+            </div>
+
+            <br>
         </div>
     </div>
     <div id="notice-page" style="display: none;">

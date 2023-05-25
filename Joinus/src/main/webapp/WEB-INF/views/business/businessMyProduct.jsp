@@ -95,6 +95,7 @@
 <section>
     <div class="outter">
         <h1 class="hit">상품 관리</h1>
+        <hr>
         <!-- 옵션선택 끝 -->
         <table border="1">
             <div class="board">

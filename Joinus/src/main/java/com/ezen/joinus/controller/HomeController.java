@@ -48,6 +48,7 @@ public class HomeController {
             , @RequestParam(value="cntPerPage", required=false)String cntPerPage) {
         System.out.println(vo);
         CustomerUserVO customerloginUser = (CustomerUserVO) session.getAttribute("customerUserVO");
+        BusinessUserVO businessUser = (BusinessUserVO) session.getAttribute("BusinessUserVO");
 
         int total = productService.countBoard();
         if (nowPage == null && cntPerPage == null) {
@@ -91,6 +92,7 @@ public class HomeController {
         model.addAttribute("thumbnailList", thumbnailList);
         model.addAttribute("thumbnailList1", thumbnailList1);
         model.addAttribute("customerloginUser",customerloginUser);
+        model.addAttribute("businessUser",businessUser);
 
         return "main/about";
     }
@@ -206,6 +208,7 @@ public class HomeController {
             model.addAttribute("productsno",productsno);
             model.addAttribute("productfinalsno",productVOListfinal.getSno());
             model.addAttribute("numbers",numbers);
+
 
             return "/board/read";
         } else {

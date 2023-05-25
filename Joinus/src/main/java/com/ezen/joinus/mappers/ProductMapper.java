@@ -37,6 +37,7 @@ public interface ProductMapper {
     //고객이쓴 문의글 가져오기
     List<InquiryVO> userallinqu(String u_id);
 
+
     InquiryVO custgetinqu(Map<String, Object> paramMap);
     // void update(Map<String, Object> paramMap);
 //    List<InquiryVO> getInquiries(String p_name);
