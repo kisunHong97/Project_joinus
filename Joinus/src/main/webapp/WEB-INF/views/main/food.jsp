@@ -45,6 +45,7 @@
                 <button class="search-button " type="submit" value="검색">검색</button>
             </form>
         </div>
+        <hr>
         <br>
 
         <table border="1">
