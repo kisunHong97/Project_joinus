@@ -12,7 +12,7 @@ public interface StoreMapper {
     public void insertStore(StoreVO vo);
     public int s_nameCheck(String s_name);
     public int getMaxSno();
-
+    List<StoreVO> getAllStore();
     StoreVO getStoreBno(Integer bno);
     StoreVO getStore(Integer bno);
     void updateStore(StoreVO vo);

@@ -46,6 +46,9 @@ public class StoreServiceImpl implements StoreService{
     }
 
     @Override
+    public List<StoreVO> getAllStore() { return storeMapper.getAllStore();}
+
+    @Override
     public void updateStore(StoreVO vo) {
         storeMapper.updateStore(vo);
     }

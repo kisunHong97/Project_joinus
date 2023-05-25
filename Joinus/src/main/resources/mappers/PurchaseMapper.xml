@@ -16,4 +16,11 @@
         select * from products_purchase_table
         where u_id = #{u_id}
     </select>
+    <select id="getAllpurchase" resultType="com.ezen.joinus.vo.PurchaseVO">
+        SELECT pno, p_name, COUNT(*) AS purchase_count
+        FROM products_purchase_table
+        GROUP BY pno, p_name
+        ORDER BY purchase_count DESC
+    </select>
+
 </mapper>
