@@ -561,6 +561,26 @@
         spanElement.style.display = "none";
     }
 </script>
+<script>
+    // 현재 날짜를 가져오는 함수
+    function getCurrentDate() {
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = String(now.getMonth() + 1).padStart(2, '0');
+        var day = String(now.getDate()).padStart(2, '0');
+        return year + '-' + month + '-' + day;
+    }
+
+    // 페이지 로드 시 실행되는 함수
+    window.onload = function() {
+        var startDate = document.getElementById('startDate');
+        var endDate = document.getElementById('endDate');
+
+        // 현재 날짜를 최소값으로 설정
+        startDate.min = getCurrentDate();
+        endDate.min = getCurrentDate();
+    };
+</script>
 <script type="text/javascript">
     console.log("일단 작동")
     $(document).ready(function() {
@@ -675,37 +695,44 @@
   }
   $(document).ready(function (e) {
     $('#wishBtn').click(function (e) {
-      var data_like = $("#wishBtn").text()
-      // console.log("data_like : " + data_like)
-      let f1 = $('#wishBtn').data('a');
-      let f2 = $('#wishBtn').data('b');
-      // p_name, p_category 추가
-      let p_name = $('#wishBtn').data('c');
-      let p_category = $('#wishBtn').data('d');
+        if(${businessUser != null}){
+            alert("개인 고객만 이용가능합니다.")
+        }else if (!isLoggedIn() && ${businessUser == null}) {
+            alert("로그인 후 이용해주세요.");
+            return;
+        }else {
+            var data_like = $("#wishBtn").text()
+            // console.log("data_like : " + data_like)
+            let f1 = $('#wishBtn').data('a');
+            let f2 = $('#wishBtn').data('b');
+            // p_name, p_category 추가
+            let p_name = $('#wishBtn').data('c');
+            let p_category = $('#wishBtn').data('d');
 
-      var flag = false
-      if(data_like == "❤️"){
-        deleteWishlist();
-        if (($("#customerUserVO") != null || $("#u_id") != null)){
-          flag = !flag
-          $('#wishBtn').text("🤍");
-          console.log('여기는 삭제');
+            var flag = false
+            if(data_like == "❤️"){
+                deleteWishlist();
+                if (($("#customerUserVO") != null || $("#u_id") != null)){
+                    flag = !flag
+                    $('#wishBtn').text("🤍");
+                    console.log('여기는 삭제');
+                }
+            } else {
+                addWishlist(f1, f2, p_name, p_category);
+                if (($("#customerUserVO") != null || $("#u_id") != null)){
+                    flag = !flag
+                    $('#wishBtn').text("❤️");
+                    console.log('여기는 추가');
+                }
+            }
         }
-      } else {
-        addWishlist(f1, f2, p_name, p_category);
-        if (($("#customerUserVO") != null || $("#u_id") != null)){
-          flag = !flag
-          $('#wishBtn').text("❤️");
-          console.log('여기는 추가');
-        }
-      }
     });
   });
   function addWishlist(pno, u_id, p_name, p_category) {
     // 로그인 여부 확인
     if (!isLoggedIn()) {
-      alert("로그인 후 이용해주세요.");
-      return;
+        alert("로그인 후 이용해주세요.");
+        return;
     }
       $.ajax({
           type: 'POST',
@@ -749,41 +776,52 @@
 <script>
   $(document).ready(function (e) {
     $('#cartBtn').click(function (e) {
-    if (${productVO.p_type == 'free'}){
-        var startDate = document.getElementById("startDate").value;
-        var endDate = document.getElementById("endDate").value;
+        if(${businessUser != null}){
+            alert("개인 고객만 이용가능합니다.")
+        }else if (!isLoggedIn() && ${businessUser == null}) {
+            alert("로그인 후 이용해주세요.");
+            return;
+        }else{
+            if (${productVO.p_type == 'free'}){
+                var startDate = document.getElementById("startDate").value;
+                var endDate = document.getElementById("endDate").value;
 
-        if (startDate === "" || endDate === "") {
-            alert("기간을 선택해주세요.");
-        } else {
-            var data_cart = $("#cartBtn").text()
-            // console.log("data_like : " + data_like)
-            var f3 = $('#cartBtn').data('c');
-            var f4 = $('#cartBtn').data('d');
-            var f5 = $('#totalPrice').val();
-            var f6 = $("#startDate").val();
-            var f7 = $("#endDate").val();
-            console.log(f5,f6,f7)
-            var flag = false
-            if(data_cart == "🛒"){
-                deleteCart();
-                if ($("#customerUserVO") != null || $("#u_id") != null){
-                    flag = !flag
-                    $('#cartBtn').text("장바구니담기");
-                    console.log('여기는 삭제');
-                }
-            } else {
-                addCart(f3, f4, f5, f6, f7);
-                if ($("#customerUserVO") != null || $("#u_id") != null){
+                if (startDate === "" || endDate === "") {
+                    alert("기간을 선택해주세요.");
+                } else {
+                    var data_cart = $("#cartBtn").text()
+                    // console.log("data_like : " + data_like)
+                    var f3 = $('#cartBtn').data('c');
+                    var f4 = $('#cartBtn').data('d');
+                    var f5 = $('#totalPrice').val();
+                    var f6 = $("#startDate").val();
+                    var f7 = $("#endDate").val();
+                    console.log(f5,f6,f7)
+                    var flag = false
+                    if(data_cart == "🛒"){
+                        deleteCart();
+                        if ($("#customerUserVO") != null || $("#u_id") != null){
+                            flag = !flag
+                            $('#cartBtn').text("장바구니담기");
+                            console.log('여기는 삭제');
+                        }
+                    } else {
+                        if(${businessUser != null}){
+                            alert("개인 고객만 가능합니다.");
+                            return;
+                        }else {
+                            addCart(f3, f4, f5, f6, f7);
+                            if ($("#customerUserVO") != null || $("#u_id") != null) {
 
-                    flag = !flag
-                    $('#cartBtn').text("🛒");
-                    console.log('여기는 추가');
+                                flag = !flag
+                                $('#cartBtn').text("🛒");
+                                console.log('여기는 추가');
+                            }
+                        }
+                    }
                 }
             }
         }
-    }
-
     });
   });
   function addCart(pno, u_id, c_price, c_startDate, c_endDate) {
@@ -835,7 +873,6 @@
     });
   }
 
-
   function deleteCart() {
     // 로그인 여부 확인
     if (!isLoggedIn()) {
@@ -859,23 +896,26 @@
 <script>
     $(document).ready(function() {
         $("#buyBtn").click(function() {
-            if (!isLoggedIn()) {
+            if(${businessUser != null}){
+                alert("개인 고객만 이용가능합니다.")
+            }else if (!isLoggedIn() && ${businessUser == null}) {
                 alert("로그인 후 이용해주세요.");
                 return;
-            }
-            if (${productVO.p_type == 'free'}){
-                var startDate = document.getElementById("startDate").value;
-                var endDate = document.getElementById("endDate").value;
+            }else {
+                if (${productVO.p_type == 'free'}){
+                    var startDate = document.getElementById("startDate").value;
+                    var endDate = document.getElementById("endDate").value;
 
-                if (startDate === "" || endDate === "") {
-                    alert("기간을 선택해주세요.");
-                } else {
-                    var pno = $("#productVO").val();
-                    var p_price = $('#totalPrice').val();
-                    var startDate = $("#startDate").val(); // 선택된 시작 날짜
-                    var endDate = $("#endDate").val(); // 선택된 종료 날짜
-                    var url = "/board/buy?pno=" + pno + "&startDate=" + startDate + "&endDate=" + endDate + "&p_price=" + p_price; // 구매 페이지 URL에 선택된 날짜와 가격을 추가합니다.
-                    window.location.href = url;
+                    if (startDate === "" || endDate === "") {
+                        alert("기간을 선택해주세요.");
+                    } else {
+                        var pno = $("#productVO").val();
+                        var p_price = $('#totalPrice').val();
+                        var startDate = $("#startDate").val(); // 선택된 시작 날짜
+                        var endDate = $("#endDate").val(); // 선택된 종료 날짜
+                        var url = "/board/buy?pno=" + pno + "&startDate=" + startDate + "&endDate=" + endDate + "&p_price=" + p_price; // 구매 페이지 URL에 선택된 날짜와 가격을 추가합니다.
+                        window.location.href = url;
+                    }
                 }
             }
         });
