@@ -206,6 +206,7 @@ public class HomeController {
             model.addAttribute("productsno",productsno);
             model.addAttribute("productfinalsno",productVOListfinal.getSno());
             model.addAttribute("numbers",numbers);
+
             return "/board/read";
         } else {
             return "/board/read";
