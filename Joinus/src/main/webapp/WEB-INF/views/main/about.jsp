@@ -105,29 +105,35 @@
         font-size: 14px;
         color: darkorange;
         animation: moveText 5s linear infinite;
+        opacity: 0; /* 초기에는 텍스트가 보이지 않도록 설정 */
+        overflow: hidden; /* 텍스트의 너비를 넘어가는 부분은 숨깁니다 */
     }
 
     @keyframes moveText {
-        0% { left: 20px; }
-        100% { left: calc(100% - 200px); }
+        /*0% { left: 10%; opacity: 1; }*/
+        0% { left: 0%; opacity: 0; } /* 천천히 보여지도록 애니메이션 추가 */
+        100% { left: 30%; opacity: 1; }
     }
+
     .message-box {
         text-align: left;
         align-self: flex-start; /* 내가 입력한 메시지는 왼쪽에 정렬 */
-        background-color: #ffae4d; /* 내가 입력한 메시지의 배경색 */
+        background-color: #fd8d48; /* 내가 입력한 메시지의 배경색 */
         padding: 10px;
         margin-bottom: 10px;
         border-radius: 10px;
-        color: #ff731b; /* 글씨 색상 */
+        color: white; /* 글씨 색상 */
         font-family: Helvetica, Arial, sans-serif; /* 폰트 */
         font-size: 14px; /* 폰트 크기 */
-        font-weight: bold; /* 글씨 굵기 */
+        /*font-weight: bold; !* 글씨 굵기 *!*/
     }
 
     .message-box.other {
         text-align: right;
         align-self: flex-end; /* 다른 사람이 입력한 메시지는 오른쪽에 정렬 */
-        background-color: #ffccab; /* 다른 사람이 입력한 메시지의 배경색 */
+        background-color: #e7e7e7; /* 다른 사람이 입력한 메시지의 배경색 */
+        color: black;
+        /*font-weight: bold; !* 글씨 굵기 *!*/
     }
 
     .board {
@@ -197,19 +203,6 @@
                 </ul>
             </div>
         </div>
-        <aside style="position: absolute; top: 200px; right: 360px;">
-            <div style="flex-shrink: 0; width: 300px;">
-                <h1 class="hit">Let's Join Us!</h1>
-                <input type="hidden" id="id" value="${customerloginUser.u_name}">
-                <div class="moving-text">건전한 채팅 부탁드립니다</div>
-                <div>
-                    <div id="chatarea" class="chatarea" style="width: 260px; height: 300px; overflow-y: auto; background-color: white; padding: 10px; "><br></div>
-                    <input type="text" class="message" id="message" style="width: 86%; height: 35px" />
-                    <input type="button" id="send" class="account2" value="보내기" style="width: 65%; padding: 5px;"/>
-                    <input type="button" id="exit" class="exit" value="나가기" />
-                </div>
-            </div>
-        </aside>
     </div>
 </section>
 <%-- 현재 로그인된 사용자 주소 --%>
@@ -241,12 +234,27 @@
                             </c:when>
                         </c:choose>
                     </c:forEach>
+                    <c:if test="${not hasNearbyProducts}">
+                        <div style="height: 350px;">
+                        <h5>근처에 등록된 상품이 없습니다.</h5>
+                        </div>
+                    </c:if>
                 </ul>
-                <c:if test="${not hasNearbyProducts}">
-                    <h5>근처에 등록된 상품이 없습니다.</h5>
-                </c:if>
             </div>
         </div>
+        <aside style="position: absolute; top: 503px; right: 360px;">
+            <div style="flex-shrink: 0; width: 300px;">
+                <h1 class="hit">Let's Join Us!</h1>
+                <input type="hidden" id="id" value="${customerloginUser.u_name}">
+                <div class="moving-text">건전한 채팅 부탁드립니다</div>
+                <div>
+                    <div id="chatarea" class="chatarea" style="width: 260px; height: 270px; overflow-y: auto; background-color: white; padding: 10px; "><br></div>
+                    <input type="text" class="message" id="message" style="width: 86%; height: 35px" />
+                    <input type="button" id="send" class="account2" value="보내기" style="width: 65%; padding: 5px;"/>
+                    <input type="button" id="exit" class="exit" value="나가기" />
+                </div>
+            </div>
+        </aside>
     </div>
 </section>
 <%@ include file="../footer/footer.jsp"%>
@@ -258,12 +266,12 @@
         var containerWidth = window.innerWidth;
         var textWidth = movingText.offsetWidth;
 
-        // 텍스트가 화면 밖으로 나가지 않도록 위치 조정
-        movingText.style.left = containerWidth + 'px';
+        // 텍스트가 왼쪽에서 오른쪽으로 이동하도록 위치 조정
+        movingText.style.left = -textWidth + 'px';
 
         // 텍스트가 완전히 나가면 다시 시작 위치로 이동
         movingText.addEventListener('animationiteration', function() {
-            movingText.style.left = containerWidth + 'px';
+            movingText.style.left = -textWidth + 'px';
         });
     };
 </script>
@@ -285,13 +293,13 @@
     // ##### 연결 되었습니다!
     function onOpen() {
         if (${customerloginUser == null}) {
-            websocket.send("<div style='color: #ff731b; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: bold;'>로그인 후 이용해주세요.&nbsp&nbsp&nbsp&nbsp</div>");
+            websocket.send("<div style='color: #7c7c7c; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: bold;'>로그인 후 이용해주세요.&nbsp&nbsp&nbsp&nbsp</div>");
             document.getElementById("message").disabled = true;
             document.getElementById("send").disabled = true;
             document.getElementById("exit").disabled = true;
         } else {
             id = document.getElementById("id").value;
-            websocket.send("<div style='color: #ff731b; font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: bold;'>" + id + "님이 입장하셨습니다.&nbsp&nbsp&nbsp&nbsp</div>");
+            websocket.send("<div style='color: black; font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: bold;'>" + id + "님이 입장하셨습니다.&nbsp&nbsp&nbsp&nbsp</div>");
         }
     }
 

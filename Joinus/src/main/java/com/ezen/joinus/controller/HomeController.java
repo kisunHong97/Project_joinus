@@ -207,7 +207,6 @@ public class HomeController {
             model.addAttribute("productfinalsno",productVOListfinal.getSno());
             model.addAttribute("numbers",numbers);
             model.addAttribute("businessUser", businessUser);
-            StoreVO getstoreVO = storeService.getStore(businessUser.getBno());
             return "/board/read";
         } else {
             return "/board/read";
