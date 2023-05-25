@@ -44,8 +44,9 @@
             </select>
             <button class="search-button" type="submit" value="검색">검색</button>
         </form>
-
         </div>
+        <hr>
+        <br>
         <!-- 옵션선택 끝 -->
         <table border="1">
             <div class="board">

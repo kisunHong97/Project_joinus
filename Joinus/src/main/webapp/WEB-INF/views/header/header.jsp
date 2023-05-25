@@ -102,10 +102,10 @@
         height: 100px;
     }
     .navbar-brand img {
-        width: 190px;
-        height: 60px;
+        width: 300px;
+        height: 70px;
         position: relative;
-        left: 345px;
+        left: 350px;
     }
     .dropdown-menu {
         width: 160px;
