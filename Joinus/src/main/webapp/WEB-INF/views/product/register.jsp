@@ -140,17 +140,27 @@
     display: block;
   }
 
+  .thumbnail-image{
+    width: 200px;
+    height: 200px;
+  }
+
+  .thumbnail-col{
+    width: 200px;
+    margin: 10px;
+  }
+
 </style>
 <body>
 <br>
 <input type="hidden" name="sno" id="sno" value="${sno}">
 <div class="main" style="margin: 0 auto;">
-  <div class="modify" style="max-width: 1100px; margin-left: 600px; ">
+  <div class="register" style="max-width: 1100px; margin-left: 600px; ">
     <h1 class="logo" style="font-weight: bold; letter-spacing: -1px;">상품 등록</h1>
     <br>
-    <div style="height: 1400px">
+    <div>
       <form action="register" method="post">
-        <div class="container" style="height: 1000px">
+        <div class="container">
           <div class="card" style="height: 70px; width: 700px; display: inline-block; border-top:2px solid black; border-radius: 0px; ">
             <div class="card-list" style="display: inline-block; margin-top: 20px;">
               <span class="card-title" style="margin-right: 100px; margin-left: 40px;">상품명</span>
@@ -222,50 +232,42 @@
           </div>
           <%-- 소개글 태그 종료 --%>
 
-          <div class="card" style="height: 600px; width: 700px; display: inline-block; border-top:none; border-radius: 0px; ">
+          <div class="card" style="width: 700px; display: inline-block; border-top:none; border-radius: 0px; ">
             <div class="card-list" style="display: inline-block; margin-top: 20px;">
               <span class="card-title" style="margin-right: 82px; margin-left: 40px;">썸네일</span>
               <div class="card-body"  style="margin-left: 150px">
-                <c:forEach begin="1" end="2">
-                  <div class="d-flex">
-                    <span class="thumbnail-span">
-                      <img
-                              src="../../resources/images/no-image.png"
-                              class="file-image thumbnail-image"
-                      />
-                      <input type="file" class="inputActive file-input" />
-                      <button class="uploadActive uploadBtn">업로드</button>
-                      <button class="upload deleteBtn">삭제</button>
-                    </span>
-                    <span class="thumbnail-span">
-                      <img
-                              src="../resources/images/no-image.png"
-                              class="file-image thumbnail-image"
-                      />
-                      <input type="file" class="inputActive file-input" />
-                      <button class="uploadActive uploadBtn">업로드</button>
-                      <button class="upload deleteBtn">삭제</button>
-                    </span>
+
+                <div class="row">
+                  <c:forEach var="i" begin="1" end="4">
+                  <div class="col thumbnail-col">
+                      <span class="thumbnail-span">
+                        <img
+                                src="../../resources/images/no-image.png"
+                                class="file-image thumbnail-image"
+                        />
+                        <input type="file" class="inputActive file-input" />
+                        <button class="uploadActive uploadBtn">업로드</button>
+                        <button class="upload deleteBtn">삭제</button>
+                      </span>
                   </div>
+                  <c:if test="${i % 2 == 0}">
+                </div><div class="row">
+                </c:if>
                 </c:forEach>
+              </div>
               </div>
             </div>
           </div>
           <%-- 상품명 태그 종료 --%>
-          <div class="card" style="height: 300px; width: 700px; border-top: none; border-radius: 0px;">
-            <div class="card-list" style="margin-top: 20px; height: 110px">
-              <span class="card-title" style="margin-right: 100px; margin-left: 40px;">상세 내용</span>
-              <div style="margin-left: 200px">
-              <span class="detail-span">
-                    <div class="file-image"></div>
+          <div class="card" style="width: 700px; border-top: none; border-radius: 0px;">
+            <span class="card-title" style="margin-right: 100px; margin-left: 40px; margin-top: 20px;">상세 내용</span>
+            <div style="margin-left: 180px;">
+              <span class="detail-span" style=" text-align: center">
                     <input type="file" class="inputActive file-input" />
-                      <div>
                     <button class="uploadActive uploadBtn">업로드</button>
                     <button class="upload deleteBtn">삭제</button>
-                    <div class="file-image"></div>
-                  </div>
+                    <div class="file-image" style="margin-right: 20px; margin-bottom: 20px;"></div>
                </span>
-              </div>
             </div>
           </div>
           <%-- 상품명 태그 종료 --%>

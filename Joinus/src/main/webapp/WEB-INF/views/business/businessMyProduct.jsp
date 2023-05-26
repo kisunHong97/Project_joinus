@@ -96,25 +96,34 @@
     <div class="outter">
         <h1 class="hit">상품 관리</h1>
         <hr>
-        <!-- 옵션선택 끝 -->
-        <table border="1">
-            <div class="board">
-                <div class="board-body">
-                    <ul>
-                        <c:forEach var="myProduct" items="${myProductList}" varStatus="status">
-                            <li>
-                                <div class="post-thumbnail">
-                                    <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일">
-                                </div>
-                                <div class="post-content">
-                                    <a href="/modify/${myProductList[status.index].pno}">${myProductList[status.index].p_inst }</a>
-                                </div>
-                            </li>
-                        </c:forEach>
-                    </ul>
+        <c:choose>
+            <c:when test="${not empty myProductList}">
+                <!-- 옵션선택 끝 -->
+                <table border="1">
+                    <div class="board">
+                        <div class="board-body">
+                            <ul>
+                                <c:forEach var="myProduct" items="${myProductList}" varStatus="status">
+                                    <li>
+                                        <div class="post-thumbnail">
+                                            <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일">
+                                        </div>
+                                        <div class="post-content">
+                                            <a href="/modify/${myProductList[status.index].pno}">${myProductList[status.index].p_inst }</a>
+                                        </div>
+                                    </li>
+                                </c:forEach>
+                            </ul>
+                        </div>
+                    </div>
+                </table>
+            </c:when>
+            <c:otherwise>
+                <div class="content" id="content1" style="height: 300px; text-align: center;">
+                    <span>등록하신 상품이 없습니다.</span>
                 </div>
-            </div>
-        </table>
+            </c:otherwise>
+        </c:choose>
     </div>
 </section>
 </section>
