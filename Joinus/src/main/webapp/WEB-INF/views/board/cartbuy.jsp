@@ -112,26 +112,34 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 <script>
+    function getCurrentTime() {
+        var now = new Date();
+        now.setHours(now.getHours() + 9); // 현재 시간에 9시간을 더함
+        return now; // 현재 시간을 반환
+    }
     $(document).ready(function (e){
         $(".buy-button").click(function (){
             if(${customerUserVO.buypoint <= 0}) {
                 alert("\n보유 메소가 부족합니다.\n충전 후 이용해 주세요.")
             } else if (confirm("\n결제 후 3시간 이내 취소 요청 시 환불 처리되며, 3시간 이후에는 환불되지 않습니다.\n\n정말로 구매하시겠습니까?")) {
                 var productList = [];
+                var currentTime = getCurrentTime();
+                console.log("현재 시간 : " + currentTime)
 
                 <c:forEach items="${combinedList}" var="combinedItem" varStatus="loop">
-                var memo = $("#name" + ${loop.index}).val();
-                var product = {
-                    sno: ${combinedItem.productVO.sno},
-                    pno: ${combinedItem.productVO.pno},
-                    u_id: '${customerUserVO.u_id}',
-                    p_name: '${combinedItem.productVO.p_name}',
-                    p_price: ${combinedItem.cartVO.c_price},
-                    memo: memo,
-                    startDate: '${combinedItem.cartVO.c_startDate}',
-                    endDate: '${combinedItem.cartVO.c_endDate}'
-                };
-                productList.push(product);
+                    var memo = $("#name" + ${loop.index}).val();
+                    var product = {
+                        sno: ${combinedItem.productVO.sno},
+                        pno: ${combinedItem.productVO.pno},
+                        u_id: '${customerUserVO.u_id}',
+                        p_name: '${combinedItem.productVO.p_name}',
+                        p_price: ${combinedItem.cartVO.c_price},
+                        memo: memo,
+                        buyTime : currentTime,
+                        startDate: '${combinedItem.cartVO.c_startDate}',
+                        endDate: '${combinedItem.cartVO.c_endDate}'
+                    };
+                    productList.push(product);
                 </c:forEach>
 
                 var data = {
