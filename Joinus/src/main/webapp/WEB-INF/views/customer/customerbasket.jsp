@@ -103,7 +103,7 @@
 </div>
 <%-- 장바구니가 비었을 때 메시지 표시 --%>
 <c:if test="${empty cart}">
-  <div class="empty-message">
+  <div class="empty-message" style="height: 200px;">
     장바구니가 비었습니다.
   </div>
 </c:if>

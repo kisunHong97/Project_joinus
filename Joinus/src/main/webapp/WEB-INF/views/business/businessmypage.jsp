@@ -21,10 +21,11 @@
         border: 1px solid #e5e5e5;
         display: flex;
         justify-content: center;
+        background-color: #ffffff;
         align-items: center;
     }
     #mypage-menu > div > a {
-        color: #7e7e7e;
+        color: #343434;
     }
     .view {
         display: inline-block;
