@@ -66,13 +66,49 @@
         margin-right: 5px;
 
     }
+    .content{
+        display: flex;
+        justify-content: center;
+    }
+    .content > div {
+        width: 880px;
+        height: 700px;
+        margin-right: 20px;
+        border: 1px solid #e5e5e5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 47%;
+        margin: 0 auto;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    th, td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #fff3ee;
+    }
+
+    .product-name {
+        font-weight: bold;
+        margin-top: 20px;
+    }
 </style>
 </head>
 <body>
 <br>
 <div id="mypage-menu">
     <div><a href="#" onclick="showPage('revenue')">수익금 조회</a></div>
-    <div><a href="#" onclick="showPage('notice')">공지사항 확인</a></div>
+    <div><a href="#" onclick="showPage('notice')">회원관리</a></div>
     <div><a href="/showMyProduct">등록글 조회</a></div>
     <div><a href="/register">상품 등록</a></div>
     <div><a href="/businessinformation?id=${business.b_id}">개인정보 수정</a></div>
@@ -128,8 +164,33 @@
     </div>
     <div id="notice-page" style="display: none;">
         <div class="page-content">
-            <h2>공지사항 확인</h2>
-            <p>여기에 공지사항 확인 페이지 내용을 추가하세요.</p>
+            <c:forEach items="${memberManagement}" var="member" varStatus="loop">
+                <c:if test="${loop.first || member.p_name != memberManagement[loop.index - 1].p_name}">
+                    <div class="product-name">
+                            ${member.p_name}
+                    </div>
+                    <table class="product-table" border="1">
+                        <thead>
+                        <tr>
+                            <th>사용자</th>
+                            <th>기간</th>
+                            <th>메모</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${memberManagement}" var="subMember">
+                            <c:if test="${subMember.p_name == member.p_name}">
+                                <tr>
+                                    <td>${subMember.u_id}</td>
+                                    <td>${subMember.startDate} ~ ${subMember.endDate}</td>
+                                    <td>${subMember.memo}</td>
+                                </tr>
+                            </c:if>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </c:if>
+            </c:forEach>
         </div>
     </div>
 </div>
