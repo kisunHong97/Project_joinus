@@ -164,12 +164,4 @@ public class ProductController {
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
-
-    @DeleteMapping("/delete/{productID}")
-    public String productDelete(Model model, @PathVariable int pno){
-        productService.removeProduct(pno);
-        return "redirect:/register";
-    }
-
-
 }
