@@ -39,7 +39,7 @@ public class InquiryController {
                 return  "business/b_inquiry";
             } else if (customerloginUser != null) {
                 // 고객용 마이페이지를 보여줍니다.
-                String u_id = (String) session.getAttribute("id"); // 조회할 사용자 아이디
+                String u_id = (String) session.getAttribute("customerid"); // 조회할 사용자 아이디
                 List<InquiryVO> list = productService.userallinqu(u_id);
                 Collections.reverse(list);
                 System.out.println("문의 내역 페이지 로그인된 사용자 아이디: " + u_id);

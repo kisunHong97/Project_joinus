@@ -57,7 +57,7 @@ public class LoginController {
                 session.setAttribute("errormessage","로그인 정보가 맞지 않습니다.");
                 return "main/login";
             }else { //비밀번호도 맞음
-                session.setAttribute("id",BusinessUserVO.getB_id());
+                session.setAttribute("businessid",BusinessUserVO.getB_id());
                 session.setAttribute("BusinessUserVO", BusinessUserVO);
                 return "redirect:/product_board";
 
@@ -93,7 +93,7 @@ public class LoginController {
                 session.setAttribute("cerrormessage","로그인 정보가 맞지 않습니다.");
                 return "main/login";
             }else { //비밀번호도 맞음
-                session.setAttribute("id",customerUserVO.getU_id());
+                session.setAttribute("customerid",customerUserVO.getU_id());
                 session.setAttribute("customerUserVO", customerUserVO);
                 return "redirect:/product_board";
 

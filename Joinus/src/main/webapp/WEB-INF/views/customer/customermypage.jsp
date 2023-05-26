@@ -110,11 +110,11 @@
 <br>
 
 <div id="mypage-menu">
-    <div><a href="#" onclick="showContent(1)">이용권 관리</a></div>
-    <div id="wishlistTabContent"><a href="#" onclick="showContent(2)">찜목록</a></div>
+    <div><a href="#" onclick="showContent(1)" >이용권 관리</a></div>
+    <div id="wishlistTabContent"><a href="#" onclick="showContents(2)" class="zzim">찜목록</a></div>
     <div><a href="/myinformation?u_id=${a.u_id}" role="button">개인정보 수정</a></div>
     <div><a href="/customerpoint?point=${a.buypoint}" role="button">포인트 충전</a></div>
-    <div><a href="#" onclick="showContent5(5)">작성한 리뷰</a></div>
+    <div><a href="#" onclick="showContent5(5)" >작성한 리뷰</a></div>
     <div><a href="#">환불 신청</a></div>
 
 </div>
@@ -209,7 +209,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="deletebutton"><button onclick="deleteItems()">삭제</button></div>
+        <div class="deletebutton" style="display: none" ><button onclick="deleteItems()">삭제</button></div>
         <br>
     </c:when>
     <c:otherwise>
@@ -270,16 +270,23 @@
             return true;
         }
     }
-
     function showContent(contentId) {
         $('.review').hide();
         $('.content').hide();
+        $('#content' + contentId).show();
+        $('.deletebutton').css('display', 'none');
+    }
+    function showContents(contentId) {
+        $('.review').hide();
+        $('.content').hide();
+        $('.deletebutton').css('display', 'block');
         $('#content' + contentId).show();
     }
     function showContent5(contentId) {
         $('.content').hide();
         $('.review').hide();
         $('#content' + contentId).show();
+        $('.deletebutton').css('display', 'none');
     }
 
     // 찜목록 진입 시 삭제 기능

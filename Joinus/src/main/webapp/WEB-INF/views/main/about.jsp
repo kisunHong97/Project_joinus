@@ -200,10 +200,15 @@
 
 </style>
 <body class="sub_page about_page">
+<img src="../../../resources/images/banner.png" style="margin-left: 367px; width: 1170px; height: 400px">
 <br>
+
 <section>
+
     <div class="outter">
+        <hr>
         <h1 class="hit">히트상품</h1>
+        <hr>
         <div class="board">
             <div class="board-body">
                 <ul>
@@ -235,11 +240,13 @@
                     </c:choose>
                 </ul>
             </div>
+            <hr>
         </div>
+
     </div>
+
 </section>
-<%-- 현재 로그인된 사용자 주소 --%>
-<%--<p>${customerloginUser.u_addrcode}</p>--%>
+
 <section>
     <div class="outter" style="flex-grow: 1;">
         <h1 class="hit1">내 주변 가게</h1>
@@ -268,14 +275,14 @@
                         </c:choose>
                     </c:forEach>
                     <c:if test="${not hasNearbyProducts}">
-                        <div style="height: 350px;">
-                        <h5>근처에 등록된 상품이 없습니다.</h5>
+                        <div style="height: 350px; ">
+                        <h5 style="margin-left: 250px;">근처에 등록된 상품이 없습니다.</h5>
                         </div>
                     </c:if>
                 </ul>
             </div>
         </div>
-        <aside style="position: absolute; top: 510px; right: 360px;">
+        <aside style="position: absolute; top: 975px; right: 360px;">
             <div style="flex-shrink: 0; width: 300px;">
                 <h1 class="hit">Let's Join Us!</h1>
                 <input type="hidden" id="id" value="${customerloginUser.u_name}">
