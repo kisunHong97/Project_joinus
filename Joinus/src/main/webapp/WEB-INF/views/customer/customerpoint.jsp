@@ -58,6 +58,7 @@
     <div class="row">
         <div class="col-md-9 personal-info">
             현재 <strong>${customervo.u_name}</strong>님이 보유하고 있는 JOINUS포인트는 <strong>${point}</strong>포인트 입니다.
+            <input type="hidden" value="${point}" name="point" id="point">
         <form class="form-horizontal" role="form" action="/customerpoint?point=${point}" method="post">
             <div class="button">
                 <p>

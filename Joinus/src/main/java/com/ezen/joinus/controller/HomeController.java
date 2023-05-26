@@ -111,7 +111,7 @@ public class HomeController {
         CustomerUserVO customerloginUser = (CustomerUserVO) session.getAttribute("customerUserVO");
 
         // 사용자 정보 가져오기
-        String u_id = (String) session.getAttribute("id");
+        String u_id = (String) session.getAttribute("customerid");
         System.out.println("로그인 된 사용자 아이디 불러오나?:" + u_id);
         CustomerUserVO customerUserVO = customerService.getCustomerById(u_id);
         System.out.println(customerUserVO);
@@ -212,11 +212,12 @@ public class HomeController {
     // 해당 상품을 찜 목록에 추가하는 기능
     @PostMapping("/wishlist/add")
     public ResponseEntity<String> addWishlist(WishlistVO vo, HttpSession session) {
-        String id = (String) session.getAttribute("id");
+        String id = (String) session.getAttribute("customerid");
+        String bid = (String) session.getAttribute("businessid");
         System.out.println("찜 컨트롤러에 아이디 불러오나?:"+vo);
 
         // 로그인한 사용자 정보가 없는 경우
-        if (id == null) {
+        if (id == null && bid ==null) {
             return ResponseEntity.badRequest().body("로그인 후 이용해주세요.");
         }
 
@@ -241,10 +242,11 @@ public class HomeController {
     // 해당 상품을 찜 목록에서 삭제하는 기능
     @GetMapping("/wishlist/delete")
     public ResponseEntity<String> deleteWishlist(int pno, HttpSession session) {
-        String id = (String) session.getAttribute("id");
+        String id = (String) session.getAttribute("customerid");
+        String bid = (String) session.getAttribute("businessid");
         System.out.println("찜 삭제 컨트롤러에 pno 불러오나?:"+pno);
         // 로그인한 사용자 정보가 없는 경우
-        if (id == null) {
+        if (id == null && bid ==null) {
             return new ResponseEntity<>("로그인 후 이용해 주세요.", HttpStatus.OK);
         }
 
@@ -262,7 +264,7 @@ public class HomeController {
     @PostMapping("/wishlist/delete")
     @ResponseBody
     public void deleteWishlist(@RequestBody List<Integer> pnoList, HttpSession session) {
-        String id = (String) session.getAttribute("id");
+        String id = (String) session.getAttribute("customerid");
         System.out.println("마이페이지 찜 삭제 컨트롤러: " + pnoList);
         for (int pno : pnoList) {
             System.out.println("pno: " + pno);
@@ -282,11 +284,12 @@ public class HomeController {
 
         System.out.println("CART : " + cart);
 
-        String id = (String) session.getAttribute("id");
+        String id = (String) session.getAttribute("customerid");
+        String bid = (String) session.getAttribute("businessid");
 //        System.out.println("장바구니 컨트롤러에 아이디 불러오나?:" + vo);
 
 //         로그인한 사용자 정보가 없는 경우
-        if (id == null) {
+        if (id == null && bid ==null) {
             return ResponseEntity.badRequest().body("로그인 후 이용해주세요.");
         }
 
@@ -305,10 +308,11 @@ public class HomeController {
     // 해당 상품을 장바구니에서 삭제하는 기능
     @GetMapping("/cart/delete")
     public ResponseEntity<String> deleteCart(int pno, HttpSession session) {
-        String id = (String) session.getAttribute("id");
+        String id = (String) session.getAttribute("customerid");
+        String bid = (String) session.getAttribute("businessid");
         System.out.println("장바구니 삭제 컨트롤러에 pno 불러오나?:"+pno);
         // 로그인한 사용자 정보가 없는 경우
-        if (id == null) {
+        if (id == null && bid==null) {
             return new ResponseEntity<>("로그인 후 이용해 주세요.", HttpStatus.OK);
         }
 
@@ -326,7 +330,7 @@ public class HomeController {
     @PostMapping("/cart/delete")
     @ResponseBody
     public void deleteCart(@RequestBody List<Integer> pnoList, HttpSession session) {
-        String id = (String) session.getAttribute("id");
+        String id = (String) session.getAttribute("customerid");
         System.out.println("상단바 장바구니 삭제 컨트롤러: " + pnoList);
         for (int pno : pnoList) {
             System.out.println("pno: " + pno);
