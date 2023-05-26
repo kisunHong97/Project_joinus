@@ -52,8 +52,7 @@
     <br>
     <div id="inquiryList">
         <div>
-
-            <span><h3 style="font-weight: 900; letter-spacing:-1px; display: block; margin-top: -20px">문의 내역</h3></span>
+            <span><h1 style="font-weight: 900; letter-spacing:-1px; display: block; margin-top: -20px">문의 내역</h1></span>
         </div>
         <br>
         <c:forEach items="${inqulist}" var="list">
@@ -83,7 +82,7 @@
 
         <c:if test="${empty inqulist}">
             <br>
-            <div class="noReviews" style="text-align: center">작성한 문의글이 없습니다.</div>
+            <div class="noReviews" style="text-align: center; margin-left: 110px; height: 200px">작성한 문의글이 없습니다.</div>
         </c:if>
     </div>
 
