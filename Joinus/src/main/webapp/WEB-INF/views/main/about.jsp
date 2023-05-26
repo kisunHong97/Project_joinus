@@ -8,7 +8,6 @@
     <title>Title</title>
 </head>
 <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
-<link href="../../../resources/css/category.css" rel="stylesheet" />
 <%@ include file="../header/header.jsp"%>
 <style>
     @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 100;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf) format('opentype');}
@@ -17,9 +16,6 @@
     h2 {
         text-align: center;
     }
-    /*table {*/
-    /*  width: 100%;*/
-    /*}*/
     .outter {
         display: block;
         width: 60%;
@@ -27,11 +23,6 @@
     }
     a {
         text-decoration: none;
-    }
-    .post-thumbnail {
-        display: flex;
-        justify-content: center;
-        align-items: center;
     }
 
     .account2 {
@@ -55,6 +46,7 @@
         background-color: #ffe0ca;
         border-style: none;
     }
+
     .exit{
         width: 60px;
         height: 35px;
@@ -65,6 +57,7 @@
         cursor: pointer;
         border-radius: 5px;
     }
+
     .moving-text {
         position: absolute;
         white-space: nowrap;
@@ -102,19 +95,7 @@
         /*font-weight: bold; !* 글씨 굵기 *!*/
     }
 
-    .board {
-        position: relative;
-        overflow: hidden;
-    }
-
-    .board-body {
-        display: flex;
-        flex-wrap: wrap;
-        overflow: hidden;
-        width: 107%;
-        height: auto;
-    }
-
+    /* 첫번째 섹션 */
     .board-body ul {
         list-style: none;
         padding: 0;
@@ -124,7 +105,7 @@
     }
 
     .board-body li {
-        width: calc(23.33% - 20px);
+        width: calc(25% - 20px);
         margin-right: 20px;
         margin-bottom: 20px;
         border: 1px solid #ccc;
@@ -132,11 +113,55 @@
         transition: box-shadow 0.2s ease-in-out;
     }
 
+    .board-body li:hover {
+        box-shadow: 0 4px 4px rgba(0,0,0,0.3);
+    }
+
+    .post-thumbnail img {
+        display: block;
+        width: 100%;
+        height: 180px;
+    }
+
+    .post-content {
+        padding: 10px;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .post-content h3 {
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+
+    .post-content p {
+        margin: 0;
+        line-height: 1.5;
+    }
+
+    .post-content a {
+        display: block;
+        text-align: center;
+        margin-top: 10px;
+        font-size: 13px;
+        font-weight: bold;
+        font-family: "Poppins", sans-serif;
+        color : peru;
+    }
+    .hit{
+        margin-top: 0px;
+        margin-bottom: 10px;
+        font-size:40px;
+        font-weight: 900;
+        color:#333;
+        letter-spacing:-1px;
+    }
+
+    /* 두번째 섹션 */
     .board-body1{
         width: 75%;
     }
 
-    /* 두번째 섹션 */
     .board-body1 ul {
         list-style: none;
         padding: 0;
@@ -203,10 +228,11 @@
 <body class="sub_page about_page">
 <img src="../../../resources/images/banner.png" style="margin-left: 367px; width: 1170px; height: 400px">
 <br>
-
+<br>
 <section>
     <div class="outter">
         <h1 class="hit">히트상품</h1>
+        <hr>
         <div class="board">
             <div class="board-body">
                 <ul>
@@ -245,6 +271,7 @@
 <%--<p>${customerloginUser.u_addrcode}</p>--%>
 <section>
     <div class="outter" style="flex-grow: 1;">
+        <hr>
         <h1 class="hit1">내 주변 가게</h1>
         <!-- 옵션선택 끝 -->
         <div class="board1">
@@ -278,7 +305,7 @@
                 </ul>
             </div>
         </div>
-        <aside style="position: absolute; top: 975px; right: 360px;">
+        <aside style="position: absolute; top: 965px; right: 360px;">
             <div style="flex-shrink: 0; width: 300px;">
                 <h1 class="hit">Let's Join Us!</h1>
                 <input type="hidden" id="id" value="${customerloginUser.u_name}">
