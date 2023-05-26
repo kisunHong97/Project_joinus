@@ -155,7 +155,7 @@
       border: none;
       background-color: #ff731b;
       border-radius: 5px;
-      font-size: 17px;
+      font-size: 19px;
       color: white;
       font-weight: bold;
   }
@@ -463,7 +463,7 @@
               </c:forEach>
 
               <c:if test="${empty inquirylist}">
-                  <div class="noinquirylist">등록된 글이 없습니다.</div>
+                  <div class="noinquirylist" style="text-align: center;">등록된 글이 없습니다.</div>
               </c:if>
           </div>
 

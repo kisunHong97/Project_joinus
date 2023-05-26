@@ -16,7 +16,7 @@
   }
 
   .inquiry > div {
-    width: 880px;
+    width: 1100px;
     height: 700px;
     position: relative;
   }
@@ -53,7 +53,7 @@
   <div id="inquiryList">
     <div>
 
-      <span><h3 style="font-weight: 900; letter-spacing:-1px; display: block; margin-top: -20px">문의 내역</h3></span>
+      <span><h1 style="font-weight: 900; letter-spacing:-1px; display: block; margin-top: -20px">문의 내역</h1></span>
     </div>
     <br>
     <c:forEach items="${inqulist}" var="list" varStatus="loop">
@@ -64,13 +64,13 @@
             ${loop.index + 1}
         </span>
           </div>
-          <div class="divtag" style="width: 35px; text-align: center;">
-            <a href="board/read?pno=${list.pno}" class="p_name">${review.p_name}</a>
+          <div class="divtag" style="width: 100px; text-align: center;">
+            <a href="board/read?pno=${list.pno}" class="p_name">${list.p_name}</a>
           </div>
           <div class="divtag" style="width: 35px;">
             <span class="u_name">${list.u_name}</span>
           </div>
-          <div class="divtag" style="width: 350px;">
+          <div class="divtag" style="width: 600px;">
             <span class="i_title">${list.i_title}</span>
           </div>
           <div class="divtag" style="width: 100px;">
@@ -83,7 +83,7 @@
 
     <c:if test="${empty inqulist}">
       <br>
-      <div class="noReviews" style="text-align: center">고객이 작성한 문의글이 없습니다.</div>
+      <div class="noReviews" style="text-align: center; margin-left: 100px">고객이 작성한 문의글이 없습니다.</div>
     </c:if>
   </div>
 

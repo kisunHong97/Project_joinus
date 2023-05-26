@@ -151,16 +151,6 @@
         </c:choose>
       </c:when>
     </c:choose>
-    <%--  <c:if test="${not empty businessUser}">--%>
-    <%--    <form action="/b_answer" method="post">--%>
-    <%--      <input type="hidden" name="ino" value="${inquiryVO.ino}">--%>
-    <%--      <input type="hidden" value="${inquiryVO.pno}" name="pno">--%>
-    <%--      <textarea style="height: 150px" class="b_answerContent" name="b_answer" rows="5" cols="50" placeholder="답변 등록"></textarea>--%>
-    <%--      <br>--%>
-    <%--      <br>--%>
-    <%--      <button class="button1" type="submit">답변 등록</button>--%>
-    <%--    </form>--%>
-    <%--  </c:if>--%>
   </div>
 </div>
 <br>
