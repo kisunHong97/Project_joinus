@@ -73,7 +73,7 @@ public class HeaderController {
                 model.addAttribute("a" , customerService.getCustomerById(customerloginUser.getU_id()));
                 System.out.println("작동되나요? 고객이 로그인되어있어요");
                 try {
-                    String u_id = (String) session.getAttribute("id");
+                    String u_id = (String) session.getAttribute("customerid");
                     if (u_id != null) {
                         System.out.println("구매상품확인 컨트롤러 진입");
                         List<PurchaseVO> resultList = purchaseService.getPurchaseInfo(u_id);
@@ -117,7 +117,7 @@ public class HeaderController {
                 return  "business/businessbasket";
             } else if (customerloginUser != null) {
                 // 고객용 마이페이지를 보여줍니다.
-                String u_id = (String) session.getAttribute("id"); // 조회할 사용자 아이디
+                String u_id = (String) session.getAttribute("customerid"); // 조회할 사용자 아이디
                 List<CartVO> cart = cartMapper.getCartItems(u_id); // 장바구니 상품 조회 메서드 호출
 
                 for (CartVO item : cart) {
