@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.rmi.server.ExportException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -112,6 +114,20 @@ public class BuyController {
             purchaseVO.setP_name((String) productData.get("p_name"));
             purchaseVO.setP_price((int) productData.get("p_price"));
             purchaseVO.setMemo((String) productData.get("memo"));
+//             purchaseVO.setBuyTime((Date) productData.get("buyTime"));
+            String buyTimeString = productData.get("buyTime").toString();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            try {
+                Date buyTime = dateFormat.parse(buyTimeString);
+                System.out.println("현재시간 : " + buyTime);
+                purchaseVO.setBuyTime(buyTime);
+            } catch (ParseException e) {
+                // 예외 처리 코드
+                System.out.println("날짜 형식이 올바르지 않습니다. 기본값으로 설정합니다.");
+                // 또는 유효한 기본 날짜로 대체할 수 있습니다.
+                // Date buyTime = getDefaultDate(); // 유효한 기본 날짜로 대체하는 예시
+                // purchaseVO.setBuyTime(buyTime);
+            }
             purchaseVO.setStartDate((String) productData.get("startDate"));
             purchaseVO.setEndDate((String) productData.get("endDate"));
 
@@ -159,6 +175,7 @@ public class BuyController {
     @PostMapping("/board/cartbuy")
     public String readCart(String pno, HttpSession session, Model model){
         String u_id = (String) session.getAttribute("customerid");
+        System.out.println("u_id : " + u_id);
         System.out.println("pno:"+pno);
         // 스토어 정보 가져오기
         // BusinessStore = storeService.();
