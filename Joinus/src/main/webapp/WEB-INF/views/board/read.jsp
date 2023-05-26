@@ -306,9 +306,9 @@
 
                         </c:if>
                         <c:if test="${productVO.p_type == 'free'}">
-                            <input type="date" id="startDate" max="2099-12-31" data-type="free" class="period-startDate" style="width: 120px; margin-right: 15px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+                            <input type="date" id="startDate" max="2099-12-31" data-type="free" class="period-startDate free" style="width: 120px; margin-right: 15px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
                             <b style="display: inline-block; font-size: 25px; margin-right: 15px;">~</b>
-                            <input type="date" id="endDate" max="2099-12-31" data-type="free" class="period-endDate" style="width: 120px; margin-right: 15px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+                            <input type="date" id="endDate" max="2099-12-31" data-type="free" class="period-endDate free" style="width: 120px; margin-right: 15px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
                         </c:if>
                     </div>
                     <div class="form-group">
@@ -552,6 +552,53 @@
         });
 
     });
+</script>
+<script>
+    $(document).ready(function(){
+        const MonthTenUnder = (data) => {
+            var result = "";
+            if(data < 10)
+                result = "0" + data;
+            return result;
+        }
+
+        // 현재 날짜 설정
+        var currentDate = new Date();  // 현재 날짜와 시간을 가져옴
+        var now = currentDate.getFullYear() + "-" // 연도
+            + MonthTenUnder(currentDate.getMonth() + 1) + "-" // 월 (0부터 시작하므로 1을 더해줌)
+            + currentDate.getDate();  // 일
+
+        $("#startDate.free").attr("min", now)
+        $("#startDate.free").attr("value", now)
+
+        $("#endDate.free").attr("min", now)
+        $("#endDate.free").attr("value", now)
+
+        var startDate = $("#startDate.free").val();
+        var endDate = $("#startDate.free").val();
+
+        // 입력값 변경 시, 시작일이 종료일 보다 클 경우
+        $("#startDate.free").on("change", function () {
+            var date = $(this).val();
+            if (date > endDate) {
+                alert("종료일 보다 큽니다.");
+                $("#startDate.free").val(startDate);
+            } else {
+                startDate = date;
+            }
+        })
+
+        // 입력값 변경 시, 종료일이 시작일 보다 작을 경우
+        $("#endDate.free").on("change", function (){
+            var date = $(this).val();
+            if($(this).val() < startDate){
+                alert("시작일 보다 작습니다.");
+                $("#endDate.free").val(endDate);
+            }else{
+                endDate = date;
+            }
+        })
+    })
 </script>
 <script>
     var avgValue = ${avg}; // avg 값이 0인 경우 숨김 처리

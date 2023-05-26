@@ -66,7 +66,7 @@
     max-width: 200px;
     height: auto;
   }
-  .insertProduct{
+  .modifyProduct{
     border-radius: 2px;
     border: none;
     background-color: #ff6f63;
