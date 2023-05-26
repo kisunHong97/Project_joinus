@@ -11,17 +11,13 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
-import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.IntStream;
 
 @Controller
 public class HomeController {
@@ -208,8 +204,6 @@ public class HomeController {
             model.addAttribute("productsno",productsno);
             model.addAttribute("productfinalsno",productVOListfinal.getSno());
             model.addAttribute("numbers",numbers);
-
-
             return "/board/read";
         } else {
             return "/board/read";

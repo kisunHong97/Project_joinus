@@ -782,7 +782,7 @@
             alert("로그인 후 이용해주세요.");
             return;
         }else{
-            if (${productVO.p_type == 'free'}){
+            if (${productVO.p_type == 'free'} || ${productVO.p_type == 'fixed'}){
                 var startDate = document.getElementById("startDate").value;
                 var endDate = document.getElementById("endDate").value;
 
@@ -790,7 +790,6 @@
                     alert("기간을 선택해주세요.");
                 } else {
                     var data_cart = $("#cartBtn").text()
-                    // console.log("data_like : " + data_like)
                     var f3 = $('#cartBtn').data('c');
                     var f4 = $('#cartBtn').data('d');
                     var f5 = $('#totalPrice').val();
@@ -902,7 +901,7 @@
                 alert("로그인 후 이용해주세요.");
                 return;
             }else {
-                if (${productVO.p_type == 'free'}){
+                if (${productVO.p_type == 'free'} || ${productVO.p_type == 'fixed'}){
                     var startDate = document.getElementById("startDate").value;
                     var endDate = document.getElementById("endDate").value;
 

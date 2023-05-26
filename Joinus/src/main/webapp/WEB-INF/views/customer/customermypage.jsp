@@ -127,8 +127,10 @@
                 <tr>
                     <th>사용자 아이디</th>
                     <th>상품명</th>
+                    <th>구매 날짜</th>
                     <th>기간</th>
                     <th>남은일수</th>
+                    <th>환불 여부</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -140,6 +142,10 @@
                     <tr>
                         <td>${buy.u_id}</td>
                         <td><a href='/board/read?pno=${buy.pno}'>${buy.p_name}</a></td>
+                        <td>
+                            <fmt:formatDate value="${buy.buyTime}" var="formattedBuyTime" pattern="yyyy년 MM월 dd일"/>
+                                ${formattedBuyTime}
+                        </td>
                         <td>${buy.startDate} ~ ${buy.endDate}</td>
                         <td>
                             <fmt:parseDate value="${buy.startDate}" var="startDate" pattern="yyyy년 MM월 dd일"/>
@@ -149,29 +155,43 @@
                                 java.util.Date startDate = (java.util.Date) pageContext.getAttribute("startDate");
                                 java.util.Date endDate = (java.util.Date) pageContext.getAttribute("endDate");
 
-                                // 현재 날짜를 가져옴
-                                java.util.Date currentDate = new java.util.Date();
-
                                 // 남은 일수 계산
                                 long diffMillis = endDate.getTime() - startDate.getTime();
                                 int daysDiff = (int) (diffMillis / (24 * 60 * 60 * 1000));
 
                                 // 현재 날짜와 endDate 사이의 일수 계산
-                                long currentDiffMillis = endDate.getTime() - currentDate.getTime();
+                                long currentDiffMillis = endDate.getTime() - startDate.getTime();
                                 int currentDaysDiff = (int) (currentDiffMillis / (24 * 60 * 60 * 1000));
-
-                                // 결과 출력
-//                                out.println("남은 일수: " + (currentDaysDiff + 1) + "일");
                             %>
                             <c:choose>
                                 <c:when test="<%= currentDaysDiff+1 <= 0 %>">
                                     <button type="button" id="delBtn1" onclick="deleteItem(${buy.pno})">기간만료삭제</button>
                                 </c:when>
                                 <c:otherwise>
-                                    <%= currentDaysDiff+2 %>일
+                                    <%= currentDaysDiff+1 %>일
                                 </c:otherwise>
                             </c:choose>
                         </td>
+                        <c:set var="currentTimeMillis" value="<%= System.currentTimeMillis() %>" />
+                        <c:set var="buyTimeMillis" value="${buy.buyTime.time}" />
+                        <c:choose>
+                            <c:when test="${(currentTimeMillis - buyTimeMillis) < (3 * 60 * 60 * 1000)}">
+                                <td>
+                                    <button id="nowRefund" onclick="nowRefund('${buy.u_id}', ${buy.pno}, ${buy.p_price})">즉시환불</button>
+                                </td>
+                            </c:when>
+<%--                            추후 추가--%>
+<%--                            <c:when test="${(currentTimeMillis - buyTimeMillis) >= (3 * 60 * 60 * 1000) && (currentTimeMillis - buyTimeMillis) < (7 * 24 * 60 * 60 * 1000)}">--%>
+<%--                                <td>--%>
+<%--                                    <button id="refundRequest" onclick="refundRequest('${buy.u_id}', ${buy.pno}, ${buy.p_price})">환불신청</button>--%>
+<%--                                </td>--%>
+<%--                            </c:when>--%>
+                            <c:otherwise>
+                                <td>
+                                    <button disabled>불가능</button>
+                                </td>
+                            </c:otherwise>
+                        </c:choose>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -219,7 +239,6 @@
         <br>
     </c:otherwise>
 </c:choose>
-
 
 <div class="review" id="content5" style="display: none;">
     <br>
@@ -282,6 +301,7 @@
         $('.deletebutton').css('display', 'block');
         $('#content' + contentId).show();
     }
+
     function showContent5(contentId) {
         $('.content').hide();
         $('.review').hide();
@@ -339,6 +359,54 @@
                 alert("에러 발생");
             },
         });
+    }
+
+    function nowRefund(u_id, pno, p_price){
+        console.log("환불진입")
+        if(confirm("구매 후 세시간이 지나지 않아 즉시 환불이 가능합니다. \n 환불하시겠습니까?")){
+            $.ajax({
+                type:'POST',
+                url: "/nowRefund",
+                data: {
+                    u_id:u_id,
+                    pno:pno,
+                    p_price:p_price
+                },
+                success: function (response){
+                    alert("환불 되었습니다.")
+                    location.reload()
+                },
+                error: function (xhr, status, error){
+                    alert("에러 발생")
+                }
+            })
+        }else{
+            alert("취소되었습니다.")
+        }
+    }
+
+    function refundRequest(u_id, pno, p_price){
+        console.log("환불요청"+u_id+pno+p_price)
+        if(confirm("스토어에 환불 요청 하시겠습니까?")){
+            $.ajax({
+                type:'GET',
+                url:'/refundRequest',
+                data:{
+                    u_id:u_id,
+                    pno:pno,
+                    p_price:p_price
+                },
+                success:function (response){
+                    alert("환불 요청이 접수되었습니다.")
+                    location.reload()
+                },
+                error: function (xhr, status, error){
+                    alert("에러 발생")
+                }
+            })
+        }else{
+            alert("취소되었습니다.")
+        }
     }
 </script>
 </html>
