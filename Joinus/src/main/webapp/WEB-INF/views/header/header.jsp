@@ -235,7 +235,7 @@
                         </li>
                     </ul>
                     <form class="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0" action="/search" method="GET" onsubmit="return validateForm()">
-                        <input type="text" name="query" id="searchInput" value="상품을 검색해보세요!" style="color: slategrey; font-size: 14px; padding: 6px; border-radius: 5px; border: 1px solid lightgray;" onfocus="if(this.value==='상품을 검색해보세요!') this.value='';">
+                        <input type="text" name="query" id="searchInput" value="상품을 검색해보세요!" style="color: slategrey; font-size: 14px; padding: 6px; border-radius: 5px; border: 2px solid #ff731b;" onfocus="if(this.value==='상품을 검색해보세요!') this.value='';">
                         <button class="btn my-2 my-sm-0 nav_search-btn" type="submit"></button>
                     </form>
                     <script>

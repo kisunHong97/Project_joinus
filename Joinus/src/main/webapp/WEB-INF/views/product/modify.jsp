@@ -116,6 +116,31 @@
     letter-spacing: -1px;
   }
 
+  .input{
+    display: none;
+  }
+
+  /*.inputActive{*/
+  /*  display: block;*/
+  /*}*/
+
+  .upload{
+    display: none;
+  }
+  .uploadActive{
+    display: block;
+  }
+
+  .thumbnail-image{
+    width: 200px;
+    height: 200px;
+  }
+
+  .thumbnail-col{
+    width: 200px;
+    margin: 10px;
+  }
+
 </style>
 <body>
 <br>
@@ -123,11 +148,11 @@
   <div class="modify" style="max-width: 1100px; margin-left: 600px; ">
     <h1 class="logo" style="font-weight: bold; letter-spacing: -1px;">상품 수정</h1>
     <br>
-    <div style="height: 1400px">
+    <div>
       <form action="modify" method="post">
         <input type="hidden" name="sno" id="sno" value="${product.sno}">
         <input type="hidden" name="pno" id="pno" value="${product.pno}">
-        <div class="container" style="height: 1000px">
+        <div class="container">
           <div class="card" style="height: 70px; width: 700px; display: inline-block; border-top:2px solid black; border-radius: 0px; ">
             <div class="card-list" style="display: inline-block; margin-top: 20px;">
               <span class="card-title" style="margin-right: 100px; margin-left: 40px;">상품명</span>
@@ -202,99 +227,79 @@
           </div>
 
           <%-- 소개글 태그 종료 --%>
-          <div class="card" style="height: 600px; width: 700px; display: inline-block; border-top:none; border-radius: 0px; ">
+
+          <div class="card" style="width: 700px; display: inline-block; border-top:none; border-radius: 0px; ">
             <div class="card-list" style="display: inline-block; margin-top: 20px;">
               <span class="card-title" style="margin-right: 82px; margin-left: 40px;">썸네일</span>
               <div class="card-body"  style="margin-left: 150px">
-                <c:forEach var="i" begin="0" end="${fn:length(product.thumbnailList)-1}" step="2">
-                  <div class="d-flex">
-                    <span class="thumbnail-span">
-                      <c:if test="${empty product.thumbnailList[i]}">
+
+                <div class="row">
+                  <c:forEach var="i" begin="0" end="3">
+                  <div class="col thumbnail-col">
+                      <span class="thumbnail-span">
+                        <c:if test="${empty product.thumbnailList[i]}">
                         <img
                                 src="../../resources/images/no-image.png"
                                 class="file-image thumbnail-image"
                         />
-                        <input type="file" class="inputActive file-input" />
-                        <button class="uploadActive uploadBtn">업로드</button>
-                        <button class="upload deleteBtn">삭제</button>
-                      </c:if>
-                      <c:if test="${!empty product.thumbnailList[i]}">
+                          <input type="file" class="inputActive file-input" />
+                          <button class="uploadActive uploadBtn">업로드</button>
+                          <button class="upload deleteBtn">삭제</button>
+                        </c:if>
+                          <c:if test="${!empty product.thumbnailList[i]}">
                         <img
                                 src="/display?fileName=${product.thumbnailList[i].uploadPath}/${product.thumbnailList[i].uuid}_${product.thumbnailList[i].fileName}"
                                 class="file-image thumbnail-image"
                         />
-                        <input type="file" class="input file-input" />
-                        <button class="upload uploadBtn">업로드</button>
-                        <button
-                                class="uploadActive deleteBtn"
-                                data-file="${product.thumbnailList[i].uploadPath}/${product.thumbnailList[i].uuid}_${product.thumbnailList[i].fileName}"
-                                data-type="image"
-                        >삭제</button>
-                      </c:if>
-                    </span>
-                    <span class="thumbnail-span">
-                         <c:if test="${empty product.thumbnailList[i+1]}">
-                        <img
-                                src="../resources/images/no-image.png"
-                                class="file-image thumbnail-image"
-                        />
-                           <input type="file" class="inputActive file-input" />
-                           <button class="uploadActive uploadBtn">업로드</button>
-                           <button class="upload deleteBtn">삭제</button>
-                         </c:if>
-                        <c:if test="${!empty product.thumbnailList[i+1]}">
-                          <img
-                                  src="/display?fileName=${product.thumbnailList[i+1].uploadPath}/${product.thumbnailList[i+1].uuid}_${product.thumbnailList[i+1].fileName}"
-                                  class="file-image thumbnail-image"
-                          />
-                          <input type="file" class="input file-input" />
-                          <button class="upload uploadBtn"></button>
-                          <button
-                                  class="uploadActive deleteBtn"
-                                  data-file="${product.thumbnailList[i+1].uploadPath}/${product.thumbnailList[i+1].uuid}_${product.thumbnailList[i+1].fileName}"
-                                  data-type="image"
-                          >삭제</button>
-                        </c:if>
-                    </span>
+                            <input type="file" class="input file-input" />
+                            <button class="upload uploadBtn">업로드</button>
+                            <button
+                                    class="uploadActive deleteBtn"
+                                    data-file="${product.thumbnailList[i].uploadPath}/${product.thumbnailList[i].uuid}_${product.thumbnailList[i].fileName}"
+                                    data-type="image"
+                            >삭제</button>
+                          </c:if>
+                      </span>
                   </div>
+                  <c:if test="${(i+1) % 2 == 0}">
+                </div><div class="row">
+                </c:if>
                 </c:forEach>
+              </div>
               </div>
             </div>
           </div>
-
-          <div class="card" style="height: 300px; width: 700px; border-top: none; border-radius: 0px;">
-            <div class="card-list" style="margin-top: 20px; height: 110px">
-              <span class="card-title" style="margin-right: 100px; margin-left: 40px;">상세 내용</span>
-              <div style="margin-left: 200px">
+          <%-- 상품명 태그 종료 --%>
+          <div class="card" style="width: 700px; border-top: none; border-radius: 0px;">
+            <span class="card-title" style="margin-right: 100px; margin-left: 40px; margin-top: 20px;">상세 내용</span>
+            <div style="margin-left: 180px;">
+              <span class="detail-span" style=" text-align: center">
                 <c:if test="${empty product.detail}">
-                  <div class="file-image"></div>
                   <input type="file" class="inputActive file-input" />
-                  <div>
-                    <button class="uploadActive uploadBtn">업로드</button>
-                    <button class="upload deleteBtn">삭제</button>
-                  </div>
+                  <button class="uploadActive uploadBtn">업로드</button>
+                  <button class="upload deleteBtn">삭제</button>
+                  <div class="file-image" style="margin-right: 20px; margin-bottom: 20px;"></div>
                 </c:if>
                 <c:if test="${!empty product.detail}">
+                  <input type="file" class="input file-input" />
+                  <button class="upload uploadBtn">업로드</button>
+                  <button class="uploadActive deleteBtn"
+                          data-file="${product.detail.uploadPath}/${product.detail.uuid}_${product.detail.fileName}"
+                          data-type="image">삭제</button>
                   <div class="file-image">
                     <img src="/display?fileName=${product.detail.uploadPath}/${product.detail.uuid}_${product.detail.fileName}">
                   </div>
-                  <input type="file" class="input file-input" />
-                  <div>
-                    <button class="upload uploadBtn">업로드</button>
-                    <button class="uploadActive deleteBtn"
-                            data-file="${product.detail.uploadPath}/${product.detail.uuid}_${product.detail.fileName}"
-                            data-type="image">삭제</button>
-                  </div>
                 </c:if>
-              </div>
+               </span>
             </div>
           </div>
           <%-- 상품명 태그 종료 --%>
           <br>
           <div style="height: 100px; margin-left: 290px">
-            <button type="submit" class="insertProduct">
-              등록
+            <button type="submit" class="modifyProduct">
+              수정
             </button>
+            <button type="submit" class="deleteProduct">삭제</button>
             <button type="submit" class="backbutton">취소</button>
           </div>
         </div>
@@ -460,7 +465,7 @@
     })
 
     // 이미지 데이터를 DB저장 Controller에 전달
-    $(".insertProduct").on("click", function(event){
+    $(".modifyProduct").on("click", function(event){
       event.preventDefault();
 
       var productData = {
@@ -511,6 +516,24 @@
         contentType: "application/json; charset=utf8",
         success: function (result) {
           alert("저장 성공")
+          location.href="/showMyProduct"
+        }
+      });
+
+    })
+
+    // 이미지 데이터를 DB저장 Controller에 전달
+    $(".deleteProduct").on("click", function(event){
+      event.preventDefault();
+
+
+
+      $.ajax({
+        type: "post",
+        url: "/deletePost",
+        data: JSON.stringify($("#pno").val()),
+        contentType: "application/json; charset=utf8",
+        success: function (result) {
           location.href="/showMyProduct"
         }
       });
