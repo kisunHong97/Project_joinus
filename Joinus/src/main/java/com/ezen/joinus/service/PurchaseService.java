@@ -1,6 +1,7 @@
 package com.ezen.joinus.service;
 
 import com.ezen.joinus.vo.PurchaseVO;
+import com.ezen.joinus.vo.RefundVO;
 
 import java.util.List;
 
@@ -17,4 +18,9 @@ public interface PurchaseService {
     List<PurchaseVO> getAllpurchase();
 
     void deleteProduct(int pno);
+
+    void nowRefundPrice(String u_id, int p_price);
+
+    void refundProduct(RefundVO refundVO);
+    void getRefundProduct(int pno);
 }

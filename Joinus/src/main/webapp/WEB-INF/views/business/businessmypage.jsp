@@ -175,6 +175,7 @@
                             <th>사용자</th>
                             <th>기간</th>
                             <th>메모</th>
+<%--                            <th>환불요청</th>--%>
                         </tr>
                         </thead>
                         <tbody>
@@ -184,6 +185,16 @@
                                     <td>${subMember.u_id}</td>
                                     <td>${subMember.startDate} ~ ${subMember.endDate}</td>
                                     <td>${subMember.memo}</td>
+<%--                                    <td>--%>
+<%--                                        <c:choose>--%>
+<%--                                            <c:when test="${refundVO != ''}">--%>
+<%--                                                <button id="refundResponse" onclick="refundResponse('${refundVO.u_id}', ${refundVO.pno}, ${refundVO.p_price})">환불요청</button>--%>
+<%--                                            </c:when>--%>
+<%--                                            <c:otherwise>--%>
+<%--                                                ${refundVO.u_id} 요청없음--%>
+<%--                                            </c:otherwise>--%>
+<%--                                        </c:choose>--%>
+<%--                                    </td>--%>
                                 </tr>
                             </c:if>
                         </c:forEach>
@@ -193,6 +204,7 @@
             </c:forEach>
         </div>
     </div>
+
 </div>
 </body>
 <script>
@@ -208,6 +220,29 @@
         selectedPage.style.display = "block";
     }
 
+    function refundResponse(u_id, pno, p_price){
+        if(confirm("환불해주시겠습니까?")){
+            $.ajax({
+                type:'POST',
+                url: "/nowRefund",
+                data: {
+                    u_id:u_id,
+                    pno:pno,
+                    p_price:p_price
+                },
+                success: function (response){
+                    alert("환불 되었습니다.")
+                    location.reload()
+                },
+                error: function (xhr, status, error){
+                    alert("에러 발생")
+                }
+            })
+        }else{
+            alert("취소되었습니다.")
+        }
+
+    }
     function fetchRevenueData() {
         $.ajax({
             url: '/storeRevenue?sno='+${business.bno},

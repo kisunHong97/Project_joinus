@@ -3,12 +3,15 @@ package com.ezen.joinus.service;
 import com.ezen.joinus.mappers.PurchaseMapper;
 import com.ezen.joinus.vo.CustomerUserVO;
 import com.ezen.joinus.vo.PurchaseVO;
+import com.ezen.joinus.vo.RefundVO;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Log4j
 @Service
@@ -52,6 +55,28 @@ public class PurchaseServiceImpl implements PurchaseService{
     @Override
     public void deleteProduct(int pno) {
         purchaseMapper.deleteProduct(pno);
+    }
+
+    @Override
+    public void nowRefundPrice(String u_id, int p_price) {
+        System.out.println("즉시환불 들어오나? : " + u_id + "가격 : "+ p_price);
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("p_price", p_price);
+        parameters.put("u_id", u_id);
+        System.out.println("map에 들옴 ? : " + parameters);
+        purchaseMapper.nowRefundPrice(parameters);
+    }
+
+    @Override
+    public void refundProduct(RefundVO refundVO) {
+        System.out.println("환불 목록 테이블에 저장 : " + refundVO);
+        purchaseMapper.refundProduct(refundVO);
+    }
+
+    @Override
+    public void getRefundProduct(int pno) {
+        System.out.println("환불 제품번호 : "+pno);
+        purchaseMapper.getRefundProduct(pno);
     }
 
 

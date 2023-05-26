@@ -5,12 +5,14 @@ import com.ezen.joinus.mappers.CartMapper;
 import com.ezen.joinus.service.*;
 import com.ezen.joinus.vo.*;
 import lombok.Setter;
+import oracle.jdbc.proxy.annotation.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -44,12 +46,11 @@ public class HeaderController {
     private WishlistService wishlistService;
 
     @GetMapping("/mypage")
-    public String myPage(HttpSession session, Model model) {
+    public String myPage(HttpSession session, Model model, @ModelAttribute("refundVO") RefundVO refundVO) {
         System.out.println("작동되나요? 마이페이지 컨트롤러");
         // 세션에서 로그인한 사용자 정보를 가져옵니다.
         BusinessUserVO BusinessloginUser = (BusinessUserVO) session.getAttribute("BusinessUserVO");
         CustomerUserVO customerloginUser = (CustomerUserVO) session.getAttribute("customerUserVO");
-
         if (BusinessloginUser == null && customerloginUser == null) {
             // 로그인한 사용자가 없는 경우 로그인 페이지로 리다이렉트합니다.
             return "redirect:/login";
@@ -63,6 +64,8 @@ public class HeaderController {
                 List<PurchaseVO> memberManagement = purchaseService.getPurchaseInfoSno(BusinessloginUser.getBno());
                 System.out.println("해당 스토어(bno)의 회원 관리 구매 정보 : " + memberManagement);
                 model.addAttribute("memberManagement", memberManagement);
+                model.addAttribute("refund", refundVO);
+
                 System.out.println("작동되나요? 사업자가 로그인되어있어요");
                 return  "business/businessmypage";
             } else if (customerloginUser != null) {
@@ -138,41 +141,33 @@ public class HeaderController {
 //    검색기능
     @GetMapping("/search")
     public String search(@RequestParam("query") String query, Model model,
-                         PagingVO vo, ChatMessage chat1,
-                         @RequestParam(value="nowPage", required=false)String nowPage,
-                         @RequestParam(value="cntPerPage", required=false)String cntPerPage) {
+                         PagingVO vo,
+                         @RequestParam(value="nowPage", required=false, defaultValue="1") int nowPage,
+                         @RequestParam(value="cntPerPage", required=false, defaultValue="8") int cntPerPage) {
         System.out.println("검색어 : " + query);
         List<ProductVO> searchResultList = productService.getProductName(query);
         System.out.println("검색어를 포함한 상품명 조회 : " + searchResultList);
 
-        int total = productService.countBoard();
-        if (nowPage == null && cntPerPage == null) {
-            nowPage = "1";
-            cntPerPage = "16";
-        } else if (nowPage == null) {
-            nowPage = "1";
-        } else if (cntPerPage == null) {
-            cntPerPage = "16";
-        }
-        int cntPage= 0;
-        if ((total / 16.0)>0){
-            cntPage = (int) Math.ceil(total / 16.0);
-        }else{
-            cntPage = 1;
-        }
-        vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage),cntPage);
-        model.addAttribute("paging", vo);
+        int total = searchResultList.size();
+
+        vo = new PagingVO(total, nowPage, cntPerPage, 10); // 10은 페이지 그룹 단위
+
+        int start = (nowPage - 1) * cntPerPage;
+        int end = Math.min(start + cntPerPage, total);
+
+        List<ProductVO> paginatedSearchResultList = searchResultList.subList(start, end);
 
         List<AttachFileDTO> thumbnailList = new ArrayList<>();
 
-        for(ProductVO product : searchResultList){
+        for (ProductVO product : paginatedSearchResultList) {
             thumbnailList.add(fileService.selectMainThumbnail(product.getPno()));
             System.out.println(fileService.selectMainThumbnail(product.getPno()));
         }
         System.out.println(">> " + thumbnailList);
 
-        model.addAttribute("searchResultList", searchResultList);
+        model.addAttribute("searchResultList", paginatedSearchResultList);
         model.addAttribute("thumbnailList", thumbnailList);
+        model.addAttribute("paging", vo);
 
         return "/board/searchResult";
     }
@@ -182,5 +177,30 @@ public class HeaderController {
         System.out.println("기간만료 삭제 버튼 pno : " + pno);
         purchaseService.deleteProduct(pno);
         return new ResponseEntity<>("구매상품목록에서 삭제되었습니다.", HttpStatus.OK);
+    }
+
+    @PostMapping("/nowRefund")
+    public ResponseEntity<String> nowRefund(String u_id, int pno, int p_price) {
+        System.out.println("환불가격 : " + p_price);
+        System.out.println("환불사용자 : " + u_id);
+        System.out.println("환불상품번호 : " + pno);
+        purchaseService.deleteProduct(pno);
+        purchaseService.nowRefundPrice(u_id, p_price);
+        return new ResponseEntity<>("환불 되었습니다.", HttpStatus.OK);
+    }
+
+    @GetMapping("/refundRequest")
+    public String refundRequest(String u_id, int pno, int p_price,Model model, HttpSession session) {
+        BusinessUserVO BusinessloginUser = (BusinessUserVO) session.getAttribute("BusinessUserVO");
+        System.out.println("환불 요청한 아이디 : " + u_id);
+        RefundVO refundVO = new RefundVO();
+        refundVO.setU_id(u_id);
+        refundVO.setPno(pno);
+        refundVO.setP_price(p_price);
+        purchaseService.refundProduct(refundVO);
+        purchaseService.getRefundProduct(refundVO.getPno());
+        System.out.println("환불정보 :" + refundVO);
+        model.addAttribute("refundVO", refundVO);
+        return "business/businessmypage";
     }
 }
