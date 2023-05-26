@@ -42,8 +42,7 @@
     </update>
 
     <delete id="deleteProduct" parameterType="java.lang.Integer">
-        delete from products_table
-        where pno = #{pno}
+        delete from products_table where pno = #{pno}
     </delete>
 
     <select id="getMaxPno" resultType="int">
