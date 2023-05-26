@@ -256,93 +256,93 @@
 <body class="sub_page about_page">
 <table id="datatable-scroller"
        class="table table-bordered tbl_Form">
-  <tbody>
-  <div class="container mt-5">
-      <div class="row">
-          <div class="col-md-6">
-              <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                  <div class="carousel-inner">
-                      <c:forEach items="${productVO.thumbnailList}" var="thumbnail" varStatus="status">
-                          <c:if test="${status.index < 1}">
-                              <div class="carousel-item active">
-                                  <img src="/display?fileName=${thumbnail.uploadPath}/${thumbnail.uuid}_${thumbnail.fileName}" class="d-block w-100" width="50%" alt="...">
-                              </div>
-                          </c:if>
-                          <c:if test="${status.index >= 1}">
-                              <div class="carousel-item">
-                                  <img src="/display?fileName=${thumbnail.uploadPath}/${thumbnail.uuid}_${thumbnail.fileName}"  class="d-block w-100" width="50%" alt="...">
-                              </div>
-                          </c:if>
-                      </c:forEach>
-                  </div>
-                  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Previous</span>
-                  </a>
-                  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Next</span>
-                  </a>
-              </div>
-          </div>
-      <div class="col-md-6">
-          <div style="color: #8e8e8e">🏠︎ ${store.s_name}</div>
-          <hr>
-        <h4 id="productname" name="p_name">${productVO.p_name }</h4>
-        <form>
-          <div class="form-group">
-            <label for="colorSelect">종류</label>
-            <select class="form-control" id="colorSelect">
-              <option>${productVO.p_category}</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="startDate">기간</label>
-              <br>
-              <c:if test="${productVO.p_type == 'fixed'}">
-                  <input type="text" class="form-control" id="startDate" style="display: inline-block; width: 110px;" data-type="fixed" value="<fmt:formatDate value='${productVO.p_startDate}' pattern='yyyy-MM-dd' />">
-                  <b style="display: inline-block; font-size: 25px; margin-right: 15px;">&nbsp&nbsp~</b>
-                  <input type="text" class="form-control" id="endDate" style="display: inline-block; width: 110px;" data-type="fixed" value="<fmt:formatDate value='${productVO.p_endDate}' pattern='yyyy-MM-dd' />">
-
-              </c:if>
-              <c:if test="${productVO.p_type == 'free'}">
-                  <input type="date" id="startDate" max="2099-12-31" data-type="free" class="period-startDate" style="width: 120px; margin-right: 15px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
-                  <b style="display: inline-block; font-size: 25px; margin-right: 15px;">~</b>
-                  <input type="date" id="endDate" max="2099-12-31" data-type="free" class="period-endDate" style="width: 120px; margin-right: 15px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
-              </c:if>
-          </div>
-          <div class="form-group">
-            <label for="totalPrice">총 가격</label>
-            <input type="number" class="form-control" id="totalPrice" value="${productVO.p_price}" readonly>
-          </div>
-            <div class="plcc_banner">
-                <img src="http://pics.auction.co.kr/vip/2022/2207_pc_vip_bn_img_01.png" alt="G마켓" 옥션="" 스마일카드="" 최대="" 2만원="" 혜택!="">
+    <tbody>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" style="height: 100%">
+                    <div class="carousel-inner" style="display: flex; align-items: center; height: 100%">
+                        <c:forEach items="${productVO.thumbnailList}" var="thumbnail" varStatus="status">
+                            <c:if test="${status.index < 1}">
+                                <div class="carousel-item active" >
+                                    <img src="/display?fileName=${thumbnail.uploadPath}/${thumbnail.uuid}_${thumbnail.fileName}" class="d-block w-100" width="50%" alt="..." style="max-height: 490px;">
+                                </div>
+                            </c:if>
+                            <c:if test="${status.index >= 1}">
+                                <div class="carousel-item">
+                                    <img src="/display?fileName=${thumbnail.uploadPath}/${thumbnail.uuid}_${thumbnail.fileName}"  class="d-block w-100" width="50%" alt="..."  style="max-height: 490px;">
+                                </div>
+                            </c:if>
+                        </c:forEach>
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
             </div>
-            <br>
-          <c:choose>
-            <c:when test="${like == 1}">
-              <button type="button" class="btnwarning" id="wishBtn" data-a='${productVO.pno}' data-b='${customerUserVO.u_id}' data-c='${productVO.p_name}' data-d='${productVO.p_category}'>❤️</button>
-            </c:when>
-            <c:otherwise>
-              <button type="button" class="btnwarning" id="wishBtn" data-a='${productVO.pno}' data-b='${customerUserVO.u_id}' data-c='${productVO.p_name}' data-d='${productVO.p_category}'>🤍</button>
-            </c:otherwise>
-          </c:choose>
+            <div class="col-md-6">
+                <div style="color: #8e8e8e">🏠︎ ${store.s_name}</div>
+                <hr>
+                <h4 id="productname" name="p_name">${productVO.p_name }</h4>
+                <form>
+                    <div class="form-group">
+                        <label for="colorSelect">종류</label>
+                        <select class="form-control" id="colorSelect">
+                            <option>${productVO.p_category}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="startDate">기간</label>
+                        <br>
+                        <c:if test="${productVO.p_type == 'fixed'}">
+                            <input type="text" class="form-control" id="startDate" style="display: inline-block; width: 110px;" data-type="fixed" value="<fmt:formatDate value='${productVO.p_startDate}' pattern='yyyy-MM-dd' />">
+                            <b style="display: inline-block; font-size: 25px; margin-right: 15px;">&nbsp&nbsp~</b>
+                            <input type="text" class="form-control" id="endDate" style="display: inline-block; width: 110px;" data-type="fixed" value="<fmt:formatDate value='${productVO.p_endDate}' pattern='yyyy-MM-dd' />">
 
-          <c:choose>
-            <c:when test="${cart == 1}">
-              <button type="button" class="btnbasket" id="cartBtn" data-c='${productVO.pno}' data-d='${customerUserVO.u_id}'>🛒</button>
-            </c:when>
-            <c:otherwise>
-              <button type="button" class="btnbasket" id="cartBtn" data-c='${productVO.pno}' data-d='${customerUserVO.u_id}'>장바구니</button>
-            </c:otherwise>
-          </c:choose>
-          <button type="button" id="buyBtn" class="btnpurchase">구매하기</button>
-        </form>
-      </div>
+                        </c:if>
+                        <c:if test="${productVO.p_type == 'free'}">
+                            <input type="date" id="startDate" max="2099-12-31" data-type="free" class="period-startDate" style="width: 120px; margin-right: 15px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+                            <b style="display: inline-block; font-size: 25px; margin-right: 15px;">~</b>
+                            <input type="date" id="endDate" max="2099-12-31" data-type="free" class="period-endDate" style="width: 120px; margin-right: 15px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+                        </c:if>
+                    </div>
+                    <div class="form-group">
+                        <label for="totalPrice">총 가격</label>
+                        <input type="number" class="form-control" id="totalPrice" value="${productVO.p_price}" readonly>
+                    </div>
+                    <div class="plcc_banner">
+                        <img src="http://pics.auction.co.kr/vip/2022/2207_pc_vip_bn_img_01.png" alt="G마켓" 옥션="" 스마일카드="" 최대="" 2만원="" 혜택!="">
+                    </div>
+                    <br>
+                    <c:choose>
+                        <c:when test="${like == 1}">
+                            <button type="button" class="btnwarning" id="wishBtn" data-a='${productVO.pno}' data-b='${customerUserVO.u_id}' data-c='${productVO.p_name}' data-d='${productVO.p_category}'>❤️</button>
+                        </c:when>
+                        <c:otherwise>
+                            <button type="button" class="btnwarning" id="wishBtn" data-a='${productVO.pno}' data-b='${customerUserVO.u_id}' data-c='${productVO.p_name}' data-d='${productVO.p_category}'>🤍</button>
+                        </c:otherwise>
+                    </c:choose>
 
-    </div>
-    <br>
-    <!-- 탭 버튼 -->
+                    <c:choose>
+                        <c:when test="${cart == 1}">
+                            <button type="button" class="btnbasket" id="cartBtn" data-c='${productVO.pno}' data-d='${customerUserVO.u_id}'>🛒</button>
+                        </c:when>
+                        <c:otherwise>
+                            <button type="button" class="btnbasket" id="cartBtn" data-c='${productVO.pno}' data-d='${customerUserVO.u_id}'>장바구니</button>
+                        </c:otherwise>
+                    </c:choose>
+                    <button type="button" id="buyBtn" class="btnpurchase">구매하기</button>
+                </form>
+            </div>
+
+        </div>
+        <br>
+        <!-- 탭 버튼 -->
       <div class="tab">
           <button class="tablinks" onclick="openTab(event, 'product_info')">상품 상세 정보</button>
           <button class="tablinks" onclick="openTab(event, 'reviews')">구매후기</button>
@@ -350,7 +350,7 @@
           <button class="tablinks" onclick="openTab(event, 'refund')">환불</button>
       </div>
       <!-- 탭 내용 -->
-      <div id="product_info" class="tabcontent">
+      <div id="product_info" class="tabcontent" style="text-align: center">
           <h3 class="title">상품 상세 정보</h3>
           <img src="/display?fileName=${productVO.detail.uploadPath}/${productVO.detail.uuid}_${productVO.detail.fileName}">
       </div>

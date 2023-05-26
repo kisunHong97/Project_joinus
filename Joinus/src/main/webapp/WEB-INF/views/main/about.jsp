@@ -161,8 +161,9 @@
     .post-thumbnail1 img {
         display: block;
         width: 100%;
-        height: auto;
+        height: 180px;
     }
+
 
     .post-content1 {
         padding: 10px;
@@ -204,11 +205,8 @@
 <br>
 
 <section>
-
     <div class="outter">
-        <hr>
         <h1 class="hit">히트상품</h1>
-        <hr>
         <div class="board">
             <div class="board-body">
                 <ul>
@@ -216,8 +214,8 @@
                         <c:when test="${!empty purchaseVOList}">
                             <c:forEach var="product" items="${purchaseVOList}" varStatus="status" end="3">
                                 <li>
-                                    <div class="post-thumbnail">
-                                             <img src="/display?fileName=${thumbnailList1[status.index].uploadPath}/${thumbnailList1[status.index].uuid}_${thumbnailList1[status.index].fileName}" alt="게시물 썸네일"/>
+                                    <div class="post-thumbnail1">
+                                        <img src="/display?fileName=${thumbnailList1[status.index].uploadPath}/${thumbnailList1[status.index].uuid}_${thumbnailList1[status.index].fileName}" alt="게시물 썸네일"/>
                                     </div>
                                     <div class="post-content">
                                         <a href="/board/read?pno=${purchaseVOList[status.index].pno}">${purchaseVOList[status.index].p_name}</a>
@@ -228,7 +226,7 @@
                         <c:when test="${empty purchaseVOList}">
                             <c:forEach var="product" items="${productList}" varStatus="status" end="3">
                                 <li>
-                                    <div class="post-thumbnail">
+                                    <div class="post-thumbnail1">
                                         <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일"/>
                                     </div>
                                     <div class="post-content">
@@ -240,13 +238,11 @@
                     </c:choose>
                 </ul>
             </div>
-            <hr>
         </div>
-
     </div>
-
 </section>
-
+<%-- 현재 로그인된 사용자 주소 --%>
+<%--<p>${customerloginUser.u_addrcode}</p>--%>
 <section>
     <div class="outter" style="flex-grow: 1;">
         <h1 class="hit1">내 주변 가게</h1>
@@ -275,8 +271,8 @@
                         </c:choose>
                     </c:forEach>
                     <c:if test="${not hasNearbyProducts}">
-                        <div style="height: 350px; ">
-                        <h5 style="margin-left: 250px;">근처에 등록된 상품이 없습니다.</h5>
+                        <div style="height: 350px;">
+                            <h5>근처에 등록된 상품이 없습니다.</h5>
                         </div>
                     </c:if>
                 </ul>
