@@ -38,9 +38,20 @@ public class PurchaseServiceImpl implements PurchaseService{
     }
 
     @Override
+    public List<PurchaseVO> getPurchaseInfoSno(int sno) {
+        System.out.println("회원관리 sno : "+ sno);
+        return purchaseMapper.getPurchaseInfoSno(sno);
+    }
+
+    @Override
     public List<PurchaseVO> getAllpurchase() {
         System.out.println("구매목록 전체 리스트 가져오기 : ");
         return purchaseMapper.getAllpurchase();
+    }
+
+    @Override
+    public void deleteProduct(int pno) {
+        purchaseMapper.deleteProduct(pno);
     }
 
 

@@ -12,5 +12,9 @@ public interface PurchaseService {
 
     List<PurchaseVO> getPurchaseInfo(String u_id);
 
+    List<PurchaseVO> getPurchaseInfoSno(int sno);
+
     List<PurchaseVO> getAllpurchase();
+
+    void deleteProduct(int pno);
 }
