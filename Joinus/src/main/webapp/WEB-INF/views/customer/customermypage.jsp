@@ -165,7 +165,7 @@
                             %>
                             <c:choose>
                                 <c:when test="<%= currentDaysDiff+1 <= 0 %>">
-                                    기간만료 <button type="button" id="delBtn1">삭제</button>
+                                    <button type="button" id="delBtn1" onclick="deleteItem(${buy.pno})">기간만료삭제</button>
                                 </c:when>
                                 <c:otherwise>
                                     <%= currentDaysDiff+2 %>일
@@ -316,5 +316,22 @@
             },
         });
     };
+
+    function deleteItem(pno) {
+        $.ajax({
+            type: "POST",
+            url: "/expirationDate",
+            data: {
+                pno : pno
+            },
+            success: function(response) {
+                alert("이용해 주셔서 감사합니다.");
+                location.reload()
+            },
+            error: function(xhr, status, error) {
+                alert("에러 발생");
+            },
+        });
+    }
 </script>
 </html>
