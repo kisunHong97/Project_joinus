@@ -34,18 +34,18 @@
 <h2>게시판</h2>
 
 <div id="outter">
-    <div style="float: right;">
-        <select id="cntPerPage" name="sel" onchange="selChange()">
-            <option value="5"
-                    <c:if test="${paging.cntPerPage == 5}">selected</c:if>>5줄 보기</option>
-            <option value="10"
-                    <c:if test="${paging.cntPerPage == 10}">selected</c:if>>10줄 보기</option>
-            <option value="15"
-                    <c:if test="${paging.cntPerPage == 15}">selected</c:if>>15줄 보기</option>
-            <option value="20"
-                    <c:if test="${paging.cntPerPage == 20}">selected</c:if>>20줄 보기</option>
-        </select>
-    </div> <!-- 옵션선택 끝 -->
+<%--    <div style="float: right;">--%>
+<%--        <select id="cntPerPage" name="sel" onchange="selChange()">--%>
+<%--            <option value="5"--%>
+<%--                    <c:if test="${paging.cntPerPage == 5}">selected</c:if>> 보기</option>--%>
+<%--            <option value="10"--%>
+<%--                    <c:if test="${paging.cntPerPage == 10}">selected</c:if>>10줄 보기</option>--%>
+<%--            <option value="15"--%>
+<%--                    <c:if test="${paging.cntPerPage == 15}">selected</c:if>>15줄 보기</option>--%>
+<%--            <option value="20"--%>
+<%--                    <c:if test="${paging.cntPerPage == 20}">selected</c:if>>20줄 보기</option>--%>
+<%--        </select>--%>
+<%--    </div> <!-- 옵션선택 끝 -->--%>
     <table border="1">
         <tr>
             <td>No.</td>

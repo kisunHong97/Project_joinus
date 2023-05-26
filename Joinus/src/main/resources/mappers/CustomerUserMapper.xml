@@ -31,4 +31,16 @@
         update customers_table set buypoint=#{buypoint, jdbcType=INTEGER} where u_id=#{u_id,jdbcType=VARCHAR}
     </update>
 
+    <insert id="insertreview" parameterType="com.ezen.joinus.vo.ReviewVO">
+        INSERT INTO review_table
+        VALUES(review_seq.nextval,#{pno},#{sno}, #{u_id}, #{u_name}, #{p_name}, #{review},#{sys_date}, #{rating})
+    </insert>
+    <select id="getreview" resultType="com.ezen.joinus.vo.ReviewVO">
+        select * from review_table where pno=#{pno}
+    </select>
+    <select id="customerreview" resultType="com.ezen.joinus.vo.ReviewVO">
+        select * from review_table where u_id=#{u_id,jdbcType=VARCHAR}
+    </select>
+
+
 </mapper>

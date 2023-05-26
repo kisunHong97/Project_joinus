@@ -5,7 +5,7 @@
 <html>
 <head>
   <title>Title</title>
-<%@ include file="../header/header.jsp"%>
+
   <style>
     /* 테이블 스타일 */
     table {
@@ -17,17 +17,21 @@
     }
 
     th, td {
-      border: 1px solid #ccc;
+      border: 1px solid #cecece;
       padding: 8px;
       text-align: center;
     }
 
     th {
-      background-color: #f2f2f2;
+      text-align: center;
+      background-color: #ffffff;
+    }
+    .th{
+      text-align: center;
     }
 
-    /* 컨테이너 스타일 */
-    .container {
+
+    .button1 {
       text-align: center;
       margin-bottom: 20px;
     }
@@ -43,6 +47,7 @@
       color: white;
       cursor: pointer;
       margin-right: 10px;
+
     }
 
     button:hover {
@@ -59,38 +64,34 @@
     /* 총 구매 금액 스타일 */
     .total-price-container {
       text-align: center;
-      margin-bottom: 20px;
+      /*margin-bottom: 20px;*/
       font-size: 16px;
       color: #888;
     }
   </style>
-
+  <%@ include file="../header/header.jsp"%>
 </head>
 <body>
 
 <div class="container">
   <table border="1">
     <thead>
-    <tr>
+    <tr style="text-align: center;">
       <th>카테고리</th>
-      <th>상품번호</th>
-      <th>상품내용</th>
-      <th>수량</th>
+      <th>상품명</th>
+      <th>기간</th>
       <th>금액</th>
       <th>선택</th>
     </tr>
     </thead>
     <tbody>
-
-
     <c:forEach items="${cart}" var="cart">
       <tr>
         <td>${cart.product.p_category}</td>
-        <td>${cart.pno}</td>
-        <td><a href='/board/read?pno=${cart.pno}'>${cart.product.p_content}</a></td>
-        <td>${cart.quantity}</td>
+        <td><a href='/board/read?pno=${cart.pno}'>${cart.product.p_inst}</a></td>
+        <td>${cart.c_startDate} ~ ${cart.c_endDate}</td>
         <td>
-          <span class="total" data-price=${cart.product.p_price * cart.quantity}>${cart.product.p_price * cart.quantity}</span>
+          <span class="total" data-price=${cart.c_price}>${cart.c_price}원</span>
         </td>
         <td>
           <input type="checkbox" class="selectedItems" name="selectedItems" value="${cart.pno}">
@@ -112,15 +113,14 @@
     <p>총 구매 금액:
     <span id="totalPrice">0</span>
       원</p>
-  </div>
-  </c:if>
-<div class="container">
-  <div>
-
+   <div class="container">
+  <div class="button1">
     <button onclick="deleteItems()">삭제</button>
     <button id="buy">구매</button>
   </div>
 </div>
+  </div>
+  </c:if>
 <form id="transferPno" method="post" action="/board/cartbuy">
 
 </form>
@@ -149,7 +149,7 @@
     // 체크된 체크박스들의 가격 합산
     $(".selectedItems:checked").each(function() {
       const price = $(this).closest("tr").find(".total").data("price");
-      console.log(price);
+      console.log("선택항목 금액 : " + price);
       totalPrice += price;
     });
 
@@ -192,15 +192,20 @@
       },
     });
   };
-  $("#buy").click(function (e){
-    console.log("여기 버튼이 눌렸다 ")
-    let str=""
-    $('.selectedItems:checked').each(function () {
-      str+="<input type='hidden' name='pno' value='"+$(this).val()+"'/>"
-    });
-    console.log(str)
-    $("#transferPno").append(str).submit();
-  })
+  $("#buy").click(function (e) {
+    if ($('.selectedItems:checked').length === 0) {
+      alert("구매 항목을 선택해주세요.");
+      return;
+    } else {
+      let str = "";
+      $('.selectedItems:checked').each(function () {
+        str += "<input type='hidden' name='pno' value='" + $(this).val() + "'/>";
+      });
+      console.log(str);
+      $("#transferPno").append(str).submit();
+    }
+  });
+
   // const calculateTotal = () => {
   //   $(document).ready(function() {
   //     if (!isLoggedIn()) {

@@ -244,10 +244,10 @@
 
         if (u_pwd1==u_pwd){
             $("#result").html('비밀번호가 같습니다.');
-            $("#result").css('color','#dc3545');
+            $("#result").css('color','#2fb380');
         }else {
             $("#result").html('비밀번호가 같지 않습니다.');
-            $("#result").css('color','#2fb380');
+            $("#result").css('color','#dc3545');
         }
     })
     $('.btn').click(function () {

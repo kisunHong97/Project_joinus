@@ -1,19 +1,34 @@
 package com.ezen.joinus.service;
 
+import com.ezen.joinus.vo.RevenueVO;
 import com.ezen.joinus.vo.StoreVO;
+
+import java.util.List;
 
 public interface StoreService {
 
     // 가게 테이블에 가게 정보를 삽입
-    public void registerStore(StoreVO vo);
+    void registerStore(StoreVO vo);
 
     // 중복 가게이름 체크
-    public int s_nameCheck(String s_name);
+    int s_nameCheck(String s_name);
 
     // 최대(방금 생성된) sno 가져오기
-    public int getMaxSno();
+    int getMaxSno();
 
-    public StoreVO getStoreBno(int bno);
+    StoreVO getStore(Integer bno);
 
-    public void updateStore(StoreVO vo);
+    List<StoreVO> getAllStore();
+
+    void updateStore(StoreVO vo);
+
+    void updateRevenue(int s_revenue, int sno);
+    void insertRevenue(RevenueVO revenue);
+
+    List<RevenueVO> getRevenueList(int sno);
+    List<StoreVO> selectlocation(String location);
+
+    void deletestore(Integer bno);
+
+
 }

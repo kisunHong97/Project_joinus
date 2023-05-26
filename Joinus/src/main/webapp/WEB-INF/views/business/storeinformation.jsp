@@ -123,7 +123,25 @@
         <input type="submit" value="스토어정보 수정" class="btn">
     </form>
     </p>
+    <input type="hidden" value="${list}" id="information"/>
 </div>
 </body>
 <%@ include file="../footer/footer.jsp"%>
 </html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    console.log('삭제해보아요');
+   var data=  $('#information').val()
+    console.log(data);
+    $('.btn').click(function() {
+        //var list =data; // 변수 선언 추가
+        console.log(data)
+        console.log('삭제해보아요');
+        if (data=='ng') {
+            return true;
+        } else {
+            alert('사업자님의 스토어에서 등록하신 제품이 존재합니다. 제품 삭제 후 수정이 가능합니다.');
+            return false;
+        }
+    });
+</script>

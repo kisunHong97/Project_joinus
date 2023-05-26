@@ -100,11 +100,6 @@
           This is an <strong>.alert</strong>. 수정할꺼양?
         </div>
         <h3>Personal info</h3>
-        <%--        <div class="col-md-3">--%>
-        <%--          <div class="text-center">--%>
-        <%--            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="avatar img-circle img-thumbnail" alt="avatar">--%>
-        <%--          </div>--%>
-        <%--        </div>--%>
         <form class="form-horizontal" role="form" method="post" action="/cinfomodify">
           <div class="form-group">
             <label class="col-lg-3 control-label">이름</label>

@@ -102,16 +102,37 @@
         height: 100px;
     }
     .navbar-brand img {
-        width: 200px;
+        width: 300px;
         height: 70px;
         position: relative;
-        left: 345px;
-
-
+        left: 350px;
     }
-    .navbar navbar-expand-lg custom_nav-container{
-
+    .dropdown-menu {
+        width: 160px;
+        display: none;
+        position: absolute;
+        background-color: #ffffff;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        border: solid 1px black;
+        font-weight: bold
     }
+
+    .dropdown-menu li {
+        padding: 10px;
+        color: #000000;
+    }
+
+    .dropdown-menu li:hover {
+        background-color: #ffffff;
+        color: #000000;
+    }
+    .custom_nav-container{
+        height: 60px;
+    }
+
+
 
 </style>
     <!-- header section strats -->
@@ -146,8 +167,8 @@
                         <a href="/mypage"  role="button" class="nav-link1"  style="top: 5px; height: 10px;" >마이페이지</a>
                     </li>
                     <li class="nav-item1">
-                        <a class="nav-link1" role="button" href="/community" style="top: 5px; height: 10px;">
-                            커뮤니티
+                        <a class="nav-link1" role="button" href="/inquiry" style="top: 5px; height: 10px;">
+                            문의내역
                         </a>
                     </li>
                     <li class="nav-item1">
@@ -161,62 +182,81 @@
             <div class="logodiv">
                 <h1 class="logo">
                     <a class="navbar-brand" href="/product_board">
-                        <img src="../../../resources/images/JOINUSLOGOFINAL.png" alt="" />
+                        <img src="../../../resources/images/Joinuslogo.png" alt="" />
                     </a>
                 </h1>
             </div>
         </div>
     </header>
-    <!-- end header section -->
-    <!-- slider section -->
-    <div class="container" style="border-top: 1px solid #dcdcdc; border-bottom: 2px solid black;">
-        <div class="custom_nav2">
-            <nav class="navbar navbar-expand-lg custom_nav-container" style="background-color: white">
-                <button
-                        class="navbar-toggler"
-                        type="button"
-                        data-toggle="collapse"
-                        data-target="#navbarSupportedContent"
-                        aria-controls="navbarSupportedContent"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation"
-                >
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <div class="d-flex flex-column flex-lg-row align-items-center">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="/product_board"
-                                >Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/Food">Food </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/Academy">Academy </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/Physical_Fitness">Physical Fitness</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/Traffic">Traffic</a>
-                            </li>
+<div class="container" style="border-top: 1px solid #dcdcdc; border-bottom: 2px solid black;">
+    <div class="custom_nav2">
+        <nav class="navbar navbar-expand-lg custom_nav-container" style="background-color: white">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="d-flex flex-column flex-lg-row align-items-center">
+                    <div style="margin-right: 40px">
+                        <a class="nav-link active" href="javascript:void(0);" onclick="toggleDropdown()">◼ 전체 카테고리</a>
+                        <ul class="dropdown-menu" id="dropdownMenu">
+                            <li>
+                                <a class="categorya" href="/product_board">JoinUs</a></li>
+                            <li><a class="categorya" href="/Food">Food</a></li>
+                            <li><a class="categorya" href="/Academy">Academy</a></li>
+                            <li><a class="categorya" href="/Physical_Fitness">Physical Fitness</a></li>
+                            <li><a class="categorya" href="/Traffic">Traffic</a></li>
                         </ul>
-                        <form class="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0" action="/search" method="GET">
-                            <input type="text" name="query" value="상품을 검색해보세요!" style="color: slategrey; font-size: 14px; padding: 6px; border-radius: 5px; border: 1px solid lightgray;" onfocus="if(this.value==='상품을 검색해보세요!') this.value='';">
-                            <button class="btn my-2 my-sm-0 nav_search-btn" type="submit"></button>
-                        </form>
                     </div>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/product_board">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Food">Food</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Academy">Academy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Physical_Fitness">Physical Fitness</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Traffic">Traffic</a>
+                        </li>
+                    </ul>
+                    <form class="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0" action="/search" method="GET" onsubmit="return validateForm()">
+                        <input type="text" name="query" id="searchInput" value="상품을 검색해보세요!" style="color: slategrey; font-size: 14px; padding: 6px; border-radius: 5px; border: 1px solid lightgray;" onfocus="if(this.value==='상품을 검색해보세요!') this.value='';">
+                        <button class="btn my-2 my-sm-0 nav_search-btn" type="submit"></button>
+                    </form>
+                    <script>
+                        function validateForm() {
+                            var searchInput = document.getElementById("searchInput");
+                            if (searchInput.value === "상품을 검색해보세요!" || searchInput.value === "") {
+                                alert("검색어를 입력해주세요!");
+                                return false;
+                            }
+                            return true;
+                        }
+                    </script>
                 </div>
-            </nav>
-        </div>
+            </div>
+        </nav>
     </div>
-    <!-- end slider section -->
+</div>
+
+
+<!-- end slider section -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
+    function toggleDropdown() {
+        var dropdownMenu = document.getElementById("dropdownMenu");
+        dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
+    }
 
+    document.addEventListener("click", function(event) {
+        var dropdown = document.getElementsByClassName("custom_nav2")[0];
+        if (!dropdown.contains(event.target)) {
+            var dropdownMenu = document.getElementById("dropdownMenu");
+            dropdownMenu.style.display = "none";
+        }
+    });
 </script>
 
 

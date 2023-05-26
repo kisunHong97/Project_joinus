@@ -7,6 +7,7 @@
     <title>Title</title>
 </head>
 <%@ include file="../header/header.jsp"%>
+<link href="../../../resources/css/category.css" rel="stylesheet" />
 <style>
     @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 100;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf) format('opentype');}
     @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 300;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 400;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 500;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 700;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 900;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format('opentype');}
@@ -131,19 +132,21 @@
 <br>
 <section>
     <div class="outter">
-        <div style="float: right;">
-            <select id="cntPerPage" name="sel" onchange="selChange()">
-                <option value="5"
-                        <c:if test="${paging.cntPerPage == 5}">selected</c:if>>5줄 보기</option>
-                <option value="10"
-                        <c:if test="${paging.cntPerPage == 10}">selected</c:if>>10줄 보기</option>
-                <option value="15"
-                        <c:if test="${paging.cntPerPage == 15}">selected</c:if>>15줄 보기</option>
-                <option value="20"
-                        <c:if test="${paging.cntPerPage == 20}">selected</c:if>>20줄 보기</option>
-            </select>
-        </div>
+<%--        <div style="float: right;">--%>
+<%--            <select id="cntPerPage" name="sel" onchange="selChange()">--%>
+<%--                <option value="5"--%>
+<%--                        <c:if test="${paging.cntPerPage == 5}">selected</c:if>>5줄 보기</option>--%>
+<%--                <option value="10"--%>
+<%--                        <c:if test="${paging.cntPerPage == 10}">selected</c:if>>10줄 보기</option>--%>
+<%--                <option value="15"--%>
+<%--                        <c:if test="${paging.cntPerPage == 15}">selected</c:if>>15줄 보기</option>--%>
+<%--                <option value="20"--%>
+<%--                        <c:if test="${paging.cntPerPage == 20}">selected</c:if>>20줄 보기</option>--%>
+<%--            </select>--%>
+<%--        </div>--%>
         <h1 class="hit">검색 결과</h1>
+    <hr>
+    <br>
         <!-- 옵션선택 끝 -->
         <table border="1">
             <div class="board">
@@ -158,7 +161,7 @@
                             <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일">
                         </div>
                         <div class="post-content">
-                            <a href='/board/read?pno=${searchResultList[status.index].pno}'>${searchResultList[status.index].p_subtitle }</a>
+                            <a href='/board/read?pno=${searchResultList[status.index].pno}'>${searchResultList[status.index].p_inst }</a>
                         </div>
                     </li>
                     </c:forEach>
@@ -166,39 +169,47 @@
                 </div>
             </div>
         </table>
-        <aside style="position: absolute; top: 200px; right: 360px;">
-            <div style="flex-shrink: 0; width: 300px;">
-                <h1 class="hit">Let's Join Us!</h1>
-                <input type="hidden" id="id" value="JOINUS 익명">
-                <div>
-                    <div id="chatarea" style="width: 260px; height: 300px; overflow-y: auto; background-color: #f7f7f7; padding: 10px;"></div>
-                    <input type="text" id="message" style="width: 86%;" />
-                    <input type="button" id="send" value="보내기" style="width: 68%; padding: 5px;"/>
-                    <input type="button" id="exit" value="나가기" />
-                </div>
-            </div>
-        </aside>
     </div>
 </section>
-    <div style="display: block; text-align: center;">
-        <c:if test="${paging.startPage != 1 }">
-            <a href="/product_board?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
-        </c:if>
-        <c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
-            <c:choose>
-                <c:when test="${p == paging.nowPage }">
-                    <b>${p }</b>
-                </c:when>
-                <c:when test="${p != paging.nowPage }">
-                    <a href="/product_board?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
-                </c:when>
-            </c:choose>
-        </c:forEach>
-        <c:if test="${paging.endPage != paging.lastPage}">
-            <a href="/product_board?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
-        </c:if>
-    </div>
+
+<%--    <div style="display: block; text-align: center;">--%>
+<%--        <c:if test="${paging.startPage != 1 }">--%>
+<%--            <a href="/product_board?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>--%>
+<%--        </c:if>--%>
+<%--        <c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">--%>
+<%--            <c:choose>--%>
+<%--                <c:when test="${p == paging.nowPage }">--%>
+<%--                    <b>${p }</b>--%>
+<%--                </c:when>--%>
+<%--                <c:when test="${p != paging.nowPage }">--%>
+<%--                    <a href="/product_board?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>--%>
+<%--                </c:when>--%>
+<%--            </c:choose>--%>
+<%--        </c:forEach>--%>
+<%--        <c:if test="${paging.endPage != paging.lastPage}">--%>
+<%--            <a href="/product_board?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>--%>
+<%--        </c:if>--%>
+<%--    </div>--%>
 </div>
+<div class="pagination" style="display: block; text-align: center;">
+    <c:if test="${paging.startPage != 1 }">
+        <a href="/product_board?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
+    </c:if>
+    <c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
+        <c:choose>
+            <c:when test="${p == paging.nowPage }">
+                <b>${p }</b>
+            </c:when>
+            <c:when test="${p != paging.nowPage }">
+                <a href="/product_board?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
+            </c:when>
+        </c:choose>
+    </c:forEach>
+    <c:if test="${paging.endPage != paging.lastPage && paging.lastPage > 10}">
+        <a href="/product_board?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
+    </c:if>
+</div>
+<br>
 <%@ include file="../footer/footer.jsp"%>
 <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>

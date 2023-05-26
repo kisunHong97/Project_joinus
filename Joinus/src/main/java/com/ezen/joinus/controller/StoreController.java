@@ -3,8 +3,10 @@ package com.ezen.joinus.controller;
 import com.ezen.joinus.dto.AttachFileDTO;
 import com.ezen.joinus.service.BusinessService;
 import com.ezen.joinus.service.FileService;
+import com.ezen.joinus.service.ProductService;
 import com.ezen.joinus.service.StoreService;
 import com.ezen.joinus.vo.BusinessUserVO;
+import com.ezen.joinus.vo.ProductVO;
 import com.ezen.joinus.vo.StoreVO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Setter;
@@ -19,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -32,6 +35,9 @@ public class StoreController {
 
     @Setter(onMethod_=@Autowired)
     private FileService fileService;
+
+    @Setter(onMethod_=@Autowired)
+    private ProductService productService;
 
     @PostMapping(value = "/uploadStoreImage", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
@@ -53,14 +59,24 @@ public class StoreController {
     public String storeinformation(HttpSession session, Model model){
         BusinessUserVO businessUser = (BusinessUserVO) session.getAttribute("BusinessUserVO");
         System.out.println("스토어 정보 수정에 들어온 현재 사업자"+ businessUser);
-        model.addAttribute("storeinformation",storeService.getStoreBno(businessUser.getBno()));
+        model.addAttribute("storeinformation",storeService.getStore(businessUser.getBno()));
+        StoreVO vo = storeService.getStore(businessUser.getBno());
+        System.out.println("vo!!!!!!!!!"+vo);
+        List<ProductVO> list = productService.getProductSno(vo.getSno());
+        Integer bno = businessUser.getBno();
+        System.out.println("현재로그인 bno: "+ bno);
+        System.out.println("알알알!!!!!!!!!!!!!!!!!!" + list);
+        if(list.size()>0) model.addAttribute("list","ok");
+        else  model.addAttribute("list","ng");
+//        model.addAttribute("list", list);
         return "business/storeinformation";
     }
     @GetMapping("/storemodify")
     public String storemodify(HttpSession session, Model model){
         BusinessUserVO businessUser = (BusinessUserVO) session.getAttribute("BusinessUserVO");
         System.out.println("스토어 정보 수정2에 들어온 현재 사업자"+ businessUser);
-        model.addAttribute("storeinformation",storeService.getStoreBno(businessUser.getBno()));
+        model.addAttribute("storeinformation",storeService.getStore(businessUser.getBno()));
+
         return "business/storemodify";
     }
     @PostMapping("/storeinfomodify")

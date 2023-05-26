@@ -1,6 +1,9 @@
 package com.ezen.joinus.service;
 
 import com.ezen.joinus.vo.BusinessUserVO;
+import com.ezen.joinus.vo.ReviewVO;
+
+import java.util.List;
 
 public interface BusinessService {
     // 중복 사업자 아이디 체크(존재하면 b_id 총 갯수 가져온다)
@@ -22,5 +25,7 @@ public interface BusinessService {
     public void modifyBusiness(BusinessUserVO vo);//사업자 정보 수정
 
     // 사업자 데이터 삭제
-    public void removeBusiness(String b_id);//사업자회원 탈퇴
+    public void removeBusiness(Integer bno);//사업자회원 탈퇴
+
+    List<ReviewVO> selectreviewsno(int sno);
 }

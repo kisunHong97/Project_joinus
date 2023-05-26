@@ -2,10 +2,15 @@ package com.ezen.joinus.service;
 
 import com.ezen.joinus.mappers.BusinessUserMapper;
 import com.ezen.joinus.mappers.StoreMapper;
+import com.ezen.joinus.vo.RevenueVO;
 import com.ezen.joinus.vo.StoreVO;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class StoreServiceImpl implements StoreService{
@@ -36,12 +41,48 @@ public class StoreServiceImpl implements StoreService{
     }
 
     @Override
-    public StoreVO getStoreBno(int bno) {
-        return storeMapper.getStoreBno(bno);
+    public StoreVO getStore(Integer bno) {
+        return storeMapper.getStore(bno);
     }
+
+    @Override
+    public List<StoreVO> getAllStore() { return storeMapper.getAllStore();}
 
     @Override
     public void updateStore(StoreVO vo) {
         storeMapper.updateStore(vo);
     }
+
+    @Override
+    public void updateRevenue(int s_revenue, int sno) {
+        Map<String, Object> parameterMap = new HashMap<>();
+        parameterMap.put("s_revenue", s_revenue);
+        parameterMap.put("sno", sno);
+        System.out.println("매출 : " + parameterMap);
+        storeMapper.updateRevenue(parameterMap);
+    }
+
+    @Override
+    public void insertRevenue(RevenueVO revenue) {
+        System.out.println("매출 테이블에 정보 추가 : " + revenue);
+        storeMapper.insertRevenue(revenue);
+    }
+
+    @Override
+    public List<RevenueVO> getRevenueList(int sno) {
+        System.out.println("수익금 조회 sno : " + sno);
+        return storeMapper.getRevenueList(sno);
+    }
+
+
+    @Override
+    public List<StoreVO> selectlocation(String location) {
+        return storeMapper.selectlocation(location);
+    }
+
+    @Override
+    public void deletestore(Integer bno) {
+        storeMapper.deletestore(bno);
+    }
+
 }

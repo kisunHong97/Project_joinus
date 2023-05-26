@@ -1,45 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
   <head>
-    <!-- Basic -->
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <!-- Mobile Metas -->
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <!-- Site Metas -->
-    <meta name="keywords" content="" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
 
-    <title>Energym</title>
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css"
-    />
-
-    <!-- bootstrap core css -->
-    <link rel="stylesheet" type="text/css" href="resources/css/bootstrap.css" />
-
-    <!-- fonts style -->
-    <link
-      href="https://fonts.googleapis.com/css?family=Baloo+Chettan|Dosis:400,600,700|Poppins:400,600,700&display=swap"
-      rel="stylesheet"
-    />
-    <!-- Custom styles for this template -->
-    <link href="resources/css/style.css" rel="stylesheet" />
-    <!-- responsive style -->
-    <link href="resources/css/responsive.css" rel="stylesheet" />
-    <link href="resources/css/productRegister.css" rel="stylesheet" />
+    <link href="../resources/css/responsive.css" rel="stylesheet" />
+    <link href="../resources/css/productRegister.css" rel="stylesheet" />
   </head>
   <%@ include file="../header/header.jsp"%>
   <body>
+
     <div class="main" style="margin: 0 auto">
-      <h1 class="logo">상품 등록</h1>
+      <h1 class="logo" style="font-weight: bold; letter-spacing: -1px">상품 수정</h1>
+
       <form action="modify" method="post">
         <input type="hidden" name="sno" id="sno" value="${product.sno}">
         <input type="hidden" name="pno" id="pno" value="${product.pno}">
@@ -451,6 +424,7 @@ pageEncoding="UTF-8"%>
         contentType: "application/json; charset=utf8",
         success: function (result) {
           alert("저장 성공")
+          location.href="/showMyProduct"
         }
       });
 

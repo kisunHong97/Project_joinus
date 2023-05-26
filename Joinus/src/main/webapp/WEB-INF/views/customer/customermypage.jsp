@@ -18,8 +18,8 @@
     }
 
     #mypage-menu > div {
-        width: 160px;
-        height: 110px;
+        width: 130px;
+        height: 90px;
         margin-right: 20px;
         border: 1px solid #e5e5e5;
         display: flex;
@@ -58,7 +58,51 @@
     }
 
     th {
-        background-color: #f2f2f2;
+        background-color: #fff3ee;
+    }
+    .review{
+        display: flex;
+        justify-content: center;
+    }
+    .review > div {
+        width: 880px;
+        height: 700px;
+        position: relative;
+    }
+
+    .reviewInfo > div{
+        display: inline-block;
+    }
+
+    .date {
+        position: absolute;
+        right: 0;/* 원하는 만큼의 오프셋 값을 설정하세요 */
+        letter-spacing:-1px;
+    }
+    .p_name{
+        margin-left: 15px;
+        margin-right: 15px;
+
+    }
+    /* 버튼 스타일 */
+    button {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        padding: 10px 20px;
+        border: none;
+        background-color: #ff731b;
+        color: white;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
+    button:hover {
+        background-color: #ff6f84;
+    }
+    .deletebutton {
+        text-align: right; /* 내용을 오른쪽으로 정렬 */
+        padding-right: 930px; /* 오른쪽 여백을 추가 */
     }
 </style>
 </head>
@@ -67,10 +111,11 @@
 
 <div id="mypage-menu">
     <div><a href="#" onclick="showContent(1)">이용권 관리</a></div>
-    <div><a href="#" onclick="showContent(2)">찜목록</a></div>
+    <div id="wishlistTabContent"><a href="#" onclick="showContent(2)">찜목록</a></div>
     <div><a href="/myinformation?u_id=${a.u_id}" role="button">개인정보 수정</a></div>
     <div><a href="/customerpoint?point=${a.buypoint}" role="button">포인트 충전</a></div>
-    <div><a href="#">문의 내역</a></div>
+    <div><a href="#" onclick="showContent5(5)">작성한 리뷰</a></div>
+    <div><a href="#">환불 신청</a></div>
 
 </div>
 <br>
@@ -88,7 +133,6 @@
                 </thead>
                 <tbody>
                 <c:set var="today" value="<%= new java.util.Date() %>" />
-
                 <c:forEach items="${buyInfo}" var="buy">
                     <%!
                         int daysDiff; // 변수를 스크립트릿 태그 안에서 선언
@@ -96,35 +140,35 @@
                     <tr>
                         <td>${buy.u_id}</td>
                         <td><a href='/board/read?pno=${buy.pno}'>${buy.p_name}</a></td>
-                        <td>${buy.currentDate} ~ ${buy.futureDate}</td>
+                        <td>${buy.startDate} ~ ${buy.endDate}</td>
                         <td>
-                            <fmt:parseDate value="${buy.currentDate}" var="startDate" pattern="yyyy년 MM월 dd일"/>
-                            <fmt:parseDate value="${buy.futureDate}" var="endDate" pattern="yyyy년 MM월 dd일"/>
-                                <%-- 남은 일 수 계산 --%>
+                            <fmt:parseDate value="${buy.startDate}" var="startDate" pattern="yyyy년 MM월 dd일"/>
+                            <fmt:parseDate value="${buy.endDate}" var="endDate" pattern="yyyy년 MM월 dd일"/>
                             <%
-                                Calendar todayCal = Calendar.getInstance();
-                                todayCal.setTime((java.util.Date)pageContext.getAttribute("today"));
-                                Calendar endCal = Calendar.getInstance();
-                                endCal.setTime((java.util.Date)pageContext.getAttribute("endDate"));
-                                long diffMillis = endCal.getTimeInMillis() - todayCal.getTimeInMillis();
-                                System.out.println(diffMillis+"@@@");
+                                // startDate와 endDate 값을 가져옴
+                                java.util.Date startDate = (java.util.Date) pageContext.getAttribute("startDate");
+                                java.util.Date endDate = (java.util.Date) pageContext.getAttribute("endDate");
+
+                                // 현재 날짜를 가져옴
+                                java.util.Date currentDate = new java.util.Date();
+
+                                // 남은 일수 계산
+                                long diffMillis = endDate.getTime() - startDate.getTime();
                                 int daysDiff = (int) (diffMillis / (24 * 60 * 60 * 1000));
 
-//                                if (todayCal.get(Calendar.DAY_OF_YEAR) != endCal.get(Calendar.DAY_OF_YEAR)) {
-//                                    daysDiff--; // 오늘은 제외하고 계산되도록 일수를 하나 줄임
-//                                }
-//                                if(daysDiff+1 <= 0){
-//                                    out.println("기간 만료");
-//                                }else{
-//                                    out.println((daysDiff+1)+"일");
-//                                }
+                                // 현재 날짜와 endDate 사이의 일수 계산
+                                long currentDiffMillis = endDate.getTime() - currentDate.getTime();
+                                int currentDaysDiff = (int) (currentDiffMillis / (24 * 60 * 60 * 1000));
+
+                                // 결과 출력
+//                                out.println("남은 일수: " + (currentDaysDiff + 1) + "일");
                             %>
                             <c:choose>
-                                <c:when test="<%= daysDiff+1 <= 0 %>">
+                                <c:when test="<%= currentDaysDiff+1 <= 0 %>">
                                     기간만료 <button type="button" id="delBtn1">삭제</button>
                                 </c:when>
                                 <c:otherwise>
-                                    <%= daysDiff %>일
+                                    <%= currentDaysDiff+2 %>일
                                 </c:otherwise>
                             </c:choose>
                         </td>
@@ -141,17 +185,136 @@
     </c:otherwise>
 </c:choose>
 
-<div class="content" id="content2" style="display: none;">
-    <div>Content for Link 2</div>
+<c:choose>
+    <c:when test="${not empty wishlistVOList}">
+        <div class="content" id="content2" style="display: none;">
+            <table border="1">
+                <thead>
+                <tr>
+                    <th>카테고리</th>
+                    <th>상품명</th>
+                    <th>선택</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${wishlistVOList}" var="wishlist">
+                    <tr>
+                        <td>${wishlist.p_category}</td>
+                        <td><a href="board/read?pno=${wishlist.pno}" class="p_name">${wishlist.p_name}</a></td>
+                        <td>
+                            <input type="checkbox" class="selectedItems" name="selectedItems" value="${wishlist.pno}">
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+        <div class="deletebutton"><button onclick="deleteItems()">삭제</button></div>
+        <br>
+    </c:when>
+    <c:otherwise>
+        <div class="content" id="content2" style="display: none;" >
+            <div>찜한상품이 없습니다.</div>
+        </div>
+        <br>
+    </c:otherwise>
+</c:choose>
+
+
+<div class="review" id="content5" style="display: none;">
+    <br>
+    <div id="reviewList">
+        <div style="border-bottom: 1px solid salmon">
+            <span><h3 style="font-weight: 900; letter-spacing:-1px; display: block; margin-top: -20px">리뷰</h3></span>
+        </div>
+        <c:forEach items="${reviewlist}" var="review">
+            <div class="reviewItem">
+                <div class="reviewInfo" style="border-bottom: 1px solid #ffd3c0; height: 50px; display: block; margin-top: 50px;"  >
+                   <div class="divstar"><span class="star" style="color: #ff731b; width: 100px">
+                            <script>
+                        var rating = ${review.rating};
+                        var stars = "";
+                        for (var i = 1; i <= 5; i++) {
+                            if (i <= rating) {
+                                stars += '<span class="star">★</span>';
+                            } else {
+                                stars += '<span class="star">☆</span>';
+                            }
+                        }
+                        document.write(stars);
+                    </script></span></div>
+                    <div class="divp_name" style="width: 120px; text-align: center;"><a href="board/read?pno=${review.pno}" class="p_name"> ${review.p_name}</a></div>
+                    <div class="divtextreview" style="width: 500px;"> <span class="textreview"> ${review.review}</span></div>
+                    <span class="date" style="color: #ff731b;">${review.sys_date}</span>
+                </div>
+            </div>
+        </c:forEach>
+
+        <c:if test="${empty reviewlist}">
+            <br>
+            <div class="noReviews" style="text-align: center">작성한 리뷰가 없습니다.</div>
+        </c:if>
+    </div>
+
+    <br>
 </div>
-<br>
 </body>
 <%@ include file="../footer/footer.jsp"%>
-</html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
+    // 로그인 여부 확인 함수
+    function isLoggedIn() {
+        if (${customerUserVO == null || customerUserVO.u_id == null}) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     function showContent(contentId) {
+        $('.review').hide();
         $('.content').hide();
         $('#content' + contentId).show();
     }
+    function showContent5(contentId) {
+        $('.content').hide();
+        $('.review').hide();
+        $('#content' + contentId).show();
+    }
+
+    // 찜목록 진입 시 삭제 기능
+    const deleteItems = () => {
+        if (!isLoggedIn()) {
+            alert("로그인 후 이용해주세요.");
+            return;
+        }
+
+        const selectedItems = []; // 선택된 항목의 ID를 담을 배열
+
+        // 선택된 항목의 ID를 배열에 추가
+        $('.selectedItems:checked').each(function () {
+            selectedItems.push($(this).val());
+        });
+        console.log(selectedItems)
+        if (selectedItems.length === 0) {
+            alert("삭제할 항목을 선택해주세요.");
+            return;
+        }
+
+        // 선택된 항목의 ID를 URL에 추가하여 AJAX 요청
+        $.ajax({
+            type: "POST",
+            url: "/wishlist/delete",
+            data: JSON.stringify(selectedItems), // 선택된 항목의 ID 배열을 JSON 형식으로 변환하여 서버로 전달
+            contentType: "application/json", // 전달하는 데이터의 형식을 명시 (JSON 형식)
+            success: function(response) {
+                alert("선택된 항목이 찜목록에서 삭제되었습니다.");
+                location.reload()
+            },
+            error: function(xhr, status, error) {
+                alert("에러 발생");
+            },
+        });
+    };
 </script>
+</html>

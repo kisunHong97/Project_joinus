@@ -18,11 +18,6 @@
     @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 100;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf) format('opentype');}
     @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 300;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 400;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 500;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 700;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 900;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format('opentype');}
 
-    body{margin-top:20px;}
-    .avatar{
-        width:200px;
-        height:200px;
-    }
     .main{
         margin-left: 180px;
     }
@@ -95,23 +90,30 @@
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
-    $(document).ready(function() {
-        $('.btn1').click(function (){
-            var point = $('.point').val();
-            if (isNaN(point)){
-                console.log("숫자만 입력");
-                $("#result").html('숫자만 입력해주세요.');
-                $("#result").css('color','#dc3545');
-                return false;
-            }else if(point>500000){
-                console.log("50만원 이하로 입력");
-                $("#result").html('최대 50만원 까지 가능합니다.');
-                $("#result").css('color','#dc3545');
-                return false;
-            }else{
+    $('.btn1').click(function (){
+        var point = $('.point').val();
+        if (isNaN(point)){
+            console.log("숫자만 입력");
+            $("#result").html('숫자만 입력해주세요.');
+            $("#result").css('color','#dc3545');
+            return false;
+        } else if (point > 500000){
+            console.log("50만원 이하로 입력");
+            $("#result").html('최대 50만원 까지 가능합니다.');
+            $("#result").css('color','#dc3545');
+            return false;
+        } else if (point === ""){
+            $("#result").html('충전 포인트를 입력해주세요.');
+            $("#result").css('color','#dc3545');
+            return false;
+        } else {
+            var confirmation = confirm(point + "포인트를 충전하시겠습니까?");
+            if (confirmation) {
                 return true;
+            } else {
+                return false;
             }
-        });
+        }
     });
 
 

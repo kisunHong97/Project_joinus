@@ -4,8 +4,8 @@
 
     <!-- 로그인한 사용자의 장바구니 목록에 추가 -->
     <insert id="addCart" parameterType="com.ezen.joinus.vo.CartVO">
-        INSERT INTO cart(cno, pno, u_id, w_date, quantity)
-        VALUES (cart_seq.nextval, #{pno}, #{u_id}, SYSDATE, #{quantity})
+        INSERT INTO cart(cno, pno, u_id, c_price, c_startDate, c_endDate, w_date)
+        VALUES (cart_seq.nextval, #{pno}, #{u_id}, #{c_price}, #{c_startDate}, #{c_endDate}, SYSDATE)
     </insert>
 
     <!-- 로그인한 사용자의 장바구니 목록에서 삭제 -->
@@ -20,7 +20,7 @@
 
     <!-- 장바구니 탭 (현재 장바구니 담은 목록) -->
     <select id="getCartItems" resultType="com.ezen.joinus.vo.CartVO">
-        SELECT customers_table.u_id, cart.cno, products_table.pno, products_table.p_name, products_table.p_price, products_table.p_content, cart.w_date, cart.quantity
+        SELECT customers_table.u_id, cart.cno, products_table.pno, cart.c_price, cart.c_startDate, cart.c_endDate, products_table.p_price, cart.w_date
         FROM customers_table
                  JOIN cart ON customers_table.u_id = cart.u_id
                  JOIN products_table ON cart.pno = products_table.pno

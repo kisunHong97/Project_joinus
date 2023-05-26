@@ -1,7 +1,9 @@
 package com.ezen.joinus.service;
 
 import com.ezen.joinus.vo.CustomerUserVO;
+import com.ezen.joinus.vo.ReviewVO;
 
+import java.util.List;
 import java.util.Map;
 
 public interface CustomerService {
@@ -25,4 +27,14 @@ public interface CustomerService {
     public void removeCustomer(String u_id);
 
     public void update(int buypoint, String u_id);//포인트 충전
+
+    public void insertreview(ReviewVO vo);
+
+    public List<ReviewVO> getreview(int pno);
+
+    public List<ReviewVO> customerreview(String u_id);
+
+
+
+
 }

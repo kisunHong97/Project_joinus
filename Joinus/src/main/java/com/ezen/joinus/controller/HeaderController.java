@@ -37,16 +37,15 @@ public class HeaderController {
     @Setter(onMethod_=@Autowired)
     private FileService fileService;
 
+    @Setter(onMethod_=@Autowired)
+    private WishlistService wishlistService;
+
     @GetMapping("/mypage")
     public String myPage(HttpSession session, Model model) {
         System.out.println("작동되나요? 마이페이지 컨트롤러");
         // 세션에서 로그인한 사용자 정보를 가져옵니다.
         BusinessUserVO BusinessloginUser = (BusinessUserVO) session.getAttribute("BusinessUserVO");
         CustomerUserVO customerloginUser = (CustomerUserVO) session.getAttribute("customerUserVO");
-//        CustomerUserVO customer = customerService.getCustomerById(customerloginUser.getU_id());
-//        BusinessUserVO business = businessService.getBusinessById(BusinessloginUser.getB_id());
-//        System.out.println("포인트" + customer.getBuypoint());
-//        System.out.println("사업자정보"+business);
 
         if (BusinessloginUser == null && customerloginUser == null) {
             // 로그인한 사용자가 없는 경우 로그인 페이지로 리다이렉트합니다.
@@ -56,6 +55,8 @@ public class HeaderController {
             if (BusinessloginUser != null) {
                 // 사업자용 마이페이지를 보여줍니다.
                 model.addAttribute("business",businessService.getBusinessById(BusinessloginUser.getB_id()));
+                List<ReviewVO> reviewVOList = businessService.selectreviewsno(BusinessloginUser.getBno());
+                model.addAttribute("reviewlist",reviewVOList);
                 System.out.println("작동되나요? 사업자가 로그인되어있어요");
                 return  "business/businessmypage";
             } else if (customerloginUser != null) {
@@ -69,11 +70,17 @@ public class HeaderController {
                         List<PurchaseVO> resultList = purchaseService.getPurchaseInfo(u_id);
                         System.out.println(resultList);
                         model.addAttribute("buyInfo", resultList);
+                        List<WishlistVO> wishlistVOList = wishlistService.getWishlistUid(u_id);
+                        System.out.println("찜한 리스트 : " + wishlistVOList);
+                        model.addAttribute("wishlistVOList", wishlistVOList);
+                        List<ReviewVO> reviewlist = customerService.customerreview(customerloginUser.getU_id());
+                        System.out.println("고객이 작성한 리뷰!"+reviewlist);
+                        model.addAttribute("reviewlist",reviewlist);
                     }
                 } catch (Exception e) {
                     // 예외 처리
                 }
-                return "customer/customermypage";
+                return "/customer/customermypage";
             } else {
                 // 알 수 없는 역할인 경우 에러 페이지를 보여줍니다.
                 return "error";
@@ -132,13 +139,19 @@ public class HeaderController {
         int total = productService.countBoard();
         if (nowPage == null && cntPerPage == null) {
             nowPage = "1";
-            cntPerPage = "5";
+            cntPerPage = "16";
         } else if (nowPage == null) {
             nowPage = "1";
         } else if (cntPerPage == null) {
-            cntPerPage = "5";
+            cntPerPage = "16";
         }
-        vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+        int cntPage= 0;
+        if ((total / 16.0)>0){
+            cntPage = (int) Math.ceil(total / 16.0);
+        }else{
+            cntPage = 1;
+        }
+        vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage),cntPage);
         model.addAttribute("paging", vo);
 
         List<AttachFileDTO> thumbnailList = new ArrayList<>();

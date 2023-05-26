@@ -1,21 +1,33 @@
 package com.ezen.joinus.controller;
 
 import com.ezen.joinus.service.CustomerService;
+import com.ezen.joinus.service.ProductService;
+import com.ezen.joinus.service.PurchaseService;
 import com.ezen.joinus.vo.CustomerUserVO;
+import com.ezen.joinus.vo.InquiryVO;
+import com.ezen.joinus.vo.ReviewVO;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Controller
 public class CustomerController {
 
     @Setter(onMethod_=@Autowired)
     private CustomerService customerService;
+
+    @Setter(onMethod_=@Autowired)
+    private ProductService productService;
 
     //개인정보 불러오기
     @GetMapping("/myinformation")
@@ -43,7 +55,8 @@ public class CustomerController {
         System.out.println("현재 로그인사람의 uno"+uno);
         System.out.println(customerUserVO);
         customerService.modifyCustomer(customerUserVO);
-        return "redirect:/product_board";
+        session.invalidate();
+        return "main/login";
 
     }
     @GetMapping("/customerdelete")
@@ -105,5 +118,39 @@ public class CustomerController {
         model.addAttribute("customervo",customerloginUser);
         return "redirect:/mypage";
     }
+    @GetMapping("/review")
+    public String getreview(@RequestParam("pno") int pno , @RequestParam("sno") int sno){
+        System.out.println("sno제발가져와라.."+sno);
+        System.out.println("으으아악pno:"+pno);
+        return "redirect:/board/read?pno=" + pno;
+    }
+
+    //리뷰 구현
+    @PostMapping("/review")
+    public String review(HttpSession session, ReviewVO reviewVO,@RequestParam("pno") int pno,@RequestParam("sno") int sno,Model model){
+        System.out.println("으으아악pno:"+pno);
+        System.out.println("sno제발가져와라.."+sno);
+        CustomerUserVO customerloginUser = (CustomerUserVO) session.getAttribute("customerUserVO");
+
+        reviewVO.setU_name(customerloginUser.getU_name());
+        // 현재 시간을 가져옵니다.
+        // 현재 날짜 구하기
+        LocalDate now = LocalDate.now();
+        // 포맷 정의
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        // 포맷 적용
+        String formatedNow = now.format(formatter);
+
+        // 결과 출력
+        System.out.println("현재 날짜!:"+formatedNow);  // 2021/06/17
+        reviewVO.setSys_date(formatedNow);
+        reviewVO.setU_id(customerloginUser.getU_id());
+        reviewVO.setPno(pno);
+        reviewVO.setSno(sno);
+        customerService.insertreview(reviewVO);
+        return "redirect:/board/read?pno=" + pno;
+    }
+
+
 
 }

@@ -7,6 +7,8 @@
 <head>
     <title>Title</title>
 </head>
+<script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="../../../resources/css/category.css" rel="stylesheet" />
 <%@ include file="../header/header.jsp"%>
 <style>
     @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 100;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf) format('opentype');}
@@ -26,73 +28,12 @@
     a {
         text-decoration: none;
     }
-    /*.board {*/
-    /*  width: 100%;*/
-    /*}*/
-
-    .board-header {
-        text-align: center;
-        margin-bottom: 20px;
-    }
-
-    .board-body ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
+    .post-thumbnail {
         display: flex;
-        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
     }
 
-    .board-body li {
-        width: calc(23.33% - 20px);
-        margin-right: 20px;
-        margin-bottom: 20px;
-        border: 1px solid #ccc;
-        box-shadow: 0 2px 2px rgba(0,0,0,0.3);
-        transition: box-shadow 0.2s ease-in-out;
-    }
-
-    .board-body li:hover {
-        box-shadow: 0 4px 4px rgba(0,0,0,0.3);
-    }
-
-    .post-thumbnail img {
-        display: block;
-        width: 100%;
-        height: auto;
-    }
-
-    .post-content {
-        padding: 10px;
-    }
-
-    .post-content h3 {
-        margin-top: 0;
-        margin-bottom: 10px;
-    }
-
-    .post-content p {
-        margin: 0;
-        line-height: 1.5;
-    }
-
-    .post-content a {
-        display: block;
-        text-align: center;
-        margin-top: 10px;
-        font-size: 13px;
-        font-weight: bold;
-        font-family: "Poppins", sans-serif;
-        color : peru;
-    }
-    .hit{
-        margin-top: 0px;
-        margin-bottom: 10px;
-        font-size:40px;
-        font-weight: 900;
-        color:#333;
-        letter-spacing:-1px;
-    }
     .account2 {
         width:140px;
         height: 35px;
@@ -130,75 +71,217 @@
         font-size: 14px;
         color: darkorange;
         animation: moveText 5s linear infinite;
+        opacity: 0; /* 초기에는 텍스트가 보이지 않도록 설정 */
+        overflow: hidden; /* 텍스트의 너비를 넘어가는 부분은 숨깁니다 */
     }
 
     @keyframes moveText {
-        0% { left: 20px; }
-        100% { left: calc(100% - 200px); }
+        /*0% { left: 10%; opacity: 1; }*/
+        0% { left: 0%; opacity: 0; } /* 천천히 보여지도록 애니메이션 추가 */
+        100% { left: 30%; opacity: 1; }
     }
+
     .message-box {
         text-align: left;
         align-self: flex-start; /* 내가 입력한 메시지는 왼쪽에 정렬 */
-        background-color: #ffae4d; /* 내가 입력한 메시지의 배경색 */
+        background-color: #fd8d48; /* 내가 입력한 메시지의 배경색 */
         padding: 10px;
         margin-bottom: 10px;
         border-radius: 10px;
+        color: white; /* 글씨 색상 */
+        font-family: Helvetica, Arial, sans-serif; /* 폰트 */
+        font-size: 14px; /* 폰트 크기 */
+        /*font-weight: bold; !* 글씨 굵기 *!*/
     }
 
     .message-box.other {
         text-align: right;
         align-self: flex-end; /* 다른 사람이 입력한 메시지는 오른쪽에 정렬 */
-        background-color: #ffccab; /* 다른 사람이 입력한 메시지의 배경색 */
+        background-color: #e7e7e7; /* 다른 사람이 입력한 메시지의 배경색 */
+        color: black;
+        /*font-weight: bold; !* 글씨 굵기 *!*/
     }
-    .message-box1 {
-        background-color: #ffd468;
-        max-width: 100%; /* 메시지 박스의 최대 너비 */
-        padding: 1px;
-        border-radius: 10px;
-        text-align: center; /* 가운데 정렬 */
+
+    .board {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .board-body {
+        display: flex;
+        flex-wrap: wrap;
+        overflow: hidden;
+        width: 107%;
+        height: auto;
+    }
+
+    .board-body ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .board-body li {
+        width: calc(23.33% - 20px);
+        margin-right: 20px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        box-shadow: 0 2px 2px rgba(0,0,0,0.3);
+        transition: box-shadow 0.2s ease-in-out;
+    }
+
+    .board-body1{
+        width: 75%;
+    }
+
+    /* 두번째 섹션 */
+    .board-body1 ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .board-body1 li {
+        width: calc(33.33% - 20px);
+        margin-right: 20px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        box-shadow: 0 2px 2px rgba(0,0,0,0.3);
+        transition: box-shadow 0.2s ease-in-out;
+    }
+
+    .board-body1 li:hover {
+        box-shadow: 0 4px 4px rgba(0,0,0,0.3);
+    }
+
+    .post-thumbnail1 img {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+
+    .post-content1 {
+        padding: 10px;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .post-content1 h3 {
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+
+    .post-content1 p {
+        margin: 0;
+        line-height: 1.5;
+    }
+
+    .post-content1 a {
+        display: block;
+        text-align: center;
+        margin-top: 10px;
+        font-size: 13px;
+        font-weight: bold;
+        font-family: "Poppins", sans-serif;
+        color : peru;
+    }
+    .hit1{
+        margin-top: 0px;
+        margin-bottom: 10px;
+        font-size:40px;
+        font-weight: 900;
+        color:#333;
+        letter-spacing:-1px;
     }
 
 </style>
-<script>
-    function selChange() {
-        var sel = document.getElementById('cntPerPage').value;
-        location.href="product_board?nowPage=${paging.nowPage}&cntPerPage="+sel;
-    }
-</script>
 <body class="sub_page about_page">
 <br>
 <section>
-    <div class="outter ">
+    <div class="outter">
         <h1 class="hit">히트상품</h1>
-        <!-- 옵션선택 끝 -->
-        <table border="1">
-            <div class="board">
-                <div class="board-body">
-                    <ul>
-                        <c:forEach var="searchResult" items="${productList}" varStatus="status">
-                        <c:if test="${status.index % 3 == 0}">
-                    </ul><ul>
-                    </c:if>
-                    <li>
-                        <div class="post-thumbnail">
-                            <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일">
-                        </div>
-                        <div class="post-content">
-                            <a href='/board/read?pno=${productList[status.index].pno}'>${productList[status.index].p_subtitle }</a>
-                        </div>
-                    </li>
-                    </c:forEach>
+        <div class="board">
+            <div class="board-body">
+                <ul>
+                    <c:choose>
+                        <c:when test="${!empty purchaseVOList}">
+                            <c:forEach var="product" items="${purchaseVOList}" varStatus="status" end="3">
+                                <li>
+                                    <div class="post-thumbnail">
+                                             <img src="/display?fileName=${thumbnailList1[status.index].uploadPath}/${thumbnailList1[status.index].uuid}_${thumbnailList1[status.index].fileName}" alt="게시물 썸네일"/>
+                                    </div>
+                                    <div class="post-content">
+                                        <a href="/board/read?pno=${purchaseVOList[status.index].pno}">${purchaseVOList[status.index].p_name}</a>
+                                    </div>
+                                </li>
+                            </c:forEach>
+                        </c:when>
+                        <c:when test="${empty purchaseVOList}">
+                            <c:forEach var="product" items="${productList}" varStatus="status" end="3">
+                                <li>
+                                    <div class="post-thumbnail">
+                                        <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일"/>
+                                    </div>
+                                    <div class="post-content">
+                                        <a href="/board/read?pno=${productList[status.index].pno}">${productList[status.index].p_name}</a>
+                                    </div>
+                                </li>
+                            </c:forEach>
+                        </c:when>
+                    </c:choose>
                 </ul>
-                </div>
             </div>
-        </table>
-        <aside style="position: absolute; top: 200px; right: 360px;">
+        </div>
+    </div>
+</section>
+<%-- 현재 로그인된 사용자 주소 --%>
+<%--<p>${customerloginUser.u_addrcode}</p>--%>
+<section>
+    <div class="outter" style="flex-grow: 1;">
+        <h1 class="hit1">내 주변 가게</h1>
+        <!-- 옵션선택 끝 -->
+        <div class="board1">
+            <div class="board-body1">
+                <c:set var="hasNearbyProducts" value="false" />
+                <ul>
+                    <c:forEach var="store" items="${storeVOList}" varStatus="status">
+                        <c:choose>
+                            <c:when test="${customerloginUser.u_addrcode == store.s_addrCode}">
+                                <c:set var="hasNearbyProducts" value="true" />
+                                <c:forEach var="product" items="${productList}" varStatus="productStatus">
+                                    <c:if test="${store.sno == product.sno}">
+                                        <li>
+                                            <div class="post-thumbnail1">
+                                                <img src="/display?fileName=${thumbnailList[productStatus.index].uploadPath}/${thumbnailList[productStatus.index].uuid}_${thumbnailList[productStatus.index].fileName}" alt="게시물 썸네일">
+                                            </div>
+                                            <div class="post-content1">
+                                                <a href='/board/read?pno=${product.pno}'>${product.p_inst}</a>
+                                            </div>
+                                        </li>
+                                    </c:if>
+                                </c:forEach>
+                            </c:when>
+                        </c:choose>
+                    </c:forEach>
+                    <c:if test="${not hasNearbyProducts}">
+                        <div style="height: 350px;">
+                        <h5>근처에 등록된 상품이 없습니다.</h5>
+                        </div>
+                    </c:if>
+                </ul>
+            </div>
+        </div>
+        <aside style="position: absolute; top: 510px; right: 360px;">
             <div style="flex-shrink: 0; width: 300px;">
                 <h1 class="hit">Let's Join Us!</h1>
-                <input type="hidden" id="id" value="${customerloginUser.u_name}"/>
+                <input type="hidden" id="id" value="${customerloginUser.u_name}">
                 <div class="moving-text">건전한 채팅 부탁드립니다</div>
                 <div>
-                    <div id="chatarea" class="chatarea" style="width: 260px; height: 300px; overflow-y: auto; background-color: white; padding: 10px; "></div>
+                    <div id="chatarea" class="chatarea" style="width: 260px; height: 270px; overflow-y: auto; background-color: white; padding: 10px; "><br></div>
                     <input type="text" class="message" id="message" style="width: 86%; height: 35px" />
                     <input type="button" id="send" class="account2" value="보내기" style="width: 65%; padding: 5px;"/>
                     <input type="button" id="exit" class="exit" value="나가기" />
@@ -207,53 +290,8 @@
         </aside>
     </div>
 </section>
-</section>
-<div style="display: block; text-align: center;">
-    <c:if test="${paging.startPage != 1 }">
-        <a href="/product_board?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
-    </c:if>
-    <c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
-        <c:choose>
-            <c:when test="${p == paging.nowPage }">
-                <b>${p }</b>
-            </c:when>
-            <c:when test="${p != paging.nowPage }">
-                <a href="/product_board?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
-            </c:when>
-        </c:choose>
-    </c:forEach>
-    <c:if test="${paging.endPage != paging.lastPage}">
-        <a href="/product_board?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
-    </c:if>
-</div>
-</div>
-<section>
-    <div class="outter" style="flex-grow: 1;">
-        <h1 class="hit">맞춤 추천</h1>
-        <!-- 옵션선택 끝 -->
-        <table border="1">
-            <div class="board">
-                <div class="board-body">
-                    <ul>
-                        <c:forEach var="product" items="${productList}" varStatus="status">
-                            <li>
-                                <div class="post-thumbnail">
-                                    <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일">
-                                </div>
-                                <div class="post-content">
-                                    <a href='/board/read?pno=${productList[status.index].pno}'>${productList[status.index].p_subtitle }</a>
-                                </div>
-                            </li>
-                        </c:forEach>
-                    </ul>
-                </div>
-            </div>
-        </table>
-    </div>
-</section>
 <%@ include file="../footer/footer.jsp"%>
 </body>
-</html>
 <script>
     // 페이지 로드 시 실행되는 함수
     window.onload = function() {
@@ -261,19 +299,17 @@
         var containerWidth = window.innerWidth;
         var textWidth = movingText.offsetWidth;
 
-        // 텍스트가 화면 밖으로 나가지 않도록 위치 조정
-        movingText.style.left = containerWidth + 'px';
+        // 텍스트가 왼쪽에서 오른쪽으로 이동하도록 위치 조정
+        movingText.style.left = -textWidth + 'px';
 
         // 텍스트가 완전히 나가면 다시 시작 위치로 이동
         movingText.addEventListener('animationiteration', function() {
-            movingText.style.left = containerWidth + 'px';
+            movingText.style.left = -textWidth + 'px';
         });
     };
 </script>
 <!-- 생략된 코드 -->
-<script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>
-
 <script type="text/javascript">
     // ##### 입장~~~!!
     let websocket;
@@ -288,18 +324,21 @@
     }
 
     // ##### 연결 되었습니다!
-    function onOpen(){
-        if (${customerloginUser==null}){
-            websocket.send("<div class='message-box1'>로그인 후 이용해주세요.</div>");
+    function onOpen() {
+        if (${customerloginUser == null} && ${businessUser == null}) {
+            websocket.send("<div style='color: #7c7c7c; font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: bold; text-align: center'>로그인 후 이용해주세요.</div>");
             document.getElementById("message").disabled = true;
             document.getElementById("send").disabled = true;
             document.getElementById("exit").disabled = true;
-
-        }else {
+        }else if(${businessUser != null} && ${customerloginUser == null}){
+            websocket.send("<div style='color: #7c7c7c; font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: bold; text-align: center;'>사업자는 채팅이 불가능합니다.</div>");
+            document.getElementById("message").disabled = true;
+            document.getElementById("send").disabled = true;
+            document.getElementById("exit").disabled = true;
+        } else {
             id = document.getElementById("id").value;
-            websocket.send("<div class='message-box1'>" + id + "님이 입장하셨습니다.</div>");
+            websocket.send("<div style='color: black; font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: bold; text-align: center;'>" + id + "님이 입장하셨습니다.</div>");
         }
-
     }
 
     // ##### 메세지 보내기 버튼 클릭!
@@ -341,21 +380,12 @@
 
     function disconnect(){
         id = document.getElementById("id").value;
-        websocket.send(id + "님이 퇴장하셨습니다.");
+        websocket.send("<div class='message-box1'>" + id + "님이 퇴장하셨습니다.</div>");
         document.getElementById("message").disabled = true;
         document.getElementById("send").disabled = true;
         document.getElementById("exit").disabled = true;
 
         //websocket.close();
     }
-
 </script>
-<script>
-
-    function openNav() {
-        document.getElementById("myNav").classList.toggle("menu_width");
-        document
-            .querySelector(".custom_menu-btn")
-            .classList.toggle("menu_btn-style");
-    }
-</script>
+</html>

@@ -1,33 +1,160 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: b14
-  Date: 2023-05-04
-  Time: 오후 3:52
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
   <title>Title</title>
-</head>
-<%@ include file="../header/header.jsp"%>
-<style>
-  @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 100;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf) format('opentype');}
-  @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 300;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 400;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 500;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 700;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 900;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format('opentype');}
+  <%@ include file="../header/header.jsp"%>
+  <style>
+    /*!* 테이블 스타일 *!*/
+    /*table {*/
+    /*  border-collapse: collapse;*/
+    /*  width: 70%;*/
+    /*  margin: 0 auto;*/
+    /*  margin-top: 20px;*/
+    /*  margin-bottom: 20px;*/
+    /*}*/
 
+    /*th, td {*/
+    /*  border: 1px solid #ccc;*/
+    /*  padding: 8px;*/
+    /*  text-align: center;*/
+    /*}*/
 
-</style>
+    /*th {*/
+    /*  background-color: #f2f2f2;*/
+    /*}*/
+
+    /*!* 컨테이너 스타일 *!*/
+    /*.container {*/
+    /*  text-align: center;*/
+    /*  margin-bottom: 20px;*/
+    /*}*/
+
+    /*!* 버튼 스타일 *!*/
+    /*button {*/
+    /*  font-family: 'Noto Sans KR', sans-serif;*/
+    /*  font-weight: 500;*/
+    /*  font-size: 14px;*/
+    /*  padding: 10px 20px;*/
+    /*  border: none;*/
+    /*  background-color: #ff731b;*/
+    /*  color: white;*/
+    /*  cursor: pointer;*/
+    /*  margin-right: 10px;*/
+    /*}*/
+
+    /*button:hover {*/
+    /*  background-color: #ff6f84;*/
+    /*}*/
+
+    /* 비어있는 메시지 스타일 */
+    .empty-message {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #888;
+      height: 300px;
+      text-align: center;
+    }
+    /*!* 총 구매 금액 스타일 *!*/
+    /*.total-price-container {*/
+    /*  text-align: center;*/
+    /*  margin-bottom: 20px;*/
+    /*  font-size: 16px;*/
+    /*  color: #888;*/
+    /*}*/
+  </style>
+
 </head>
 <body>
+<c:if test="${empty cart}">
+  <div class="empty-message" style="display: flex; justify-content: center; align-items: center;">
+    <p>사업자는 장바구니 기능을 사용하실 수 없습니다.</p>
+  </div>
+</c:if>
 <br>
 
-<div class="mypage-form">
-  <form>
-    <h2>사업자 장바구니에요~~</h2>
-  </form>
-</div>
-
+</form>
 </body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  // 로그인 여부 확인 함수
+  function isLoggedIn() {
+    if (${customerUserVO == null || customerUserVO.u_id == null}) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  $(document).ready(function (){
+    $(".selectedItems").on("change", function (){
+      calculateTotalPrice();
+    })
+  })
+
+  const calculateTotalPrice = () => {
+    let totalPrice = 0;
+
+    // 체크된 체크박스들의 가격 합산
+    $(".selectedItems:checked").each(function() {
+      const price = $(this).closest("tr").find(".total").data("price");
+      console.log(price);
+      totalPrice += price;
+    });
+
+    // 총 구매 금액 업데이트
+    $("#totalPrice").text(totalPrice);
+
+  }
+
+  // 상단바 장바구니 진입 시 삭제 기능
+  const deleteItems = () => {
+    if (!isLoggedIn()) {
+      alert("로그인 후 이용해주세요.");
+      return;
+    }
+
+    const selectedItems = []; // 선택된 항목의 ID를 담을 배열
+
+    // 선택된 항목의 ID를 배열에 추가
+    $('.selectedItems:checked').each(function () {
+      selectedItems.push($(this).val());
+    });
+    console.log(selectedItems)
+    if (selectedItems.length === 0) {
+      alert("삭제할 항목을 선택해주세요.");
+      return;
+    }
+
+    // 선택된 항목의 ID를 URL에 추가하여 AJAX 요청
+    $.ajax({
+      type: "POST",
+      url: "/cart/delete",
+      data: JSON.stringify(selectedItems), // 선택된 항목의 ID 배열을 JSON 형식으로 변환하여 서버로 전달
+      contentType: "application/json", // 전달하는 데이터의 형식을 명시 (JSON 형식)
+      success: function (response) {
+        alert("선택된 항목이 장바구니에서 삭제되었습니다.");
+        location.reload(); // 페이지 새로고침
+      },
+      error: function (xhr, status, error) {
+        alert("에러 발생");
+      },
+    });
+  };
+  $("#buy").click(function (e){
+    console.log("여기 버튼이 눌렸다 ")
+    let str=""
+    $('.selectedItems:checked').each(function () {
+      str+="<input type='hidden' name='pno' value='"+$(this).val()+"'/>"
+    });
+    console.log(str)
+    $("#transferPno").append(str).submit();
+  })
+
+</script>
 <%@ include file="../footer/footer.jsp"%>
 </html>
