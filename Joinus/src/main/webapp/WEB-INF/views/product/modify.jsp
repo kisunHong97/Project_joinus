@@ -66,7 +66,7 @@
     max-width: 200px;
     height: auto;
   }
-  .insertProduct{
+  .modifyProduct{
     border-radius: 2px;
     border: none;
     background-color: #ff6f63;
@@ -74,7 +74,7 @@
     width: 65px;
     color: white;
   }
-  .insertProduct:hover{
+  .modifyProduct:hover{
     border-radius: 2px;
     border: 2px solid #ff6f63;
     background-color: #ffffff;
@@ -104,6 +104,22 @@
     border-radius: 2px;
     background-color: #ffefe6;
     height: 30px;
+  }
+  .deleteProduct{
+    border-radius: 2px;
+    border: none;
+    background-color: #ffb797;
+    height: 45px;
+    width: 65px;
+    color: white;
+  }
+  .deleteProduct:hover{
+    border-radius: 2px;
+    border: 2px solid #ffb797;
+    background-color: #ffffff;
+    height: 45px;
+    width: 65px;
+    color: #ffb797;
   }
   .deleteBtn{
     border: none;
