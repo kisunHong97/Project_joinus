@@ -1,130 +1,217 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
-  <head>
+<head>
 
-    <link href="../resources/css/responsive.css" rel="stylesheet" />
-    <link href="../resources/css/productRegister.css" rel="stylesheet" />
-  </head>
-  <%@ include file="../header/header.jsp"%>
-  <body>
+  <%--    <link href="../resources/css/responsive.css" rel="stylesheet" />--%>
+  <%--    <link href="../resources/css/productRegister.css" rel="stylesheet" />--%>
+</head>
+<%@ include file="../header/header.jsp"%>
+<style>
+  .inputlist{
+    height: 33px;
+    border: 1px solid #e3e3e3;
+    width: 480px;
 
-    <div class="main" style="margin: 0 auto">
-      <h1 class="logo" style="font-weight: bold; letter-spacing: -1px">상품 수정</h1>
+  }
+  .period-input period-startDate{
+    border: 1px solid #e3e3e3;
+  }
+  input[type="radio"] {
+    appearance: none; /* 기본 스타일 제거 */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 20px; /* 원의 크기 조정 */
+    height: 20px;
+    border-radius: 50%; /* 원의 모양 설정 */
+    border: 1px solid #c0c0c0; /* 테두리 스타일과 색상 설정 */
+    background-color: #fff; /* 배경색 설정 */
+  }
 
+
+  /* 체크된 상태의 라디오 버튼 */
+  input[type="radio"]:checked {
+    border-width: 4px; /* 테두리 두껍게 설정 */
+    border-color: orange; /* 테두리 색상 설정 */
+  }
+  .periodFix{
+    border: none;
+    background-color: #ffbda2;
+    border-radius: 2px;
+    width: 50px;
+    height: 30px;
+  }
+  .periodFix:hover{
+    border: 2px solid #ffbda2;
+    background-color: white;
+    border-radius: 2px;
+    color: black;
+  }
+  .periodClear{
+    border: none;
+    background-color: #ff2261;
+    border-radius: 2px;
+    width: 50px;
+    height: 30px;
+    color: white;
+  }
+  .periodClear:hover{
+    border: 2px solid #ff3b75;
+    background-color: white;
+    border-radius: 2px;
+    color: black;
+  }
+  .thumbnail-image {
+    max-width: 200px;
+    height: auto;
+  }
+  .insertProduct{
+    border-radius: 2px;
+    border: none;
+    background-color: #ff6f63;
+    height: 45px;
+    width: 65px;
+    color: white;
+  }
+  .insertProduct:hover{
+    border-radius: 2px;
+    border: 2px solid #ff6f63;
+    background-color: #ffffff;
+    height: 45px;
+    width: 65px;
+    color: #ff6f63;
+  }
+  .backbutton{
+    border-radius: 2px;
+    border: none;
+    background-color: #969696;
+    height: 45px;
+    width: 65px;
+    color: white;
+
+  }
+  .backbutton:hover{
+    border-radius: 2px;
+    border: 2px solid #969696;
+    background-color: #ffffff;
+    height: 45px;
+    width: 65px;
+    color: #969696;
+  }
+  .uploadBtn{
+    border: none;
+    border-radius: 2px;
+    background-color: #ffefe6;
+    height: 30px;
+  }
+  .deleteBtn{
+    border: none;
+    border-radius: 2px;
+    background-color:#ffbda2;
+    height: 30px;
+    width: 50px;
+  }
+  body{
+    letter-spacing: -1px;
+  }
+
+</style>
+<body>
+<br>
+<div class="main" style="margin: 0 auto; ">
+  <div class="modify" style="max-width: 1100px; margin-left: 600px; ">
+    <h1 class="logo" style="font-weight: bold; letter-spacing: -1px;">상품 수정</h1>
+    <br>
+    <div style="height: 1400px">
       <form action="modify" method="post">
         <input type="hidden" name="sno" id="sno" value="${product.sno}">
         <input type="hidden" name="pno" id="pno" value="${product.pno}">
-        <div class="container">
-          <div class="card mb-3" style="max-width: 540px">
-            <div class="row no-gutters">
-              <div class="col-md-4">
-                <h5 class="card-title">상품명</h5>
-              </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <input
-                          type="text"
-                          placeholder="상품명"
-                          id="p_name"
-                          name="p_name"
-                          value="${product.p_name}"
-                  />
-                </div>
-              </div>
+        <div class="container" style="height: 1000px">
+          <div class="card" style="height: 70px; width: 700px; display: inline-block; border-top:2px solid black; border-radius: 0px; ">
+            <div class="card-list" style="display: inline-block; margin-top: 20px;">
+              <span class="card-title" style="margin-right: 100px; margin-left: 40px;">상품명</span>
+              <input class="inputlist"
+                     type="text"
+                     placeholder="상품명"
+                     id="p_name"
+                     name="p_name"
+                     value="${product.p_name}"
+              />
             </div>
           </div>
           <%-- 상품명 태그 종료 --%>
-          <div class="card mb-3" style="max-width: 540px">
-            <div class="row no-gutters">
-              <div class="col-md-4">
-                <h5 class="card-title">소개글</h5>
-              </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <input
-                          type="text"
-                          placeholder="소개글"
-                          id="p_inst"
-                          name="p_inst"
-                          value="${product.p_inst}"
-                  />
-                </div>
-              </div>
+          <div class="card" style="height: 70px; width: 700px; display: inline-block; border-top:none; border-radius: 0px; ">
+            <div class="card-list" style="display: inline-block; margin-top: 20px;">
+              <span class="card-title" style="margin-right: 100px; margin-left: 40px;">소개글</span>
+              <input  class="inputlist"
+                      type="text"
+                      placeholder="소개글"
+                      id="p_inst"
+                      name="p_inst"
+                      value="${product.p_inst}"
+              />
             </div>
           </div>
           <%-- 소개글 태그 종료 --%>
-          <div class="card mb-3" style="max-width: 540px">
-            <div class="row no-gutters">
-              <div class="col-md-4">
-                <h5 class="card-title">기간</h5>
+          <div class="card" style="height: 150px; width: 700px; display: inline-block; border-top:none; border-radius: 0px; ">
+            <div class="card-list" style="display: inline-block; margin-top: 20px;">
+              <span class="card-title" style="margin-right: 100px; margin-left: 40px;">기간</span>
+
+              <input type="radio" name="change" class="period_change" value="fixed" style="margin-left: 60px;" checked> <span class="span">고정된 날짜</span>
+              <input type="radio" name="change" class="period_change" value="free" style="margin-left: 60px;"> <span  class="span">오늘부터 n일까지</span>
+              <div class="d-flex period-fixed" style="margin-left: 187px; margin-top: 5px;">
+                <input type="date"
+                       id="startDate"
+                       max="2099-12-31"
+                       value="${startDate}"
+                       class="period-input period-startDate"
+                       style="width: 135px; margin-right: 15px;  border: 1px solid #e3e3e3; text-align: center;"
+                >
+                <b style="font-size: 25px; margin-right: 15px;">~</b>
+                <input type="date"
+                       id="endDate"
+                       max="2099-12-31"
+                       value="${endDate}"
+                       class="period-input period-endDate"
+                       style="width: 135px; margin-right: 15px; border: 1px solid #e3e3e3; text-align: center;"
+                >
+                <input type="number" id="price" placeholder="가격" value="${product.p_price}" style="width: 150px; margin-right: 15px;  border: 1px solid #e3e3e3;">
               </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <input type="radio" name="change" class="period_change" value="fixed" checked> 고정된 날짜
-                  <input type="radio" name="change" class="period_change" value="free"> 오늘부터 n일까지
-                  <div class="d-flex period-fixed">
-                    <input type="date"
-                           id="startDate"
-                           max="2099-12-31"
-                           value="${startDate}"
-                           class="period-input period-startDate"
-                           style="width: 120px; margin-right: 15px;"
-                    >
-                    <b style="font-size: 25px; margin-right: 15px;">~</b>
-                    <input type="date"
-                           id="endDate"
-                           max="2099-12-31"
-                           value="${endDate}"
-                           class="period-input period-endDate"
-                           style="width: 120px; margin-right: 15px;"
-                    >
-                    <input type="number" id="price" placeholder="가격" value="${product.p_price}" style="width: 150px; margin-right: 15px;">
-                  </div>
-                  <div class="d-flex period-free">
-                    <label>월 얼마?(30일 기준)</label>
-                    <input type="number" id="monthPrice" value="${product.p_price}" class="period-priceMonth">
-                  </div>
-                  <button class="btn btn-primary periodFix">고정</button>
-                  <button class="btn btn-danger periodClear"  style="display: none;">해제</button>
-                </div>
+              <div class="d-flex period-free" style="margin-left: 187px; margin-top: 5px; margin-bottom: 10px">
+                <label style="margin-right: 20px">월 당 금액(30일 기준)</label>
+                <input type="number" id="monthPrice" value="${product.p_price}" class="period-priceMonth" style="border: 1px solid #e3e3e3; ">
               </div>
+              <button class="periodFix" style="margin-left: 370px;">고정</button>
+              <button class="periodClear"  style="display: none; margin-left: 370px;">해제</button>
             </div>
           </div>
           <%-- 기간 태그 종료 --%>
-          <div class="card mb-3" style="max-width: 540px">
-            <div class="row no-gutters">
-              <div class="col-md-4">
-                <h5 class="card-title">카테고리</h5>
-              </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <select name="p_category" id="p_category">
-                    <option value="">-- 카테고리 선택 --</option>
-                    <option value="food"  c:if="${product.p_category == 'food'}" selected>FOOD</option>
-                    <option value="academy"  c:if="${product.p_category == 'academy'}" selected>ACADEMY</option>
-                    <option value="physical fitness" c:if="${product.p_category == 'physical fitness'}" selected>PHYSICAL FITNESS</option>
-                    <option value="traffic" c:if="${product.p_category == 'traffic'}" selected>TRAFFIC</option>
-                  </select>
-                </div>
-              </div>
+
+          <div class="card" style="height: 70px; width: 700px; display: inline-block; border-top:none; border-radius: 0px; ">
+            <div class="card-list" style="display: inline-block; margin-top: 20px;">
+              <span class="card-title" style="margin-right: 82px; margin-left: 40px;">카테고리</span>
+              <select name="p_category" id="p_category" style="border: 1px solid #e3e3e3; height: 30px; width: 200px ">
+                <option value="">-- 카테고리 선택 --</option>
+                <option value="food"  c:if="${product.p_category == 'food'}" selected>FOOD</option>
+                <option value="academy"  c:if="${product.p_category == 'academy'}" selected>ACADEMY</option>
+                <option value="physical fitness" c:if="${product.p_category == 'physical fitness'}" selected>PHYSICAL FITNESS</option>
+                <option value="traffic" c:if="${product.p_category == 'traffic'}" selected>TRAFFIC</option>
+              </select>
             </div>
           </div>
+
           <%-- 소개글 태그 종료 --%>
-          <div class="card mb-3" style="max-width: 540px">
-            <div class="row no-gutters">
-              <div class="col-md-4">
-                <h5 class="card-title">썸네일</h5>
-              </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <c:forEach var="i" begin="0" end="${fn:length(product.thumbnailList)-1}" step="2">
-                    <div class="d-flex">
+          <div class="card" style="height: 600px; width: 700px; display: inline-block; border-top:none; border-radius: 0px; ">
+            <div class="card-list" style="display: inline-block; margin-top: 20px;">
+              <span class="card-title" style="margin-right: 82px; margin-left: 40px;">썸네일</span>
+              <div class="card-body"  style="margin-left: 150px">
+                <c:forEach var="i" begin="0" end="${fn:length(product.thumbnailList)-1}" step="2">
+                  <div class="d-flex">
                     <span class="thumbnail-span">
                       <c:if test="${empty product.thumbnailList[i]}">
                         <img
-                                src="../resources/images/no-image.png"
+                                src="../../resources/images/no-image.png"
                                 class="file-image thumbnail-image"
                         />
                         <input type="file" class="inputActive file-input" />
@@ -145,7 +232,7 @@ pageEncoding="UTF-8"%>
                         >삭제</button>
                       </c:if>
                     </span>
-                      <span class="thumbnail-span">
+                    <span class="thumbnail-span">
                          <c:if test="${empty product.thumbnailList[i+1]}">
                         <img
                                 src="../resources/images/no-image.png"
@@ -169,59 +256,59 @@ pageEncoding="UTF-8"%>
                           >삭제</button>
                         </c:if>
                     </span>
-                    </div>
-                  </c:forEach>
-                </div>
+                  </div>
+                </c:forEach>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="height: 300px; width: 700px; border-top: none; border-radius: 0px;">
+            <div class="card-list" style="margin-top: 20px; height: 110px">
+              <span class="card-title" style="margin-right: 100px; margin-left: 40px;">상세 내용</span>
+              <div style="margin-left: 200px">
+                <c:if test="${empty product.detail}">
+                  <div class="file-image"></div>
+                  <input type="file" class="inputActive file-input" />
+                  <div>
+                    <button class="uploadActive uploadBtn">업로드</button>
+                    <button class="upload deleteBtn">삭제</button>
+                  </div>
+                </c:if>
+                <c:if test="${!empty product.detail}">
+                  <div class="file-image">
+                    <img src="/display?fileName=${product.detail.uploadPath}/${product.detail.uuid}_${product.detail.fileName}">
+                  </div>
+                  <input type="file" class="input file-input" />
+                  <div>
+                    <button class="upload uploadBtn">업로드</button>
+                    <button class="uploadActive deleteBtn"
+                            data-file="${product.detail.uploadPath}/${product.detail.uuid}_${product.detail.fileName}"
+                            data-type="image">삭제</button>
+                  </div>
+                </c:if>
               </div>
             </div>
           </div>
           <%-- 상품명 태그 종료 --%>
-          <div class="card mb-3" style="max-width: 540px">
-            <div class="row no-gutters">
-              <div class="col-md-4">
-                <h5 class="card-title">상세내용</h5>
-              </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <span class="detail-span">
-                    <c:if test="${empty product.detail}">
-                      <input type="file" class="inputActive file-input" />
-                      <button class="uploadActive uploadBtn">업로드</button>
-                      <button class="upload deleteBtn">삭제</button>
-                      <div class="file-image"></div>
-                    </c:if>
-                    <c:if test="${!empty product.detail}">
-                      <input type="file" class="input file-input" />
-                      <button class="upload uploadBtn">업로드</button>
-                      <button
-                              class="uploadActive deleteBtn"
-                              data-file="${product.detail.uploadPath}/${product.detail.uuid}_${product.detail.fileName}"
-                              data-type="image"
-                      >삭제</button>
-                      <div class="file-image">
-                        <img src="/display?fileName=${product.detail.uploadPath}/${product.detail.uuid}_${product.detail.fileName}">
-                      </div>
-                    </c:if>
-                  </span>
-                </div>
-              </div>
-            </div>
+          <br>
+          <div style="height: 100px; margin-left: 290px">
+            <button type="submit" class="insertProduct">
+              등록
+            </button>
+            <button type="submit" class="backbutton">취소</button>
           </div>
-          <%-- 상품명 태그 종료 --%>
         </div>
         <%-- 컨테이너 끝 --%>
-        <button type="submit" class="btn btn-primary insertProduct">
-          등록
-        </button>
-        <button type="submit" class="btn btn-danger">취소</button>
       </form>
     </div>
-    <%@ include file="../footer/footer.jsp"%>
-    <script src="script.js">
-      console.log(b_id);
-      console.log(b_pwd1);
-    </script>
-  </body>
+  </div>
+  <script src="script.js">
+    console.log(b_id);
+    console.log(b_pwd1);
+  </script>
+</div>
+</body>
+<%@ include file="../footer/footer.jsp"%>
 </html>
 <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
 <script>
@@ -493,6 +580,7 @@ pageEncoding="UTF-8"%>
       $(".period-fixed").find("input").attr("readonly", "readonly")
       $(".period-free").find("input").attr("readonly", "readonly")
       $(".period_change").hide();
+      $(".span").hide();
       $(".periodFix").hide();
       $(".periodClear").show();
     })
@@ -502,6 +590,7 @@ pageEncoding="UTF-8"%>
       event.preventDefault();
       $(".period-fixed").find("input").removeAttr("readonly");
       $(".period-free").find("input").removeAttr("readonly");
+      $(".span").show();
       $(".period_change").show();
       $(".periodFix").show();
       $(".periodClear").hide();
