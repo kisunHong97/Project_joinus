@@ -27,7 +27,7 @@
         align-items: center;
     }
     #mypage-menu > div > a {
-        color: #7e7e7e;
+        color: #000000;
     }
     .content{
         display: flex;
@@ -271,10 +271,9 @@
 
         <c:if test="${empty reviewlist}">
             <br>
-            <div class="noReviews" style="text-align: center">작성한 리뷰가 없습니다.</div>
+            <div class="noReviews" style="text-align: center; ">작성한 리뷰가 없습니다.</div>
         </c:if>
     </div>
-
     <br>
 </div>
 </body>
