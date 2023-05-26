@@ -164,4 +164,11 @@ public class ProductController {
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
+    @PostMapping("/deletePost")
+    public ResponseEntity<String> productDelete(@RequestBody int pno){
+        fileService.removeProductImage(pno);
+        productService.removeProduct(pno);
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
 }

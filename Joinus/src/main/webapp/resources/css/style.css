@@ -63,18 +63,7 @@ body {
 }
 
 /*header section*/
-.hero_area {
-  height: 100vh;
-  background: -webkit-gradient(linear, left top, right top, from(rgba(255, 255, 255, 0)), to(rgba(255, 255, 255, 0))), url(../images/hero-bg.jpg);
-  background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), url(../images/hero-bg.jpg);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: right bottom;
-}
 
-.sub_page .hero_area {
-  height: auto;
-}
 
 .sub_page .slider_section {
   background: none;
