@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -111,13 +112,15 @@ public class CustomerController {
         System.out.println("충전 포인트"+buypoint);
         System.out.println("현재 포인트"+customerloginUser.getBuypoint());
         int point = customerloginUser.getBuypoint();
-        int buypointt = buypoint;
-        int total = point + buypointt;
+        int total = point + buypoint;
         vo.setBuypoint(total);
+        System.out.println("total!!!!!!!:"+total);
         customerService.update(total, id);
         model.addAttribute("customervo",customerloginUser);
+        customerloginUser.setBuypoint(total);
         return "redirect:/mypage";
     }
+
     @GetMapping("/review")
     public String getreview(@RequestParam("pno") int pno , @RequestParam("sno") int sno){
         System.out.println("sno제발가져와라.."+sno);

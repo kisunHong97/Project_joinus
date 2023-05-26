@@ -90,7 +90,7 @@
 <br>
 <div class="container bootstrap snippets bootdey">
   <div class="main">
-    <h1 class="text">개인정보 확인</h1>
+    <h1 class="text"  style="font-weight: bold; letter-spacing: -1px">개인정보 확인</h1>
     <hr>
     <div class="row">
       <div class="col-md-9 personal-info">

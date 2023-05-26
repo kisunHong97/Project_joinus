@@ -93,9 +93,10 @@
         position: absolute;
         top: 0;
         right: 0;
-        left: calc(69% - 205px);
+        left: calc(69% - 180px);
     }
     .nav-link1{
+        letter-spacing: -1px;
         color: #3b3b3b;
     }
     .header_section{
@@ -140,13 +141,24 @@
         <div class="container" >
             <div class="contact_nav"  style="top: 5px; height: 10px;">
                 <ul class="navbar-nav1" id = "ul"  style="top: 5px; height: 20px;">
+                        <c:if test="${customerid!=null}">
+                            <span class="nav-link1" style="top: 5px; height: 10px; margin-left: -150px; letter-spacing: -1px">
+                                <span style="color:#ff934f;">${customerUserVO.u_name}<span><span style="color: black;">님 어서오세요!</span>
+                            </span>
+                        </c:if>
+                        <c:if test="${businessid!=null}">
+                            <span class="nav-link1" style="top: 5px; height: 10px; margin-left: -216px; letter-spacing: -1px">
+                                 사업자 &nbsp;<span style="color:#ff934f;">${BusinessUserVO.b_name}<span><span style="color: black;">님 어서오세요!</span>
+                            </span>
+                        </c:if>
+
                     <li class="nav-item1">
-                        <c:if test="${id==null}">
+                        <c:if test="${businessid==null && customerid==null}">
                             <a class="nav-link1" href="/login" style="top: 5px; height: 10px;">
                                 로그인
                             </a>
                         </c:if>
-                        <c:if test="${id!=null}">
+                        <c:if test="${businessid!=null || customerid!=null}">
                             <a class="nav-link1" href="/logout" style="top: 5px; height: 10px;">
                                 로그아웃
                             </a>
@@ -188,7 +200,8 @@
             </div>
         </div>
     </header>
-<div class="container" style="border-top: 1px solid #dcdcdc; border-bottom: 2px solid black;">
+<div class="container" style="border-top: 1px solid #dcdcdc; border-bottom:2px solid black;">
+<%--     2px solid black;--%>
     <div class="custom_nav2">
         <nav class="navbar navbar-expand-lg custom_nav-container" style="background-color: white">
             <div class="collapse navbar-collapse" id="navbarSupportedContent">

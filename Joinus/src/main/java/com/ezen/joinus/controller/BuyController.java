@@ -42,7 +42,7 @@ public class BuyController {
         model.addAttribute("productVO", productVO);
 
         // 사용자 정보 가져오기
-        String u_id = (String) session.getAttribute("id");
+        String u_id = (String) session.getAttribute("customerid");
         System.out.println("구매 페이지 로그인 된 사용자 아이디 불러오나?:"+u_id);
         CustomerUserVO customerUserVO = customerService.getCustomerById(u_id);
         System.out.println(customerUserVO);
@@ -59,11 +59,12 @@ public class BuyController {
     // 해당 상품을 구매 목록에 추가하는 기능
     @PostMapping("/purchase")
     public ResponseEntity<String> purchase(PurchaseVO vo, HttpSession session) {
-        String id = (String) session.getAttribute("id");
+        String id = (String) session.getAttribute("customerid");
+        String bid = (String) session.getAttribute("businessid");
         System.out.println("구매 컨트롤러에 아이디 불러오나?:"+vo);
 
         // 로그인한 사용자 정보가 없는 경우
-        if (id == null) {
+        if (id == null && bid==null) {
             return ResponseEntity.badRequest().body("로그인 후 이용해주세요.");
         }
 
@@ -80,6 +81,7 @@ public class BuyController {
         purchaseVO.setP_name(vo.getP_name());
         purchaseVO.setP_price(vo.getP_price());
         purchaseVO.setMemo(vo.getMemo());
+        purchaseVO.setBuyTime(vo.getBuyTime());
         purchaseVO.setStartDate(vo.getStartDate());
         purchaseVO.setEndDate(vo.getEndDate());
         System.out.println("purchaseVO:" + purchaseVO);
@@ -96,7 +98,7 @@ public class BuyController {
     }
     @PostMapping(value = "/cartPurchase", consumes = "application/json", produces = {MediaType.TEXT_PLAIN_VALUE})
     public ResponseEntity<String> cartPurchase(@RequestBody Map<String, Object> cartBuyData, HttpSession session) throws UnsupportedEncodingException {
-        String id = (String) session.getAttribute("id");
+        String id = (String) session.getAttribute("customerid");
         System.out.println("장바구니에서 구매 컨트롤러에 아이디 불러오나?:" + id);
         System.out.println("장바구니에서 구매 컨트롤러에 구매 리스트 불러오나?:" + cartBuyData);
 
@@ -156,7 +158,7 @@ public class BuyController {
 //    }
     @PostMapping("/board/cartbuy")
     public String readCart(String pno, HttpSession session, Model model){
-        String u_id = (String) session.getAttribute("id");
+        String u_id = (String) session.getAttribute("customerid");
         System.out.println("pno:"+pno);
         // 스토어 정보 가져오기
         // BusinessStore = storeService.();

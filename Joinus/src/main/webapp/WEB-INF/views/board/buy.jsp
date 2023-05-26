@@ -199,6 +199,12 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 <script>
+    // 현재 시간을 가져오는 함수
+    function getCurrentTime() {
+        var now = new Date();
+        return now; // 현재 시간을 ISO 8601 형식으로 반환
+    }
+
     $(document).ready(function (e){
         $(".buy-button").click(function (){
             if(${customerUserVO.buypoint <= 0}) {
@@ -208,6 +214,8 @@
                 let p_price = $('#p_price_span').text();
                 let startDate = $("#startDateDisplay").text();
                 let endDate = $("#endDateDisplay").text();
+                var currentTime = getCurrentTime();
+                console.log("현재 시간 : " + currentTime)
                 // AJAX 요청 생성
                 $.ajax({
                     url: "/purchase", // 데이터를 전송할 서버의 URL
@@ -219,6 +227,7 @@
                         p_name: '${productVO.p_name}',
                         memo: memo,
                         p_price: p_price,
+                        buyTime : currentTime,
                         startDate: startDate,
                         endDate: endDate
                     },
