@@ -28,40 +28,6 @@
     a {
         text-decoration: none;
     }
-    /*.board {*/
-    /*  width: 100%;*/
-    /*}*/
-
-    /*.post-thumbnail img {*/
-    /*    display: block;*/
-    /*    width: 100%;*/
-    /*    height: auto;*/
-
-    /*}*/
-
-    /*.post-content {*/
-    /*    padding: 10px;*/
-    /*}*/
-
-    /*.post-content h3 {*/
-    /*    margin-top: 0;*/
-    /*    margin-bottom: 10px;*/
-    /*}*/
-
-    /*.post-content p {*/
-    /*    margin: 0;*/
-    /*    line-height: 1.5;*/
-    /*}*/
-
-    /*.post-content a {*/
-    /*    display: block;*/
-    /*    text-align: center;*/
-    /*    margin-top: 10px;*/
-    /*    font-size: 13px;*/
-    /*    font-weight: bold;*/
-    /*    font-family: "Poppins", sans-serif;*/
-    /*    color : peru;*/
-    /*}*/
     .post-thumbnail {
         display: flex;
         justify-content: center;
@@ -145,26 +111,93 @@
         display: flex;
         flex-wrap: wrap;
         overflow: hidden;
-        width: 100%;
+        width: 107%;
         height: auto;
     }
 
     .board-body ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
         display: flex;
         flex-wrap: wrap;
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-        width: 75%;
-        transition: transform 0.5s ease-in-out;
     }
 
-    .board-body ul li {
-        flex: 0 0 calc(33.33% - 20px);
+    .board-body li {
+        width: calc(23.33% - 20px);
+        margin-right: 20px;
         margin-bottom: 20px;
-        padding: 0 10px;
-        box-sizing: border-box;
+        border: 1px solid #ccc;
+        box-shadow: 0 2px 2px rgba(0,0,0,0.3);
+        transition: box-shadow 0.2s ease-in-out;
     }
+
+    .board-body1{
+        width: 75%;
+    }
+
+    /* 두번째 섹션 */
+    .board-body1 ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .board-body1 li {
+        width: calc(33.33% - 20px);
+        margin-right: 20px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        box-shadow: 0 2px 2px rgba(0,0,0,0.3);
+        transition: box-shadow 0.2s ease-in-out;
+    }
+
+    .board-body1 li:hover {
+        box-shadow: 0 4px 4px rgba(0,0,0,0.3);
+    }
+
+    .post-thumbnail1 img {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+
+    .post-content1 {
+        padding: 10px;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .post-content1 h3 {
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+
+    .post-content1 p {
+        margin: 0;
+        line-height: 1.5;
+    }
+
+    .post-content1 a {
+        display: block;
+        text-align: center;
+        margin-top: 10px;
+        font-size: 13px;
+        font-weight: bold;
+        font-family: "Poppins", sans-serif;
+        color : peru;
+    }
+    .hit1{
+        margin-top: 0px;
+        margin-bottom: 10px;
+        font-size:40px;
+        font-weight: 900;
+        color:#333;
+        letter-spacing:-1px;
+    }
+
 </style>
 <body class="sub_page about_page">
 <br>
@@ -176,7 +209,7 @@
                 <ul>
                     <c:choose>
                         <c:when test="${!empty purchaseVOList}">
-                            <c:forEach var="product" items="${purchaseVOList}" varStatus="status">
+                            <c:forEach var="product" items="${purchaseVOList}" varStatus="status" end="3">
                                 <li>
                                     <div class="post-thumbnail">
                                              <img src="/display?fileName=${thumbnailList1[status.index].uploadPath}/${thumbnailList1[status.index].uuid}_${thumbnailList1[status.index].fileName}" alt="게시물 썸네일"/>
@@ -188,7 +221,7 @@
                             </c:forEach>
                         </c:when>
                         <c:when test="${empty purchaseVOList}">
-                            <c:forEach var="product" items="${productList}" varStatus="status">
+                            <c:forEach var="product" items="${productList}" varStatus="status" end="3">
                                 <li>
                                     <div class="post-thumbnail">
                                         <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일"/>
@@ -209,10 +242,10 @@
 <%--<p>${customerloginUser.u_addrcode}</p>--%>
 <section>
     <div class="outter" style="flex-grow: 1;">
-        <h1 class="hit">내 주변 가게</h1>
+        <h1 class="hit1">내 주변 가게</h1>
         <!-- 옵션선택 끝 -->
-        <div class="board">
-            <div class="board-body">
+        <div class="board1">
+            <div class="board-body1">
                 <c:set var="hasNearbyProducts" value="false" />
                 <ul>
                     <c:forEach var="store" items="${storeVOList}" varStatus="status">
@@ -222,10 +255,10 @@
                                 <c:forEach var="product" items="${productList}" varStatus="productStatus">
                                     <c:if test="${store.sno == product.sno}">
                                         <li>
-                                            <div class="post-thumbnail">
+                                            <div class="post-thumbnail1">
                                                 <img src="/display?fileName=${thumbnailList[productStatus.index].uploadPath}/${thumbnailList[productStatus.index].uuid}_${thumbnailList[productStatus.index].fileName}" alt="게시물 썸네일">
                                             </div>
-                                            <div class="post-content">
+                                            <div class="post-content1">
                                                 <a href='/board/read?pno=${product.pno}'>${product.p_inst}</a>
                                             </div>
                                         </li>
@@ -242,7 +275,7 @@
                 </ul>
             </div>
         </div>
-        <aside style="position: absolute; top: 503px; right: 360px;">
+        <aside style="position: absolute; top: 510px; right: 360px;">
             <div style="flex-shrink: 0; width: 300px;">
                 <h1 class="hit">Let's Join Us!</h1>
                 <input type="hidden" id="id" value="${customerloginUser.u_name}">
@@ -293,7 +326,7 @@
     // ##### 연결 되었습니다!
     function onOpen() {
         if (${customerloginUser == null}) {
-            websocket.send("<div style='color: #7c7c7c; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: bold;'>로그인 후 이용해주세요.&nbsp&nbsp&nbsp&nbsp</div>");
+            websocket.send("<div style='color: #ff6f84; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: bold;'>로그인 후 이용해주세요.&nbsp&nbsp&nbsp&nbsp</div>");
             document.getElementById("message").disabled = true;
             document.getElementById("send").disabled = true;
             document.getElementById("exit").disabled = true;

@@ -44,7 +44,7 @@
     }
 
     .view:hover {
-        background-color: #45a049;
+        background-color: #ffc36c;
     }
 </style>
 </head>
@@ -62,7 +62,7 @@
     <div id="revenue-page">
         <div class="page-content">
             <div id="revenueContainer" style="display: flex; justify-content: center; align-items: center;">
-                <button class="view" onclick="fetchRevenueData()">조회</button>
+                <button class="view" onclick="fetchRevenueData(); this.disabled = true;">조회</button>
                 <canvas id="revenueChart" style="position: relative; height: 400px; width: 600px;"></canvas>
             </div>
         </div>

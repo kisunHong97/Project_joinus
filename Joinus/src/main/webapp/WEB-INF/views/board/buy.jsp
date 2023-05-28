@@ -52,6 +52,29 @@
             padding: 5px;
             font-size: 14px;
         }
+        .nobuy-button{
+            display: inline-block;
+            background-color: #ff374a;
+            color: #ffffff;
+            padding: 10px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .nobuy-button:hover {
+            border: 2px solid #ff374a;
+            color: #ff374a;
+            background-color: #ffffff;
+            border-radius: 4px;
+            padding: 10px 20px;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
         .buy-button {
             display: inline-block;
@@ -149,7 +172,6 @@
         <div><p style=" height: 40px; margin-top: 10px;"> <span id="startDateDisplay"></span> ~
             <span id="endDateDisplay"></span></p></div>
         <br>
-
 <%--        <p>가격: ${productVO.p_price}메소</p>--%>
         <p>가격: <span id="p_price"></span>&nbsp;포인트</p>
         <p>보유 포인트 : ${customerUserVO.buypoint}&nbsp;포인트</p>
@@ -158,9 +180,10 @@
         <label for="name">요청사항 : </label>
         <input type="text" id="name" name="memo" placeholder="전달할 요청사항을 입력하세요" style="width: 500px; border: 1px solid #afafaf">
         <hr>
+        <c:set var="p_price" value="${param.p_price}" />
         <c:choose>
-            <c:when test="${productVO.p_price <= customerUserVO.buypoint}">
-                <label for="name">총 결제 포인트 : <span id="p_price_span" style="font-size: 30px"></span>&nbsp;포인트</label><br>
+            <c:when test="${p_price <= customerUserVO.buypoint}">
+                <label for="name">총 결제 포인트 : <span id="p_price_span" style="font-size: 30px">${p_price}</span>&nbsp;포인트</label><br>
                 <label for="name">구매 후 남은 포인트 : <span id="remaining_price_span" style="font-size: 20px"></span>&nbsp;포인트</label>
                 </div>
                 <button class="buy-button">구매</button>
@@ -168,10 +191,10 @@
             <c:otherwise>
                 <label for="name">보유 포인트가 부족합니다.</label>
                 </div>
-                <button class="buy-button">구매</button>
+                <button class="nobuy-button" onclick="window.location.href='/customerpoint?point=${customerUserVO.buypoint}'">충전하기</button>
             </c:otherwise>
         </c:choose>
-</div>
+    </div>
 </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
