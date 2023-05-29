@@ -51,7 +51,7 @@
         <table border="1">
             <div class="board">
                 <div class="board-body">
-                    <ul>
+                    <ul style="margin-left: 70px">
                         <c:forEach var="food" items="${Foodlist}" varStatus="status">
                             <c:if test="${status.index >= (paging.nowPage-1) * 16 && status.index < paging.nowPage * 16}">
                                 <li>
@@ -59,7 +59,7 @@
                                         <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일">
                                     </div>
                                     <div class="post-content">
-                                        <a href="/board/read?pno=${Foodlist[status.index].pno}">${Foodlist[status.index].p_inst }</a>
+                                        <a href="/board/read?pno=${Foodlist[status.index].pno}">${Foodlist[status.index].p_name }</a>
                                     </div>
                                 </li>
                             </c:if>

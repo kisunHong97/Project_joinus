@@ -231,7 +231,7 @@
 <br>
 <section>
     <div class="outter">
-        <h1 class="hit">히트상품</h1>
+        <div class="hit"><span style="color: #ff731b;">히트</span>상품</div>
         <hr>
         <div class="board">
             <div class="board-body">
@@ -272,7 +272,7 @@
 <section>
     <div class="outter" style="flex-grow: 1;">
         <hr>
-        <h1 class="hit1">내 주변 가게</h1>
+        <div class="hit1">내 <span style="color: #ff731b;">주변</span> 가게</div>
         <!-- 옵션선택 끝 -->
         <div class="board1">
             <div class="board-body1">
@@ -298,14 +298,15 @@
                         </c:choose>
                     </c:forEach>
                     <c:if test="${not hasNearbyProducts}">
-                        <div style="height: 350px;">
-                            <h5>근처에 등록된 상품이 없습니다.</h5>
+                        <div style="height: 521px; width: 850px;">
+                            <img src="../../../resources/images/store.png" style="margin-left: 290px; width: 240px; height: 250px; margin-top: 50px">
+                            <span style="margin-left: -220px; letter-spacing: -1px">근처에 등록된 상품이 없습니다.</span>
                         </div>
                     </c:if>
                 </ul>
             </div>
         </div>
-        <aside style="position: absolute; top: 965px; right: 360px;">
+        <aside style="position: absolute; top: 975px; right: 360px;">
             <div style="flex-shrink: 0; width: 300px;">
                 <h1 class="hit">Let's Join Us!</h1>
                 <input type="hidden" id="id" value="${customerloginUser.u_name}">
@@ -317,6 +318,7 @@
                     <input type="button" id="exit" class="exit" value="나가기" />
                 </div>
             </div>
+            <img src="../../../resources/images/friends.png" style="max-width: 280px; margin-top: 30px">
         </aside>
     </div>
 </section>

@@ -25,7 +25,7 @@
         align-items: center;
     }
     #mypage-menu > div > a {
-        color: #343434;
+        color: #8a8a8a;
     }
     .view {
         display: inline-block;

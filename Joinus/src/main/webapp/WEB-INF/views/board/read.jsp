@@ -297,6 +297,10 @@
                         </select>
                     </div>
                     <div class="form-group">
+                        <label for="colorSelect">상품 소개</label>
+                        <div>${productVO.p_inst}</div>
+                    </div>
+                    <div class="form-group">
                         <label for="startDate">기간</label>
                         <br>
                         <c:if test="${productVO.p_type == 'fixed'}">
@@ -352,6 +356,7 @@
       <!-- 탭 내용 -->
       <div id="product_info" class="tabcontent" style="text-align: center">
           <h3 class="title">상품 상세 정보</h3>
+          <hr>
           <img src="/display?fileName=${productVO.detail.uploadPath}/${productVO.detail.uuid}_${productVO.detail.fileName}">
       </div>
 

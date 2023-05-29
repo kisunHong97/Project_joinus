@@ -27,7 +27,7 @@
         align-items: center;
     }
     #mypage-menu > div > a {
-        color: #000000;
+        color: #8a8a8a;
     }
     .content{
         display: flex;
