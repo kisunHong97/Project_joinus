@@ -37,21 +37,42 @@
     }
 
     /* 버튼 스타일 */
-    button {
+    .deletebtn {
       font-family: 'Noto Sans KR', sans-serif;
       font-weight: 500;
       font-size: 14px;
-      padding: 10px 20px;
+      width: 60px;
+      height: 40px;
+      /*padding: 10px 20px;*/
       border: none;
       background-color: #ff731b;
       color: white;
       cursor: pointer;
-      margin-right: 10px;
+      margin-right: 5px;
 
     }
 
-    button:hover {
-      background-color: #ff6f84;
+    .deletebtn:hover {
+      background-color: #ffffff;
+      color: #ff731b;
+      border: 2px solid #ff731b;
+    }
+    .purchbtn {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-weight: 500;
+      font-size: 14px;
+      width: 60px;
+      height: 40px;
+      border: none;
+      background-color: #48ecbf;
+      color: white;
+      cursor: pointer;
+      margin-right: 5px;
+    }
+    .purchbtn:hover {
+      background-color: #ffffff;
+      color: #48ecbf;
+      border: 2px solid #48ecbf;
     }
 
     /* 비어있는 메시지 스타일 */
@@ -72,23 +93,23 @@
   <%@ include file="../header/header.jsp"%>
 </head>
 <body>
-
+<br>
 <div class="container">
   <table border="1">
     <thead>
     <tr style="text-align: center;">
-      <th>카테고리</th>
-      <th>상품명</th>
-      <th>기간</th>
-      <th>금액</th>
-      <th>선택</th>
+      <th style="width: 100px;">카테고리</th>
+      <th style="width: 300px;">상품명</th>
+      <th style="width: 330px;">기간</th>
+      <th style="width: 100px;">금액</th>
+      <th style="width: 60px;">선택</th>
     </tr>
     </thead>
     <tbody>
     <c:forEach items="${cart}" var="cart">
       <tr>
         <td>${cart.product.p_category}</td>
-        <td><a href='/board/read?pno=${cart.pno}'>${cart.product.p_inst}</a></td>
+        <td><a href='/board/read?pno=${cart.pno}'>${cart.product.p_name}</a></td>
         <td>${cart.c_startDate} ~ ${cart.c_endDate}</td>
         <td>
           <span class="total" data-price=${cart.c_price}>${cart.c_price}원</span>
@@ -111,16 +132,16 @@
 <c:if test="${!empty cart}">
   <div class="total-price-container">
     <p>총 구매 금액:
-    <span id="totalPrice">0</span>
+      <span id="totalPrice">0</span>
       원</p>
-   <div class="container">
-  <div class="button1">
-    <button onclick="deleteItems()">삭제</button>
-    <button id="buy">구매</button>
+    <div class="container">
+      <div class="button1" style="display:block">
+        <button class=deletebtn onclick="deleteItems()">삭제</button>
+        <button class=purchbtn id="buy">구매</button>
+      </div>
+    </div>
   </div>
-</div>
-  </div>
-  </c:if>
+</c:if>
 <form id="transferPno" method="post" action="/board/cartbuy">
 
 </form>
