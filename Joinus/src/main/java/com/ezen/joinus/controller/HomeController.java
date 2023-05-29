@@ -60,7 +60,7 @@ public class HomeController {
 
         vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage),cntPage);
         model.addAttribute("paging", vo);
-        List<ProductVO> productList = productService.selectBoard(vo);
+        List<ProductVO> productList = productService.getListAll();
         List<AttachFileDTO> thumbnailList = new ArrayList<>();
         List<AttachFileDTO> thumbnailList1 = new ArrayList<>();
         List<StoreVO> storeVOList = storeService.getAllStore();
