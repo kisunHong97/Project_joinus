@@ -14,6 +14,7 @@ public interface PurchaseService {
     List<PurchaseVO> getPurchaseInfo(String u_id);
 
     List<PurchaseVO> getPurchaseInfoSno(int sno);
+    List<PurchaseVO> getPurchaseInfoPname(int sno);
 
     List<PurchaseVO> getAllpurchase();
 

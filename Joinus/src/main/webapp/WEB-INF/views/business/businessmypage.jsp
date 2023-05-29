@@ -103,6 +103,14 @@
         font-weight: bold;
         margin-top: 20px;
     }
+    .empty-message {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 14px;
+        color: #888;
+        height: 300px;
+        text-align: center;
+    }
 </style>
 </head>
 <body>
@@ -165,44 +173,42 @@
     </div>
     <div id="notice-page" style="display: none;">
         <div class="page-content">
-            <c:forEach items="${memberManagement}" var="member" varStatus="loop">
-                <c:if test="${loop.first || member.p_name != memberManagement[loop.index - 1].p_name}">
-                    <div class="product-name">
-                            ${member.p_name}
-                    </div>
-                    <table class="product-table" border="1">
-                        <thead>
-                        <tr>
-                            <th>사용자</th>
-                            <th>기간</th>
-                            <th>메모</th>
-<%--                            <th>환불요청</th>--%>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach items="${memberManagement}" var="subMember">
-                            <c:if test="${subMember.p_name == member.p_name}">
+            <c:choose>
+                <c:when test="${!empty memberManagementProduct}">
+                    <c:forEach items="${memberManagementProduct}" var="member" varStatus="loop">
+                        <c:if test="${loop.first || member.p_name != memberManagement[loop.index - 1].p_name}">
+                            <table class="product-table" border="1">
+                                <thead>
                                 <tr>
-                                    <td>${subMember.u_id}</td>
-                                    <td>${subMember.startDate} ~ ${subMember.endDate}</td>
-                                    <td>${subMember.memo}</td>
-<%--                                    <td>--%>
-<%--                                        <c:choose>--%>
-<%--                                            <c:when test="${refundVO != ''}">--%>
-<%--                                                <button id="refundResponse" onclick="refundResponse('${refundVO.u_id}', ${refundVO.pno}, ${refundVO.p_price})">환불요청</button>--%>
-<%--                                            </c:when>--%>
-<%--                                            <c:otherwise>--%>
-<%--                                                ${refundVO.u_id} 요청없음--%>
-<%--                                            </c:otherwise>--%>
-<%--                                        </c:choose>--%>
-<%--                                    </td>--%>
+                                    <th colspan="3">${member.p_name}</th>
                                 </tr>
-                            </c:if>
-                        </c:forEach>
-                        </tbody>
-                    </table>
-                </c:if>
-            </c:forEach>
+                                <tr>
+                                    <th>사용자</th>
+                                    <th>기간</th>
+                                    <th>메모</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach items="${memberManagement}" var="subMember">
+                                    <c:if test="${subMember.p_name == member.p_name}">
+                                        <tr>
+                                            <td>${subMember.u_id}</td>
+                                            <td>${subMember.startDate} ~ ${subMember.endDate}</td>
+                                            <td>${subMember.memo}</td>
+                                        </tr>
+                                    </c:if>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </c:if>
+                    </c:forEach>
+                </c:when>
+                <c:otherwise>
+                    <div class="empty-message" style="display: flex; justify-content: center; align-items: center;">
+                        <p>판매내역이 없습니다.</p>
+                    </div>
+                </c:otherwise>
+            </c:choose>
         </div>
     </div>
 

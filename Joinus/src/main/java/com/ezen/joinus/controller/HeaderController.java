@@ -61,8 +61,11 @@ public class HeaderController {
                 model.addAttribute("business",businessService.getBusinessById(BusinessloginUser.getB_id()));
                 List<ReviewVO> reviewVOList = businessService.selectreviewsno(BusinessloginUser.getBno());
                 model.addAttribute("reviewlist",reviewVOList);
+                List<PurchaseVO> memberManagementProduct = purchaseService.getPurchaseInfoPname(BusinessloginUser.getBno());
+                System.out.println("해당 스토어의 구매된 제품 정보 (중복제거) : " + memberManagementProduct);
                 List<PurchaseVO> memberManagement = purchaseService.getPurchaseInfoSno(BusinessloginUser.getBno());
                 System.out.println("해당 스토어(bno)의 회원 관리 구매 정보 : " + memberManagement);
+                model.addAttribute("memberManagementProduct", memberManagementProduct);
                 model.addAttribute("memberManagement", memberManagement);
                 model.addAttribute("refund", refundVO);
 
