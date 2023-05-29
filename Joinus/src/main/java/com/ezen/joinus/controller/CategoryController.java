@@ -42,15 +42,15 @@ public class CategoryController {
 
         if (nowPage == null && cntPerPage == null) {
             nowPage = "1";
-            cntPerPage = "16";
+            cntPerPage = "12";
         } else if (nowPage == null) {
             nowPage = "1";
         } else if (cntPerPage == null) {
-            cntPerPage = "16";
+            cntPerPage = "12";
         }
         int cntPage= 0;
-        if ((Foodproducttotal / 16.0)>0){
-            cntPage = (int) Math.ceil(Foodproducttotal / 16.0);
+        if ((Foodproducttotal / 12.0)>0){
+            cntPage = (int) Math.ceil(Foodproducttotal / 12.0);
         }else{
             cntPage = 1;
         }
@@ -79,16 +79,16 @@ public class CategoryController {
 //        System.out.println("@@@@@@@@@@@@@@@@"+total);
         if (nowPage == null && cntPerPage == null) {
             nowPage = "1";
-            cntPerPage = "16";
+            cntPerPage = "12";
         } else if (nowPage == null) {
             nowPage = "1";
         } else if (cntPerPage == null) {
-            cntPerPage = "16";
+            cntPerPage = "12";
         }
         int academyproducttotal = productService.countProduct("academy");
         int cntPage= 0;
-        if ((academyproducttotal / 16.0)>0){
-            cntPage = (int) Math.ceil(academyproducttotal / 16.0);
+        if ((academyproducttotal / 12.0)>0){
+            cntPage = (int) Math.ceil(academyproducttotal / 12.0);
         }else{
             cntPage = 1;
         }
@@ -116,16 +116,16 @@ public class CategoryController {
 //        System.out.println("@@@@@@@@@@@@@@@@"+total);
         if (nowPage == null && cntPerPage == null) {
             nowPage = "1";
-            cntPerPage = "16";
+            cntPerPage = "12";
         } else if (nowPage == null) {
             nowPage = "1";
         } else if (cntPerPage == null) {
-            cntPerPage = "16";
+            cntPerPage = "12";
         }
         int Physical_Fitnessproductcount = productService.countProduct("physical fitness");
         int cntPage= 0;
-        if ((Physical_Fitnessproductcount / 16.0)>0){
-            cntPage = (int) Math.ceil(Physical_Fitnessproductcount / 16.0);
+        if ((Physical_Fitnessproductcount / 12.0)>0){
+            cntPage = (int) Math.ceil(Physical_Fitnessproductcount / 12.0);
         }else{
             cntPage = 1;
         }
@@ -152,16 +152,16 @@ public class CategoryController {
 //        System.out.println("@@@@@@@@@@@@@@@@"+total);
         if (nowPage == null && cntPerPage == null) {
             nowPage = "1";
-            cntPerPage = "16";
+            cntPerPage = "12";
         } else if (nowPage == null) {
             nowPage = "1";
         } else if (cntPerPage == null) {
-            cntPerPage = "16";
+            cntPerPage = "12";
         }
         int trafficproductcount = productService.countProduct("traffic");
         int cntPage= 0;
-        if ((trafficproductcount / 16.0)>0){
-            cntPage = (int) Math.ceil(trafficproductcount / 16.0);
+        if ((trafficproductcount / 12.0)>0){
+            cntPage = (int) Math.ceil(trafficproductcount / 12.0);
         }else{
             cntPage = 1;
         }
@@ -193,11 +193,11 @@ public class CategoryController {
 //        System.out.println("@@@@@@@@@@@@@@@@"+total);
         if (nowPage == null && cntPerPage == null) {
             nowPage = "1";
-            cntPerPage = "16";
+            cntPerPage = "12";
         } else if (nowPage == null) {
             nowPage = "1";
         } else if (cntPerPage == null) {
-            cntPerPage = "16";
+            cntPerPage = "12";
         }
 
 //
@@ -233,8 +233,8 @@ public class CategoryController {
 
         int locationcount = filteredList.size();
         int cntPage =0;
-        if ((locationcount / 16.0)>0){
-            cntPage = (int) Math.ceil(locationcount / 16.0);
+        if ((locationcount / 12.0)>0){
+            cntPage = (int) Math.ceil(locationcount / 12.0);
         }else{
             cntPage = 1;
         }

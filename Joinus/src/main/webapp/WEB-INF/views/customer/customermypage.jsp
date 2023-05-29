@@ -125,7 +125,6 @@
             <table border="1">
                 <thead>
                 <tr>
-                    <th>사용자 아이디</th>
                     <th>상품명</th>
                     <th>구매 날짜</th>
                     <th>기간</th>
@@ -140,7 +139,6 @@
                         int daysDiff; // 변수를 스크립트릿 태그 안에서 선언
                     %>
                     <tr>
-                        <td>${buy.u_id}</td>
                         <td><a href='/board/read?pno=${buy.pno}'>${buy.p_name}</a></td>
                         <td>
                             <fmt:formatDate value="${buy.buyTime}" var="formattedBuyTime" pattern="yyyy년 MM월 dd일"/>

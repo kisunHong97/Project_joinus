@@ -223,7 +223,6 @@
         color:#333;
         letter-spacing:-1px;
     }
-
 </style>
 <body class="sub_page about_page">
 <img src="../../../resources/images/banner.png" style="margin-left: 367px; width: 1170px; height: 400px">
@@ -289,7 +288,7 @@
                                                 <img src="/display?fileName=${thumbnailList[productStatus.index].uploadPath}/${thumbnailList[productStatus.index].uuid}_${thumbnailList[productStatus.index].fileName}" alt="게시물 썸네일">
                                             </div>
                                             <div class="post-content1">
-                                                <a href='/board/read?pno=${product.pno}'>${product.p_inst}</a>
+                                                <a href='/board/read?pno=${product.pno}'>${product.p_name}</a>
                                             </div>
                                         </li>
                                     </c:if>
@@ -357,12 +356,12 @@
 
     // ##### 연결 되었습니다!
     function onOpen() {
-        if (${customerloginUser == null} && ${businessUser == null}) {
+        if (${customerloginUser == null && businessUser == null}) {
             websocket.send("<div style='color: #7c7c7c; font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: bold; text-align: center'>로그인 후 이용해주세요.</div>");
             document.getElementById("message").disabled = true;
             document.getElementById("send").disabled = true;
             document.getElementById("exit").disabled = true;
-        }else if(${businessUser != null} && ${customerloginUser == null}){
+        }else if(${businessUser != null && customerloginUser == null}){
             websocket.send("<div style='color: #7c7c7c; font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: bold; text-align: center;'>사업자는 채팅이 불가능합니다.</div>");
             document.getElementById("message").disabled = true;
             document.getElementById("send").disabled = true;

@@ -19,6 +19,11 @@ public class FileServiceImpl implements FileService{
     }
 
     @Override
+    public void modifyProductImage(AttachFileDTO attach) {
+        fileMapper.updateProductImage(attach);
+    }
+
+    @Override
     public void removeProductImage(int pno) {
         fileMapper.deleteProductImage(pno);
     }

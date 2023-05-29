@@ -100,16 +100,6 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-        /*.container {*/
-        /*    !*display: flex;*!*/
-        /*    justify-content: center;*/
-        /*    align-items: center;*/
-
-        /*}*/
-        /*.product-info{*/
-        /*    text-align: center;*/
-        /*}*/
-
     </style>
 </head>
 <%@ include file="../header/header.jsp"%>

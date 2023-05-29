@@ -7,18 +7,30 @@
         values(file_seq.nextval, #{pno}, #{fileName}, #{uploadPath}, #{uuid}, #{image})
     </insert>
 
+    <update id="updateProductImage" parameterType="com.ezen.joinus.dto.AttachFileDTO">
+        update file_product_table set fileName = #{fileName}, uploadPath = #{uploadPath}, uuid = #{uuid}
+            where fno = #{fno}
+    </update>
+
     <delete id="deleteProductImage" parameterType="int">
         delete from file_product_table where pno = #{pno}
     </delete>
 
     <!--  맨 앞 이미지 파일 불러오기(썸네일)  -->
     <select id="selectMainThumbnail" parameterType="int" resultType="com.ezen.joinus.dto.AttachFileDTO">
-        select * from file_product_table where pno = #{pno} and image = 'T' and rownum = 1
+        SELECT *
+        FROM (
+                 SELECT *
+                 FROM file_product_table
+                 WHERE pno = #{pno} AND image = 'T'
+                 ORDER BY fno ASC
+             )
+        WHERE ROWNUM = 1
     </select>
 
     <!--  이미지 파일 전부 가져오기(썸네일)  -->
     <select id="selectThumbnailList" parameterType="int" resultType="com.ezen.joinus.dto.AttachFileDTO">
-        select * from file_product_table where pno = #{pno} and image = 'T'
+        select * from file_product_table where pno = #{pno} and image = 'T' order by fno asc
     </select>
 
     <!-- 이미지 파일 가져오기(상세정보) -->
