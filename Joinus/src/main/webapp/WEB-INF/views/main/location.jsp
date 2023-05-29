@@ -123,7 +123,7 @@
         <table border="1">
             <div class="board">
                 <div class="board-body">
-                    <ul>
+                    <ul style="margin-left: 70px">
                         <c:choose>
                             <c:when test="${empty filteredList}">
                                 <div style="margin-left: 465px"><span>선택하신 지역의 제품이 없습니다.</span></div>
@@ -136,7 +136,7 @@
                                                 <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일">
                                             </div>
                                             <div class="post-content">
-                                                <a href="/board/read?pno=${filteredList[status.index].pno}">${filteredList[status.index].p_inst}</a>
+                                                <a href="/board/read?pno=${filteredList[status.index].pno}">${filteredList[status.index].p_name}</a>
                                             </div>
                                         </li>
                                     </c:if>
