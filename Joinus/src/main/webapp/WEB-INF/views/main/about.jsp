@@ -267,7 +267,8 @@
     </div>
 </section>
 <%-- 현재 로그인된 사용자 주소 --%>
-<%--<p>${customerloginUser.u_addrcode}</p>--%>
+<p>${customerloginUser.u_addrStreet}</p>
+${customerloginUser.u_addrStreet.substring(0, 6)}
 <section>
     <div class="outter" style="flex-grow: 1;">
         <hr>
@@ -275,12 +276,10 @@
         <!-- 옵션선택 끝 -->
         <div class="board1">
             <div class="board-body1">
-                <c:set var="hasNearbyProducts" value="false" />
                 <ul>
                     <c:forEach var="store" items="${storeVOList}" varStatus="status">
                         <c:choose>
-                            <c:when test="${customerloginUser.u_addrcode == store.s_addrCode}">
-                                <c:set var="hasNearbyProducts" value="true" />
+                            <c:when test="${store.s_addrStreet.indexOf(customerloginUser.u_addrStreet.substring(0, 6)) != -1}">
                                 <c:forEach var="product" items="${productList}" varStatus="productStatus">
                                     <c:if test="${store.sno == product.sno}">
                                         <li>
@@ -294,17 +293,19 @@
                                     </c:if>
                                 </c:forEach>
                             </c:when>
-                        </c:choose>
+                        
                     </c:forEach>
-                    <c:if test="${not hasNearbyProducts}">
+                    <c:otherwise>
                         <div style="height: 521px; width: 850px;">
                             <img src="../../../resources/images/store.png" style="margin-left: 290px; width: 240px; height: 250px; margin-top: 50px">
                             <span style="margin-left: -220px; letter-spacing: -1px">근처에 등록된 상품이 없습니다.</span>
                         </div>
-                    </c:if>
+                    </c:otherwise>
+                    </c:choose>
                 </ul>
             </div>
         </div>
+
         <aside style="position: absolute; top: 975px; right: 360px;">
             <div style="flex-shrink: 0; width: 300px;">
                 <h1 class="hit">Let's Join Us!</h1>
