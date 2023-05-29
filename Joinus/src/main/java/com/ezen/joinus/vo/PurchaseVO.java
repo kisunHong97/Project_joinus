@@ -16,6 +16,7 @@ public class PurchaseVO {
     private String p_name;
     private int p_price;
     private String memo;
+    private Date buyTime;
     private String startDate;
     private String endDate;
 }

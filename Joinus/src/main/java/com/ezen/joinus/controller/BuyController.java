@@ -80,6 +80,7 @@ public class BuyController {
         purchaseVO.setP_name(vo.getP_name());
         purchaseVO.setP_price(vo.getP_price());
         purchaseVO.setMemo(vo.getMemo());
+        purchaseVO.setBuyTime(vo.getBuyTime());
         purchaseVO.setStartDate(vo.getStartDate());
         purchaseVO.setEndDate(vo.getEndDate());
         System.out.println("purchaseVO:" + purchaseVO);
