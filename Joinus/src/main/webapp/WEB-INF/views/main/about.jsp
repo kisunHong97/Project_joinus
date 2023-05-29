@@ -276,6 +276,7 @@ ${customerloginUser.u_addrStreet.substring(0, 6)}
         <!-- 옵션선택 끝 -->
         <div class="board1">
             <div class="board-body1">
+                <c:set var="hasNearbyProducts" value="false" />
                 <ul>
                     <c:choose>
                         <c:when test="${not empty storeVOList}">
@@ -296,16 +297,17 @@ ${customerloginUser.u_addrStreet.substring(0, 6)}
                                         </c:forEach>
                                     </c:when>
                                     <c:otherwise>
-                                        <c:set var="hasNearbyProducts" value="false" />
+                                        <c:if test="${!hasNearbyProducts}">
+                                            <c:if test="${status.index}">
+                                                <div style="height: 521px; width: 850px;">
+                                                    <img src="../../../resources/images/store.png" style="margin-left: 290px; width: 240px; height: 250px; margin-top: 50px">
+                                                    <span style="margin-left: -220px; letter-spacing: -1px">근처에 등록된 상품이 없습니다.</span>
+                                                </div>
+                                            </c:if>
+                                        </c:if>
                                     </c:otherwise>
                                 </c:choose>
                             </c:forEach>
-                            <c:if test="${not hasNearbyProducts}">
-                                <div style="height: 521px; width: 850px;">
-                                    <img src="../../../resources/images/store.png" style="margin-left: 290px; width: 240px; height: 250px; margin-top: 50px">
-                                    <span style="margin-left: -220px; letter-spacing: -1px">근처에 등록된 상품이 없습니다.</span>
-                                </div>
-                            </c:if>
                         </c:when>
 <%--                        <c:otherwise>--%>
 <%--                            <div style="height: 521px; width: 850px;">--%>
