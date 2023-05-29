@@ -277,35 +277,46 @@ ${customerloginUser.u_addrStreet.substring(0, 6)}
         <div class="board1">
             <div class="board-body1">
                 <ul>
-                    <c:forEach var="store" items="${storeVOList}" varStatus="status">
-                        <c:choose>
-                            <c:when test="${store.s_addrStreet.indexOf(customerloginUser.u_addrStreet.substring(0, 6)) != -1}">
-                                <c:forEach var="product" items="${productList}" varStatus="productStatus">
-                                    <c:if test="${store.sno == product.sno}">
-                                        <li>
-                                            <div class="post-thumbnail1">
-                                                <img src="/display?fileName=${thumbnailList[productStatus.index].uploadPath}/${thumbnailList[productStatus.index].uuid}_${thumbnailList[productStatus.index].fileName}" alt="게시물 썸네일">
-                                            </div>
-                                            <div class="post-content1">
-                                                <a href='/board/read?pno=${product.pno}'>${product.p_name}</a>
-                                            </div>
-                                        </li>
-                                    </c:if>
-                                </c:forEach>
-                            </c:when>
-                        
-                    </c:forEach>
-                    <c:otherwise>
-                        <div style="height: 521px; width: 850px;">
-                            <img src="../../../resources/images/store.png" style="margin-left: 290px; width: 240px; height: 250px; margin-top: 50px">
-                            <span style="margin-left: -220px; letter-spacing: -1px">근처에 등록된 상품이 없습니다.</span>
-                        </div>
-                    </c:otherwise>
+                    <c:choose>
+                        <c:when test="${not empty storeVOList}">
+                            <c:forEach var="store" items="${storeVOList}" varStatus="status">
+                                <c:choose>
+                                    <c:when test="${store.s_addrStreet.indexOf(customerloginUser.u_addrStreet.substring(0, 6)) != -1}">
+                                        <c:forEach var="product" items="${productList}" varStatus="productStatus">
+                                            <c:if test="${store.sno == product.sno}">
+                                                <li>
+                                                    <div class="post-thumbnail1">
+                                                        <img src="/display?fileName=${thumbnailList[productStatus.index].uploadPath}/${thumbnailList[productStatus.index].uuid}_${thumbnailList[productStatus.index].fileName}" alt="게시물 썸네일">
+                                                    </div>
+                                                    <div class="post-content1">
+                                                        <a href='/board/read?pno=${product.pno}'>${product.p_name}</a>
+                                                    </div>
+                                                </li>
+                                            </c:if>
+                                        </c:forEach>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:set var="hasNearbyProducts" value="false" />
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                            <c:if test="${not hasNearbyProducts}">
+                                <div style="height: 521px; width: 850px;">
+                                    <img src="../../../resources/images/store.png" style="margin-left: 290px; width: 240px; height: 250px; margin-top: 50px">
+                                    <span style="margin-left: -220px; letter-spacing: -1px">근처에 등록된 상품이 없습니다.</span>
+                                </div>
+                            </c:if>
+                        </c:when>
+<%--                        <c:otherwise>--%>
+<%--                            <div style="height: 521px; width: 850px;">--%>
+<%--                                <img src="../../../resources/images/store.png" style="margin-left: 290px; width: 240px; height: 250px; margin-top: 50px">--%>
+<%--                                <span style="margin-left: -220px; letter-spacing: -1px">근처에 등록된 상품이 없습니다.</span>--%>
+<%--                            </div>--%>
+<%--                        </c:otherwise>--%>
                     </c:choose>
                 </ul>
             </div>
         </div>
-
         <aside style="position: absolute; top: 975px; right: 360px;">
             <div style="flex-shrink: 0; width: 300px;">
                 <h1 class="hit">Let's Join Us!</h1>
