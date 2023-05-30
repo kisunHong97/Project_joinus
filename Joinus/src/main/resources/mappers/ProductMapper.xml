@@ -79,8 +79,7 @@
     </select>
 
     <select id="getInquiries" resultType="com.ezen.joinus.vo.InquiryVO">
-        select * from products_inquiry
-        where ino = #{ino}
+        select * from products_inquiry where ino = #{ino}
     </select>
 
     <select id="userallinqu" resultType="com.ezen.joinus.vo.InquiryVO">
@@ -89,7 +88,7 @@
     </select>
 
     <update id="updateinqu" parameterType="com.ezen.joinus.vo.InquiryVO">
-        update products_inquiry set i_title = #{i_title}, u_inquiry = #{u_inquiry} , inquiry_date= #{inquiry_date}
+        update products_inquiry set i_title=#{i_title},u_inquiry=#{u_inquiry},inquiry_date=#{inquiry_date}
         where ino = #{ino}
     </update>
     <update id="updatestatus" parameterType="com.ezen.joinus.vo.InquiryVO">

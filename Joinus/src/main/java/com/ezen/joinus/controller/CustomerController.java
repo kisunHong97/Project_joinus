@@ -34,8 +34,6 @@ public class CustomerController {
     @GetMapping("/myinformation")
     public String customerinfo( Model model, HttpSession session ){
         CustomerUserVO customerloginUser = (CustomerUserVO) session.getAttribute("customerUserVO");
-        System.out.println("현재 로그인~고객"+ customerloginUser);
-        System.out.println("고객정보 컨트롤러 들어오니?");
         model.addAttribute("customervo",customerService.getCustomerById(customerloginUser.getU_id()));
         return "customer/customerinformation";
     }
@@ -43,7 +41,6 @@ public class CustomerController {
     @GetMapping("/customermodify")
     public String customermodify( Model model, HttpSession session){
         CustomerUserVO customerloginUser = (CustomerUserVO) session.getAttribute("customerUserVO");
-        System.out.println("현재 로그인~고객 modifycontroller"+ customerloginUser);
         model.addAttribute("customervo",customerService.getCustomerById(customerloginUser.getU_id()));
         return "customer/cinfomodify";
     }
@@ -51,15 +48,13 @@ public class CustomerController {
     @PostMapping ("/cinfomodify")
     public String customerinfomodify(CustomerUserVO customerUserVO, HttpSession session){
         CustomerUserVO customerloginUser = (CustomerUserVO) session.getAttribute("customerUserVO");
-        System.out.println("cinfomodify 컨트롤러에 들어왔니?");
         int uno = customerloginUser.getUno();
-        System.out.println("현재 로그인사람의 uno"+uno);
-        System.out.println(customerUserVO);
         customerService.modifyCustomer(customerUserVO);
         session.invalidate();
         return "main/login";
-
     }
+
+
     @GetMapping("/customerdelete")
     public String cinfodelete(HttpSession session,Model model){
         CustomerUserVO customerloginUser = (CustomerUserVO) session.getAttribute("customerUserVO");
@@ -70,13 +65,9 @@ public class CustomerController {
 
     @GetMapping("/customerinfodelete")
     public String customerinfodelete(HttpSession session, String u_id,String u_pwd,Model model){
-        System.out.println("delete컨트롤러로 들어오나?");
         CustomerUserVO customerloginUser = (CustomerUserVO) session.getAttribute("customerUserVO");
-        System.out.println("삭제"+customerloginUser);
         model.addAttribute("customervo",customerloginUser);
-        System.out.println("비밀번호"+u_pwd);
         u_id = customerloginUser.getU_id() ;
-        System.out.println("현재로그인 아이디"+u_id);
         customerService.removeCustomer(u_id);
         session.invalidate();
         return "redirect:/product_board";
@@ -123,29 +114,15 @@ public class CustomerController {
 
     @GetMapping("/review")
     public String getreview(@RequestParam("pno") int pno , @RequestParam("sno") int sno){
-        System.out.println("sno제발가져와라.."+sno);
-        System.out.println("으으아악pno:"+pno);
         return "redirect:/board/read?pno=" + pno;
     }
-
-    //리뷰 구현
     @PostMapping("/review")
     public String review(HttpSession session, ReviewVO reviewVO,@RequestParam("pno") int pno,@RequestParam("sno") int sno,Model model){
-        System.out.println("으으아악pno:"+pno);
-        System.out.println("sno제발가져와라.."+sno);
         CustomerUserVO customerloginUser = (CustomerUserVO) session.getAttribute("customerUserVO");
-
         reviewVO.setU_name(customerloginUser.getU_name());
-        // 현재 시간을 가져옵니다.
-        // 현재 날짜 구하기
         LocalDate now = LocalDate.now();
-        // 포맷 정의
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-        // 포맷 적용
         String formatedNow = now.format(formatter);
-
-        // 결과 출력
-        System.out.println("현재 날짜!:"+formatedNow);  // 2021/06/17
         reviewVO.setSys_date(formatedNow);
         reviewVO.setU_id(customerloginUser.getU_id());
         reviewVO.setPno(pno);
@@ -153,7 +130,6 @@ public class CustomerController {
         customerService.insertreview(reviewVO);
         return "redirect:/board/read?pno=" + pno;
     }
-
 
 
 }

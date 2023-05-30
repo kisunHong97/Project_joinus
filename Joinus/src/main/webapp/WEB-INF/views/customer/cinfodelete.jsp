@@ -79,17 +79,12 @@
 <script type="text/javascript">
   var u_pwd = $('#u_pwd').val();
   var vo_u_pwd = "${customervo.u_pwd}";
-
   $('.btndelete').click(function () {
       var u_pwd = $('#u_pwd').val();
-      console.log("인풋에넣은 값"+u_pwd);
-      console.log(vo_u_pwd);
      if (u_pwd != vo_u_pwd) {
-         console.log('틀립니다.');
          $('.error').show();
       return false;
      } else {
-      console.log('맞습니다.');
       $('#form').submit(); // 폼을 제출함
       return true;
      }

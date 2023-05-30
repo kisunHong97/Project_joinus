@@ -98,14 +98,11 @@ public class HomeController {
     @RequestMapping(value = "/board/read", method = RequestMethod.GET)
     public String read(@ModelAttribute("ProductVO") ProductVO productVO, Model model, @RequestParam("pno") int pno, HttpSession session) {
         // 상품 정보 가져오기(썸네일, 상세정보 포함)
-        System.out.println("pno가져오니???" + pno);
         productVO = productService.getProductContents(pno);
         productVO.setThumbnailList(fileService.selectThumbnailList(productVO.getPno()));
         productVO.setDetail(fileService.selectDetail(productVO.getPno()));
-        System.out.println(productVO);
         model.addAttribute("productVO", productVO);
         Integer sno = productVO.getSno();
-        System.out.println("sno!!!!!!!!!!" + sno);
         model.addAttribute("store", storeService.getStore(sno));
 
         BusinessUserVO businessUser = (BusinessUserVO) session.getAttribute("BusinessUserVO");
@@ -113,14 +110,11 @@ public class HomeController {
 
         // 사용자 정보 가져오기
         String u_id = (String) session.getAttribute("customerid");
-        System.out.println("로그인 된 사용자 아이디 불러오나?:" + u_id);
         CustomerUserVO customerUserVO = customerService.getCustomerById(u_id);
-        System.out.println(customerUserVO);
         model.addAttribute("customerUserVO", customerUserVO);
 
         try {
             WishlistVO wishlist = wishlistService.getWishlistByPnoAndUid(pno, u_id);
-            System.out.println("wishlist : " + wishlist);
             if (wishlist != null) {
                 model.addAttribute("like", 1);
             } else {
@@ -128,69 +122,48 @@ public class HomeController {
             }
 
             CartVO cart = cartService.getCartByPnoAndUid(pno, u_id);
-            System.out.println("cart : " + cart);
             if (cart != null) {
                 model.addAttribute("cart", 1);
             } else {
                 model.addAttribute("cart", 0);
             }
         } catch (Exception e) {
-            System.out.println("로그인 안해서 여기 진입 합니다.");
             productService.getProductContents(pno);
         }
-        System.out.println("프로덕트네임!!:" + productVO.getP_name());
         String P_name = productVO.getP_name();
-        List<ReviewVO> list2 = customerService.getreview(pno);
 
-        //list2 역순으로 나오게함(리뷰 리스트)
-        Collections.reverse(list2);
-
+        List<ReviewVO> reviewlist = customerService.getreview(pno);
+        Collections.reverse(reviewlist);
         float totalRating = 0;
         float avg = 0;
-        for (ReviewVO review : list2) {
+        for (ReviewVO review : reviewlist) {
             totalRating += review.getRating();
-            avg = totalRating / list2.size();
+            avg = totalRating / reviewlist.size();
         }
-// 소수점 아래 2번째 자리까지만 표시하는 DecimalFormat 객체 생성
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
         String formattedAvg = decimalFormat.format(avg);
-
-        System.out.println("평균: " + formattedAvg);
         List<InquiryVO> inquiryList = productService.allinquiries(pno);
-
-
-        //inquiryList 역순으로 나오게함 (문의 목록)
         Collections.reverse(inquiryList);
-        System.out.println("문의글 리스트~:"+inquiryList);
-
-        Map<String, Integer> numbers = new LinkedHashMap<>();
-        for (int i = 1; i <= 1000; i++) {
-            numbers.put(Integer.toString(i), i);
-        }
-        System.out.println("숫자숫자!:"+numbers);
 
         if (customerloginUser == null && businessUser == null) {
-            model.addAttribute("productlist", list2);
+            model.addAttribute("reviewlist", reviewlist);
             model.addAttribute("avg", formattedAvg);
-            model.addAttribute("listlength", list2.size());
+            model.addAttribute("listlength", reviewlist.size());
             model.addAttribute("inquirylist", inquiryList);
-            model.addAttribute("numbers",numbers);
             return "/board/read";
         } else if (u_id != null && businessUser == null) {
             List<PurchaseVO> list = purchaseService.getPurchaseInfo(u_id);
             model.addAttribute("list", list);
-            model.addAttribute("productlist", list2);
+            model.addAttribute("reviewlist", reviewlist);
+            model.addAttribute("listlength", reviewlist.size());
             model.addAttribute("avg", formattedAvg);
-            model.addAttribute("listlength", list2.size());
             model.addAttribute("customerid", customerUserVO.getU_id());
             model.addAttribute("inquirylist", inquiryList);
-            model.addAttribute("numbers",numbers);
-            System.out.println("구매한 목록list!!!!!!!!!!!" + list);
             return "/board/read";
         } else if (businessUser != null && businessUser.getB_id() != null) {
-            model.addAttribute("productlist", list2);
+            model.addAttribute("reviewlist", reviewlist);
             model.addAttribute("avg", formattedAvg);
-            model.addAttribute("listlength", list2.size());
+            model.addAttribute("listlength", reviewlist.size());
             model.addAttribute("inquirylist", inquiryList);
             model.addAttribute("businessUser", businessUser);
             StoreVO getstoreVO = storeService.getStore(businessUser.getBno());
@@ -200,11 +173,8 @@ public class HomeController {
             for(ProductVO productVO1 : productVOList){
                 productsno = productVO1.getSno();
             }
-            System.out.println("pno의 sno:"+productVOListfinal.getSno());
-            System.out.println("sno가냐!!" + productsno);
             model.addAttribute("productsno",productsno);
             model.addAttribute("productfinalsno",productVOListfinal.getSno());
-            model.addAttribute("numbers",numbers);
             return "/board/read";
         } else {
             return "/board/read";
@@ -328,69 +298,57 @@ public class HomeController {
     //문의글 등록
 
     @GetMapping("/cinquiry")
-    public String cinquiry(HttpSession session, @RequestParam("pno") int pno, @RequestParam("p_name") String p_name,@RequestParam("sno") int sno,Model model){
+    public String cinquiry(HttpSession session, @RequestParam("pno") int pno,
+        @RequestParam("p_name") String p_name, @RequestParam("sno") int sno,Model model){
         CustomerUserVO customerloginUser = (CustomerUserVO) session.getAttribute("customerUserVO");
-        System.out.println("자자customerloginUser!"+customerloginUser);
-        System.out.println("자자!pno"+pno);
-        System.out.println("자자!p_name"+p_name);
-        System.out.println("자자!prosno:"+sno);
         model.addAttribute("pno",pno);
         model.addAttribute("p_name",p_name);
         model.addAttribute("sno",sno);
         model.addAttribute("customerloginUser",customerloginUser);
         return "customer/cinquiry";
     }
+
     @GetMapping("/inquirysubmit")
     public String getinquirysubmit(HttpSession session,@RequestParam("pno") int pno){
-        System.out.println("inquirysubmit에서 pno 갖고 와요?"+pno);
-        CustomerUserVO customerloginUser = (CustomerUserVO) session.getAttribute("customerUserVO");
         return "redirect:/board/read?pno=" + pno;
     }
-    @PostMapping("inquirysubmit")
-    public String inquirysubmit(HttpSession session, @RequestParam("pno") int pno,@RequestParam("sno") int sno, InquiryVO inquiryVO){
+    @PostMapping("/inquirysubmit")
+    public String inquirysubmit(HttpSession session, @RequestParam("pno") int pno,
+        @RequestParam("sno") int sno, InquiryVO inquiryVO){
         CustomerUserVO customerloginUser = (CustomerUserVO) session.getAttribute("customerUserVO");
         LocalDate now = LocalDate.now();
-        // 포맷 정의
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-        // 포맷 적용
         String formatedNow = now.format(formatter);
         inquiryVO.setPno(pno);
         inquiryVO.setInquiry_date(formatedNow);
-        inquiryVO.setStatus("답변 대기중");
         inquiryVO.setU_id(customerloginUser.getU_id());
         inquiryVO.setSno(sno);
-        System.out.println("snoooo!!!!:"+sno);
         productService.saveInquiry(inquiryVO);
         return "redirect:/board/read?pno=" + pno;
     }
     @GetMapping("/modifyinqu/ino={ino}/pno={pno}")
-    public String modifyinqu(HttpSession session,InquiryVO inquiryVO,Model model,@PathVariable("ino") int ino,@PathVariable("pno") int pno){
-        CustomerUserVO customerloginUser = (CustomerUserVO) session.getAttribute("customerUserVO");
+    public String modifyinqu(HttpSession session,InquiryVO inquiryVO,Model model,
+        @PathVariable("ino") int ino,@PathVariable("pno") int pno){
         BusinessUserVO businessUser = (BusinessUserVO) session.getAttribute("BusinessUserVO");
-
-        System.out.println("ino:"+ino);
         inquiryVO = productService.getInquiries(ino);
-        System.out.println("inquiryVO:"+inquiryVO);
         model.addAttribute("inquiryVO",inquiryVO);
         model.addAttribute("businessUser",businessUser);
         model.addAttribute("b_answerVO",productService.selectb_answer(ino));
-        System.out.println("좀 떠라!:"+ productService.selectb_answer(ino));
         return "customer/cinquinfo";
     }
 
     @GetMapping("/inquirymodify/ino={ino}")
-    public String inquirymodify(HttpSession session,InquiryVO inquiryVO,Model model,@PathVariable("ino") int ino){
+    public String inquirymodify(HttpSession session,InquiryVO inquiryVO,Model model,
+        @PathVariable("ino") int ino){
         inquiryVO = productService.getInquiries(ino);
-        System.out.println("inquiryVO:"+inquiryVO);
         model.addAttribute("inquiryVO",inquiryVO);
         return "customer/cinqumodify";
     }
+
     @PostMapping("/inqu_modify/ino={ino}")
     public String modifyinquiry(HttpSession session,InquiryVO inquiryVO,Model model,@PathVariable("ino") int ino){
         LocalDate now = LocalDate.now();
-        // 포맷 정의
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-        // 포맷 적용
         String formatedNow = now.format(formatter);
         inquiryVO.setInquiry_date(formatedNow);
         productService.updateinqu(inquiryVO);

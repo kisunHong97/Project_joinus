@@ -338,7 +338,7 @@
                     <input type="button" id="exit" class="exit" value="나가기" />
                 </div>
             </div>
-            <img src="../../../resources/images/friends.png" style="max-width: 280px; margin-top: 30px">
+            <img src="../../../resources/images/friends.png" style="max-width: 280px; margin-top: 28px">
         </aside>
     </div>
 </section>

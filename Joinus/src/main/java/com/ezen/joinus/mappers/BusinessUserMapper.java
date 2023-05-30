@@ -15,7 +15,7 @@ public interface BusinessUserMapper {
     int getMaxBno();
     BusinessUserVO getBusinessById(String b_id);
     void insertBusiness(BusinessUserVO vo);
-    void updateBusiness(BusinessUserVO vo);//사업자 정보 수정
+    void modifyBusiness(BusinessUserVO vo);//사업자 정보 수정
     void deleteBusiness(Integer bno);//사업자회원 탈퇴
 
     //사업자 상품에 쓰인 리뷰들 다보기

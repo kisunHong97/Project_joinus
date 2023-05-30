@@ -23,3 +23,6 @@ public class CustomerUserVO {
     private int wish_cnt;
     private int cart_cnt;
 }
+
+
+
