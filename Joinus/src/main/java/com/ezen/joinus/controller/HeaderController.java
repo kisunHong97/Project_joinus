@@ -62,9 +62,7 @@ public class HeaderController {
                 List<ReviewVO> reviewVOList = businessService.selectreviewsno(BusinessloginUser.getBno());
                 model.addAttribute("reviewlist",reviewVOList);
                 List<PurchaseVO> memberManagementProduct = purchaseService.getPurchaseInfoPname(BusinessloginUser.getBno());
-                System.out.println("해당 스토어의 구매된 제품 정보 (중복제거) : " + memberManagementProduct);
                 List<PurchaseVO> memberManagement = purchaseService.getPurchaseInfoSno(BusinessloginUser.getBno());
-                System.out.println("해당 스토어(bno)의 회원 관리 구매 정보 : " + memberManagement);
                 model.addAttribute("memberManagementProduct", memberManagementProduct);
                 model.addAttribute("memberManagement", memberManagement);
                 model.addAttribute("refund", refundVO);
@@ -74,19 +72,14 @@ public class HeaderController {
             } else if (customerloginUser != null) {
                 // 고객용 마이페이지를 보여줍니다.
                 model.addAttribute("a" , customerService.getCustomerById(customerloginUser.getU_id()));
-                System.out.println("작동되나요? 고객이 로그인되어있어요");
                 try {
                     String u_id = (String) session.getAttribute("customerid");
                     if (u_id != null) {
-                        System.out.println("구매상품확인 컨트롤러 진입");
                         List<PurchaseVO> resultList = purchaseService.getPurchaseInfo(u_id);
-                        System.out.println(resultList);
                         model.addAttribute("buyInfo", resultList);
                         List<WishlistVO> wishlistVOList = wishlistService.getWishlistUid(u_id);
-                        System.out.println("찜한 리스트 : " + wishlistVOList);
                         model.addAttribute("wishlistVOList", wishlistVOList);
                         List<ReviewVO> reviewlist = customerService.customerreview(customerloginUser.getU_id());
-                        System.out.println("고객이 작성한 리뷰!"+reviewlist);
                         model.addAttribute("reviewlist",reviewlist);
                     }
                 } catch (Exception e) {
@@ -94,7 +87,6 @@ public class HeaderController {
                 }
                 return "/customer/customermypage";
             } else {
-                // 알 수 없는 역할인 경우 에러 페이지를 보여줍니다.
                 return "error";
             }
         }
@@ -177,16 +169,12 @@ public class HeaderController {
 
     @PostMapping("/expirationDate")
     public ResponseEntity<String> expirationDate(int pno, HttpSession session) {
-        System.out.println("기간만료 삭제 버튼 pno : " + pno);
         purchaseService.deleteProduct(pno);
         return new ResponseEntity<>("구매상품목록에서 삭제되었습니다.", HttpStatus.OK);
     }
 
     @PostMapping("/nowRefund")
     public ResponseEntity<String> nowRefund(String u_id, int pno, int p_price) {
-        System.out.println("환불가격 : " + p_price);
-        System.out.println("환불사용자 : " + u_id);
-        System.out.println("환불상품번호 : " + pno);
         purchaseService.deleteProduct(pno);
         purchaseService.nowRefundPrice(u_id, p_price);
         return new ResponseEntity<>("환불 되었습니다.", HttpStatus.OK);

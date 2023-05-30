@@ -304,10 +304,9 @@
                         <label for="startDate">기간</label>
                         <br>
                         <c:if test="${productVO.p_type == 'fixed'}">
-                            <input type="text" class="form-control" id="startDate" style="display: inline-block; width: 110px;" data-type="fixed" value="<fmt:formatDate value='${productVO.p_startDate}' pattern='yyyy-MM-dd' />">
+                            <input type="date" class="form-control" id="startDate" style="display: inline-block; width: 110px;" data-type="fixed" value="<fmt:formatDate value='${productVO.p_startDate}' pattern='yyyy-MM-dd' />">
                             <b style="display: inline-block; font-size: 25px; margin-right: 15px;">&nbsp&nbsp~</b>
-                            <input type="text" class="form-control" id="endDate" style="display: inline-block; width: 110px;" data-type="fixed" value="<fmt:formatDate value='${productVO.p_endDate}' pattern='yyyy-MM-dd' />">
-
+                            <input type="date" class="form-control" id="endDate" style="display: inline-block; width: 110px;" data-type="fixed" value="<fmt:formatDate value='${productVO.p_endDate}' pattern='yyyy-MM-dd' />">
                         </c:if>
                         <c:if test="${productVO.p_type == 'free'}">
                             <input type="date" id="startDate" max="2099-12-31" data-type="free" class="period-startDate free" style="width: 120px; margin-right: 15px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
@@ -534,11 +533,14 @@
             return result;
         }
 
+
         // 현재 날짜 설정
         var currentDate = new Date();  // 현재 날짜와 시간을 가져옴
         var now = currentDate.getFullYear() + "-" // 연도
             + MonthTenUnder(currentDate.getMonth() + 1) + "-" // 월 (0부터 시작하므로 1을 더해줌)
             + currentDate.getDate();  // 일
+
+        console.log("now : " + now);
 
         $("#startDate.free").attr("min", now)
         $("#startDate.free").attr("value", now)
@@ -613,12 +615,20 @@
                 result = "0" + data;
             return result;
         }
+        const DayTenUnder = (data) => {
+            var result = "";
+            if(data < 10)
+                result = "0" + data;
+            return result;
+        }
 
         // 현재 날짜 설정
         var currentDate = new Date();  // 현재 날짜와 시간을 가져옴
         var now = currentDate.getFullYear() + "-" // 연도
             + MonthTenUnder(currentDate.getMonth() + 1) + "-" // 월 (0부터 시작하므로 1을 더해줌)
-            + currentDate.getDate();  // 일
+            + DayTenUnder(currentDate.getDate());  // 일
+
+        console.log("now : ", now);
 
         $("#startDate.free").attr("min", now)
         $("#startDate.free").attr("value", now)

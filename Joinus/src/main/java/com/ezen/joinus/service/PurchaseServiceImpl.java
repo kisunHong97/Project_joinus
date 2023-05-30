@@ -21,13 +21,11 @@ public class PurchaseServiceImpl implements PurchaseService{
 
     @Override
     public void productPurchase(PurchaseVO purchaseVO) {
-        System.out.println("구매 서비스 들어오나? : " + purchaseVO);
         purchaseMapper.insertProduct(purchaseVO);
     }
 
     @Override
     public void updateUserPoint(String u_id, int p_price) {
-        System.out.println("포인트 차감 서비스 들어오나? : " + u_id + p_price);
         CustomerUserVO customerUserVO = new CustomerUserVO();
         customerUserVO.setU_id(u_id);
         customerUserVO.setPaypoint(p_price);
@@ -65,11 +63,9 @@ public class PurchaseServiceImpl implements PurchaseService{
 
     @Override
     public void nowRefundPrice(String u_id, int p_price) {
-        System.out.println("즉시환불 들어오나? : " + u_id + "가격 : "+ p_price);
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("p_price", p_price);
         parameters.put("u_id", u_id);
-        System.out.println("map에 들옴 ? : " + parameters);
         purchaseMapper.nowRefundPrice(parameters);
     }
 

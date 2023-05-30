@@ -307,7 +307,6 @@
             }
         }
 
-        console.log(weekTotalAmounts)
         chart = new Chart(ctx, {
             type: 'bar',
             data: {

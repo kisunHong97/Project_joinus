@@ -20,7 +20,10 @@
     </insert>
 
     <update id="updateCustomer" parameterType="com.ezen.joinus.vo.CustomerUserVO">
-        update customers_table set u_pwd=#{u_pwd, jdbcType=VARCHAR},u_name=#{u_name, jdbcType=VARCHAR},u_email=#{u_email, jdbcType=VARCHAR},u_phone=#{u_phone, jdbcType=VARCHAR},u_addrcode=#{u_addrcode, jdbcType=VARCHAR},u_addrStreet=#{u_addrStreet, jdbcType=VARCHAR},u_addrDetail=#{u_addrDetail, jdbcType=VARCHAR} where u_id=#{u_id,jdbcType=VARCHAR}
+        update customers_table set u_pwd=#{u_pwd, jdbcType=VARCHAR},u_name=#{u_name, jdbcType=VARCHAR},u_email=#{u_email, jdbcType=VARCHAR}
+                                 ,u_phone=#{u_phone, jdbcType=VARCHAR} ,u_addrcode=#{u_addrcode, jdbcType=VARCHAR},
+                                  u_addrStreet=#{u_addrStreet, jdbcType=VARCHAR},u_addrDetail=#{u_addrDetail, jdbcType=VARCHAR}
+        where u_id=#{u_id,jdbcType=VARCHAR}
     </update>
 
     <delete id="deleteCustomer">
