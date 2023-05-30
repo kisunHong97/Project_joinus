@@ -42,7 +42,6 @@ public class HomeController {
     public String boardList(PagingVO vo,Model model,HttpSession session
             , @RequestParam(value="nowPage", required=false)String nowPage
             , @RequestParam(value="cntPerPage", required=false)String cntPerPage) {
-        System.out.println(vo);
         CustomerUserVO customerloginUser = (CustomerUserVO) session.getAttribute("customerUserVO");
         BusinessUserVO businessUser = (BusinessUserVO) session.getAttribute("BusinessUserVO");
 
@@ -58,19 +57,21 @@ public class HomeController {
         System.out.println("total!!!!!!!!:"+total);
         int cntPage = (int) Math.ceil((double) total / 6.0);
 
-        vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage),cntPage);
+        // 페이징 처리에 필요한 vo
+        vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), cntPage);
         model.addAttribute("paging", vo);
-        List<ProductVO> productList = productService.selectBoard(vo);
+
+        List<ProductVO> productList = productService.getListAll();
         List<AttachFileDTO> thumbnailList = new ArrayList<>();
         List<AttachFileDTO> thumbnailList1 = new ArrayList<>();
         List<StoreVO> storeVOList = storeService.getAllStore();
         List<PurchaseVO> purchaseVOList = purchaseService.getAllpurchase();
         System.out.println("전체 구매목록 : " + purchaseVOList);
+        System.out.println("storeAll : " + storeVOList);
         model.addAttribute("purchaseVOList", purchaseVOList);
         model.addAttribute("storeVOList", storeVOList);
-        System.out.println("storeAll : " + storeVOList);
-        System.out.println("vo!!!!!!!!!!!!!!:"+vo);
-        System.out.println("productList:!!!!!!!!!!!:"+productList);
+//        System.out.println("vo!!!!!!!!!!!!!!:"+vo);
+//        System.out.println("productList:!!!!!!!!!!!:"+productList);
 
         for(PurchaseVO product : purchaseVOList){
             thumbnailList1.add(fileService.selectMainThumbnail(product.getPno()));
@@ -246,17 +247,10 @@ public class HomeController {
     // 해당 상품을 장바구니에 추가하는 기능
     @PostMapping(value = "/cart/add", consumes = "application/json", produces = {MediaType.TEXT_PLAIN_VALUE})
     public ResponseEntity<String> addCart(@RequestBody Map<String, Object> cartData,HttpSession session) throws UnsupportedEncodingException {
-        System.out.println("/CARD/ADD >>>>");
-        System.out.println(">> " + cartData);
-
-        ObjectMapper objectMapper = new ObjectMapper();
+            ObjectMapper objectMapper = new ObjectMapper();
         CartVO cart = objectMapper.convertValue(cartData, CartVO.class);
-
-        System.out.println("CART : " + cart);
-
         String id = (String) session.getAttribute("customerid");
         String bid = (String) session.getAttribute("businessid");
-//        System.out.println("장바구니 컨트롤러에 아이디 불러오나?:" + vo);
 
 //         로그인한 사용자 정보가 없는 경우
         if (id == null && bid ==null) {
@@ -264,12 +258,10 @@ public class HomeController {
         }
 
         CustomerUserVO customerUserVO = customerService.getCustomerById(id);
-        System.out.println("사용자 정보:" + customerUserVO);
         // 사용자 정보가 없는 경우
         if (customerUserVO == null) {
             return ResponseEntity.badRequest().body("사용자만 이용 가능합니다.");
         }
-
         cartService.addCart(cart);
 
         return new ResponseEntity<>("장바구니에 추가되었습니다.", HttpStatus.OK);
@@ -280,19 +272,13 @@ public class HomeController {
     public ResponseEntity<String> deleteCart(int pno, HttpSession session) {
         String id = (String) session.getAttribute("customerid");
         String bid = (String) session.getAttribute("businessid");
-        System.out.println("장바구니 삭제 컨트롤러에 pno 불러오나?:"+pno);
         // 로그인한 사용자 정보가 없는 경우
         if (id == null && bid==null) {
             return new ResponseEntity<>("로그인 후 이용해 주세요.", HttpStatus.OK);
         }
-
         cartService.getCartByPnoAndUid(pno, id);
         cartService.deleteCart(pno, id);
-        System.out.println("삭제 성공");
-
         // 찜 목록에서 해당 상품 삭제
-        System.out.println(pno);
-        System.out.println("상품번호 pno :" + pno);
         return new ResponseEntity<>("장바구니에서 삭제되었습니다.", HttpStatus.OK);
     }
 

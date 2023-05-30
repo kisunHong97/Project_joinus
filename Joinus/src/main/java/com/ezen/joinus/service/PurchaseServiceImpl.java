@@ -47,6 +47,12 @@ public class PurchaseServiceImpl implements PurchaseService{
     }
 
     @Override
+    public List<PurchaseVO> getPurchaseInfoPname(int sno) {
+        System.out.println("상품명 중복제거를 위한 sno " + sno);
+        return purchaseMapper.getPurchaseInfoPname(sno);
+    }
+
+    @Override
     public List<PurchaseVO> getAllpurchase() {
         System.out.println("구매목록 전체 리스트 가져오기 : ");
         return purchaseMapper.getAllpurchase();

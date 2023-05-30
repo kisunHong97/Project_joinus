@@ -184,7 +184,7 @@
                         </a>
                     </li>
                     <li class="nav-item1">
-                        <a class="nav-link1" href="/service.jsp" style="top: 5px; height: 10px;">
+                        <a class="nav-link1" href="https://chat.openai.com/" style="top: 5px; height: 10px;">
                             고객센터
                         </a>
                     </li>
