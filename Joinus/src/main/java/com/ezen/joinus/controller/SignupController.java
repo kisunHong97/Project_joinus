@@ -75,7 +75,7 @@ public class SignupController {
     @RequestMapping(value = "/customersignup" ,method = RequestMethod.POST)
     public String customersignup(CustomerUserVO customerUserVO){
         try {
-            customerService.registerCustomer(customerUserVO);
+            customerService.insertCustomer(customerUserVO);
         }catch (DuplicateKeyException e){
             return "redirect:/customersignup?error_code=-1";
         }catch (Exception e){
@@ -90,16 +90,12 @@ public class SignupController {
     @PostMapping("/storesignup")
     public String Store(StoreVO store) {
         store.setBno(businessService.getMaxBno());
-        try {
-            storeService.registerStore(store);
-        }catch (DuplicateKeyException e){
-            return "redirect:/storesignup?error_code=-1";
+        try {storeService.insertStore(store);
+        }catch (DuplicateKeyException e){return "redirect:/storesignup?error_code=-1";
         }catch (Exception e){
             e.printStackTrace();
             return "redirect:/storesignup?error_code=-99";
-        }
-
-        return "main/login";
+        }return "main/login";
     }
 
 

@@ -318,7 +318,7 @@
                     <input type="button" id="exit" class="exit" value="나가기" />
                 </div>
             </div>
-            <img src="../../../resources/images/friends.png" style="max-width: 280px; margin-top: 30px">
+            <img src="../../../resources/images/friends.png" style="max-width: 280px; margin-top: 28px">
         </aside>
     </div>
 </section>
@@ -357,12 +357,12 @@
 
     // ##### 연결 되었습니다!
     function onOpen() {
-        if (${customerloginUser == null} && ${businessUser == null}) {
+        if (${customerloginUser == null && businessUser == null}) {
             websocket.send("<div style='color: #7c7c7c; font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: bold; text-align: center'>로그인 후 이용해주세요.</div>");
             document.getElementById("message").disabled = true;
             document.getElementById("send").disabled = true;
             document.getElementById("exit").disabled = true;
-        }else if(${businessUser != null} && ${customerloginUser == null}){
+        } else if(${businessUser != null && customerloginUser == null}){
             websocket.send("<div style='color: #7c7c7c; font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: bold; text-align: center;'>사업자는 채팅이 불가능합니다.</div>");
             document.getElementById("message").disabled = true;
             document.getElementById("send").disabled = true;

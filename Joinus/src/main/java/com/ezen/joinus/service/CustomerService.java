@@ -18,7 +18,7 @@ public interface CustomerService {
     public CustomerUserVO getCustomerById(String b_id);
 
     // 고객 테이블에 정보 삽입
-    public void registerCustomer(CustomerUserVO vo);
+    public void insertCustomer(CustomerUserVO vo);
 
     // 고객 테이블에 정보 수정
     public void modifyCustomer(CustomerUserVO vo); //고객정보 수정

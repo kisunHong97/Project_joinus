@@ -392,7 +392,7 @@
           <br>
           <br>
           <div id="reviewList">
-              <c:forEach items="${productlist}" var="review">
+              <c:forEach items="${reviewlist}" var="review">
                   <div class="reviewItem">
                       <div class="reviewInfo">
                           &nbsp;<span class="star" style="color: #ff731b;">
@@ -421,7 +421,7 @@
                   </div>
               </c:forEach>
 
-              <c:if test="${empty productlist}">
+              <c:if test="${empty reviewlist}">
                   <div class="noReviews">작성한 리뷰가 없습니다.</div>
               </c:if>
           </div>
@@ -533,7 +533,6 @@
                 result = "0" + data;
             return result;
         }
-
         // 현재 날짜 설정
         var currentDate = new Date();  // 현재 날짜와 시간을 가져옴
         var now = currentDate.getFullYear() + "-" // 연도
@@ -574,15 +573,6 @@
 </script>
 <script>
     $(document).ready(function() {
-        console.log($("#b_id").val());
-        console.log("으아아아아악!");
-        console.log("호오?"+ $("#inquiryu_id").val())
-        console.log("bno:"+$("#bno").val());
-        console.log("sno:"+$("#sno").val());
-        console.log("psno:"+$("#psno").val());
-
-
-
         $("#inqua").click(function() {
             if ($("#u_id").val() === "" && $("#b_id").val() === "") {
                 alert("로그인 후 다시 시도해주세요!");
@@ -598,11 +588,8 @@
                     alert("현재 제품 판매자만 가능합니다.")
                     return false;
                 }
-            }else {
-                return true;
-            }
+            }else {return true;}
         });
-
     });
 </script>
 <script>
@@ -681,13 +668,7 @@
     };
 </script>
 <script type="text/javascript">
-    console.log("일단 작동")
     $(document).ready(function() {
-        console.log("일단 작동")
-        console.log($("#productname").text())
-        console.log($("#productlist").val())
-        console.log($("#u_id").val())
-        console.log("뜨나요??" + $("#b_id").val());
         $(".btnreview").click(function (){
             if($("#u_id").val()=="") {
                 if($("#u_id").val()=="" && $("#b_id").val()==""){

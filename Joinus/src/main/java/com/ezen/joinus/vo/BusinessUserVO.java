@@ -7,7 +7,7 @@ import lombok.*;
 @ToString
 @Getter
 @Setter
-public class BusinessUserVO {//business_table
+public class BusinessUserVO {
     private Integer bno;
     private String b_name;
     private String b_id;

@@ -93,7 +93,7 @@
         <input class="input" type="text" value="${inquiryVO.u_name}" id="u_name" name="u_name" required readonly>
       </div>
       <div class="form-group">
-        <label for="p_name">제품:</label>
+        <label for="p_name">상품:</label>
         <input class="input" type="text" value="${inquiryVO.p_name} "id="p_name" name="p_name" required readonly>
       </div>
       <div class="form-group">

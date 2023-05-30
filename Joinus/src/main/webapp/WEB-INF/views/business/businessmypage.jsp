@@ -147,7 +147,7 @@
                         document.write(stars);
                     </script></span></div>
                             <div class="divp_name" style="width: 270px; text-align: center;"><a href="board/read?pno=${review.pno}" class="p_name"> ${review.p_name}</a></div>
-                            <div class="divu_id" style="width: 30px; text-align: center;"><span>${review.u_id}</span></div>
+                            <div class="divu_id" style="width: 50px; text-align: center;"><span>${review.u_name}</span></div>
                             <div class="divtextreview" style="width: 500px; text-align: center;"> <span class="textreview"> ${review.review}</span></div>
                             <span class="date" style="color: #ff731b;">${review.sys_date}</span>
                         </div>

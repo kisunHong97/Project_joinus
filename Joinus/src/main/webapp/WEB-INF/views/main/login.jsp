@@ -2,10 +2,10 @@
 <%
    String errormessage = (String) session.getAttribute("errormessage");
    if(errormessage==null) errormessage="";
-//   session.invalidate();
+%>
+<%
    String cerrormessage = (String) session.getAttribute("cerrormessage");
    if(cerrormessage==null) cerrormessage="";
-//   session.invalidate();
 %>
     <html>
     <head>
@@ -116,7 +116,6 @@
     $(document).ready(function() {
         loadRememberedId("#u_id", "#checkId", "key1");
         loadRememberedId("#b_id", "#checkBusinessId", "key2");
-
         $("#checkId").change(function() {
             handleRememberId("#u_id", "#checkId", "key1");
         });
@@ -128,22 +127,18 @@
                 setRememberedId("#u_id", "key1");
             }
         });
-
         $("#b_id").keyup(function() {
             if ($("#checkBusinessId").is(":checked")) {
                 setRememberedId("#b_id", "key2");
             }
         });
-
         function loadRememberedId(inputId, checkboxId, cookieName) {
             var key = getCookie(cookieName);
             $(inputId).val(key);
-
             if ($(inputId).val() !== "") {
                 $(checkboxId).attr("checked", true);
             }
         }
-
         function handleRememberId(inputId, checkboxId, cookieName) {
             if ($(checkboxId).is(":checked")) {
                 setRememberedId(inputId, cookieName);
@@ -151,31 +146,26 @@
                 deleteCookie(cookieName);
             }
         }
-
         function setRememberedId(inputId, cookieName) {
             var key = $(inputId).val();
             setCookie(cookieName, key, 7);
         }
-
         function setCookie(cookieName, value, exdays) {
             var exdate = new Date();
             exdate.setDate(exdate.getDate() + exdays);
             var cookieValue = escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toGMTString());
             document.cookie = cookieName + "=" + cookieValue;
         }
-
         function deleteCookie(cookieName) {
             var expireDate = new Date();
             expireDate.setDate(expireDate.getDate() - 1);
             document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString();
         }
-
         function getCookie(cookieName) {
             cookieName = cookieName + '=';
             var cookieData = document.cookie;
             var start = cookieData.indexOf(cookieName);
             var cookieValue = '';
-
             if (start != -1) {
                 start += cookieName.length;
                 var end = cookieData.indexOf(';', start);
@@ -184,11 +174,9 @@
                 }
                 cookieValue = cookieData.substring(start, end);
             }
-
             return unescape(cookieValue);
         }
     })
     //사업자 아이디 저장
-
 </script>
 
