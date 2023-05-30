@@ -109,7 +109,7 @@
                                             <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일">
                                         </div>
                                         <div class="post-content">
-                                            <a href="/modify/${myProductList[status.index].pno}">${myProductList[status.index].p_inst }</a>
+                                            <a href="/modify/${myProductList[status.index].pno}">${myProductList[status.index].p_name }</a>
                                         </div>
                                     </li>
                                 </c:forEach>

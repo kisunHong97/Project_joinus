@@ -152,7 +152,14 @@ public class ProductController {
         for(String filePath : thumbnails){
             attachList.add(FileController.file_table_form(product.getPno(), filePath, 'T'));
         }
+
         attachList.add(FileController.file_table_form(product.getPno(), detail, 'I'));
+
+        System.out.println("AttachList : " + attachList);
+
+        for(AttachFileDTO attach: attachList){
+            fileService.modifyProductImage(attach);
+        }
 
         // 이미지는 전부 삭제하고 다시 넣기
         fileService.removeProductImage(product.getPno());

@@ -223,7 +223,6 @@
         color:#333;
         letter-spacing:-1px;
     }
-
 </style>
 <body class="sub_page about_page">
 <img src="../../../resources/images/banner.png" style="margin-left: 367px; width: 1170px; height: 400px">
@@ -267,8 +266,11 @@
         </div>
     </div>
 </section>
-<%-- 현재 로그인된 사용자 주소 --%>
-<%--<p>${customerloginUser.u_addrcode}</p>--%>
+<%--&lt;%&ndash; 현재 로그인된 사용자 주소 &ndash;%&gt;--%>
+<%--<p>${customerloginUser.u_addrStreet}</p>--%>
+<%--${customerloginUser.u_addrStreet.substring(0, 6)}--%>
+<%--<p>${businessUser.b_addrStreet}</p>--%>
+<%--${businessUser.b_addrStreet.substring(0, 6)}--%>
 <section>
     <div class="outter" style="flex-grow: 1;">
         <hr>
@@ -276,36 +278,54 @@
         <!-- 옵션선택 끝 -->
         <div class="board1">
             <div class="board-body1">
-                <c:set var="hasNearbyProducts" value="false" />
                 <ul>
-                    <c:forEach var="store" items="${storeVOList}" varStatus="status">
-                        <c:choose>
-                            <c:when test="${customerloginUser.u_addrcode == store.s_addrCode}">
-                                <c:set var="hasNearbyProducts" value="true" />
-                                <c:forEach var="product" items="${productList}" varStatus="productStatus">
-                                    <c:if test="${store.sno == product.sno}">
+                    <c:choose>
+                        <c:when test="${empty customerloginUser && empty businessUser}">
+                            <div style="height: 521px; width: 850px;">
+                                <img src="../../../resources/images/store.png" style="margin-left: 290px; width: 240px; height: 250px; margin-top: 50px">
+                                <span style="margin-left: -170px; letter-spacing: -1px">로그인 해주세요</span>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <c:set var="noMatchingProducts" value="true" />
+                            <c:forEach var="product" items="${productList}" varStatus="productStatus">
+                                <c:forEach var="store" items="${storeVOList}" varStatus="storeStatus">
+                                    <c:if test="${!empty customerloginUser && product.sno == store.sno && store.s_addrStreet.indexOf(customerloginUser.u_addrStreet.substring(0, 6)) != -1}">
                                         <li>
                                             <div class="post-thumbnail1">
                                                 <img src="/display?fileName=${thumbnailList[productStatus.index].uploadPath}/${thumbnailList[productStatus.index].uuid}_${thumbnailList[productStatus.index].fileName}" alt="게시물 썸네일">
                                             </div>
                                             <div class="post-content1">
-                                                <a href='/board/read?pno=${product.pno}'>${product.p_inst}</a>
+                                                <a href='/board/read?pno=${product.pno}'>${product.p_name}</a>
                                             </div>
                                         </li>
+                                        <c:set var="noMatchingProducts" value="false" />
+                                    </c:if>
+                                    <c:if test="${!empty businessUser && product.sno == store.sno && store.s_addrStreet.indexOf(businessUser.b_addrStreet.substring(0, 6)) != -1}">
+                                        <li>
+                                            <div class="post-thumbnail1">
+                                                <img src="/display?fileName=${thumbnailList[productStatus.index].uploadPath}/${thumbnailList[productStatus.index].uuid}_${thumbnailList[productStatus.index].fileName}" alt="게시물 썸네일">
+                                            </div>
+                                            <div class="post-content1">
+                                                <a href='/board/read?pno=${product.pno}'>${product.p_name}</a>
+                                            </div>
+                                        </li>
+                                        <c:set var="noMatchingProducts" value="false" />
                                     </c:if>
                                 </c:forEach>
-                            </c:when>
-                        </c:choose>
-                    </c:forEach>
-                    <c:if test="${not hasNearbyProducts}">
-                        <div style="height: 521px; width: 850px;">
-                            <img src="../../../resources/images/store.png" style="margin-left: 290px; width: 240px; height: 250px; margin-top: 50px">
-                            <span style="margin-left: -220px; letter-spacing: -1px">근처에 등록된 상품이 없습니다.</span>
-                        </div>
-                    </c:if>
+                            </c:forEach>
+                            <c:if test="${noMatchingProducts}">
+                                <div style="height: 521px; width: 850px;">
+                                    <img src="../../../resources/images/store.png" style="margin-left: 290px; width: 240px; height: 250px; margin-top: 50px">
+                                    <span style="margin-left: -220px; letter-spacing: -1px">근처에 등록된 상품이 없습니다.</span>
+                                </div>
+                            </c:if>
+                        </c:otherwise>
+                    </c:choose>
                 </ul>
             </div>
         </div>
+
         <aside style="position: absolute; top: 975px; right: 360px;">
             <div style="flex-shrink: 0; width: 300px;">
                 <h1 class="hit">Let's Join Us!</h1>
@@ -357,12 +377,12 @@
 
     // ##### 연결 되었습니다!
     function onOpen() {
-        if (${customerloginUser == null} && ${businessUser == null}) {
+        if (${customerloginUser == null && businessUser == null}) {
             websocket.send("<div style='color: #7c7c7c; font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: bold; text-align: center'>로그인 후 이용해주세요.</div>");
             document.getElementById("message").disabled = true;
             document.getElementById("send").disabled = true;
             document.getElementById("exit").disabled = true;
-        }else if(${businessUser != null} && ${customerloginUser == null}){
+        }else if(${businessUser != null && customerloginUser == null}){
             websocket.send("<div style='color: #7c7c7c; font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: bold; text-align: center;'>사업자는 채팅이 불가능합니다.</div>");
             document.getElementById("message").disabled = true;
             document.getElementById("send").disabled = true;

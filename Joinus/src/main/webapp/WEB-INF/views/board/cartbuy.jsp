@@ -127,9 +127,9 @@
         <button class="buy-button">구매</button>
         </c:when>
         <c:otherwise>
-        <label>보유 메소가 부족합니다</label>
-    </div>
-    <button class="buy-button" type="submit">구매</button>
+            <label>보유 포인트가 부족합니다.</label>
+            </div>
+            <button class="nobuy-button" onclick="window.location.href='/customerpoint?point=${customerUserVO.buypoint}'">충전하기</button>
     </c:otherwise>
     </c:choose>
 </div>
@@ -191,7 +191,6 @@
             }
         });
     });
-
 </script>
 <%@ include file="../footer/footer.jsp"%>
 </html>

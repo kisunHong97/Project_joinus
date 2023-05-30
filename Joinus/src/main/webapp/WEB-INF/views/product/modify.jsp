@@ -485,6 +485,7 @@
       event.preventDefault();
 
       var productData = {
+        'fno':[],
         'product':{},
         'thumbnail':[],
         'detail':""};

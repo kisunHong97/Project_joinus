@@ -17,6 +17,11 @@
         where u_id = #{u_id}
     </select>
 
+    <select id="getPurchaseInfoPname" resultType="com.ezen.joinus.vo.PurchaseVO">
+        select DISTINCT p_name from products_purchase_table
+        where sno = #{sno}
+    </select>
+
     <select id="getPurchaseInfoSno" resultType="com.ezen.joinus.vo.PurchaseVO">
         select * from products_purchase_table
         where sno = #{sno}

@@ -11,9 +11,6 @@
 <style>
     @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 100;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf) format('opentype');}
     @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 300;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 400;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 500;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 700;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype');} @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 900;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format('opentype');}
-
-
-
 </style>
 <script>
     function selChange() {
@@ -27,56 +24,52 @@
     <div class="outter">
         <div style="display: flex; align-items: center; justify-content: space-between;">
             <h1 class="hit" style="font-size: 50px; margin-right: auto;">Traffic</h1>
-        <form method="post" action="/location">
-            <input type="hidden" name="name" value="traffic"/>
-            <input type="hidden" name="name1" value="Traffic"/>
-            <select class="styled-select" name="location" style="margin-left: auto;">
-                <option value="" disabled selected>지역 선택</option>
-                <option value="서울">서울</option>
-                <option value="수원">수원</option>
-                <option value="안양">안양</option>
-                <option value="인천">인천</option>
-                <option value="부산">부산</option>
-                <option value="대구">대구</option>
-                <option value="대전">대전</option>
-                <option value="광주">광주</option>
-                <option value="울산">울산</option>
-                <option value="용인">용인</option>
-                <option value="전주">전주</option>
-            </select>
-            <button class="search-button" type="submit" value="검색">검색</button>
-        </form>
-        </div>
-        <hr>
-        <br>
-
-
-            <!-- 옵션선택 끝 -->
-            <table border="1">
+                <form method="post" action="/location">
+                    <input type="hidden" name="name" value="traffic"/>
+                    <input type="hidden" name="name1" value="Traffic"/>
+                    <select class="styled-select" name="location" style="margin-left: auto;">
+                        <option value="" disabled selected>지역 선택</option>
+                        <option value="서울">서울</option>
+                        <option value="수원">수원</option>
+                        <option value="안양">안양</option>
+                        <option value="인천">인천</option>
+                        <option value="부산">부산</option>
+                        <option value="대구">대구</option>
+                        <option value="대전">대전</option>
+                        <option value="광주">광주</option>
+                        <option value="울산">울산</option>
+                        <option value="용인">용인</option>
+                        <option value="전주">전주</option>
+                    </select>
+                    <button class="search-button" type="submit" value="검색">검색</button>
+                </form>
+            </div>
+        <hr><br>
+        <!-- 옵션선택 끝 -->
+        <table border="1">
             <div class="board">
-            <div class="board-body">
-            <ul style="margin-left: 70px">
-                <c:forEach var="traffic" items="${trafficlist}" varStatus="status">
-                <c:if test="${status.index >= (paging.nowPage-1) * 16 && status.index < paging.nowPage * 16}">
-                    <li>
-                        <div class="post-thumbnail">
-                            <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일">
-                        </div>
-                        <div class="post-content">
-                            <a href="/board/read?pno=${trafficlist[status.index].pno}">${trafficlist[status.index].p_name }</a>
-                        </div>
-                    </li>
-                </c:if>
-            </c:forEach>
-            </ul>
+                <div class="board-body">
+                    <ul>
+                        <c:forEach var="traffic" items="${trafficlist}" varStatus="status">
+                        <c:if test="${status.index >= (paging.nowPage-1) * 12 && status.index < paging.nowPage * 12}">
+                            <li>
+                                <div class="post-thumbnail">
+                                    <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일"  style="height: 180px">
+                                </div>
+                                <div class="post-content">
+                                    <a href="/board/read?pno=${trafficlist[status.index].pno}">${trafficlist[status.index].p_name }</a>
+                                </div>
+                            </li>
+                        </c:if>
+                    </c:forEach>
+                    </ul>
+                </div>
             </div>
-            </div>
-            </table>
-            </div>
-            </section>
-            </section>
-            <br>
-            <div class="pagination" style="display: block; text-align: center;">
+        </table>
+    </div>
+</section>
+        <br>
+        <div class="pagination" style="display: block; text-align: center;">
             <c:if test="${paging.startPage != 1 }">
                 <a href="/Traffic?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
             </c:if>
@@ -93,8 +86,8 @@
             <c:if test="${paging.endPage != paging.lastPage && paging.lastPage > 10}">
                 <a href="/Traffic?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
             </c:if>
-            </div>
-            <br>
+        </div>
+    <br>
 <%@ include file="../footer/footer.jsp"%>
 </body>
 </html>

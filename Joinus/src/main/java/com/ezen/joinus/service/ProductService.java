@@ -17,6 +17,8 @@ public interface ProductService {
     // 상품 정보 전부 가져오기
     public List<ProductVO> getProductListAll();
 
+    public List<ProductVO> getListAll();
+
     // pno에 맞는 상품 정보 가져오기
     public ProductVO getProductContents(int pno);
 

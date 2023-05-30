@@ -53,10 +53,10 @@
                 <div class="board-body">
                     <ul style="margin-left: 70px">
                         <c:forEach var="food" items="${Foodlist}" varStatus="status">
-                            <c:if test="${status.index >= (paging.nowPage-1) * 16 && status.index < paging.nowPage * 16}">
+                            <c:if test="${status.index >= (paging.nowPage-1) * 12 && status.index < paging.nowPage * 12}">
                                 <li>
                                     <div class="post-thumbnail">
-                                        <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일">
+                                        <img src="/display?fileName=${thumbnailList[status.index].uploadPath}/${thumbnailList[status.index].uuid}_${thumbnailList[status.index].fileName}" alt="게시물 썸네일" style="height: 180px">
                                     </div>
                                     <div class="post-content">
                                         <a href="/board/read?pno=${Foodlist[status.index].pno}">${Foodlist[status.index].p_name }</a>

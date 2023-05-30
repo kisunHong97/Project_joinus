@@ -33,6 +33,11 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
+	public List<ProductVO> getListAll() {
+		return productMapper.getListAll();
+	}
+
+	@Override
 	public ProductVO getProductContents(int pno) {
 		return productMapper.getProduct(pno);
 	}
