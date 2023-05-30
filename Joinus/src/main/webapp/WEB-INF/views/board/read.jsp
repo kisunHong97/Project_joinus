@@ -783,9 +783,7 @@
 <script>
     // 로그인 여부 확인 함수
   function isLoggedIn() {
-    // 로그인 여부를 확인하는 코드 작성
     // 로그인되어 있으면 true 반환, 아니면 false 반환
-    // 예시:
       if (${customerUserVO == null || customerUserVO.u_id == null}) {
       return false;
     } else {
@@ -801,7 +799,6 @@
             return;
         }else {
             var data_like = $("#wishBtn").text()
-            // console.log("data_like : " + data_like)
             let f1 = $('#wishBtn').data('a');
             let f2 = $('#wishBtn').data('b');
             // p_name, p_category 추가
@@ -814,14 +811,12 @@
                 if (($("#customerUserVO") != null || $("#u_id") != null)){
                     flag = !flag
                     $('#wishBtn').text("🤍");
-                    console.log('여기는 삭제');
                 }
             } else {
                 addWishlist(f1, f2, p_name, p_category);
                 if (($("#customerUserVO") != null || $("#u_id") != null)){
                     flag = !flag
                     $('#wishBtn').text("❤️");
-                    console.log('여기는 추가');
                 }
             }
         }
@@ -894,14 +889,12 @@
                     var f5 = $('#totalPrice').val();
                     var f6 = $("#startDate").val();
                     var f7 = $("#endDate").val();
-                    console.log(f5,f6,f7)
                     var flag = false
                     if(data_cart == "🛒"){
                         deleteCart();
                         if ($("#customerUserVO") != null || $("#u_id") != null){
                             flag = !flag
                             $('#cartBtn').text("장바구니담기");
-                            console.log('여기는 삭제');
                         }
                     } else {
                         if(${businessUser != null}){
@@ -910,10 +903,8 @@
                         }else {
                             addCart(f3, f4, f5, f6, f7);
                             if ($("#customerUserVO") != null || $("#u_id") != null) {
-
                                 flag = !flag
                                 $('#cartBtn').text("🛒");
-                                console.log('여기는 추가');
                             }
                         }
                     }
@@ -982,7 +973,6 @@
       type: "GET",
       url: "/cart/delete?pno="+${productVO.pno},
       success: function(data) {
-        console.log("삭제 들어오나");
         alert("장바구니에서 삭제되었습니다.");
       },
       error: function (xhr, status, error) {

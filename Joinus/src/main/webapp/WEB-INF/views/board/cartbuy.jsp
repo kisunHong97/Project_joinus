@@ -95,13 +95,16 @@
                 <p style="font-size: 20px; font-weight: bold;">구매 상품</p>
             </div>
             <div><p style=" height: 40px; margin-top: 10px;">${combinedItem.productVO.p_name}</p></div>
+                <%--            <p>구매 상품 : ${combinedItem.productVO.p_name}</p>--%>
             <br>
             <div style="width: 300px; height: 40px; border-bottom: 2px solid black; margin-left: 420px">
                 <p style="font-size: 20px; font-weight: bold">이용 기간</p>
             </div>
             <div><p style=" height: 40px; margin-top: 10px;"> ${combinedItem.cartVO.c_startDate} ~ ${combinedItem.cartVO.c_endDate}</p></div>
+                <%--            <p>이용 기간: ${combinedItem.cartVO.c_startDate} ~ ${combinedItem.cartVO.c_endDate} </p>--%>
             <br>
             <p>가격:  ${combinedItem.cartVO.c_price}&nbsp;포인트</p>
+                <%--            <p>가격: ${combinedItem.cartVO.c_price}메소</p>--%>
             <p>보유 포인트 : ${customerUserVO.buypoint}포인트</p>
         </div>
 
@@ -124,9 +127,9 @@
         <button class="buy-button">구매</button>
         </c:when>
         <c:otherwise>
-        <label>보유 메소가 부족합니다</label>
-    </div>
-    <button class="buy-button" type="submit">구매</button>
+            <label>보유 포인트가 부족합니다.</label>
+            </div>
+            <button class="nobuy-button" onclick="window.location.href='/customerpoint?point=${customerUserVO.buypoint}'">충전하기</button>
     </c:otherwise>
     </c:choose>
 </div>
@@ -188,7 +191,6 @@
             }
         });
     });
-
 </script>
 <%@ include file="../footer/footer.jsp"%>
 </html>

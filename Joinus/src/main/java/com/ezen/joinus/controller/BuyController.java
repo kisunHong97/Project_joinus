@@ -1,3 +1,5 @@
+
+
 package com.ezen.joinus.controller;
 
 import com.ezen.joinus.service.*;
@@ -116,7 +118,7 @@ public class BuyController {
             purchaseVO.setMemo((String) productData.get("memo"));
 //             purchaseVO.setBuyTime((Date) productData.get("buyTime"));
             String buyTimeString = productData.get("buyTime").toString();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
             try {
                 Date buyTime = dateFormat.parse(buyTimeString);
                 System.out.println("현재시간 : " + buyTime);
@@ -215,3 +217,8 @@ public class BuyController {
         return "/board/cartbuy";
     }
 }
+
+
+
+
+

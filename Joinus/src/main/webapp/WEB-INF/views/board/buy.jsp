@@ -162,7 +162,6 @@
         <div><p style=" height: 40px; margin-top: 10px;"> <span id="startDateDisplay"></span> ~
             <span id="endDateDisplay"></span></p></div>
         <br>
-<%--        <p>가격: ${productVO.p_price}메소</p>--%>
         <p>가격: <span id="p_price"></span>&nbsp;포인트</p>
         <p>보유 포인트 : ${customerUserVO.buypoint}&nbsp;포인트</p>
     </div>
@@ -198,19 +197,18 @@
     $(document).ready(function (e){
         $(".buy-button").click(function (){
             if(${customerUserVO.buypoint <= 0}) {
-                alert("\n보유 메소가 부족합니다.\n충전 후 이용해 주세요.")
+                alert("\n보유 포인트가 부족합니다.\n충전 후 이용해 주세요.")
             }else if (confirm("\n결제 후 3시간 이내 취소 요청 시 환불 처리되며, 3시간 이후에는 환불되지 않습니다.\n\n정말로 구매하시겠습니까?")) {
                 let memo = $("#name").val();
                 let p_price = $('#p_price_span').text();
                 let startDate = $("#startDateDisplay").text();
                 let endDate = $("#endDateDisplay").text();
-                var currentTime = getCurrentTime();
-                console.log("현재 시간 : " + currentTime)
-                // AJAX 요청 생성
+                let currentTime = getCurrentTime();
+
                 $.ajax({
-                    url: "/purchase", // 데이터를 전송할 서버의 URL
-                    method: "POST", // 요청 메소드 (POST, GET 등)
-                    data: { // 전송할 데이터
+                    url: "/purchase",
+                    method: "POST",
+                    data: {
                         sno: ${productVO.sno},
                         pno: ${productVO.pno}, // 상품 ID
                         u_id: '${customerUserVO.u_id}',
@@ -222,12 +220,10 @@
                         endDate: endDate
                     },
                     success: function (response) {
-                        // 요청이 성공적으로 완료되었을 때의 처리
                         alert("구매가 완료되었습니다.");
                         window.location.href = "/product_board"; // 메인 페이지로 이동
                     },
                     error: function (xhr, status, error) {
-                        // 요청이 실패하였을 때의 처리
                         alert("구매에 실패하였습니다. 다시 시도해주세요.");
                     }
                 });

@@ -266,11 +266,11 @@
         </div>
     </div>
 </section>
-<%-- 현재 로그인된 사용자 주소 --%>
-<p>${customerloginUser.u_addrStreet}</p>
-${customerloginUser.u_addrStreet.substring(0, 6)}
-<p>${businessUser.b_addrStreet}</p>
-${businessUser.b_addrStreet.substring(0, 6)}
+<%--&lt;%&ndash; 현재 로그인된 사용자 주소 &ndash;%&gt;--%>
+<%--<p>${customerloginUser.u_addrStreet}</p>--%>
+<%--${customerloginUser.u_addrStreet.substring(0, 6)}--%>
+<%--<p>${businessUser.b_addrStreet}</p>--%>
+<%--${businessUser.b_addrStreet.substring(0, 6)}--%>
 <section>
     <div class="outter" style="flex-grow: 1;">
         <hr>
