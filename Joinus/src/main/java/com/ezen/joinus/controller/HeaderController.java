@@ -57,7 +57,6 @@ public class HeaderController {
         if (BusinessloginUser == null && customerloginUser == null) {
             return "redirect:/login";
         } else {
-
             if (BusinessloginUser != null) {
                 model.addAttribute("business",businessService.getBusinessById(BusinessloginUser.getB_id()));
                 List<ReviewVO> reviewVOList = businessService.selectreviewsno(BusinessloginUser.getBno());

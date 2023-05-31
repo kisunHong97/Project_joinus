@@ -13,8 +13,7 @@
         where u_id = #{u_id}
     </update>
     <select id="selectUPurchaseUserId" resultType="com.ezen.joinus.vo.PurchaseVO" parameterType="string">
-        select * from products_purchase_table
-        where u_id = #{u_id}
+        select * from products_purchase_table where u_id = #{u_id}
     </select>
 
     <select id="getPurchaseInfoPname" resultType="com.ezen.joinus.vo.PurchaseVO">
@@ -39,10 +38,7 @@
     </delete>
 
     <update id="nowRefundPrice" parameterType="map">
-        update customers_table
-        set buyPoint = buypoint + #{p_price},
-            payPoint = paypoint - #{p_price}
-        where u_id = #{u_id}
+        update customers_table set buyPoint=buypoint+#{p_price}, payPoint=paypoint-#{p_price} where u_id = #{u_id}
     </update>
 
     <insert id="refundProduct" parameterType="com.ezen.joinus.vo.RefundVO">

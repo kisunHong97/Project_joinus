@@ -13,3 +13,4 @@ public interface WishlistMapper {
     WishlistVO selectWishlistByPnoAndUid(Map<String, Object> paramMap);
     List<WishlistVO> getWishlistUid(String u_id);
 }
+

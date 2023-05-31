@@ -362,82 +362,76 @@
 </script>
 <!-- 생략된 코드 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
-    // ##### 입장~~~!!
-    let websocket;
-    connect();
-    function connect(){
-        console.log("통신");
-// 		websocket = new WebSocket("ws://본인 아이 피주소/www/chat-ws");
-        websocket = new WebSocket("ws://localhost:8080/chat-ws");
-        //웹 소켓에 이벤트가 발생했을 때 호출될 함수 등록
-        websocket.onopen = onOpen;
-        websocket.onmessage = onMessage;
-    }
-
-    // ##### 연결 되었습니다!
-    function onOpen() {
-        if (${customerloginUser == null && businessUser == null}) {
-            websocket.send("<div style='color: #7c7c7c; font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: bold; text-align: center'>로그인 후 이용해주세요.</div>");
-            document.getElementById("message").disabled = true;
-            document.getElementById("send").disabled = true;
-            document.getElementById("exit").disabled = true;
-        }else if(${businessUser != null && customerloginUser == null}){
-            websocket.send("<div style='color: #7c7c7c; font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: bold; text-align: center;'>사업자는 채팅이 불가능합니다.</div>");
-            document.getElementById("message").disabled = true;
-            document.getElementById("send").disabled = true;
-            document.getElementById("exit").disabled = true;
-        } else {
-            id = document.getElementById("id").value;
-            websocket.send("<div style='color: black; font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: bold; text-align: center;'>" + id + "님이 입장하셨습니다.</div>");
-        }
-    }
-
-    // ##### 메세지 보내기 버튼 클릭!
-    document.getElementById("send").addEventListener("click", function() {
-        send();
-    });
-
-    function send(){
-        if (websocket.readyState === WebSocket.OPEN) {
-            id = document.getElementById("id").value;
-            msg = document.getElementById("message").value;
-            websocket.send(id + ":" + msg);
-            document.getElementById("message").value = "";
-        }
-    }
-
-    function onMessage(evt){
-        data = evt.data;
-        chatarea = document.getElementById("chatarea");
-
-        // 내가 입력한 메시지인지 확인
-        if (data.startsWith(id + ":")) {
-            chatarea.innerHTML += "<div class='message-box'>" + data + "</div>";
-        } else {
-            chatarea.innerHTML += "<div class='message-box other'>" + data + "</div>";
+    $(document).ready(function (){
+        let websocket;
+        connect();
+        function connect(){
+            websocket = new WebSocket("ws://localhost:8080/chat-ws");
+            websocket.onopen = onOpen;
+            websocket.onmessage = onMessage;
         }
 
-        // 스크롤을 맨 아래로 이동
-        chatarea.scrollTop = chatarea.scrollHeight;
-        // data= evt.data;
-        // chatarea = document.getElementById("chatarea");
-        // chatarea.innerHTML = chatarea.innerHTML + "<br/>" + data
-    }
 
-    // ##### 연결을 해제합니다!
-    document.getElementById("exit").addEventListener("click", function() {
-        disconnect();
-    });
 
-    function disconnect(){
-        id = document.getElementById("id").value;
-        websocket.send("<div class='message-box1'>" + id + "님이 퇴장하셨습니다.</div>");
-        document.getElementById("message").disabled = true;
-        document.getElementById("send").disabled = true;
-        document.getElementById("exit").disabled = true;
+        function onOpen() {
+            if (${customerloginUser == null && businessUser == null}) {
+                websocket.send("<div style='color: #7c7c7c; font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: bold; text-align: center'>로그인 후 이용해주세요.</div>");
+                $("#message").attr('disabled','true');
+                $("#send").attr('disabled','true');
+                $("#exit").attr('disabled','true');
+                // $("#send").disab
+            }else if(${businessUser != null && customerloginUser == null}){
+                websocket.send("<div style='color: #7c7c7c; font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: bold; text-align: center;'>사업자는 채팅이 불가능합니다.</div>");
+                $("#message").attr('disabled','true');
+                $("#send").attr('disabled','true');
+                $("#exit").attr('disabled','true');
+            } else {
+                id = $("#id").val();
+                websocket.send("<div style='color: black; font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: bold; text-align: center;'>" + id + "님이 입장하셨습니다.</div>");
+            }
+        }
 
-        //websocket.close();
-    }
+
+        $("#send").click(function (){
+            send();
+        })
+        function send(){
+            if (websocket.readyState === WebSocket.OPEN) {
+                id = $("#id").val();
+                msg = $("#message").val();
+                websocket.send(id + ":" + msg);
+                $("#message").val("");
+            }
+        }
+
+
+
+        function onMessage(evt) {
+            var data = evt.data;
+            var chatarea = $('#chatarea');
+            if (data.startsWith(id + ":")) {
+                chatarea.append("<div class='message-box'>" + data + "</div>");
+            } else {
+                chatarea.append("<div class='message-box other'>" + data + "</div>");
+            }
+            chatarea.scrollTop(chatarea.prop('scrollHeight'));
+        }
+
+        // ##### 연결을 해제합니다!
+        $("#exit").click(function (){
+            disconnect();
+        })
+        function disconnect(){
+            id = $("#id").val();
+            websocket.send("<div class='message-box1'>" + id + "님이 퇴장하셨습니다.</div>");
+            $("#message").attr('disabled','true');
+            $("#send").attr('disabled','true');
+            $("#exit").attr('disabled','true');
+        }
+    })
+
+
 </script>
 </html>

@@ -63,7 +63,7 @@
                             ${loop.index + 1}
                     </span>
                     </div>
-                    <div class="divtag" style="width: 200px; text-align: center;">
+                    <div class="divtag" style="width: 230px; text-align: center;">
                         <a href="board/read?pno=${list.pno}" class="p_name">${list.p_name}</a>
                     </div>
                     <div class="divtag" style="width: 100px;">
