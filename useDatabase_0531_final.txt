@@ -1,0 +1,592 @@
+----- 테이블 삭제 -----
+drop TABLE wishlist;
+drop TABLE cart;
+drop table products_purchase_table;
+drop table products_table cascade constraints;
+drop table store_table cascade constraints;
+drop table business_table cascade constraints;
+drop table file_product_table;
+drop table customers_table cascade constraints;
+drop table review_table;
+drop table products_inquiry;
+drop table revenue_table;
+drop table b_inquiry;
+drop table refund_table;
+----- 시퀀스 삭제 -----
+drop sequence customers_seq;
+drop sequence business_seq;
+drop sequence store_seq;
+drop sequence products_seq;
+drop sequence file_seq;
+drop sequence wish_seq;
+drop sequence cart_seq;
+drop sequence inquiry_seq;
+drop sequence review_seq;
+drop sequence b_inquiry_seq;
+----- 시퀀스 생성 -----
+create sequence customers_seq INCREMENT BY 1 START WITH 1;
+create sequence business_seq INCREMENT BY 1 START WITH 1;
+create sequence store_seq INCREMENT BY 1 START WITH 1;
+create sequence products_seq INCREMENT BY 1 START WITH 1;
+create sequence file_seq INCREMENT BY 1 START WITH 1;
+create sequence wish_seq INCREMENT BY 1 START WITH 1;
+create sequence cart_seq INCREMENT BY 1 START WITH 1;
+create sequence inquiry_seq INCREMENT BY 1 START WITH 1;
+create sequence review_seq INCREMENT BY 1 START WITH 1;
+create sequence b_inquiry_seq INCREMENT BY 1 START WITH 1;
+----- 테이블 생성 -----
+-- 고객 정보 테이블
+-- u_id(중복 방지), u_pwd, u_name, u_email, u_phone은 입력 필수
+create table customers_table(
+                                uno number not null primary key,
+                                u_id varchar2(100) unique not null,
+                                u_pwd varchar2(100) not null,
+                                u_name varchar2(100) not null,
+                                u_email varchar2(100) not null,
+                                u_phone varchar2(100) not null,
+                                u_addrcode varchar2(100),
+                                u_addrStreet varchar2(100),
+                                u_addrDetail varchar2(100),
+                                buyPoint number,
+                                auth char default 'A',
+                                payPoint number,
+                                wish_cnt number default 0,
+                                cart_cnt number default 0
+);
+-- 사업자 정보 테이블
+-- b_name, b_id(중복 방지), b_pwd1, b_pwd2, b_email, b_phone은 입력 필수
+create table business_table(
+                               bno number not null primary key,
+                               b_name varchar2(100) not null,
+                               b_id varchar2(100) unique not null,
+                               b_pwd varchar2(100) not null,
+                               b_email varchar2(100) not null,
+                               b_phone varchar2(100) not null,
+                               b_addrcode varchar2(100) not null,
+                               b_addrStreet varchar2(100) not null,
+                               b_addrDetail varchar2(100) not null,
+                               auth char default 'A'
+);
+-- 가게 정보 테이블
+-- s_name, s_addr은 입력 필수, s_url은 없는 사람도 있을테니 패스
+create table store_table(
+                            sno number not null primary key,
+                            bno number,
+                            s_name varchar2(100) not null,
+                            s_addrCode varchar2(100) not null,
+                            s_addrStreet varchar2(100) not null,
+                            s_addrDetail varchar2(100) not null,
+                            s_inst varchar2(200) not null,
+                            s_email varchar2(100) not null,
+                            s_URL varchar2(100),
+                            s_phone VARCHAR2(100),
+                            s_revenue number default 0,
+                            foreign key (bno) references business_table(bno)
+);
+CREATE TABLE revenue_table (
+                               sno NUMBER NOT NULL,
+                               revenue_date varchar2(200) NOT NULL,
+                               revenue_amount NUMBER,
+                               FOREIGN KEY (sno) REFERENCES store_table (sno)
+);
+-- 상품 정보 테이블
+-- 상품 테이블 수정
+create table products_table(
+                               sno number,
+                               pno number not null primary key,
+                               p_name varchar2(100) not null,
+                               p_inst varchar2(200) not null,
+                               p_category varchar2(100),
+                               p_type varchar2(20),
+                               p_startDate Date default sysdate,
+                               p_endDate Date default sysdate,
+                               p_price number,
+                               foreign key (sno) references store_table(sno)
+);
+-- 상품 썸네일 테이블
+create table file_product_table(
+                                   fno number not null primary key,
+                                   pno number,
+                                   fileName varchar2(50),
+                                   uploadPath varchar2(50),
+                                   uuid varchar2(50),
+                                   image varchar2(1), -- 썸네일이면 'T', 상세정보면 'I'
+                                   foreign key(pno) references products_table(pno)
+);
+-- 찜 목록 테이블
+CREATE TABLE wishlist (
+                          wno NUMBER(10) PRIMARY KEY,
+                          pno NUMBER(10) NOT NULL,
+                          p_name varchar2(200) not null,
+                          p_category varchar2(200) not null,
+                          u_id varchar2(100) ,
+                          w_date DATE NOT NULL,
+                          FOREIGN KEY (pno) REFERENCES products_table(pno) ON DELETE CASCADE,
+                          FOREIGN KEY (u_id) REFERENCES customers_table(u_id) ON DELETE CASCADE,
+                          CONSTRAINT unique_wishlist UNIQUE (pno, u_id)
+);
+select * from wishlist;
+-- 장바구니 테이블
+create table cart(
+                     cno number(10) PRIMARY KEY,
+                     pno number(10) NOT NULL,
+                     u_id varchar2(100),
+                     c_price number,
+                     c_startDate varchar2(200),
+                     c_endDate varchar2(200),
+                     w_date DATE NOT NULL,
+                     foreign key (u_id) references customers_table(u_id) ON DELETE CASCADE,
+                     foreign key (pno) references products_table(pno) ON DELETE CASCADE,
+                     CONSTRAINT unique_cart UNIQUE (pno, u_id)
+);
+-- 구매 상품 테이블
+create table products_purchase_table (
+                                         sno number,
+                                         u_id varchar2(200),
+                                         pno number,
+                                         p_name varchar2(200),
+                                         p_price number,
+                                         memo varchar2(200),
+                                         buyTime DATE,
+                                         startDate varchar2(200),
+                                         endDate varchar2(200),
+                                         foreign key (pno) references products_table(pno) ON DELETE CASCADE,
+                                         foreign key (u_id) references customers_table(u_id) ON DELETE CASCADE,
+                                         foreign key (sno) references store_table(sno) ON DELETE CASCADE
+);
+-- 상품 문의 테이블
+CREATE TABLE products_inquiry (
+                                  ino NUMBER PRIMARY KEY NOT NULL,
+                                  pno number not null,
+                                  sno number not null,
+                                  u_id varchar2(100) not null,
+                                  p_name varchar2(200),
+                                  u_name VARCHAR2(50),
+                                  i_title varchar2(100),
+                                  u_inquiry VARCHAR2(200),
+                                  inquiry_date varchar2(100),
+                                  status VARCHAR2(20) default '답변 대기중'
+);
+create table b_inquiry(
+                          bno number PRIMARY KEY NOT NULL,
+                          ino number not null,
+                          sno number not null,
+                          b_answer varchar(1000) not null,
+                          b_id varchar(100) not null,
+                          pno number not null,
+                          status VARCHAR2(100) default '답변 완료',
+                          sys_date varchar2 (100)
+);
+CREATE TABLE review_table (
+                              rno NUMBER PRIMARY KEY NOT NULL,
+                              pno number not null,
+                              sno number not null,
+                              u_id varchar2(100) not null,
+                              u_name VARCHAR2(100) NOT NULL,
+                              p_name varchar2(100) not null,
+                              review VARCHAR2(100) NOT NULL,
+                              sys_date varchar2(100) NOT NULL,
+                              rating number(10)
+);
+create table refund_table(
+                             u_id varchar2(200) primary key not null ,
+                             pno number not null,
+                             p_price number not null,
+                             foreign key (pno) references products_table(pno) ON DELETE CASCADE,
+                             foreign key (u_id) references customers_table(u_id) ON DELETE CASCADE
+);
+commit;
+----- 더미 데이터 -----
+insert into customers_table values (1, 'user1', '1234', 'name1', 'user1@naver.com',
+                                    '010-1111-1111', '16678', '경기 용인시 수지구 죽전동 125-6', '근처', 100000, 'A', 100, 1, 1);
+insert into customers_table values (2, 'user2', '1234', 'name2', 'user2@naver.com',
+                                    '010-1111-2222', '16682', '경기 성남시 판교', '7층',  100, 'A', 100, 1, 1);
+insert into customers_table values (3, 'user3', '1234', 'name3', 'user3@naver.com',
+                                    '010-1111-3333', '17568', '경기 군포시 산본', '5층', 100, 'A', 100, 1, 1);
+insert into customers_table values (4, 'user6', '1234', 'name6', 'user6@naver.com',
+                                    '010-1111-6666', '16589', '서울 금천구', '근처', 100, 'A', 100, 1, 1);
+--
+--
+--
+
+-- business[academy]
+insert into business_table values (business_seq.nextval, 'ezen', 'ezen', '1234', 'ezen@naver.com','031-253-5225', '16455', '경기 수원시 팔달구', '덕영대로 899 3F', 'B');
+insert into business_table values (business_seq.nextval, 'beauty', 'beauty', '1234', 'beauty@naver.com','0507-1432-0005', '16455', '경기 수원시 팔달구 덕영대로 909', '4F', 'B');
+insert into business_table values (business_seq.nextval, 'yoyang', 'yoyang', '1234', 'yoyang@naver.com','0507-1405-3136', '16463', '경기 수원시 팔달구 매산로 123', '경화빌딩 2층', 'B');
+insert into business_table values (business_seq.nextval, 'zzangsol', 'zzangsol', '1234', 'zzangsol@naver.com','02-556-2501', '06280', '서울 강남구 남부순환로 2935', '대치프라자 4층', 'B');
+insert into business_table values (business_seq.nextval, 'muem', 'muem', '1234', 'muem@naver.com','02-445-0010', '06343', '서울 강남구 양재대로33길 25', '근처', 'B');
+insert into business_table values (business_seq.nextval, 'gain', 'gain', '1234', 'gain@naver.com','02-565-2800', '06187', '서울 강남구 역삼로 536', '동성빌딩', 'B');
+insert into business_table values (business_seq.nextval, 'hackers', 'hackers', '1234', 'hackers@naver.com','02-566-0001', '06616', '서울 강남구 강남대로61길 23', '현대성우빌딩 1층', 'B');
+insert into business_table values (business_seq.nextval, 'think', 'think', '1234', 'think@naver.com','0507-1328-3132', '13642', '경기 성남시 수정구 위례동로 153', '에이플타워 8층 깊은생각', 'B');
+insert into business_table values (business_seq.nextval, 'toto', 'toto', '1234', 'toto@naver.com','010-4613-1593', '06705', '서울 서초구 방배로 36', '3층 토토발레스쿨', 'B');
+insert into business_table values (business_seq.nextval, 'rara', 'rara', '1234', 'rara@naver.com','0507-1376-2254', '18409', '경기 화성시 병점동로 45', '3층', 'B');
+insert into business_table values (business_seq.nextval, 'brain', 'brain', '1234', 'brain@naver.com','02-553-4634', '06198', '서울 강남구 선릉로76길 7', '3층', 'B');
+insert into business_table values (business_seq.nextval, 'dot', 'dot', '1234', 'dot@naver.com','0507-1401-6131', '47814', '부산 동래구 충렬대로 225', '5층', 'B');
+insert into business_table values (business_seq.nextval, 'dongrae', 'dongrae', '1234', 'dongrae@naver.com','0507-1470-4533', '47786', '부산 동래구 안락로 12', '7층', 'B');
+
+
+-- store[academy]
+insert into store_table values (store_seq.nextval, 1, 'ezen', '16455', '경기 수원시 팔달구 덕영대로 899', '3F','이젠 아카데미 수원캠퍼스 입니다','ezen@naver.com', 'http://sw.ezenac.co.kr',
+                                '031-253-5225',0);
+insert into store_table values (store_seq.nextval, 2, 'beauty', '16455', '경기 수원시 팔달구 덕영대로 909', '4F', 'SBS아카데미 뷰티스쿨입니다.','beauty@naver.com', 'http://suwon.sbsbeautystyle.com/',
+                                '0507-1432-0005',0);
+insert into store_table values (store_seq.nextval, 3, 'yoyang', '16463', '경기 수원시 팔달구 매산로 123', '경화빌딩 2층','국제 요양보호사 교육원입니다.','yoyang@naver.com', 'https://blog.naver.com/sundream12',
+                                '0507-1405-3136',0);
+insert into store_table values (store_seq.nextval, 4, 'zzangsol', '06280', '서울 강남구 남부순환로 2935', '대치프라자 4층','저희 짱솔학원은 학원 이름에서 느껴지듯, 학생들이 항상 밝고 활발하고 재미있는 학원생활을 할 수 있도록 노력하는 학원입니다.','zzangsol@naver.com', 'http://www.zzangsol.co.kr/',
+                                '02-556-2501',0);
+insert into store_table values (store_seq.nextval, 5, 'muem', '06343', '서울 강남구 양재대로33길 25', '근처','초등영어 자신감 뮤엠으로 키워요!','muem@naver.com', 'http://www.muem.co.kr/',
+                                '02-445-0010',0);
+insert into store_table values (store_seq.nextval, 6, 'gain', '06187', '서울 강남구 역삼로 536', '동성빌딩','학생의 비전을 창조하는 대치동 수학학원 가인아카데미입니다.','gain@naver.com', 'http://www.gainacademy.co.kr/',
+                                '02-565-2800',0);
+insert into store_table values (store_seq.nextval, 7, 'hackers', '06616', '서울 강남구 강남대로61길 23', '현대성우빌딩 1층','300만이 선택한 해커스어학원! ','hackers@naver.com', 'http://www.hackers.ac/',
+                                '02-566-0001',0);
+insert into store_table values (store_seq.nextval, 8, 'think', '13642', '경기 성남시 수정구 위례동로 153', '에이플타워 8층 깊은생각','대치-송파에 이어 위례도 수학공부는 깊은생각 할 때 입니다 !','think@naver.com', 'https://blog.naver.com/matholics7',
+                                '0507-1328-3132',0);
+insert into store_table values (store_seq.nextval, 9, 'toto', '06705', '서울 서초구 방배로 36', '3층 토토발레스쿨','*토토 발레스쿨 키즈 정규, *토토발레챌린지-성인들을 위한 발레교육서비스','toto@naver.com', 'https://blog.naver.com/totoballet',
+                                '010-4613-1593',0);
+insert into store_table values (store_seq.nextval, 10, 'rara', '18409', '경기 화성시 병점동로 45', '3층','이화여대 피아노교수학 석사 원장이 기초부터 튼튼하게 가르칩니다.','rara@naver.com', 'https://www.rara.com',
+                                '0507-1376-2254',0);
+insert into store_table values (store_seq.nextval, 11, 'brain', '06198', '서울 강남구 선릉로76길 7', '3층','선릉역에 위치한 브레인팩토리 미술학원은 다리(bridge) 입니다.','brain@naver.com', 'https://blog.naver.com/bfsmartmobs',
+                                '02-553-4634',0);
+insert into store_table values (store_seq.nextval, 12, 'dot', '47814', '부산 동래구 충렬대로 225', '5층','바리스타 자격증 학원','dot@naver.com', 'http://dotcba.com',
+                                '0507-1401-6131',0);
+insert into store_table values (store_seq.nextval, 13, 'dongrae', '47786', '부산 동래구 안락로 12', '7층', '부산시 동래구 안락에 위치한 바리스타 양성 전 문 학원입니다^^','dongrae@naver.com', 'https://www.instagram.com/dongnae_barista',
+                                '0507-1470-4533',0);
+
+-- product[academy]
+insert into products_table values (1, products_seq.nextval, '자바 웹&앱 프로그래밍 과정 2차', '자바 웹&앱 프로그래밍 과정 2차 개강', 'academy', 'fixed', TO_DATE('2023-06-13', 'YYYY-MM-DD'), TO_DATE('2024-01-22', 'YYYY-MM-DD'), 852700);
+insert into products_table values (2, products_seq.nextval, '메이크업 국제 자격증 과정', 'SBS아카데미 뷰티스쿨 메이크업 국제 자격증 과정', 'academy', 'fixed', TO_DATE('2023-08-02', 'YYYY-MM-DD'), TO_DATE('2024-04-22', 'YYYY-MM-DD'), 1240000);
+insert into products_table values (3, products_seq.nextval, '국제 요양보호사 교육과정', '국제 요양보호사 교육과정입니다.', 'academy', 'fixed', sysdate, sysdate, 1000);
+insert into products_table values (4, products_seq.nextval, '초등수학 A과정', '초등수학 A과정입니다.', 'academy', 'fixed', sysdate, sysdate, 1000);
+insert into products_table values (5, products_seq.nextval, '초등영어 basic과정', '초등영어 basic과정입니다.', 'academy', 'fixed', sysdate, sysdate, 1000);
+insert into products_table values (6, products_seq.nextval, '중등 수학', '중등 수학을 가르칩니다. 보충수업, 1대1 상담 가능', 'academy', 'fixed', sysdate, sysdate, 1000);
+insert into products_table values (7, products_seq.nextval, '해커스 basic', '해커스어학원에서 기초부터 쌓고 가세요', 'academy', 'fixed', sysdate, sysdate, 1000);
+insert into products_table values (8, products_seq.nextval, '깊은 생각 수학', '생각을 깊게할 수 있는 수학', 'academy', 'fixed', sysdate, sysdate, 1000);
+insert into products_table values (9, products_seq.nextval, '토토 발레스쿨 키즈 정규', '5~12세 키즈 발레스쿨입니다.', 'academy', 'fixed', sysdate, sysdate, 1000);
+insert into products_table values (10, products_seq.nextval, '피아노 기초', '어린이 피아노 기초과정입니다.', 'academy', 'fixed', sysdate, sysdate, 1000);
+insert into products_table values (11, products_seq.nextval, '미술 입시 과정', '미술 입시 준비 과정입니다.', 'academy', 'fixed', sysdate, sysdate, 1000);
+insert into products_table values (12, products_seq.nextval, '바리스타 2급 자격증 과정', '바리스타 2급 자격증 취득과정 입니다.', 'academy', 'fixed', sysdate, sysdate, 1000);
+insert into products_table values (13, products_seq.nextval, '카페 경영 및 바리스타 자격증 취득 과정', '초보 창업자를 위한 카페 창업 교육입니다.', 'academy', 'fixed', sysdate, sysdate, 1000);
+
+-- product-file[academy]
+insert into file_product_table values (file_seq.nextval, 1, 'ezen-1.jfif', 'thumbnail', '0c53bcc2-c414-4c3c-b551-84111753596c', 'T');
+insert into file_product_table values (file_seq.nextval, 1, 'ezen-2.jfif', 'thumbnail', '0c53bcc2-c414-4c3c-b551-84111753596c', 'T');
+insert into file_product_table values (file_seq.nextval, 1, 'ezen-3.jfif', 'thumbnail', '0c53bcc2-c414-4c3c-b551-84111753596c', 'T');
+insert into file_product_table values (file_seq.nextval, 1, 'ezen-4.jfif', 'thumbnail', '0c53bcc2-c414-4c3c-b551-84111753596c', 'T');
+insert into file_product_table values (file_seq.nextval, 1, 'ezen.png', 'detail', '0c53bcc2-c414-4c3c-b551-84111753596c', 'I');
+
+insert into file_product_table values (file_seq.nextval, 2, 'beauty-1.jfif', 'thumbnail', '0c53bcc2-c414-4c3c-b551-84111753596c', 'T');
+insert into file_product_table values (file_seq.nextval, 2, 'beauty-2.jfif', 'thumbnail', '0c53bcc2-c414-4c3c-b551-84111753596c', 'T');
+insert into file_product_table values (file_seq.nextval, 2, 'beauty-3.jfif', 'thumbnail', '0c53bcc2-c414-4c3c-b551-84111753596c', 'T');
+insert into file_product_table values (file_seq.nextval, 2, 'beauty-4.jfif', 'thumbnail', '0c53bcc2-c414-4c3c-b551-84111753596c', 'T');
+insert into file_product_table values (file_seq.nextval, 2, 'beauty.png', 'detail', '0c53bcc2-c414-4c3c-b551-84111753596c', 'I');
+
+insert into file_product_table values (file_seq.nextval, 3, 'yoyang-1.jfif', 'thumbnail', '0c53bcc2-c414-4c3c-b551-84111753596c', 'T');
+insert into file_product_table values (file_seq.nextval, 4, 'zzangsol-1.jfif', 'thumbnail', '0c53bcc2-c414-4c3c-b551-84111753596c', 'T');
+insert into file_product_table values (file_seq.nextval, 5, 'muem-1.jfif', 'thumbnail', '0c53bcc2-c414-4c3c-b551-84111753596c', 'T');
+insert into file_product_table values (file_seq.nextval, 6, 'gain-1.jfif', 'thumbnail', '0c53bcc2-c414-4c3c-b551-84111753596c', 'T');
+insert into file_product_table values (file_seq.nextval, 7, 'hackers-1.jfif', 'thumbnail', '0c53bcc2-c414-4c3c-b551-84111753596c', 'T');
+insert into file_product_table values (file_seq.nextval, 8, 'think-1.jfif', 'thumbnail', '0c53bcc2-c414-4c3c-b551-84111753596c', 'T');
+insert into file_product_table values (file_seq.nextval, 9, 'toto-1.jfif', 'thumbnail', '0c53bcc2-c414-4c3c-b551-84111753596c', 'T');
+insert into file_product_table values (file_seq.nextval, 10, 'rara-1.jfif', 'thumbnail', '0c53bcc2-c414-4c3c-b551-84111753596c', 'T');
+insert into file_product_table values (file_seq.nextval, 11, 'brain-1.jfif', 'thumbnail', '0c53bcc2-c414-4c3c-b551-84111753596c', 'T');
+insert into file_product_table values (file_seq.nextval, 12, 'dot-1.jfif', 'thumbnail', '0c53bcc2-c414-4c3c-b551-84111753596c', 'T');
+insert into file_product_table values (file_seq.nextval, 13, 'dongrae-1.jfif', 'thumbnail', '0c53bcc2-c414-4c3c-b551-84111753596c', 'T');
+
+--
+--
+--
+
+-- business[traffic]
+
+insert into business_table values (business_seq.nextval, '안재영', 'bs1', '1234', 'young10074@naver.com','031-222-5642', '16661', '경기 수원시 권선구 경수대로 14 (대황교동)', '근처', 'B');
+insert into business_table values (business_seq.nextval, '홍길동', 'bs2', '1234', 'hong@naver.com','031-232-1125', '16495', '경기 수원시 영통구 광교로 32 (이의동)', '4F', 'B');
+insert into business_table values (business_seq.nextval, '라경주', 'bs3', '1234', 'ra@naver.com','031-232-2321', '16825', '경기 용인시 수지구 고기로 3 (동천동, 원천마을 푸르지오아파트)', '2층 103호', 'B');
+insert into business_table values (business_seq.nextval, '홍선기', 'bs4', '1234', 'sun@naver.com','02-556-1201', '17154', '경기 용인시 처인구 경안천로 2-17 (마평동)', '근처', 'B');
+insert into business_table values (business_seq.nextval, '안재영', 'bs5', '1234', 'ahn@naver.com','02-445-0010', '06343', '서울 강남구 양재대로33길 25', '근처', 'B');
+insert into business_table values (business_seq.nextval, '홍길동', 'bs6', '1234', 'gil@naver.com','02-565-2800', '14128', '경기 안양시 동안구 가구단지길 39 (호계동)', '근처', 'B');
+insert into business_table values (business_seq.nextval, '라경주', 'bs7', '1234', 'kung@naver.com','02-566-0001', '42462', '대구 남구 경상길 20 (대명동)', '1층', 'B');
+insert into business_table values (business_seq.nextval, '홍선기', 'bs8', '1234', 'ki@naver.com','0507-1328-3132', '34528', '대전 동구 비래서로42번안길 43 (가양동, 대구빌라)', '203호', 'B');
+insert into business_table values (business_seq.nextval, '안재영', 'bs9', '1234', 'jae@naver.com','010-4613-1593', '31424', '충남 아산시 영인면 신정리길 209-43', '3층', 'B');
+insert into business_table values (business_seq.nextval, '홍길동', 'bs10', '1234', 'dong@naver.com','0507-1376-2254', '63503', '제주특별자치도 서귀포시 대정읍 대한로 632', '1층', 'B');
+insert into business_table values (business_seq.nextval, '라경주', 'bs11', '1234', 'ju@naver.com','02-553-4634', '34336', '대전 대덕구 남경마을로 8-17 (신탄진동)', '금강 로하스 101동 202호', 'B');
+insert into business_table values (business_seq.nextval, '홍선기', 'bs12', '1234', 'dc@naver.com','0507-1401-6131', '47814', '부산 동래구 충렬대로 225', '5층', 'B');
+insert into business_table values (business_seq.nextval, '안재영', 'bs13', '1234', 'aaa@naver.com','0507-1470-4533', '12758', '경기 광주시 경안로 7 (경안동)', '101동 1205호', 'B');
+
+-- store[traffic]
+
+insert into store_table values (store_seq.nextval, 14, 'astore', '16661', '경기 수원시 권선구 경수대로 14 (대황교동)', '근처' ,'이젠 아카데미 수원캠퍼스 입니다','ezen@naver.com', 'http://sw.ezenac.co.kr',
+                                '031-253-5225',0);
+insert into store_table values (store_seq.nextval, 15, 'bstore', '16495', '경기 수원시 영통구 광교로 32 (이의동)', '4F', 'SBS아카데미 뷰티스쿨입니다.','beauty@naver.com', 'http://suwon.sbsbeautystyle.com/',
+                                '0507-1432-0005',0);
+insert into store_table values (store_seq.nextval, 16, 'ystore', '16825', '경기 용인시 수지구 고기로 3 (동천동, 원천마을 푸르지오아파트)', '2층 103호' ,'국제 요양보호사 교육원입니다.','yoyang@naver.com', 'https://blog.naver.com/sundream12',
+                                '0507-1405-3136',0);
+insert into store_table values (store_seq.nextval, 17, 'zstore', '17154', '경기 용인시 처인구 경안천로 2-17 (마평동)', '근처' ,'저희 짱솔학원은 학원 이름에서 느껴지듯, 학생들이 항상 밝고 활발하고 재미있는 학원생활을 할 수 있도록 노력하는 학원입니다.','zzangsol@naver.com', 'http://www.zzangsol.co.kr/',
+                                '02-556-2501',0);
+insert into store_table values (store_seq.nextval, 18, 'store', '06343', '서울 강남구 양재대로33길 25', '근처','초등영어 자신감 뮤엠으로 키워요!','muem@naver.com', 'http://www.muem.co.kr/',
+                                '02-445-0010',0);
+insert into store_table values (store_seq.nextval, 19, 'gstore', '14128', '경기 안양시 동안구 가구단지길 39 (호계동)', '근처' ,'학생의 비전을 창조하는 대치동 수학학원 가인아카데미입니다.','gain@naver.com', 'http://www.gainacademy.co.kr/',
+                                '02-565-2800',0);
+insert into store_table values (store_seq.nextval, 20, 'hstore', '42462', '대구 남구 경상길 20 (대명동)', '1층', '300만이 선택한 해커스어학원! ','hackers@naver.com', 'http://www.hackers.ac/',
+                                '02-566-0001',0);
+insert into store_table values (store_seq.nextval, 21, 'tstore', '34528', '대전 동구 비래서로42번안길 43 (가양동, 대구빌라)', '203호', '대치-송파에 이어 위례도 수학공부는 깊은생각 할 때 입니다 !','think@naver.com', 'https://blog.naver.com/matholics7',
+                                '0507-1328-3132',0);
+insert into store_table values (store_seq.nextval, 22, 'ostore', '31424', '충남 아산시 영인면 신정리길 209-43', '3층', '*토토 발레스쿨 키즈 정규, *토토발레챌린지-성인들을 위한 발레교육서비스','toto@naver.com', 'https://blog.naver.com/totoballet',
+                                '010-4613-1593',0);
+insert into store_table values (store_seq.nextval, 23, 'rstore', '63503', '제주특별자치도 서귀포시 대정읍 대한로 632', '1층' ,'이화여대 피아노교수학 석사 원장이 기초부터 튼튼하게 가르칩니다.','rara@naver.com', 'https://www.rara.com',
+                                '0507-1376-2254',0);
+insert into store_table values (store_seq.nextval, 24, 'istore', '34336', '대전 대덕구 남경마을로 8-17 (신탄진동)', '금강 로하스 101동 202호' ,'선릉역에 위치한 브레인팩토리 미술학원은 다리(bridge) 입니다.','brain@naver.com', 'https://blog.naver.com/bfsmartmobs',
+                                '02-553-4634',0);
+insert into store_table values (store_seq.nextval, 25, 'dstore', '47814', '부산 동래구 충렬대로 225', '5층', '바리스타 자격증 학원','dot@naver.com', 'http://dotcba.com',
+                                '0507-1401-6131',0);
+insert into store_table values (store_seq.nextval, 26, 'estore', '12758', '경기 광주시 경안로 7 (경안동)', '101동 1205호', '부산시 동래구 안락에 위치한 바리스타 양성 전 문 학원입니다^^','dongrae@naver.com', 'https://www.instagram.com/dongnae_barista',
+                                '0507-1470-4533',0);
+
+
+-- product[traffic]
+insert into products_table values (14, products_seq.nextval, '🚄 KTX 정기권 ~ 05.31', '(2회 왕복권) 올 여름 가족여행 차 대신 기차 여행으로 !🚝=3=3', 'traffic', 'free',  sysdate, sysdate, 2000);
+insert into products_table values (15, products_seq.nextval, '🏍수원 오토바이 전문점', '🏍수원 오토바이 월 대여 전문점 ', 'traffic', 'free',  sysdate, sysdate, 1450);
+insert into products_table values (16, products_seq.nextval, '🚘수원역-안양역 평일 카풀 모집🚘', '선착순 3명) 수원역-안양역 평일 7시 카풀 모집합니다. ', 'traffic', 'free', sysdate, sysdate, 000);
+insert into products_table values (17, products_seq.nextval, '🚌수원역-죽전역 셔틀버스 운행', '🚌친절한 기사님이 운행하십니다.', 'traffic', 'free', sysdate, sysdate, 1000);
+insert into products_table values (18, products_seq.nextval, '🚋무궁화 정기권 ~ 05.31', '3회 이용) 🚋무궁화 정기권 ~ 05.31', 'traffic', 'free', sysdate, sysdate, 1000);
+insert into products_table values (19, products_seq.nextval, '🚊ITX 이용권 ~ 05.31', '월 3회 이용) ITX 이용권 ~ 05.31까지 판매', 'traffic', 'free', sysdate, sysdate, 1000);
+insert into products_table values (20, products_seq.nextval, '🚘처인구-수원역 카풀 대모집🚘 ', '선착순 8명) 🚘처인구-수원역 카풀 대모집🚘 ', 'traffic', 'free', sysdate, sysdate, 1000);
+insert into products_table values (21, products_seq.nextval, '🛴 조인어스 킥보드 ', '🛴처인구 킥보드 대여 전문점', 'traffic', 'free', sysdate, sysdate, 1000);
+insert into products_table values (22, products_seq.nextval, '🚧용인 공장물품 대여 전문', '구르마 대량 대여해드립니다.', 'traffic', 'free', sysdate, sysdate, 1000);
+insert into products_table values (23, products_seq.nextval, '👩유모차 장기대여👩‍', '🦽 월단위 유모차 장기대여 해드립니다', 'traffic', 'free', sysdate, sysdate, 1000);
+insert into products_table values (24, products_seq.nextval, '🚲삼천리 자전거🚲', '저렴한 가격으로 자전거 대여해줍니다.', 'traffic', 'free', sysdate, sysdate, 1000);
+insert into products_table values (25, products_seq.nextval, '🚙처인구-안양역 카풀 대모집🚙', '선착순 7명) 신형 스타렉스 보유 🚙처인구-안양역 카풀 대모집🚙', 'traffic', 'free', sysdate, sysdate, 1000);
+insert into products_table values (26, products_seq.nextval, '🚲삼천리 자전거🚲', '저렴한 가격으로 자전거 대여해줍니다.', 'traffic', 'free', sysdate, sysdate, 1000);
+
+-- product-file[traffic]
+insert into file_product_table values (file_seq.nextval, 14, '교통1-1.jpg', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 14, '교통1-2.jpg', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 14, '교통1-3.jpg', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 14, '교통1-4.jpg', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 14, '상세정보2.jpg', 'detail', 'aaa', 'I');
+
+insert into file_product_table values (file_seq.nextval, 15, '교통2-1.jpg', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 15, '교통2-2.jpg', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 15, '교통2-3.jpg', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 15, '교통2-4.jpg', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 15, '상세정보4.jpg', 'detail', 'aaa', 'I');
+
+insert into file_product_table values (file_seq.nextval, 16, '교통3-1.jpg', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 17, '교통4-1.jpg', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 18, '교통5-1.jpg', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 19, '교통6-1.jpg', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 20, '교통7-1.jpg', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 21, '교통8-1.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 22, '교통9-1.jpg', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 23, '교통10-1.jpg', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 24, '교통11-1.jpg', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 25, '교통12-1.jpg', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 26, '교통11-1.jpg', 'thumbnail', 'aaa', 'T');
+
+-- business[physical fitness]
+insert into business_table values (business_seq.nextval, 'goalfun', 'goalfun', '1234', 'goalfun@naver.com','02-511-1872', '06045', '서울 강남구 강남대로132길 59', '지하 골펀스튜디오', 'B');
+insert into business_table values (business_seq.nextval, 'raffine', 'raffine', '1234', 'raffine@naver.com','0507-1325-4022', '06525', '서울 서초구 나루터로 61', '태승빌딩 지하1층', 'B');
+insert into business_table values (business_seq.nextval, 'atelier', 'atelier', '1234', 'atelier@naver.com','010-6864-2343', '05814', '서울 송파구 위례순환로 478', '센트라포레 1101', 'B');
+insert into business_table values (business_seq.nextval, 'boxtrain', 'boxtrain', '1234', 'boxtrain@naver.com','02-3445-2232', '06028', '서울 강남구 압구정로4길 11', '지하1층', 'B');
+insert into business_table values (business_seq.nextval, 'sooryeon', 'sooryeon', '1234', 'sooryeon@naver.com','0507-1480-2034', '06046', '서울 강남구 학동로 165 ', '1005호', 'B');
+insert into business_table values (business_seq.nextval, 'square', 'square', '1234', 'square@naver.com','0507-1374-2300', '05852', '울 송파구 위례광장로 290', '중앙푸르지오 2단지 B1 04,05,12호', 'B');
+insert into business_table values (business_seq.nextval, 'fila', 'fila', '1234', 'fila@naver.com','010-8670-2328', '06039', '서울 강남구 도산대로8길 13', '3층', 'B');
+insert into business_table values (business_seq.nextval, 'ein', 'ein', '1234', 'ein@naver.com','02-545-5548', '06107', '서울 강남구 논현로 626', 'B2층 아인스휘트니스', 'B');
+insert into business_table values (business_seq.nextval, 'toptier', 'toptier', '1234', 'toptier@naver.com','031-224-4774', '16459', '경기 수원시 권선구 효원로94번길 14', '4층', 'B');
+insert into business_table values (business_seq.nextval, 'flowfila', 'flow', '1234', 'flow@naver.com','010-5449-2199', '06030', '서울 강남구 압구정로28길 18', '2층', 'B');
+insert into business_table values (business_seq.nextval, 'floweheal', 'floweheal', '1234', 'floweheal@naver.com','0507-1377-2199', '06030', '서울 강남구 압구정로28길 18', '플로우핏 압구정본점', 'B');
+insert into business_table values (business_seq.nextval, 'pilatesbb', 'pilatesbb', '1234', 'pilatesbb@naver.com','031-445-0045', '14037', '경기 안양시 만안구 관악대로 50', '디스퀘어큐브 201, 202호', 'B');
+insert into business_table values (business_seq.nextval, 'hada', 'hada', '1234', 'hada@naver.com','0507-1413-0622', '16517', '경기 수원시 영통구 광교호수공원로 277', '2층 20호', 'B');
+insert into business_table values (business_seq.nextval, 'humake', 'humake', '1234', 'humake@naver.com','064-792-7972', '63644', '제주 서귀포시 대정읍 에듀시티로50번길 6', '에듀스타 2층', 'B');
+
+
+-- store[physical fitness] -- 27부터 시작
+insert into store_table values (store_seq.nextval, 27, '골펀스튜디오', '06045', '서울 강남구 강남대로132길 59', '지하 골펀스튜디오','골펀스튜디오 입니다.','goalfun@naver.com', 'https://youtube.com/%ED%98%B8%EC%9E%AC%EA%B3%A8%ED%94%84TV',
+                                '02-511-1872',0);
+insert into store_table values (store_seq.nextval, 28, '라피네킴스펜싱클럽', '06525', '서울 서초구 나루터로 61', '태승빌딩 지하1층','라피네킴스펜싱클럽 입니다.','raffine@naver.com', 'https://www.instagram.com/raffine_fencingclub/',
+                                '0507-1325-4022',0);
+insert into store_table values (store_seq.nextval, 29, '바디아틀리에 PT/태닝', '05814', '서울 송파구 위례순환로 478', '센트라포레 1101','바디아틀리에 PT/태닝 입니다.','atelier@naver.com', 'https://blog.naver.com/body_atelier2',
+                                '010-6864-2343',0);
+insert into store_table values (store_seq.nextval, 30, '박스트레인 크로스핏', '06028', '서울 강남구 압구정로4길 11', '지하1층','박스트레인 크로스핏 입니다.','boxtrain@naver.com', 'https://blog.naver.com/boxtrain_seoul',
+                                '02-3445-2232',0);
+insert into store_table values (store_seq.nextval, 31, '수련 yogasooryeon', '06046', '서울 강남구 학동로 165 ', '1005호','수련 yogasooryeon 입니다.','sooryeon@naver.com', 'https://www.instagram.com/yogasooryeon',
+                                '0507-1480-2034',0);
+insert into store_table values (store_seq.nextval, 32, '스퀘어골프 위례점', '05852', '울 송파구 위례광장로 290', '중앙푸르지오 2단지 B1 04,05,12호','스퀘어골프 위례점 입니다.','square@naver.com', 'https://blog.naver.com/squaregolfwirye',
+                                '0507-1374-2300',0);
+insert into store_table values (store_seq.nextval, 33, '아름답다 필라테스', '06039', '서울 강남구 도산대로8길 13', '3층','아름답다 필라테스 입니다.','fila@naver.com', 'https://open.kakao.com/o/sTi1Jl9c',
+                                '010-8670-2328',0);
+insert into store_table values (store_seq.nextval, 34, '아인스휘트니스', '06107', '서울 강남구 논현로 626', 'B2층 아인스휘트니스','아인스휘트니스 입니다.','ein@naver.com', 'https://blog.naver.com/einsfitness',
+                                '02-545-5548',0);
+insert into store_table values (store_seq.nextval, 35, '탑티어짐', '16459', '경기 수원시 권선구 효원로94번길 14', '4층','탑티어짐 입니다.','toptier@naver.com', 'https://blog.naver.com/toptiergym',
+                                '031-224-4774',0);
+insert into store_table values (store_seq.nextval, 36, '플로우필라테스', '06030', '서울 강남구 압구정로28길 18', '2층','플로우필라테스 입니다.','flowfila@naver.com', 'https://pf.kakao.com/_tRAxlb',
+                                '010-5449-2199',0);
+insert into store_table values (store_seq.nextval, 37, '플로우핏 압구정본점', '06030', '서울 강남구 압구정로28길 18', '플로우핏 압구정본점','플로우핏 압구정본점 입니다.','floweheal@naver.com', 'https://flowfitofficial.modoo.at/',
+                                '0507-1377-2199',0);
+insert into store_table values (store_seq.nextval, 38, '필라테스비비필라테스', '14037', '경기 안양시 만안구 관악대로 50', '디스퀘어큐브 201, 202호','필라테스비비 입니다.','pilatesbb@naver.com', 'http://pilatesbb.wcw.co.kr/',
+                                '031-445-0045',0);
+insert into store_table values (store_seq.nextval, 39, '필라테스 하다','16517', '경기 수원시 영통구 광교호수공원로 277', '2층 20호','필라테스 하다 입니다.','hada@naver.com', 'https://www.instagram.com/pilateshada_studio',
+                                '0507-1413-0622',0);
+insert into store_table values (store_seq.nextval, 40, '휴메이크휘트니스 국제학교점','63644', '제주 서귀포시 대정읍 에듀시티로50번길 6', '에듀스타 2층','휴메이크휘트니스 국제학교점 입니다.','humake@naver.com', 'https://blog.naver.com/humake4jj5',
+                                '064-792-7972',0);
+
+-- product[physical fitness]
+insert into products_table values (27, products_seq.nextval, '골펀스튜디오', '단일타석 최대규모(30평) 크기에 쾌적한 환경, 트랙맨을 활용한 정확한 데이터 분석, 실거리 어프로치, 10미터 이상 퍼팅 가능', 'physical fitness', 'free', sysdate, sysdate, 1000);
+insert into products_table values (28, products_seq.nextval, '라피네킴스펜싱클럽', '7세부터 성인까지 취미반 체급에 상관없이 누구나 참여가능합니다! 집중력 향상. 코어발달. 순발력. 근력강화!!', 'physical fitness', 'free', sysdate, sysdate, 1000);
+insert into products_table values (29, products_seq.nextval, '바디아틀리에 PT/태닝', '다이어트 / 식단관리 / 체형교정 / 체력증진 / 심페강화 / 혈행개선 / 인터벌트레이닝', 'physical fitness', 'free', sysdate, sysdate, 1000);
+insert into products_table values (30, products_seq.nextval, '박스트레인 크로스핏', '복싱/킥복싱/크로스핏/타격전문 체력단련센터 입니다.', 'physical fitness', 'free', sysdate, sysdate, 1000);
+insert into products_table values (31, products_seq.nextval, '수련 yogasooryeon', '한 클래스 당 2~6명 정원/ 70분 이상(점심요가제외)의 작고 깊은 수련', 'physical fitness', 'free', sysdate, sysdate, 1000);
+insert into products_table values (32, products_seq.nextval, '스퀘어골프', 'KPGA, KLPGA 프로의 1:1 프라이빗 프리미엄 위례골프레슨', 'physical fitness', 'free', sysdate, sysdate, 1000);
+insert into products_table values (33, products_seq.nextval, '아름답다 필라테스', '1:1 / 2:1 / 3:1 소그룹 수업을 전문으로 소수의 인원의 고객을 모시고 프라이빗 하게 수업을 제공', 'physical fitness', 'free', sysdate, sysdate, 1000);
+insert into products_table values (34, products_seq.nextval, '아인스휘트니스', '종목은 헬스/골프/요가/복싱, 헬스 시설은 최신 웨이트 시설(뉴택,호이스트등)이 셋팅', 'physical fitness', 'free', sysdate, sysdate, 1000);
+insert into products_table values (35, products_seq.nextval, '탑티어짐', '매교역 4번 출구 프리미엄 피트니스', 'physical fitness', 'free', sysdate, sysdate, 11500);
+insert into products_table values (36, products_seq.nextval, '플로우필라테스', '1:1개인레슨 전문 스튜디오 미국 폴스타필라테스 국제자격 인증 강사진', 'physical fitness', 'free', sysdate, sysdate, 1000);
+insert into products_table values (37, products_seq.nextval, '플로우핏 압구정본점', '* 지하 1층 : PT센터 / 지상 2층 : 필라테스', 'physical fitness', 'free', sysdate, sysdate, 1000);
+insert into products_table values (38, products_seq.nextval, '필라테스비비필라테스', '8:1 그룹수업 진행하고있고, 캐포머/ 보수,체어 수업진행합니다.', 'physical fitness', 'free', sysdate, sysdate, 14000);
+insert into products_table values (39, products_seq.nextval, '필라테스 하다', '클래식 & 모던 필라테스 스튜디오로,전통 그라츠(Gratz) 기구 사용', 'physical fitness', 'free', sysdate, sysdate, 1000);
+insert into products_table values (40, products_seq.nextval, '휴메이크휘트니스', '유산소존, 런닝머신, 입식.좌식 싸이클, 로잉머신 구비 / 일일 무제한 입장', 'physical fitness', 'free', sysdate, sysdate, 1000);
+
+
+-- product-file[physical fitness] -- 나중에 작성
+insert into file_product_table values (file_seq.nextval, 27, '골펀스튜디오썸네일.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 28, '라피네킴스펜싱클럽썸네일.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 29, '바디아틀리에PT_태닝썸네일.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 30, '박스트레인크로스핏썸네일.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 31, '수련 YOGASOORYEON.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 32, '스퀘어골프썸네일.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 33, '아름답다필라테스썸네일.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 34, '아인스휘트니스썸네일.png', 'thumbnail', 'aaa', 'T');
+
+insert into file_product_table values (file_seq.nextval, 35, '탑티어짐헬스장썸네일1.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 35, '탑티어짐헬스장썸네일2.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 35, '탑티어짐헬스장썸네일3.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 35, '탑티어짐헬스장썸네일4.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 35, '탑티어짐헬스장상세내용.png', 'detail', 'aaa', 'I');
+
+insert into file_product_table values (file_seq.nextval, 36, '플로우필라테스썸네일.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 37, '플로우핏헬스썸네일.png', 'thumbnail', 'aaa', 'T');
+
+insert into file_product_table values (file_seq.nextval, 38, '필라테스비비썸네일1.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 38, '필라테스비비썸네일2.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 38, '필라테스비비썸네일3.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 38, '필라테스비비썸네일4.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 38, '필라테스비비상세내용.png', 'detail', 'aaa', 'I');
+
+insert into file_product_table values (file_seq.nextval, 39, '필라테스하다썸네일.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 40, '휴메이크휘트니스썸네일.png', 'thumbnail', 'aaa', 'T');
+
+-- business[food] -- 나중에 작성
+insert into business_table values (business_seq.nextval, 'gamnamu', 'gamnamu', '1234', 'gamnamu@naver.com','02-325-8727', '03988', '서울 마포구 연남로 25', '감나무집기사식당', 'B');
+insert into business_table values (business_seq.nextval, 'gomaru', 'gomaru', '1234', 'gomaru@naver.com','010-1234-5678', '06223', '서울 강남구 테헤란로28길 27', '고갯마루', 'B');
+insert into business_table values (business_seq.nextval, 'bongmin', 'bongmin', '1234', 'bongmin@naver.com','02-585-3690', '06626', '서울 서초구 서초대로74길 49', '아르누보씨티2', 'B');
+insert into business_table values (business_seq.nextval, 'gyodong', 'gyodong', '1234', 'gyodong@naver.com','02-898-7789', '14310', '경기 광명시 한내일로 37', '교동짬뽕', 'B');
+insert into business_table values (business_seq.nextval, 'sumok', 'sumok', '1234', 'sumok@naver.com','031-540-2000', '11186', '경기 포천시 소흘읍 광릉수목원로 415', '국립수목원 푸드코트', 'B');
+insert into business_table values (business_seq.nextval, 'kukmin', 'kukmin', '1234', 'kukmin@naver.com','031-853-1101', '11813', '경기 의정부시 송현로52번길 6-8', '1층 국민낙곱새', 'B');
+insert into business_table values (business_seq.nextval, 'namuya', 'namuya', '1234', 'namuya@naver.com','031-871-5575', '11712', '경기 의정부시 평화로 206', '국수나무 망월사역점', 'B');
+insert into business_table values (business_seq.nextval, 'goobne', 'goobne', '1234', 'goobne@naver.com','0504-3143-8319', '11703', '경기 의정부시 회룡로137번길 38', '굽네치킨 호원1호점', 'B');
+insert into business_table values (business_seq.nextval, 'dunkin', 'dunkin', '1234', 'dunkin@naver.com','031-875-8250', '11705', '경기 의정부시 평화로 359', '1층 던킨 회룡역점', 'B');
+insert into business_table values (business_seq.nextval, 'yebgi', 'yebgi', '1234', 'yebgi@naver.com','031-837-8591', '11695', '경기 의정부시 태평로73번길 54', '동대문엽기떡볶이 의정부점', 'B');
+insert into business_table values (business_seq.nextval, 'rolling', 'rolling', '1234', 'rolling@naver.com','0507-1363-5987', '11695', '경기 의정부시 평화로542번길 6', '2층 롤링파스타 의정제일점', 'B');
+insert into business_table values (business_seq.nextval, 'rigoletto', 'rigoletto', '1234', 'rigoletto@naver.com','031-465-8340', '13992', '경기 안양시 만안구 장내로139번길 28', '2층 리골레토시카고피자 안양일번가점', 'B');
+insert into business_table values (business_seq.nextval, 'mdkj', 'mdkj', '1234', 'mdkj@naver.com','0507-1366-5348', '04537', '서울 중구 명동10길 29', '명동교자 본점', 'B');
+insert into business_table values (business_seq.nextval, 'misoya', 'misoya', '1234', 'misoya@naver.com','02-362-9922', '04129', '서울 마포구 마포대로 195', '마포 래미안 푸르지오', 'B');
+insert into business_table values (business_seq.nextval, 'luckypig', 'luckypig', '1234', 'luckypig@naver.com','031-713-0538', '13558', '경기 성남시 분당구 성남대로331번길', '13 106호', 'B');
+
+-- store[food] -- 나중에 작성
+insert into store_table values (store_seq.nextval, 41, '감나무집기사식당', '03988', '서울 마포구 연남로 25', '감나무집기사식당','감나무집기사식당 입니다.','gamnamu@naver.com', 'www.naver.com',
+                                '02-325-8727',0);
+insert into store_table values (store_seq.nextval, 42, '고갯마루', '06223', '서울 강남구 테헤란로28길 27', '고갯마루','고갯마루 입니다.','gomaru@naver.com', 'www.naver.com',
+                                '010-1234-5678',0);
+insert into store_table values (store_seq.nextval, 43, '고봉민김밥인', '06626', '서울 서초구 서초대로74길 49', '고봉민김밥인','고봉민김밥인 입니다.','bongmin@naver.com', 'www.naver.com',
+                                '02-585-3690',0);
+insert into store_table values (store_seq.nextval, 44, '국립수목원 푸드코트', '11186', '경기 포천시 소흘읍 광릉수목원로 415', '국립수목원 푸드코트','국립수목원 푸드코트 입니다.','gyodong@naver.com', 'www.naver.com',
+                                '02-898-7789',0);
+insert into store_table values (store_seq.nextval, 45, '교동짬뽕', '14310', '경기 광명시 한내일로 37', '교동짬뽕','교동짬뽕 입니다.','sumok@naver.com', 'www.naver.com',
+                                '031-540-2000',0);
+insert into store_table values (store_seq.nextval, 46, '국민낙곱새', '11813', '경기 의정부시 송현로52번길 6-8', '1층 국민낙곱새','국민낙곱새 입니다.','kukmin@naver.com', 'www.naver.com',
+                                '031-853-1101',0);
+insert into store_table values (store_seq.nextval, 47, '국수나무 망월사역점', '11712', '경기 의정부시 평화로 206', '국수나무 망월사역점', '국수나무 입니다.','namuya@naver.com', 'www.naver.com',
+                                '0504-3143-8319',0);
+insert into store_table values (store_seq.nextval, 48, '굽네치킨 호원1호점', '11703', '경기 의정부시 회룡로137번길 38', '굽네치킨 호원1호점','굽네치킨 호원1호점 입니다.','goobne@naver.com', 'www.naver.com',
+                                '031-875-8250',0);
+insert into store_table values (store_seq.nextval, 49, '던킨 회룡역점', '06045', '경기 의정부시 평화로 359', '1층 던킨 회룡역점','던킨 회룡역점 입니다.','dunkin@naver.com', 'www.naver.com',
+                                '031-837-8591',0);
+insert into store_table values (store_seq.nextval, 50, '동대문엽기떡볶이 의정부점', '11695', '경기 의정부시 태평로73번길 54', '동대문엽기떡볶이 의정부점','동대문엽기떡볶이 의정부점 입니다.','yebgi@naver.com', 'www.naver.com',
+                                '0507-1363-5987',0);
+insert into store_table values (store_seq.nextval, 51, '롤링파스타 의정제일점', '11695', '경기 의정부시 평화로542번길 6', '2층 롤링파스타 의정제일점','롤링파스타 의정제일점 입니다.','rolling@naver.com', 'www.naver.com',
+                                '031-465-8340',0);
+insert into store_table values (store_seq.nextval, 52, '리골레토시카고피자 안양일번가점', '13992', '경기 안양시 만안구 장내로139번길 28', '2층 리골레토시카고피자 안양일번가점','리골레토시카고피자 안양일번가점 입니다.','rigoletto@naver.com', 'http://www.rigoletto.co.kr/', '0507-1366-5348',0);
+insert into store_table values (store_seq.nextval, 53, '명동교자 본점', '04537', '서울 중구 명동10길 29', '명동교자', '명동교자 본점 입니다.','mdkj@naver.com', 'http://www.mdkj.co.kr/',
+                                '02-362-9922', 0);
+insert into store_table values (store_seq.nextval, 54, '미소야 아현점', '04129', '서울 마포구 마포대로 195', '마포 래미안 푸르지오','미소야 아현점 입니다.','misoya@naver.com', 'www.naver.com',
+                                '031-713-0538',0);
+insert into store_table values (store_seq.nextval, 55, '복돼지', '13558', '경기 성남시 분당구 성남대로331번길 13', '106호','복돼지 입니다.','luckypig@naver.com', 'www.naver.com',
+                                '031-713-0538',0);
+
+
+-- product[food] -- 나중에 작성
+insert into products_table values (41, products_seq.nextval, '감나무집기사식당', '안심식당은 덜어먹기 가능한 도구 비치・제공, 위생적 수저관리 , 종사자마스크 착용을 준수', 'food', 'free', sysdate, sysdate, 1000);
+insert into products_table values (42, products_seq.nextval, '고갯마루', '고갯마루', 'food', 'free', sysdate, sysdate, 1000);
+insert into products_table values (43, products_seq.nextval, '고봉민김밥인', '고봉민김밥인은 자연의 맛을 간직한 좋은 재료로 믿고 먹을 수 있는 안전하고 정직한 먹거리만을 만듭니다.', 'food', 'free', sysdate, sysdate, 1000);
+insert into products_table values (44, products_seq.nextval, '국립수목원 푸드코트', '푸드코트', 'food', 'free', sysdate, sysdate, 1000);
+insert into products_table values (45, products_seq.nextval, '교동짬뽕', '교동짬뽕', 'food', 'free', sysdate, sysdate, 1000);
+insert into products_table values (46, products_seq.nextval, '국민낙곱새', '특품 한우대창, 오동통통 낙지, 신선한 새우로 구성된 매콤하고 중독성 강 한 맛있는 국민 낙곱새!', 'food', 'free', sysdate, sysdate, 1000);
+insert into products_table values (47, products_seq.nextval, '국수나무 망월사역점', '국수나무 망월사역점 입니다. 국수나무의 2016 년 최신 인테리어 시즌4에 맞추어 출범했습니다.', 'food', 'free', sysdate, sysdate, 1000);
+insert into products_table values (48, products_seq.nextval, '굽네치킨 호원1호점', '오븐요리 브랜드 1위 굽네치킨', 'food', 'free', sysdate, sysdate, 1000);
+insert into products_table values (49, products_seq.nextval, '던킨 회룡역점', '던킨 회룡역점입니다. 네이버 스마트주문에서 간편하게 주문하세요!', 'food', 'free', sysdate, sysdate, 1000);
+insert into products_table values (50, products_seq.nextval, '동대문엽기떡볶이 의정부점', '의정부시 의정부동에 위치한 떡볶이전문점 동대문엽떡입니다.', 'food', 'free', sysdate, sysdate, 1000);
+insert into products_table values (51, products_seq.nextval, '롤링파스타 의정제일점', '제로페이', 'food', 'free', sysdate, sysdate, 1000);
+insert into products_table values (52, products_seq.nextval, '리골레토시카고피자 안양일번가점', '단체석, 포장, 배달, 무선 인터넷', 'food', 'free', sysdate, sysdate, 1000);
+insert into products_table values (53, products_seq.nextval, '명동교자 본점', '1966년 창업이후 명동에서 본점과 분점, 이태원에 직영점을 운영하고 있는 칼국수 전문 음식점입니다.', 'food', 'free', sysdate, sysdate, 1000);
+insert into products_table values (54, products_seq.nextval, '미소야 아현점', '매장에 따라 스시, 초밥 메뉴를 판매하지 않을 수 있으니 확인하시고 주문해주세요.', 'food', 'free', sysdate, sysdate, 1000);
+insert into products_table values (55, products_seq.nextval, '복돼지', '9월 새단장하여 오픈한 정자 복돼지입니다.', 'food', 'free', sysdate, sysdate, 1000);
+
+-- product-file[food] -- 나중에 작성
+insert into file_product_table values (file_seq.nextval, 41, '감나무집기사식당썸네일1.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 41, '감나무집기사식당썸네일2.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 41, '감나무집기사식당썸네일3.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 41, '감나무집기사식당썸네일4.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 41, '감나무집기사식당상세내용.png', 'detail', 'aaa', 'I');
+
+insert into file_product_table values (file_seq.nextval, 42, '고갯마루썸네일.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 43, '고봉민김밥썸네일.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 44, '교동짬뽕썸네일.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 45, '국립수목원썸네일.png', 'thumbnail', 'aaa', 'T');
+
+insert into file_product_table values (file_seq.nextval, 46, '국민낙곱새썸네일1.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 46, '국민낙곱새썸네일2.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 46, '국민낙곱새썸네일3.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 46, '국민낙곱새썸네일4.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 46, '국민낙곱새상세내용.png', 'detail', 'aaa', 'I');
+
+insert into file_product_table values (file_seq.nextval, 47, '국수나무썸네일.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 48, '굽네썸네일.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 49, '던킨도너츠썸네일.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 50, '동대문엽기떡볶이썸네일.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 51, '롤링파스타썸네일.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 52, '리골레타시카고피자썸네일.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 53, '명동교자썸네일.png', 'thumbnail', 'aaa', 'T');
+
+insert into file_product_table values (file_seq.nextval, 54, '미소야썸네일1.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 54, '미소야썸네일2.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 54, '미소야썸네일3.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 54, '미소야썸네일4.png', 'thumbnail', 'aaa', 'T');
+insert into file_product_table values (file_seq.nextval, 54, '미소야상세내용.png', 'detail', 'aaa', 'I');
+
+insert into file_product_table values (file_seq.nextval, 55, '복돼지썸네일.png', 'thumbnail', 'aaa', 'T');
+
+
+----- 더미데이터 확인 -----
+select * from customers_table;
+select * from business_table;
+select * from store_table;
+select * from products_table;
+select * from file_product_table;
+select * from wishlist;
+select * from cart;
+select * from products_purchase_table;
+select * from revenue_table;
+select * from products_inquiry;
+SELECT * FROM review_table;
+select * from refund_table;
+commit;

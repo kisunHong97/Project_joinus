@@ -232,7 +232,6 @@ public class HomeController {
     @ResponseBody
     public void deleteWishlist(@RequestBody List<Integer> pnoList, HttpSession session) {
         String id = (String) session.getAttribute("customerid");
-        System.out.println("마이페이지 찜 삭제 컨트롤러: " + pnoList);
         for (int pno : pnoList) {
             System.out.println("pno: " + pno);
             wishlistService.getWishlistByPnoAndUid(pno, id);
