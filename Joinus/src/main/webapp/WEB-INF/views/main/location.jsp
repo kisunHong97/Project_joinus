@@ -49,7 +49,7 @@
     .post-thumbnail img {
         display: block;
         width: 100%;
-        height: auto;
+        height: 180px;
     }
 
     .post-content {

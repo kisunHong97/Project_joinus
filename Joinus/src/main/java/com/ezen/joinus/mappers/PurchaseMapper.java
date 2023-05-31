@@ -4,11 +4,13 @@ import com.ezen.joinus.vo.CustomerUserVO;
 import com.ezen.joinus.vo.ProductVO;
 import com.ezen.joinus.vo.PurchaseVO;
 import com.ezen.joinus.vo.RefundVO;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Mapper
 public interface PurchaseMapper {
     void insertProduct(PurchaseVO purchaseVO);
     void updateUserPoint(CustomerUserVO customerUserVO);

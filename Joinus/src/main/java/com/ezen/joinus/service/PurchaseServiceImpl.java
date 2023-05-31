@@ -65,13 +65,13 @@ public class PurchaseServiceImpl implements PurchaseService{
 
     @Override
     public void nowRefundPrice(String u_id, int p_price) {
-        System.out.println("즉시환불 들어오나? : " + u_id + "가격 : "+ p_price);
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("p_price", p_price);
         parameters.put("u_id", u_id);
-        System.out.println("map에 들옴 ? : " + parameters);
         purchaseMapper.nowRefundPrice(parameters);
     }
+
+    
 
     @Override
     public void refundProduct(RefundVO refundVO) {

@@ -18,7 +18,7 @@ public interface ProductMapper {
     void updateProduct(ProductVO vo);
     void deleteProduct(int pno);
     int getMaxPno();
-    List<ProductVO> selectCategory(String  p_category);
+    List<ProductVO> selectCategory(String p_category);
 
     List<ProductVO> getProductName(String p_name);
 
