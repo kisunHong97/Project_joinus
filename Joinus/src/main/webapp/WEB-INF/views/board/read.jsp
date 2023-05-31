@@ -589,7 +589,6 @@
                 }
             }else {return true;}
         });
-<<<<<<< HEAD
     });
 </script>
 <script>
@@ -622,9 +621,6 @@
                 return true;
             }
         });
-
-=======
->>>>>>> 2707b0f39e8b00db36be4e1e92e6070142f5183d
     });
 </script>
 <script>

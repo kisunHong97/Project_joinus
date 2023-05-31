@@ -82,13 +82,9 @@ public class HeaderController {
                 } catch (Exception e) {
                 }
                 return "/customer/customermypage";
-<<<<<<< HEAD
             } else {
                 return "error";
             }
-=======
-            } else {return "error";}
->>>>>>> 2707b0f39e8b00db36be4e1e92e6070142f5183d
         }
     }
 
