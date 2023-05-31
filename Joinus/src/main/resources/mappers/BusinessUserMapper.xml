@@ -6,7 +6,8 @@
         select count(*) from business_table where b_id=#{b_id}
     </select>
     <select id="MemberLogin" resultType="com.ezen.joinus.vo.BusinessUserVO">
-        select bno,b_name, b_id, b_pwd, b_email, b_phone, b_addrcode,b_addrStreet,b_addrDetail, auth from business_table where b_id=#{b_id,jdbcType=VARCHAR}
+        select bno,b_name, b_id, b_pwd, b_email, b_phone, b_addrcode,b_addrStreet,
+               b_addrDetail, auth from business_table where b_id=#{b_id,jdbcType=VARCHAR}
     </select>
     <select id="getMaxBno" resultType="int">
         select max(bno) from business_table
@@ -17,11 +18,15 @@
     <!-- 회원가입 시 ebd_users테이블에 가입정보를 insert -->
     <insert id="insertBusiness" parameterType="com.ezen.joinus.vo.BusinessUserVO">
         INSERT INTO business_table
-        VALUES(business_seq.nextval, #{b_name}, #{b_id}, #{b_pwd}, #{b_email}, #{b_phone}, #{b_addrcode},#{b_addrStreet},#{b_addrDetail}, 'B')
+        VALUES(business_seq.nextval, #{b_name}, #{b_id}, #{b_pwd}, #{b_email},
+               #{b_phone}, #{b_addrcode},#{b_addrStreet},#{b_addrDetail}, 'B')
     </insert>
     <!--  개인정보 수정 시 사업자_테이블 정보를 수정  -->
-    <update id="updateBusiness" parameterType="com.ezen.joinus.vo.BusinessUserVO">
-        update business_table set b_name=#{b_name, jdbcType=VARCHAR},b_pwd=#{b_pwd, jdbcType=VARCHAR},b_email=#{b_email, jdbcType=VARCHAR},b_phone=#{b_phone, jdbcType=VARCHAR},b_addrcode=#{b_addrcode, jdbcType=VARCHAR},b_addrStreet=#{b_addrStreet, jdbcType=VARCHAR},b_addrDetail=#{b_addrDetail, jdbcType=VARCHAR} where b_id=#{b_id,jdbcType=VARCHAR}
+    <update id="modifyBusiness" parameterType="com.ezen.joinus.vo.BusinessUserVO">
+        update business_table set b_name=#{b_name, jdbcType=VARCHAR},b_pwd=#{b_pwd, jdbcType=VARCHAR},
+                                  b_email=#{b_email, jdbcType=VARCHAR},b_phone=#{b_phone, jdbcType=VARCHAR},
+                                  b_addrcode=#{b_addrcode, jdbcType=VARCHAR},b_addrStreet=#{b_addrStreet, jdbcType=VARCHAR},
+                                  b_addrDetail=#{b_addrDetail, jdbcType=VARCHAR} where b_id=#{b_id,jdbcType=VARCHAR}
     </update>
     <!--  개인정보 삭제 시 사업자_테이블 정보를 삭제 -->
     <delete id="deleteBusiness">

@@ -215,7 +215,6 @@
             type:'GET',
             dataType: 'json',
             success : function (result){
-
                 if(result == 1){
                     $("#id_feedback").html('이미 사용중인 이름입니다.');
                     $("#id_feedback").css('color','#dc3545');

@@ -3,8 +3,10 @@
 <mapper namespace="com.ezen.joinus.mappers.StoreMapper">
     <!-- 회원가입 시 ebd_users테이블에 가입정보를 insert -->
     <insert id="insertStore" parameterType="com.ezen.joinus.vo.StoreVO">
-        INSERT INTO store_table(sno,bno,s_name,s_addrCode,s_addrStreet,s_addrDetail,s_inst,s_email,s_URL,s_phone)
-        VALUES(store_seq.nextval,#{bno},#{s_name},#{s_addrCode},#{s_addrStreet},#{s_addrDetail},#{s_inst},#{s_email},#{s_URL},#{s_phone})
+        INSERT INTO store_table(sno,bno,s_name,s_addrCode,s_addrStreet,
+                                s_addrDetail,s_inst,s_email,s_URL,s_phone)
+        VALUES(store_seq.nextval,#{bno},#{s_name},#{s_addrCode},#{s_addrStreet},
+               #{s_addrDetail},#{s_inst},#{s_email},#{s_URL},#{s_phone})
     </insert>
 
     <select id="s_nameCheck" parameterType="String" resultType="int">

@@ -8,7 +8,7 @@ import java.util.List;
 public interface StoreService {
 
     // 가게 테이블에 가게 정보를 삽입
-    void registerStore(StoreVO vo);
+    void insertStore(StoreVO vo);
 
     // 중복 가게이름 체크
     int s_nameCheck(String s_name);

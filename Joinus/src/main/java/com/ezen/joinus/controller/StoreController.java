@@ -48,27 +48,19 @@ public class StoreController {
 
     @GetMapping("/s_nameCheck")
     public @ResponseBody int s_nameCheck(String s_name){
-        System.out.println("storename:"+s_name);
-
         int result = storeService.s_nameCheck(s_name);
-        System.out.println("result : " + result);
         return result;
-
     }
+
     @GetMapping("/storeinformation")
     public String storeinformation(HttpSession session, Model model){
         BusinessUserVO businessUser = (BusinessUserVO) session.getAttribute("BusinessUserVO");
-        System.out.println("스토어 정보 수정에 들어온 현재 사업자"+ businessUser);
         model.addAttribute("storeinformation",storeService.getStore(businessUser.getBno()));
         StoreVO vo = storeService.getStore(businessUser.getBno());
-        System.out.println("vo!!!!!!!!!"+vo);
         List<ProductVO> list = productService.getProductSno(vo.getSno());
         Integer bno = businessUser.getBno();
-        System.out.println("현재로그인 bno: "+ bno);
-        System.out.println("알알알!!!!!!!!!!!!!!!!!!" + list);
         if(list.size()>0) model.addAttribute("list","ok");
         else  model.addAttribute("list","ng");
-//        model.addAttribute("list", list);
         return "business/storeinformation";
     }
     @GetMapping("/storemodify")

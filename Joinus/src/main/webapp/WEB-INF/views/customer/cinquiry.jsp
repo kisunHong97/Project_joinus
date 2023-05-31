@@ -77,7 +77,7 @@
                 <input class="input" type="text" value="${customerloginUser.u_name}" id="u_name" name="u_name" required readonly>
             </div>
             <div class="form-group">
-                <label for="p_name">제품:</label>
+                <label for="p_name">상품:</label>
                 <input class="input" type="text" value="${p_name} "id="p_name" name="p_name" required readonly>
             </div>
             <div class="form-group">

@@ -4,10 +4,11 @@ import com.ezen.joinus.vo.B_answerVO;
 import com.ezen.joinus.vo.InquiryVO;
 import com.ezen.joinus.vo.PagingVO;
 import com.ezen.joinus.vo.ProductVO;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 import java.util.Map;
-
+@Mapper
 public interface ProductMapper {
     int countBoard();
     List<ProductVO> selectBoard(PagingVO vo);
@@ -17,7 +18,7 @@ public interface ProductMapper {
     void updateProduct(ProductVO vo);
     void deleteProduct(int pno);
     int getMaxPno();
-    List<ProductVO> selectCategory(String  p_category);
+    List<ProductVO> selectCategory(String p_category);
 
     List<ProductVO> getProductName(String p_name);
 
