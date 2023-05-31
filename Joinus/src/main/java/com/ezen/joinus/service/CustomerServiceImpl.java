@@ -32,13 +32,13 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void registerCustomer(CustomerUserVO vo) {
+    public void insertCustomer(CustomerUserVO vo) {
         customerMapper.insertCustomer(vo);
     }
 
     @Override
     public void modifyCustomer(CustomerUserVO vo) {
-        customerMapper.updateCustomer(vo);
+        customerMapper.modifyCustomer(vo);
     }
 
     @Override

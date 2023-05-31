@@ -247,8 +247,8 @@
                         }
                         document.write(stars);
                     </script></span></div>
-                    <div class="divp_name" style="width: 120px; text-align: center;"><a href="board/read?pno=${review.pno}" class="p_name"> ${review.p_name}</a></div>
-                    <div class="divtextreview" style="width: 500px;"> <span class="textreview"> ${review.review}</span></div>
+                    <div class="divp_name" style="width: 280px; text-align: center;"><a href="board/read?pno=${review.pno}" class="p_name"> ${review.p_name}</a></div>
+                    <div class="divtextreview" style="width: 450px;"> <span class="textreview"> ${review.review}</span></div>
                     <span class="date" style="color: #ff731b;">${review.sys_date}</span>
                 </div>
             </div>
@@ -299,10 +299,7 @@
             alert("로그인 후 이용해주세요.");
             return;
         }
-
-        const selectedItems = []; // 선택된 항목의 ID를 담을 배열
-
-        // 선택된 항목의 ID를 배열에 추가
+        const selectedItems = [];
         $('.selectedItems:checked').each(function () {
             selectedItems.push($(this).val());
         });
@@ -311,13 +308,11 @@
             alert("삭제할 항목을 선택해주세요.");
             return;
         }
-
-        // 선택된 항목의 ID를 URL에 추가하여 AJAX 요청
         $.ajax({
             type: "POST",
             url: "/wishlist/delete",
-            data: JSON.stringify(selectedItems), // 선택된 항목의 ID 배열을 JSON 형식으로 변환하여 서버로 전달
-            contentType: "application/json", // 전달하는 데이터의 형식을 명시 (JSON 형식)
+            data: JSON.stringify(selectedItems),
+            contentType: "application/json",
             success: function(response) {
                 alert("선택된 항목이 찜목록에서 삭제되었습니다.");
                 location.reload()
@@ -327,6 +322,8 @@
             },
         });
     };
+
+
 
     function deleteItem(pno) {
         $.ajax({
@@ -367,6 +364,8 @@
             alert("취소되었습니다.")
         }
     }
+
+
 
     function refundRequest(u_id, pno, p_price){
         console.log("환불요청"+u_id+pno+p_price)

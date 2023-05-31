@@ -221,7 +221,6 @@
             type:'GET',
             dataType: 'json',
             success : function (result){
-
                 if(result == 1){
                     $("#id_feedback").html('이미 사용중인 아이디입니다.');
                     $("#id_feedback").css('color','#dc3545');
@@ -240,7 +239,6 @@
 
         var b_pwd1 = $('#b_pwd1').val();
         var b_pwd = $('#b_pwd').val();
-
         if (b_pwd==b_pwd1){
             $("#result").html('비밀번호가 같습니다.');
             $("#result").css('color','#2fb380');
@@ -257,9 +255,7 @@
         }else {
             alert('비밀번호가 같지 않습니다.');
             return false;
-
         }
-
     })
 </script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>

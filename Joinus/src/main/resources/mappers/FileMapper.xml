@@ -18,13 +18,7 @@
 
     <!--  맨 앞 이미지 파일 불러오기(썸네일)  -->
     <select id="selectMainThumbnail" parameterType="int" resultType="com.ezen.joinus.dto.AttachFileDTO">
-        SELECT *
-        FROM (
-                 SELECT *
-                 FROM file_product_table
-                 WHERE pno = #{pno} AND image = 'T'
-                 ORDER BY fno ASC
-             )
+        SELECT * FROM ( SELECT * FROM file_product_table WHERE pno = #{pno} AND image = 'T'ORDER BY fno ASC)
         WHERE ROWNUM = 1
     </select>
 

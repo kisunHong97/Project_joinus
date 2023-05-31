@@ -60,9 +60,6 @@ public class BusinessController {
     @GetMapping("/businessinformation")//사업자 개인정보 수정화면 들어가기
     public String Businessinformation(Model model, HttpSession session){
         BusinessUserVO businessUser = (BusinessUserVO) session.getAttribute("BusinessUserVO");
-
-        System.out.println("현재 사업자로그인~고객"+ businessUser);
-
         model.addAttribute("businessvo" ,businessUserService.getBusinessById(businessUser.getB_id()));
         return "business/businessinformation";
     }
@@ -70,25 +67,16 @@ public class BusinessController {
     @GetMapping("/businessmodify")//사업자 개인정보 수정화면 들어가기 2
     public String businessmodify(Model model, HttpSession session){
         BusinessUserVO businessUser = (BusinessUserVO) session.getAttribute("BusinessUserVO");
-        System.out.println("bno!!!!!!!!!!!!" + businessUser.getBno());
-        System.out.println("현재 사업자로그인~고객 수정하러 들어왔니?"+ businessUser);
-
         StoreVO vo = storeService.getStore(businessUser.getBno());
-        System.out.println("vo!!!!!!!!!"+vo);
         List<ProductVO> list = productService.getProductSno(vo.getSno());
         Integer bno = businessUser.getBno();
-        System.out.println("현재로그인 bno: "+ bno);
-        System.out.println("알알알" + list);
         model.addAttribute("businessvo" ,businessUserService.getBusinessById(businessUser.getB_id()));
         model.addAttribute("list",list);
-
         return "business/binfomodify";
     }
     @PostMapping("/binfomodify")//사업자 정보 수정
     public String binfomodify(BusinessUserVO businessUserVO, HttpSession session){
         BusinessUserVO businessUser = (BusinessUserVO) session.getAttribute("BusinessUserVO");
-        System.out.println(businessUser);
-
         businessUserService.modifyBusiness(businessUserVO);
         session.invalidate();
         return "main/login";
@@ -172,18 +160,14 @@ public class BusinessController {
     public String b_answer(HttpSession session,@RequestParam("ino") int ino,Model model,@RequestParam("pno") int pno){
         model.addAttribute("b_answerVO",productService.selectb_answer(ino));
         return "redirect:/modifyinqu/ino="+ino+"/pno="+pno;
-
     }
     @PostMapping("/b_answer")
-    public String businessanswer(HttpSession session, @RequestParam("ino") int ino,@RequestParam("pno") int pno,@RequestParam("sno") int sno, B_answerVO b_answerVO,Model model){
+    public String businessanswer(HttpSession session, @RequestParam("ino") int ino,
+        @RequestParam("pno") int pno,@RequestParam("sno") int sno, B_answerVO b_answerVO,Model model){
         BusinessUserVO businessUser = (BusinessUserVO) session.getAttribute("BusinessUserVO");
         LocalDate now = LocalDate.now();
-        // 포맷 정의
-
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-        // 포맷 적용
         String formatedNow = now.format(formatter);
-
         b_answerVO.setB_id(businessUser.getB_id());
         b_answerVO.setSys_date(formatedNow);
         b_answerVO.setPno(pno);
@@ -191,7 +175,7 @@ public class BusinessController {
         b_answerVO.setSno(sno);
         productService.insertb_answer(b_answerVO);
         productService.updatestatus(ino);
-        System.out.println("b_answerVO:"+b_answerVO);
         return "redirect:/modifyinqu/ino="+ino+"/pno="+pno;
     }
+
 }

@@ -28,4 +28,5 @@
         SELECT * FROM wishlist where u_id = #{u_id}
     </select>
 
+
 </mapper>

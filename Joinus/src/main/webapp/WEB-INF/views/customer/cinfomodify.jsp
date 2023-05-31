@@ -97,7 +97,7 @@
         <div class="alert alert-info alert-dismissable">
           <a class="panel-close close" data-dismiss="alert">×</a>
           <i class="fa fa-coffee"></i>
-          This is an <strong>.alert</strong>. 수정할꺼양?
+          아이디 수정은 <strong>불가능</strong>합니다.
         </div>
         <h3>Personal info</h3>
         <form class="form-horizontal" role="form" method="post" action="/cinfomodify">

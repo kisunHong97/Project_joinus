@@ -570,7 +570,7 @@
 
       $.ajax({
         type: "post",
-        url: "register",
+        url: "/register",
         data: JSON.stringify(productData),
         contentType: "application/json; charset=utf8",
         success: function (result) {
