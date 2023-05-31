@@ -62,7 +62,6 @@ public class HeaderController {
                 List<ReviewVO> reviewVOList = businessService.selectreviewsno(BusinessloginUser.getBno());
                 model.addAttribute("reviewlist",reviewVOList);
                 List<PurchaseVO> memberManagementProduct = purchaseService.getPurchaseInfoPname(BusinessloginUser.getBno());
-                System.out.println("해당 스토어의 구매된 제품 정보 (중복제거) : " + memberManagementProduct);
                 List<PurchaseVO> memberManagement = purchaseService.getPurchaseInfoSno(BusinessloginUser.getBno());
                 model.addAttribute("memberManagementProduct", memberManagementProduct);
                 model.addAttribute("memberManagement", memberManagement);
@@ -83,7 +82,9 @@ public class HeaderController {
                 } catch (Exception e) {
                 }
                 return "/customer/customermypage";
-            } else {return "error";}
+            } else {
+                return "error";
+            }
         }
     }
 
@@ -164,16 +165,12 @@ public class HeaderController {
 
     @PostMapping("/expirationDate")
     public ResponseEntity<String> expirationDate(int pno, HttpSession session) {
-        System.out.println("기간만료 삭제 버튼 pno : " + pno);
         purchaseService.deleteProduct(pno);
         return new ResponseEntity<>("구매상품목록에서 삭제되었습니다.", HttpStatus.OK);
     }
 
     @PostMapping("/nowRefund")
     public ResponseEntity<String> nowRefund(String u_id, int pno, int p_price) {
-        System.out.println("환불가격 : " + p_price);
-        System.out.println("환불사용자 : " + u_id);
-        System.out.println("환불상품번호 : " + pno);
         purchaseService.deleteProduct(pno);
         purchaseService.nowRefundPrice(u_id, p_price);
         return new ResponseEntity<>("환불 되었습니다.", HttpStatus.OK);

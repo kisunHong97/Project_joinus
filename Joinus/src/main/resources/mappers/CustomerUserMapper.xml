@@ -18,7 +18,12 @@
         INSERT INTO customers_table
         VALUES(customers_seq.nextval, #{u_id}, #{u_pwd}, #{u_name},#{u_email}, #{u_phone}, #{u_addrcode}, #{u_addrStreet}, #{u_addrDetail}, 100,'A', 100, 0, 0)
     </insert>
-
+    <update id="updateCustomer" parameterType="com.ezen.joinus.vo.CustomerUserVO">
+        update customers_table set u_pwd=#{u_pwd, jdbcType=VARCHAR},u_name=#{u_name, jdbcType=VARCHAR},u_email=#{u_email, jdbcType=VARCHAR}
+                                 ,u_phone=#{u_phone, jdbcType=VARCHAR} ,u_addrcode=#{u_addrcode, jdbcType=VARCHAR},
+                                  u_addrStreet=#{u_addrStreet, jdbcType=VARCHAR},u_addrDetail=#{u_addrDetail, jdbcType=VARCHAR}
+        where u_id=#{u_id,jdbcType=VARCHAR}
+    </update>
     <update id="modifyCustomer" parameterType="com.ezen.joinus.vo.CustomerUserVO">
         update customers_table set u_pwd=#{u_pwd, jdbcType=VARCHAR},u_name=#{u_name, jdbcType=VARCHAR},u_email=#{u_email, jdbcType=VARCHAR},u_phone=#{u_phone, jdbcType=VARCHAR},u_addrcode=#{u_addrcode, jdbcType=VARCHAR},u_addrStreet=#{u_addrStreet, jdbcType=VARCHAR},u_addrDetail=#{u_addrDetail, jdbcType=VARCHAR} where u_id=#{u_id,jdbcType=VARCHAR}
     </update>

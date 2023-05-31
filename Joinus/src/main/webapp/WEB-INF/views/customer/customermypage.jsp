@@ -135,9 +135,6 @@
                 <tbody>
                 <c:set var="today" value="<%= new java.util.Date() %>" />
                 <c:forEach items="${buyInfo}" var="buy">
-                    <%!
-                        int daysDiff; // 변수를 스크립트릿 태그 안에서 선언
-                    %>
                     <tr>
                         <td><a href='/board/read?pno=${buy.pno}'>${buy.p_name}</a></td>
                         <td>
@@ -149,24 +146,20 @@
                             <fmt:parseDate value="${buy.startDate}" var="startDate" pattern="yyyy년 MM월 dd일"/>
                             <fmt:parseDate value="${buy.endDate}" var="endDate" pattern="yyyy년 MM월 dd일"/>
                             <%
-                                // startDate와 endDate 값을 가져옴
+                                java.util.Date today = new java.util.Date();
                                 java.util.Date startDate = (java.util.Date) pageContext.getAttribute("startDate");
                                 java.util.Date endDate = (java.util.Date) pageContext.getAttribute("endDate");
 
-                                // 남은 일수 계산
-                                long diffMillis = endDate.getTime() - startDate.getTime();
-                                int daysDiff = (int) (diffMillis / (24 * 60 * 60 * 1000));
-
                                 // 현재 날짜와 endDate 사이의 일수 계산
-                                long currentDiffMillis = endDate.getTime() - startDate.getTime();
+                                long currentDiffMillis = endDate.getTime() - today.getTime();
                                 int currentDaysDiff = (int) (currentDiffMillis / (24 * 60 * 60 * 1000));
                             %>
                             <c:choose>
-                                <c:when test="<%= currentDaysDiff+1 <= 0 %>">
-                                    <button type="button" id="delBtn1" onclick="deleteItem(${buy.pno})">기간만료삭제</button>
+                                <c:when test="<%= currentDaysDiff + 1 <= 0 %>">
+                                    <button type="button" id="delBtn1" onclick="deleteItem(${buy.pno})">기간만료</button>
                                 </c:when>
                                 <c:otherwise>
-                                    <%= currentDaysDiff+1 %>일
+                                    <%= currentDaysDiff + 1 %>일
                                 </c:otherwise>
                             </c:choose>
                         </td>
@@ -350,7 +343,6 @@
     }
 
     function nowRefund(u_id, pno, p_price){
-        console.log("환불진입")
         if(confirm("구매 후 세시간이 지나지 않아 즉시 환불이 가능합니다. \n 환불하시겠습니까?")){
             $.ajax({
                 type:'POST',
