@@ -307,7 +307,6 @@
                             <input type="text" class="form-control" id="startDate" style="display: inline-block; width: 110px;" data-type="fixed" value="<fmt:formatDate value='${productVO.p_startDate}' pattern='yyyy-MM-dd' />">
                             <b style="display: inline-block; font-size: 25px; margin-right: 15px;">&nbsp&nbsp~</b>
                             <input type="text" class="form-control" id="endDate" style="display: inline-block; width: 110px;" data-type="fixed" value="<fmt:formatDate value='${productVO.p_endDate}' pattern='yyyy-MM-dd' />">
-
                         </c:if>
                         <c:if test="${productVO.p_type == 'free'}">
                             <input type="date" id="startDate" max="2099-12-31" data-type="free" class="period-startDate free" style="width: 120px; margin-right: 15px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
@@ -590,6 +589,42 @@
                 }
             }else {return true;}
         });
+<<<<<<< HEAD
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        console.log($("#b_id").val());
+        console.log("으아아아아악!");
+        console.log("호오?"+ $("#inquiryu_id").val())
+        console.log("bno:"+$("#bno").val());
+        console.log("sno:"+$("#sno").val());
+        console.log("psno:"+$("#psno").val());
+
+
+
+        $("#inqua").click(function() {
+            if ($("#u_id").val() === "" && $("#b_id").val() === "") {
+                alert("로그인 후 다시 시도해주세요!");
+                return false;
+            }
+            if($("#u_id").val() !== ""){
+                if ($("#u_id").val() !== $("#inquiryu_id").val() ) {
+                    alert("문의글은 작성자만 볼 수 있습니다.");
+                    return false;
+                }
+            }else if($("#bno").val() !== ""){
+                if($("#sno").val() !== $("#psno").val()){
+                    alert("현재 제품 판매자만 가능합니다.")
+                    return false;
+                }
+            }else {
+                return true;
+            }
+        });
+
+=======
+>>>>>>> 2707b0f39e8b00db36be4e1e92e6070142f5183d
     });
 </script>
 <script>

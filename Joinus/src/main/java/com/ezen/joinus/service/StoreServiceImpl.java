@@ -64,7 +64,6 @@ public class StoreServiceImpl implements StoreService{
 
     @Override
     public void insertRevenue(RevenueVO revenue) {
-        System.out.println("매출 테이블에 정보 추가 : " + revenue);
         storeMapper.insertRevenue(revenue);
     }
 

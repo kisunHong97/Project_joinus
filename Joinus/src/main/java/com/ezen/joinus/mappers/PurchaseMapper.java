@@ -12,13 +12,14 @@ import java.util.Map;
 
 @Mapper
 public interface PurchaseMapper {
+    void deleteProduct(int pno);
     void insertProduct(PurchaseVO purchaseVO);
     void updateUserPoint(CustomerUserVO customerUserVO);
     List<PurchaseVO> selectUPurchaseUserId(String u_id);
     List<PurchaseVO> getPurchaseInfoSno(int sno);
     List<PurchaseVO> getPurchaseInfoPname(int sno);
     List<PurchaseVO> getAllpurchase();
-    void deleteProduct(int pno);
+
     void nowRefundPrice(Map<String, Object> parameters);
     void refundProduct(RefundVO refundVO);
     void getRefundProduct(int pno);

@@ -21,13 +21,11 @@ public class PurchaseServiceImpl implements PurchaseService{
 
     @Override
     public void productPurchase(PurchaseVO purchaseVO) {
-        System.out.println("구매 서비스 들어오나? : " + purchaseVO);
         purchaseMapper.insertProduct(purchaseVO);
     }
 
     @Override
     public void updateUserPoint(String u_id, int p_price) {
-        System.out.println("포인트 차감 서비스 들어오나? : " + u_id + p_price);
         CustomerUserVO customerUserVO = new CustomerUserVO();
         customerUserVO.setU_id(u_id);
         customerUserVO.setPaypoint(p_price);
