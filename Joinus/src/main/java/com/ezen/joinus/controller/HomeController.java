@@ -175,7 +175,7 @@ public class HomeController {
             return "/board/read";
         }
     }
-    
+
     // 해당 상품을 찜 목록에 추가하는 기능
     @PostMapping("/wishlist/add")
     public ResponseEntity<String> addWishlist(WishlistVO vo, HttpSession session) {
